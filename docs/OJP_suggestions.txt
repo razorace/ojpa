@@ -1,0 +1,197 @@
+==============
+OJP To Do List
+==============
+
+This file contains a list of problems/issues/suggestions that can or need to be worked on.
+
+
+
+=================================
+Possible Improvements (Animators)
+=================================
+
+------------
+OJP Enhanced
+------------
+
+Movement System:
+	- add dedicated strafing move to pure left/right strafing.  (would need additional strafe animations)
+	- Create more realistic walking animations for the faster walking speeds we're using.
+
+
+
+=============================
+Possible Improvements (Coder)
+=============================
+
+---------
+OJP Basic
+---------
+
+Admin Sys:
+	- Add reason message ability for kick/boot actions. 
+		RA - This doesn't seem to be doable without altering the client side code.
+
+CoOp:
+	- Add the Team Force Powers.
+	- Make sure that all the AddSightEvent calls have been ported from SP.
+	- Impliment SP style (G_FindLocalInterestPoint) for making players/NPCs look at things.
+	- Port over the SP versions of all the NPC AI code.
+	- Make NPC weapon model disappear when they toss their weapons on death.
+	- Have NPCs go into ragdoll when they die?
+	- Make the crosshair change whenever pointing at a useable item.  Maybe check the siege code for hacking doors for ideas?
+	- Impliment an Objectives menu for ingame.
+	- Finish porting NPC_combat.c to fix issues with Combat Points not having assoicated waypoints.
+	- Add NPC skill level option to Create Server menu.
+	- Fix scoreboard.
+	- Fix the teams issue (damage, crosshairs, etc)
+	- Fix problem with NPCs not ignoring people that have mindtricked them.  This is probably a problem with one of the generic (can I see this dude) NPC functions.
+	- Check out the problem with map entity overload on t1_fatal.  It's apprenently occuring near the end of the map on the 5th bomb.
+	- Remove time limit and kill limit items from the map load screens.
+	- Don't show the "Who's Ahead" icon while playing alone in CoOp.
+	- Impliment the interigation droid's stun sting weapon.
+	- Don't do a point count down in CoOp gametype.
+	- Fix the string for picking up a security key.
+	- Make respawnable guns be pickupable for their ammo.
+	- Bodies in CoOp should fade rather than the light/dark fading of MP.
+	- Change the mission loading screen to display the map's objectives?
+		
+	ICARUS:
+		- Impliment SetLockPlayerWeapons for Dark Forces.
+		- Impliment SET_CLOSINGCREDITS.
+
+	SavePointEditor:
+		- Fix problem with there being garbage saved at the end of all the .autosp files.
+
+Force Powers:
+	- New force ranks that allows all force points to be filled.
+
+Holstered Weapons:
+	- Make holster.cfg disables remove that weapon from the weapon render priorities.
+	- Check to see how to handle the torso/legs/head skinning issue.
+
+Kill Messages:
+	- Change kill message "<name> was killed by NONE?" occuring when a player is killed by standing on one of the "fires" (torches) on Siege Korriban or other maps to "<name> gave himself/herself a hot foot"
+	- Make sure there are no more "was killed by NONE?" messages.
+	- When a player is killed by the laser cannons mounted on the ceiling in Siege Hoth or Siege Desert, change the kill message from "<name> was obliterated by a turbolaser" to "<name> was obliterated by a Defense Laser"  The only guns that should rightly carry the "Turbo Laser" would be the dual barreled cannons in Siege Destroyer.
+	- Add kill messages when a player kills the Wampa or Rancor in a Siege game with something creative and fun as a reward, such as "<name> hath slain the beast" or "<name> added a trophy to his/her collection" or even simply "<name> killed Fluffy the Rancor/Frosty the Wampa"
+
+Misc:
+	- Make Voice Command name the talker's location and/or on the team radar in team games.	
+	- Fix Jedi vs Merc mode.
+	- Fix bug where holding down the use held item button allows a player to keep charging their weapon.
+	- Fix bug in siege where players can skip their respawn timer by switching to spectator and then rejoin their team.	
+	- Make the color selection work correctly for the game leader icon.
+	- Make a cvar that allows 2 people to duel in power duel if there are only 2 players connected to the server.
+	- Default allow spectator chat to duelers to yes.
+	- Add emotes each with their own command.
+	- Add a CVar to move chat text to the top of screen (client-side).
+	- Add a CVar so that alive players can not read dead players text & possibly vice versa. This would include not showing name changes as well.
+
+RGB Sabers:
+	- make ojp_teamrgbsabers work in siege.
+	- Make blade rendering styles be selectable.
+
+TABBots:
+	- Make flag/objective carriers randomize their return path a bit.
+	- Have voice commands (like "I need a Tech over here!") make the bots of the approprate class come to assist.
+	- Make bots auto-repair objective consoles and such.
+	- Make bots auto activate team turrets in siege.
+	- Add ability to use secondary fire on weapons, apprenently the aotc bots do this with the blaster pistol.
+	- Bots should pick the "stronger", more objective-competing classes first when joining into a game?
+	- Possibly add Follow/Defend, Clear Orders, and Switch Classes Commands? - Eric Villmow	
+
+Vehicles:
+	- Make Swoops spin wildly (like in RotJ) and make approprate sound effect when they're going to crash.
+
+Voting:
+	- make the menu items only appear when the server has those vote options enabled.
+
+
+------------
+OJP Enhanced
+------------
+
+CoOp:
+	- Make NPCs spawn with their default HP levels being shifted into DP, that way they can still be challenging with their pre-existing levels.
+
+CTF:
+	- Slow down the flag carrier in Sabers Only CTF.  This will give other players a chance to catch up and kill the carrier.
+
+ExpSys:
+	- Remove the free Force Jump level 1.  Force jump 1 should cost points now.
+
+Force Powers:
+	- Ability to push/pull items.
+	- Make Force Sense be the only way of seeing your enemy's active force powers?
+	- And then have mind trick scramble those readings?
+	- Be able to use lightning to get out of grip attacks.
+	- Lightning with two hands is too powerful at the moment.  Reduce it to 1.5 normal somehow? (JRHockney)
+
+Knockdown:
+	- Finish porting all the KNOCKDOWN_HANDEXTEND calls over to the SP method of knockdowns.
+
+Melee System:
+	- kicks shouldnt knock players in grapple.  if it does, it should knock both players.
+
+Misc:
+	- Make it so you can at least do backward rolls without jumping.
+	- Grappling hook
+	- Make players be able to roll with any weapon.
+
+Saber Combat System:
+	- Ability to pick up and drop sabers.
+	- Check into the mishap meter getting tinted during team games.  This might be happening to the hud in general.
+	- Make some of the jedi siege classes use the tavion/desann styles.
+	- Add an stun animation to the butterfinger mishap?
+	- Kicking in the same direction by holding down the button with the saber off causes the kick animation to only play on the torso.  This appears to be a problem with the client/server side flip bit not working correctly in this situation but I don't know how to fix it.
+	- Add knockdown to the DFA.
+
+	Saber Throw System:
+		- Fix problem with saber throw only doing minimal damage...and not being dodged.
+		- Fix problem with sabers returning to players in situations where they don't have saber throw, like holocron.
+
+Saberlocks:
+	- Add spark effect to saber locks when the saberlocktime is set in saberupdateposition.  Use line-line closes point function. (Razor Ace)
+
+Vehicles:
+	- Add inerta to players dismounting moving vehicles.
+
+TABBots: 
+	- make the bots walk if they are within a couple of meters of an enemy weilding a saber and they are using a saber as well.
+	- Determine why bots don't pick their sabers up fast enough.
+
+
+
+===================================
+Possible Improvements (Graphics/UI)
+===================================
+
+---------
+OJP Basic
+---------
+
+CoOp:
+	- Fix scoreboard.
+	- Impliment an Objectives menu for ingame.
+	- Add NPC skill level option to Create Server menu.
+
+
+------------
+OJP Enhanced
+------------
+
+Saber Effects:
+	- Redesign the misc saber impact effects.
+
+
+-------------
+Single Player
+-------------
+
+Menus - Add a back button to the mission select menu.			
+	
+
+	
+
+

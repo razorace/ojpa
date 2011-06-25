@@ -1,0 +1,75 @@
+===================================
+Open Jedi Project Development Tools
+===================================
+
+
+This document is for the various development tools that are part of the OJP.  All the related files are in the /Tools directory of the repository.
+
+========================
+0000 - Table of Contents
+========================
+
+	0000..................Table of Contents
+	0001..................Icons
+	0002..................Models
+	0003..................Animation
+	0004..................Font Converter (TrueType to JKA)
+	0005..................Credits
+
+
+
+============
+0001 - Icons
+============
+
+	icon_MPbackground.jpg - A partial source file for the background seen behind the baseJKA normal non-customizable player class models.
+
+	icon_MPbackground_blue.jpg - A partial source file for the background seen behind the baseJKA blue non-customizable player class models.
+
+	icon_MPbackground_red.jpg - A partial source file for the background seen behind the baseJKA red non-customizable player class models.
+
+
+=============
+0002 - Models
+=============
+
+	visualweap/holster_Kyle_max42.max - 3D Studio Max 4 version of a weighted example model of Kyle with holster bolts.  See the Holstered Weapons feature of OJP.
+
+	visualweap/root.XSI - Softimage version of a weighted example model of Kyle with holster bolts.  See the Holstered Weapons feature of OJP.
+
+
+================
+0003 - Animation
+================
+
+	carcass.exe - The JK2 version of the carcass program.  Apprenently it's the only version that works with the current animation skeleton.
+
+	OJP_Humanoid.car - Carcass file for the animation skeleton.
+
+	OJP_Anim_Skel.max - 3D Studio Max 4 version of animation skeleton.
+
+	OJP_Anim_template.XSI - Softimage version of animation skeleton.
+
+
+=======================================
+0004 - Font Converter (TrueType to JKA)
+=======================================
+
+	/JAFont - This folder contains the binaries and source code for Wudan's font converter.  This converter converts any  TrueType font into the font format used by JKA.
+
+==============
+0005 - Credits
+==============
+
+	icon_MPbackground.jpg:  Marker0077 - Modified slightly by Teancum
+	
+	icon_MPbackground_blue.jpg:  Teancum
+
+	icon_MPbackground_red.jpg:  Teancum
+
+	Holstered Weapon Base Files:  Keshire
+
+	Animation Stuff:  Keshire
+
+	True
+

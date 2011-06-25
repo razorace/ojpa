@@ -1,0 +1,24 @@
+﻿Build started 23-06-2011 23:50:20.
+     1>Project "D:\OJP\Enhanced\source\game\JK2_game.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\../Debug/JK2game\JK2game.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(D:\OJP\Enhanced\source\game\.\../Debug/JK2game\JK2game.dll) does not match the Linker's OutputFile property value (D:\OJP\Enhanced\jke\jampgamex86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(JK2game) does not match the Linker's OutputFile property value (jampgamex86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         All outputs are up-to-date.
+       Manifest:
+         All outputs are up-to-date.
+       BscMake:
+         All outputs are up-to-date.
+       FinalizeBuildStatus:
+         Deleting file ".\../Debug/JK2game\JK2game.unsuccessfulbuild".
+         Touching ".\../Debug/JK2game\JK2game.lastbuildstate".
+     1>Done Building Project "D:\OJP\Enhanced\source\game\JK2_game.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.17

@@ -1,0 +1,304 @@
+===============================================
+Open Jedi Project Modeling/Skinning Information
+===============================================
+
+$revision$
+
+This is a collection of information on modeling and skinning for Jedi Knight; Jedi Academy.  Feel free to add information to this file but please try to keep things organized.  This file must be distributed with OJP_readme.txt.
+
+========================
+0000 - Table of Contents
+========================
+
+	0000..................Table of Contents
+	0001..................Saber Modeling
+	     0001.1...........Adding New Saber Hilts to the SP Saber Menu
+	0002..................Customizable Player Classes
+	     0002.1...........Creating Icons for New Customizable Player Class Parts
+	0003..................Unsorted Information
+	0004..................Credits
+
+
+
+=====================
+0001 - Saber Modeling
+=====================
+
+
+----------------------------------------------------
+0001.1 - Adding New Saber Hilts to the SP Saber Menu
+----------------------------------------------------
+
+This tutorial will show you how to add new sabers to the SP Saber Menu.
+
+We already assume that you have a fully working saber hilt that works in MP
+
+Getting your Saber into the Menu:
+
+1.  Open up gameData/base/assets1.pk3 and unzip a copy of ui/saber.menu.  Remember to always keep in the correct folder structure.
+
+2.  At this point you have a choice...
+
+If you want to have your saber in the single/dual saber section, search for @MENUS_SINGLE_HILT1 and add an additional @MENUS_SINGLE_HILTnumber entry for your saber.  Scroll down a bit and you will find another group of @MENUS_SINGLE_HILT, add the same entry there as well.  NOTE: Do not add an entry to the @MENUS_STAFF_HILT section.  That's for Saber Staffs only.
+
+If you want to have your saber in the Saber Staff section, search for @MENUS_STAFF_HILT1 and add an additional @MENUS_STAFF_HILT entry for your saber.
+
+3.  Save the file and exit.  At this point, your saber would be in the menu but unnamed if you packed things up and ran it in the game.
+
+Getting your Saber's Name into the Menu:
+
+1.  Open up gameData/base/assets1.pk3 and unzip a copy of strings/English/MENUS.str (use the related language folder if you want to have your saber's name show up in other language versions of the game).
+
+2.  Open up the file and search for SINGLE_HILT1.
+
+3.  Using the current saber references as an example, add a entry for your saber.
+
+4.  Save the file, package things up and you're ready to go.
+
+
+
+==================================
+0002 - Customizable Player Classes
+================================== 
+
+
+---------------------------------------------------------------
+0002.1 - Creating Icons for New Customizable Player Class Parts
+---------------------------------------------------------------
+
+This tutorial will help you create menu icons (that look just like the default ones) for  
+new customizable player class parts. 
+
+We assume that you're using Photoshop 7.0 with the PNG plugin installed, have the JKA  
+Modeling SDK installed, have Modview working, and have already set up your new skins  
+correctly.  You can find the PNG plugin @ 
+
+1.  Open up the player class's model in Modview.  Be SURE to NOT rotate the model at all.
+
+2.  Select the appropriate skin from the skin menu.  You do this by opening up "==>  
+model.glm <==" (this button is on the left side of your screen), opening up the "Skins  
+available" and then double clicking on the skin you want.
+
+4.  Next, determine which animation you want the player to be in for the icon.  Select the  
+correct animation, first sort the animation list by right-clicking the "Sequences ( From  
+.cfg file)" and then selecting "Sort by Name ( unchecked = sort by Frame # ).  Next, search down the list and double-click on the animation you want.  Here's a table of suggested animations...
+
+Animations Used for Model Class Icons
+---------------------------------------------
+BOTH_STAND1				Lower
+BOTH_STAND1/BOTH_STAND8			Torso
+
+
+3.  Now, you're going to turn off (make invisible) all the model surfaces except for the  
+ones you want.  You do this by navigating thru the "Surfaces" menu, right clicking on the  
+ones you want turned off and clicking either "Set status:  OFF" (turn off only this  
+surface) or "Set status: OFF + NO DESCENDANTS" (turns off this surfaces and all surfaces  
+that are below it in the surface order.  You'll not want to pick this option unless you're  
+sure you want to turn off everything "downwind" from this surface.  For example, to turn  
+off the left arm and the left hand, you'd set "Set status: OFF + NO DESCENDANTS" for the  
+left arm).  To see your handwork, just click on "==> model.glm <==".
+
+4.  At this point you should only see the surfaces you want an icon of (the head, the  
+torso, etc).  Now, maximize modview's window and then click on the "Best fit to Screen"  
+button on the tool bar.  It looks like a stick figure with arrows pointing away from it.
+
+5.  Save this to a screenshot file by selecting View->Screenshot to file or by pressing  
+SHIFT-C.  This will save a screenshot to somewhere on your hard drive.  On my system Modview  
+just puts the files in c:\.
+
+6.  Open up the file in Photoshop.
+
+7.  First off, you'll need to remove the Ravensoft copyright from the bottom of the  
+picture.  Check your Photoshop tutorials on how to do this.
+
+8.  Now, resize the picture.  Click on Image->Image Size.  Set it up so that the height  
+will be 128 pixels high at 72 pixels/inch.  Be sure that "Constrain Proportions is on. Press  
+ok.
+
+9.  Resize the width to the correct size.  To do this, click on Image->Canvas Size.  Set  
+the width to be 128 pixels wide and then press ok.  there will be a warning message about  
+the canvas being smaller than the image, press Proceed.
+
+10.  You know have a choice.  You can either have color selection on your icon or not.  
+
+If you decide to not use color selection, you can simply save your icon as a jpg.  
+
+If you want color selection, you need to add an alpha channel that covers everything EXCEPT  
+the areas that you want to change colors.  Check a Photoshop tutorial on how to do this.   
+After you're done, save the file as a .png, make sure you have the "alpha channels" options  
+selected.  For the smallest file size (Note that PNGs never have image loss), use "None"  
+for the Interlace and "Up" for the Filter.
+
+In both cases the filename has to be icon_bodytype_skinnumber.  Example:  icon_head_a1.png.  
+ Place the file in your model's directory.
+
+11.  You now have to create shaders for your icon.  If you already have shader file you can  
+add to it, otherwise, create a .shader file in a /shaders directory in your work area.   
+Review the way Raven did it in the assets.pk3 for examples.
+
+12.  Open up your shader file and add a shader for your icon.
+
+If you didn't do color selection use the following as a base:
+
+models/players/jedi_tf/icon_lower_e1
+{
+	nopicmip
+	nomipmaps
+	q3map_nolightmap
+    {
+        map models/players/jedi_tf/icon_lower_e1
+    }
+}
+
+If you did do color selection use the following as a base:
+
+models/players/jedi_rm/icon_lower_f1
+{
+	nopicmip
+	nomipmaps
+    {
+        map models/players/jedi_hoth/icon_lower_male
+        rgbGen identity
+    }
+    {
+        map models/players/jedi_hoth/icon_lower_male
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+        rgbGen vertex
+    }
+}
+
+Note that you'll need to change the directory/filenames for it to work.  You don't have to  
+list your file extensions.
+
+13.  That should be it.  You can now pack things up and use them in the game.
+
+
+
+===========================
+0003 - Unsorted Information
+===========================
+
+Modview
+-------------
+
+in modview i think you right click and drag your mouse to zoom in.....regular click and drag to change model prespective......and alt while regular clicking and dragging will move the model around in the menu
+
+----------
+
+Using modview requires semi accurate paths
+The path to the model must have 'base' in it, ie
+
+C:\JKA\base\models\players\alora2\model.glm
+
+The file path is switched to 'base' (just like with JKA and virtually all Q3 engine games, there is a necessary keyname that must be in the path) - from there, all files are opened 'relative' to this directory, just like with JKA, and the model.glm references it's animation file (it's 11.7 megs or something - you wouldn't want to store that in the model file!), which is (assuming path from above)
+
+C:\JKA\base\models\players\_humanoid\_humanoid.gla
+
+Again, the 'relative' path is 'models\players\_humanoid\_humanoid.gla' It's a pretty good design, and avoids a lot of problems - excepting that you need to know that you need to have 'base' and then the models folder under it, which I don't remember reading in any documentation (of course, I'm prone to dive in and ignore documentation!)
+
+
+ShaderED2
+-------------
+
+I've had the same problem, though i don't use i too often.. only when i need to see the result of blending functions. But set the ShaderEd2 program into Windows 2000 compatibility mode (right-click the file, go to Properties, in the Compatibility tab). Then create a normal TXT file, name it what you will, and add something like this (with notepad or another clean text editor) to the file:
+
+
+
+code:--------------------------------------------------------------------------------
+default
+{
+
+}
+
+--------------------------------------------------------------------------------
+
+
+(However, it doesn't seem to even matter what's in the file, just make sure there's SOMETHING in it)
+
+Save it, and all that. Make sure the file is in the "Base/Shaders" path. Right-click the file, go to Open With>Choose Program.. and from there find the ShaderEd2 program. This is the only way i know to get it working. Apparently though, from what i've heard, ShaderEd2 is looking for a default shader file, and Raven didn't supply it.. and thus since it can't find it, it crashes.
+
+- Scarlett
+
+
+
+----------------------
+
+Placing additional modeling skin file and icons will result in them being loaded without pk3ing them. -ra
+
+-----------------
+
+Custom Player skins seem to load from head to leg in order.  One file can override the other except if you turn a surface off. -ra
+
+-------------------
+
+Anyway, the standard shader you will need to add for whatever new skins you do is as follows:
+
+models/players/jedi_hoth/male_torsopc
+{
+    {
+        map models/players/jedi_hoth/male_torsopc
+        blendFunc GL_ONE GL_ZERO
+        rgbGen lightingDiffuseEntity
+    }
+    {
+        map models/players/jedi_hoth/male_torsopc
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+        rgbGen lightingDiffuse
+    }
+}
+
+Please note that this shader only needs to be applied to surfaces that have color selectable areas on them.  
+
+To set up the color selectable areas (I perfer to simply call them the "tinted" areas), you simply need to cover the areas with the alpha channel of your skin textures.  You'll have to save them to the .png or tga (png is prefered for JKA; they're smaller)
+
+Yes, this is the opposite of what is done for the icons (where the alpha covers everything EXCEPT the tinted areas).
+
+-ra
+
+-----------------
+The Up Filter for PNG files (no interlace) seems to result in the smallest file sizes and there's no image loss.  -ra
+
+---------------------------
+Customizable Player Classes
+---------------------------
+
+Empty skin files are valid for the customizable player class.  This is very usable for toggling surfaces that you want to apply to all skins.  (like a gun holster or something).  To do so, make sure that one of your body catagories is free (I used legs myself).  Then create two lower skins.  One that is blank (the "on" skin) and then that turns off the desired surfaces (the "off" skin). -ra
+
+Empty Playerchoice.txt are also valid.  Useful for situations where you don't actually want to have any color choices.
+
+
+--------
+Shaders
+--------
+
+tcGen environment - Locks this texture into enviormental mapping.  Causes the texture to appear to "follow" the player.  Useful for fake reflection effects.
+
+--------
+Textures
+--------
+
+If you have a .jpg and a .png of the same filename.  The game will pick the .jpg over the .png. -ra
+
+When using the .png format, the configuration of No Interlacing and an Up filter results in smaller file sizes and will work in JKA. -ra
+
+
+
+-----------------------
+Well, I've messed with the color selection system some more and there's a sticking point for doing color selection for the Twi-Lek female player class.  
+
+For some crazy reason, Raven made the base color a light green instead of white.  This means that you have to use the same light green to have the color selectable tints look correct for any new body parts.  It's very annoying to try to match of the skin tones.
+
+I'm going to try converting the base color to white to make things much easier to add to.
+
+Razor Ace
+
+
+
+==============
+0004 - Credits
+==============
+
+	Razor Ace:
+		Adding New Saber Hilts to the SP Saber Menu
+		Creating Icons for New Customizable Player Class Parts
+		General Document Formating

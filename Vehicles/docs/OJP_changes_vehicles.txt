@@ -1,0 +1,38 @@
+============================================
+Open Jedi Project Change Log (Vehicles Pack)
+============================================
+
+This file stores all the information about what has changed from release version to release version for the OJP Vehicles Pack.
+
+
+
+Version 0.0.4:
+
+	New Vehicles:
+	
+		Droideka
+		Snowspeeder
+
+
+
+Version 0.0.3:
+
+	New Vehicles:
+	
+		Sith Speeder
+
+
+
+Version 0.0.2:
+
+	New Vehicles:
+	
+		Stap
+
+
+
+Version 0.0.1:
+
+	New Vehicles:
+	
+		Eopie
