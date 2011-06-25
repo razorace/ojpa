@@ -1,0 +1,5 @@
+========================================================
+How to decompile JKA .bsps into the Editable .map Format
+========================================================
+
+q3map2 -game ja -convert -format map <bspname>

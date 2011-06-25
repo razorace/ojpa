@@ -1,0 +1,51 @@
+============================================
+Getting Animation Viewing in ModView to Work
+============================================
+
+1.  Install Modview
+2.  Create a /base folder whereever you want to do your animation editing.
+3.  From the assets1.pk3 in your JKA /GameData/base, you'll need to extract the following into your newly created /base editing folder:
+Note: If a specific asset folder is mentioned, this means that you're going to need the folder and all of its contents.
+Note: It's critical that the folder structure is preserved when you copy/extract this files.  IE, /shaders should be in the /base/shaders folder of your editing folder.  WinRAR preserves folder structure automatically, but you might have to set that manually when using WinZip.
+
+- /shaders
+- /models/players/kyle
+- /models/players/_humanoid
+
+4.  Start modview.
+5.  Go to File->Open and open the /base/models/players/kyle/model.glm that you extracted.
+6.  Press OK for any warnings.  These warnings are just letting you know that you're "missing" some of the decapitation limb stump textures.  If these warnings bug you, you can just go back and hunt down those missing files in the game assets.
+7.  You should now be able to view animations with the Sequences Tab.
+
+
+
+====================================================
+Adding placeholder saber blade for animation viewing
+====================================================
+
+1.  Load your kyle model up in ModView.
+2.  Double-click on the Tag Surfaces tab.
+3.  Scroll down to "*r_hand", right click on it, and select "Bolt model to this tag surface (deleting any others already there).
+4.  Open your saber blade placeholder.  I use saberblade.glm.  Remember that your placeholder saber model must be in the same /base folder as the rest of your animation assets.
+5.  If you don't want to have to do this every time you start ModView, press the Write Script button in the Files menu.  This will save a .mvs for the model setup you are using in the model's directory.  The next time you start ModView, you can load the .mvs and the model will be set up to the way it was when you saved the script.
+
+
+
+================================
+Creating new animations.cfg Data
+================================
+
+1.  Decide on new animation name (AKA the animation's enum).
+2.  Determine the starting frame for the animation.
+3.  Note the number of frames for the animation (including the starting frame).
+4.  Using this information, add an entry to your editing folder's /base/models/players/_humanoid/animation.cfg
+	The basic format is like this...
+
+ANIMATIONNAME	startframenumber	numberofframes	loopframe	animationfps
+loopframe = the frame at which the animation will start looping from if the animation is looped.  Basically, this means that you can have the animation start at the starting frame, but have it reloop from a different position once the animation ends the first time.  Set this to -1 if you just want the animation to hold at the ending of the animation.
+animationfps = This sets the speed at which the animation is played.  This is expressed in the number of frames of animation per second.
+
+5.  Reload your model in modview and you should be able to see your new animation in the sequences available.
+6.  Using modview, you can tweak the animation until you're happy with its speed.  Remember to save these settings in the animation.cfg after you're finished.
+ 
+

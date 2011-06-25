@@ -1,0 +1,21 @@
+=========================================
+Open Jedi Project Change Log (Skins Pack)
+=========================================
+
+This file stores all the information about what has changed from release version to release version for the OJP Skins Pack.
+
+
+
+Version 0.0.2:
+
+	Improved Models:
+
+		Kyle (Holstered Weapons Patch):  A fixed version of the Kyle model that has Holstered Weapon support.
+
+
+
+Version 0.0.1:
+
+	New Skins:
+
+		Hidden Hoth Skins:  The Hoth snow gear for each of the basejka customizable characters is now freely available for clothing selection.

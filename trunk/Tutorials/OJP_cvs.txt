@@ -1,0 +1,223 @@
+==========================================================
+Tutorial - Getting Direct Access to the OJP CVS Repository
+==========================================================
+Note:  This tutorial is only for Windows OSes and TortoiseCVS 1.8.17.
+
+1.  Go to https://www.freepository.com/ and sign up for an account.  Do NOT use spaces in your username.
+
+2.  go to http://www.tortoisecvs.org/ and download the tortoiseCVS program.  We used version 1.8.17 for this tutorial.
+
+3.  Install tortoiseCVS.  You might have to reset your computer to get all the Windows Explorer extensions to work.
+
+4.  Log onto freepository with your new account.
+
+5.  Click on "join a freepository".
+
+6.  Sign up for the OJP repository
+	freepository name = OpenJediProject
+	freepository pass-code = openjedisource
+
+7.  Using the pulldown tab on the Top Menu, select OpenJediProject
+
+8.  To the right of the Current freepository pulldown tab, click on the button that's to the left of the blue downarrow.  It should looke like a padlock with a red border on top.  The tooltip for this button is "Create the Secure ID entries to enable direct client access".  This will send you an email.
+
+9.  Check your email for that email.  The email will have something like
+	:sserver:razorace@freepository.com:3025/mnt/usbhd/fp/fp1/222yx9P6fFHQYOpenJediProject 
+	This is your CVSROOT (<yourCVSROOTHERE>).  You'll need this later.
+	Note: if you don't get the email, you can still get your CVSROOT by clicking on the Secure ID entries button again.  DO NOT CUT/PASTE the example CVSROOTS, they will NOT WORK.
+
+10. Grab the lastest SSH security certificate from the Downloads->Freepository Certificate on the freepository website.
+
+11. Cut and paste the certificate into your .cvsSSLkeys (which should be in your tortoiseCVS directory).  You might have to create this file if you don't have it.  I did mine by using notepad.
+
+12. You now need to modify your CVSROOT by adding a ";version=1" next to the ":sserver"
+	This...
+	:sserver:razorace@freepository.com:3025/mnt/usbhd/fp/fp1/222yx9P6fFHQYOpenJediProject
+	would become this...
+	:sserver;version=1:razorace@freepository.com:3664/mnt/usbhd/fp/fp1/222yx9P6fFHQYOpenJediProject
+
+	But remember that you need to use YOUR CVSROOT, not the one used here.
+
+13.  Open Windows Explore and right click on the folder where you want to place the repository files.
+
+14.  Select CVS Checkout.  Cut/paste your modified CVSROOT into the CVSROOT field.
+
+15.  Place a period (".") in the Module field.
+
+16.  Click Ok.
+
+17.  The program will now attempt to log into the repository.  If everything goes correctly, the program will give you a "Empty password Used" error and then give you a password prompt.
+
+18.  Enter your password.  This is your personal freepository password and not the password you used to join our repository.
+
+At this point the program should spend a long time downloading the repository to your system.  You now have access to the repository.  
+
+I highly recommend that you install a "diff" program, which will handle all your comparision needs for when you want to compare the changes between files on the repository.
+
+I personally suggest you use ExamDiff or ExamDiff Pro (which I use).  ExamDiff is free and can be found at...
+	http://www.prestosoft.com/ps.asp?page=edp_examdiff
+
+19.  Install Diff program.
+
+20.  In Windows Explorer, right click and then go to CVS->Preferences.
+
+21.  Under the Tools Tab, Use the Diff Application and Merge Application field to direct TortoiseCVS to your diff program.
+
+22.  The repository has a very unusual organization to it.  Read the OJP Repository Organization tutorial before you dive into the files.
+
+
+
+===========================
+OJP Repository Organization
+===========================
+
+After an initial checkout, your local copy will look something like this.
+
+/CVSROOT 				- CVS files
+/OJP					- OJP repository, also contains all the documentation files for the project.
+/OJP/Basic				- Enhanced's and Basic's source code and assets are stored here.  See below.
+/OJP/BetaServer				- .cfgs used for the beta servers
+/screenshots				- Screenshots of OJP
+/Skins					- Skin pack assets
+/Tools					- Misc OJP Tools
+/Vehicles				- Vehicle Pack assets
+
+Now this is where it gets complicated.  /OJP/Basic actually contains several different versions or "branches" of OJP Basic and OJP Enhanced.  By default, the files you'll see in that directory are the OJP Enhanced files.
+
+To be able to access the other branches of the code:
+1.  Create a copy of the /OJP/Basic folder.
+2.  Rename the /OJP/Basic folder to Enhanced, since that's that default 
+2.  Rename it to whatever branch you're going to be using.  The actual name isn't important, you just need to be able to remember what's stored in that folder.
+3.  Right Click on the folder and do a CVS->Update Special.
+4.  Check the Get tag/branch/revision checkbox.
+5.  Click on Update List.
+6.  Select the approprate branch from the drop down box.  The ones you'll probably be most worried about are HEAD, for OJP Enhanced, and OJP_BASIC, for OJP Basic.  See CVS Branch/Tag/Revision List for a complete list of the branches.
+7.  Check the Create missing subfolders.
+8.  CVS will then change the nessicary files to switch branches for that folder.
+
+To determine which branch a folder is set to:
+1.  Right click on one of the folder's files and do a CVS->Revision Graph.
+2.  The highlighted revision is the current revision of the file.  Look up from that point to see which branch that the current file is a part of.  Assuming you've only branched entire folders, that should be the branch of the entire folder.
+
+Important Note:  Keep in mind that you can copy/move/rename CVS enabled folders without affecting where they are on the repository, as long as you keep the /cvs subfolders intact.
+
+DANGER:  Be VERY careful about not accidently copying the /cvs subfolders when copying files from one branch directory to another.  This will change the branch your folder is connected to on the repository.  We've already had a couple of accidents where one branch's code overwrote the code in another branch.
+
+
+
+============================
+CVS Branch/Tag/Revision List
+============================
+
+Note:  There are other entries in the tag/branch/revision list if you update the list with tortoiseCVS.  These are "tags" rather than branches.  Tags are just special marks that bookmark the code at certain benchmarks.  These can be ignored for the most part.
+
+HEAD (Enhanced) - Current OJP Enhanced code.
+
+DOMINANCE - Dominance Mod code.  Branch controlled by Unique1.  See him for additional details.  Not currently in use.
+
+OJP_BASIC - Current OJP Basic code.
+
+OLDSCHOOL - Current code for Tinny's Old School mod.  Consult with him for farther details.
+
+SPNAVCODEPORT - Current WIP on the port of the SP AI navigation code.  This branch's code does not compile correctly yet.
+
+SaberSys - Original WIP branch for the revamped saber system for Enhanced.  This branch's code was merged into the Enhanced branch and is not longer used.
+
+dominance - Dominance Mod code.  Branch controlled by Unique1.  See him for additional details.  Not currently in use.
+
+
+
+=======================================
+Commiting Changes to the OJP Repository
+=======================================
+
+1.  Get direct access to the repository using tortoiseCVS (see tutorial) or another CVS client.
+
+2.  Get permission from Razor Ace for the specific changes you want to commit.
+
+3.  Apply your changes to the approprate files.  All changes should be commented to a reasonable level.
+
+4.  Make sure to add code tags that are approprate for the changes made.  All code tags use a "[" and "]" to start a changed section and "[/" "]" to end them.  In addition, if you changed a line, it's also a good idea to keep a commented out copy of the original code.  You do NOT need to use code tags if you're making modifications to code that OJP already modifies.
+
+	Here's an example of how a standard alteration for the OJP Enhanced saber system would look like...
+
+	[SaberSys]
+	//This needed to be altered so that Jedi won't glance left before swinging to the right.
+	New Code
+	//Old Code
+	[/SaberSys]  
+
+5.  Right click on each file that you modified and perform a CVS Diff.  This will display the changes that you've made to the code.  Varify that all the changes made are what you intended.
+
+6.  Perform a CVS->Commit on the file.  Other changes might have been commited while you were adding your changes, so you might have to perform another CVS->Update.  If you have any warnings or errors that you don't understand/can't fix, DO NOT COMMIT AND SEEK HELP INSTEAD!
+
+	Be sure to add a commit comment.  A good commit comment mentions the code tag used and what general concept of the change was.  You can also include additional technical information or related implimentation suggestions if you wish.
+
+7.  If you commited a change to the OJP_BASIC branch, you'll also have to repeat the process for the HEAD branches.  We do this so that all of OJP Basic's features will be in OJP Enhanced.
+
+    Remember that the Enhanced and SP NAV port code isn't exactly the same as OJP Basic's so you'll need to intelligently apply the changes to ensure that valuable Enhanced code isn't overwritten and lost.  DO NOT JUST COPY AND COMMIT BASIC'S VERSION OF THE FILE.  This process is MUCH, MUCH easier if you learn to use a diff program. 
+
+8.  Add documentation of the change to the approprate OJP documentation.  Currently, ALL changes made to Basic are noted in OJP_changes_basic.txt and ALL changes to Enhanced are noted in OJP_changes_enhanced.txt.  Please note that we do not list Basic's changes in the Enhanced changelog since Basic's changelog is included with OJP Enhance releases.  If you feel that a new text file is needed, please consult with Razor Ace.
+
+9.  Contact Razor Ace to let him know that the changes have been finished.
+
+
+
+===============================================================
+Tutorial for the Older Versions of tortoiseCVS and FreePository
+===============================================================
+
+1.  Go to https://www.freepository.com/ and sign up for an account.  Do NOT use spaces in your username.
+
+2.  go to http://www.tortoisecvs.org/ and download the tortoiseCVS program.  You can use a stable or beta version, whatever works best for you.
+
+3.  Install tortoiseCVS.  You might have to reset your computer to get all the Windows Explorer extensions to work.
+
+4.  Log onto freepository with your new account.
+
+5.  Click on "join a freepository".
+
+6.  Sign up for the OJP repository
+	freepository name = OpenJediProject
+	freepository pass-code = openjedisource
+
+7.  Using the pulldown tab on the left, select OpenJediProject
+
+8.  Click on Secure ID entries.  This will send you an email.
+
+9.  Check your email for that email.  The email will have something like
+	:sserver:razorace@freepository.com:3025/mnt/usbhd/fp/fp1/222yx9P6fFHQYOpenJediProject 
+	This is your CVSROOT (<yourCVSROOTHERE>).  You'll need this later.
+	Note: if you don't get the email, you can still get your CVSROOT by clicking on the Secure ID entries button again.  DO NOT CUT/PASTE the example CVSROOTS, they will NOT WORK.
+
+10. Here comes the fun part.  You need now need to log your tortoiseCVS into the repository so that the program will know what your password is.  Download this file...
+	http://ojp.jediknight.net/files/CVS1.zip
+
+11. Unzip CVS1.zip to where ever you installed tortoiseCVS.
+
+12. Open up login.bat with a text editor.
+
+13. You now need to modify your CVSROOT by adding a ";version=1" next to the ":sserver"
+	This...
+	:sserver:razorace@freepository.com:3025/mnt/usbhd/fp/fp1/222yx9P6fFHQYOpenJediProject
+	would become this...
+	:sserver;version=1:razorace@freepository.com:3664/mnt/usbhd/fp/fp1/222yx9P6fFHQYOpenJediProject
+
+	But remember that you need to use your own original CVSROOT, not the one used here.
+
+14. Replace the example CVSROOT in the login.bat with your newly modifed CVSROOT.
+	set CVSROOT=:sserver;version=1:razorace@freepository.com:3664/mnt/usbhd/fp/fp1/222yx9P6fFHQYOpenJediProject
+	will be
+	set CVSROOT=<yourCVSROOTHERE>
+
+NOTE: you place your own CVSROOT (from step 13) where the <yourCVSROOTHERE> is.  Do not actually type in <yourCVSROOTHERE>.
+
+
+15.  Save the file and then run it.  I recommend that you run it from the command prompt so that you'll see everything that goes on.  If you don't know how to run the command prompt, use Google to look up some DOS tutorials.
+
+NOTE:  If you do run it from the command prompt, you need to be in the same directory as the bat file or you will get a file not found error for the cvs.exe.
+
+16.  The program will prompt you for your password (use your freepository account password, not the one used for the repository as a whole).  If it worked, your .cvspass file in your tortiose directory will have some stuff in it (use a text editor).  Otherwise, you have a problem.  You can't use backspace or delete while typing in your password or it will not work.  Be careful.
+
+At this point the program should spend a long time downloading the repository to your system.
+
