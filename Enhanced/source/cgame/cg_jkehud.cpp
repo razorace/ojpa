@@ -18,10 +18,16 @@
 
 #define MAX_HUD_TICS 8
 
-const float FPBAR_H		= 7.0f;
+const float FPBAR_H		= 14.0f;
 const float FPBAR_W		= 65.0f;
 const float FPBAR_X		= 537.0f;
 const float FPBAR_Y		= 420.0f;
+
+const float MPBAR_Y		= 400.0;
+
+const float HPBAR_X		= 10.0f;
+
+const float APBAR_Y		= 440.0f;
 
 #define DPBAR_H			65.0f
 #define DPBAR_W			13.0f
@@ -83,6 +89,7 @@ void CG_DrawHealthTicMethod(menuDef_t *menuHUD)
 	playerState_t	*ps;
 	int				healthAmt;
 	itemDef_t		*focusItem;
+	float			percent = ((float)cg.snap->ps.stats[STAT_HEALTH] / (float)cg.snap->ps.stats[STAT_MAX_HEALTH]) * FPBAR_W;
 
 	// Can we find the menu?
 	if (!menuHUD)
@@ -99,7 +106,51 @@ void CG_DrawHealthTicMethod(menuDef_t *menuHUD)
 		healthAmt = ps->stats[STAT_MAX_HEALTH];
 	}
 
-	focusItem = Menu_FindItemByName(menuHUD, "health_tic1");
+	vec4_t aColor;
+	aColor[0] = 1.0f;
+	aColor[1] = 0.0f;
+	aColor[2] = 0.0f;
+	aColor[3] = 0.5f;
+	vec4_t cColor;
+	Vector4Copy(colorTable[CT_BLACK], cColor);
+	cColor[3] = 0.4f;
+
+
+	CG_DrawRect(HPBAR_X - 1.0f, FPBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+	CG_FillRect(HPBAR_X, FPBAR_Y, percent, FPBAR_H, aColor);
+	CG_FillRect((HPBAR_X + FPBAR_W), FPBAR_Y, -((FPBAR_W)-percent), FPBAR_H, cColor);
+
+	//CG_DrawRect(FPBAR_X - 1.0f, FPBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+	//CG_FillRect(FPBAR_X, FPBAR_Y, FPBAR_W-(FPBAR_W-percent), FPBAR_H, aColor);
+	//CG_FillRect((FPBAR_X + percent), FPBAR_Y, (FPBAR_W)-percent, FPBAR_H, cColor);
+
+	//CG_DrawRect(FPBAR_X - 1.0f, FPBAR_Y - 1.0f, FPBAR_W + 2.0f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+	//CG_FillRect(FPBAR_X, FPBAR_Y+(FPBAR_H-percent), FPBAR_W, FPBAR_H-(FPBAR_H-percent), aColor);
+	
+	//CG_FillRect(FPBAR_X, FPBAR_Y, FPBAR_W, FPBAR_H-percent, cColor);
+	
+
+	UI_DrawProportionalString( HPBAR_X+FPBAR_W + 2.0f,FPBAR_Y-7.0f, va( "%i", cg.snap->ps.stats[STAT_HEALTH] ),
+		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_RED] );
+	/*
+	focusItem = Menu_FindItemByName(menuHUD, "healthamount");
+
+	if (focusItem)
+	{// Print force amount
+		trap_R_SetColor( colorTable[CT_RED] );	
+
+		CG_DrawNumField (
+			HPBAR_X+FPBAR_W + 2.0f, 
+			FPBAR_Y + 0.3f, 
+			3, 
+			cg.snap->ps.stats[STAT_HEALTH], 
+			7, 
+			10, 
+			NUM_FONT_CHUNKY,
+			qfalse);
+	} */
+
+	//focusItem = Menu_FindItemByName(menuHUD, "health_tic1");
 
 	/*if (focusItem)
 	{
@@ -124,22 +175,7 @@ void CG_DrawHealthTicMethod(menuDef_t *menuHUD)
 		}
 	}*/
 
-	// Print the mueric amount
-	focusItem = Menu_FindItemByName(menuHUD, "healthamount");
-	if (focusItem)
-	{// Print health amount
-		trap_R_SetColor( focusItem->window.foreColor );	
 
-		CG_DrawNumField (
-			focusItem->window.rect.x, 
-			focusItem->window.rect.y, 
-			3, 
-			ps->stats[STAT_HEALTH], 
-			focusItem->window.rect.w, 
-			focusItem->window.rect.h, 
-			NUM_FONT_SMALL,
-			qfalse);
-	}
 }
 
 
@@ -159,6 +195,7 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 	calcColor[3] = 0;
 	ps = &cg.predictedPlayerState;
 
+	/*
 	if (!menuHUD)
 	{// Can we find the menu?
 		return;
@@ -175,7 +212,7 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 			focusItem->window.rect.h, 
 			focusItem->window.background
 			);
-	}
+	} */
 
 	armor = ps->stats[STAT_ARMOR];
 	maxArmor = ps->stats[STAT_MAX_HEALTH];
@@ -186,6 +223,29 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 	}
 
 	currValue = armor;
+
+
+	percent = ((float)armor / (float)maxArmor )* FPBAR_W;
+
+	vec4_t aColor;
+	aColor[0] = 0.0f;
+	aColor[1] = 1.0f;
+	aColor[2] = 0.0f;
+	aColor[3] = 0.5f;
+	vec4_t cColor;
+	Vector4Copy(colorTable[CT_BLACK], cColor);
+	cColor[3] = 0.4f;
+
+
+	CG_DrawRect(HPBAR_X - 1.0f, APBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+	CG_FillRect(HPBAR_X, APBAR_Y, percent, FPBAR_H, aColor);
+	CG_FillRect((HPBAR_X + FPBAR_W), APBAR_Y, -((FPBAR_W)-percent), FPBAR_H, cColor);
+
+
+	UI_DrawProportionalString( HPBAR_X+FPBAR_W + 2.0f,APBAR_Y-7.0f, va( "%i", armor ),
+		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_GREEN] );
+
+	/*
 	inc = (float) maxArmor / MAX_HUD_TICS;
 
 	for (i=(MAX_HUD_TICS-1);i>=0;i--)
@@ -236,6 +296,9 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 		currValue -= inc;
 	}
 
+	*/
+
+	/*
 	// If armor is low, flash a graphic to warn the player
 	if (armor)
 	{// Is there armor? Draw the HUD Armor TIC
@@ -283,15 +346,73 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 			NUM_FONT_SMALL,
 			qfalse);
 	}
+
+	*/
 }
 
 
 //Balance
 void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
 {
-	itemDef_t		*focusItem;
+	//itemDef_t		*focusItem;
 	int				i;
 
+
+	vec4_t			calcColor;
+	float			percent;
+
+	// Can we find the menu?
+//	if (!menuHUD)
+//	{
+	//	return;
+	//}
+
+	int amt = cg.snap->ps.saberAttackChainCount;
+	if(amt > MISHAPLEVEL_FULL) amt = MISHAPLEVEL_FULL;
+	
+	// What's the health?
+	percent = (float(amt) / float(MISHAPLEVEL_FULL))  * float(FPBAR_W);
+
+
+	vec4_t aColor;
+	aColor[0] = 1.0f;
+	aColor[1] = 0.0f;
+	aColor[2] = 1.0f;
+	aColor[3] = 0.5f;
+	vec4_t cColor;
+	Vector4Copy(colorTable[CT_BLACK], cColor);
+	cColor[3] = 0.4f;
+
+
+	CG_DrawRect(FPBAR_X - 1.0f, MPBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+	CG_FillRect(FPBAR_X + ( FPBAR_W- percent), MPBAR_Y, FPBAR_W-(FPBAR_W-percent), FPBAR_H, aColor);
+	CG_FillRect((FPBAR_X), MPBAR_Y, (FPBAR_W)-percent, FPBAR_H, cColor);
+
+
+	vec3_t color;
+	color[0] = aColor[0];
+	color[1] = aColor[1];
+	color[2] = aColor[2];
+
+	UI_DrawProportionalString( FPBAR_X - 26.0f,MPBAR_Y-7.0f, va( "%i", cg.snap->ps.saberAttackChainCount ),
+		UI_SMALLFONT|UI_DROPSHADOW, color );
+
+	/*
+	trap_R_SetColor( colorTable[CT_WHITE] );	
+
+	CG_DrawNumField (
+			FPBAR_X - 19.0f, 
+			MPBAR_Y + 0.3f, 
+			3, 
+			cg.snap->ps.saberAttackChainCount, 
+			4, 
+			7, 
+			NUM_FONT_SMALL,
+			qfalse);
+
+	*/
+
+	/*
 	if (!menuHUD)
 	{//Can we find the menu?
 		return;
@@ -314,6 +435,7 @@ void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
 
 
 	}
+	*/
 }
 
 //Ammo
@@ -342,7 +464,36 @@ void CG_DrawAmmoTicMethod(centity_t *cent, menuDef_t *menuHUD)
 	{// No ammo
 		return;
 	}
+	//ammoData[AMMO_BLASTER].max;
+	
+	float max = ammoData[weaponData[cent->currentState.weapon].ammoIndex].max;
+	percent = ((float)ps->ammo[weaponData[cent->currentState.weapon].ammoIndex] / max )* FPBAR_W;
 
+	vec4_t aColor;
+	aColor[0] = 0.23f;
+	aColor[1] = 0.3f;
+	aColor[2] = 0.31f;
+	aColor[3] = 0.5f;
+
+	vec4_t cColor;
+	Vector4Copy(colorTable[CT_BLACK], cColor);
+	cColor[3] = 0.4f;
+
+
+	CG_DrawRect(FPBAR_X - 1.0f, APBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+		CG_FillRect(FPBAR_X + ( FPBAR_W- percent), APBAR_Y, FPBAR_W-(FPBAR_W-percent), FPBAR_H, aColor);
+		CG_FillRect((FPBAR_X), APBAR_Y, (FPBAR_W)-percent, FPBAR_H, cColor);
+
+
+	
+	vec3_t color;
+	color[0] = aColor[0];
+	color[1] = aColor[1];
+	color[2] = aColor[2];
+
+	UI_DrawProportionalString( FPBAR_X - 36.0f,APBAR_Y-7.0f, va( "%i",(int)value  ),
+		UI_SMALLFONT|UI_DROPSHADOW, color );
+	/*
 	focusItem = Menu_FindItemByName(menuHUD, "ammoamount");
 
 	if (weaponData[cent->currentState.weapon].energyPerShot == 0 &&
@@ -414,7 +565,7 @@ void CG_DrawAmmoTicMethod(centity_t *cent, menuDef_t *menuHUD)
 			);
 
 		value -= inc;
-	}
+	} */
 
 }
 
@@ -561,10 +712,20 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	float			percent = ((float)cg.snap->ps.fd.forcePower / 100.0f) * FPBAR_W;
 	
 	//color of the bar
-	aColor[0] = 0.503f;
-	aColor[1] = 0.375f;
-	aColor[2] = 0.996f;
-	aColor[3] = 0.5f;
+	if(cg.snap->ps.fd.forcePowerLevel[FP_SEE] > 0)
+	{
+		aColor[0] = 0.503f;
+		aColor[1] = 0.375f;
+		aColor[2] = 0.996f;
+		aColor[3] = 0.5f;
+	}
+	else
+	{
+		aColor[0] = 1.0f;
+		aColor[1] = 1.0f;
+		aColor[2] = 0.0f;
+		aColor[3] = 0.5f;
+	}
 
 	if (cg.forceHUDTotalFlashTime > cg.time || (cg_entities[cg.snap->ps.clientNum].currentState.userInt3 &  ( 1 << FLAG_FATIGUED)))
 	{//color of the bar
@@ -610,6 +771,14 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	
 	//CG_FillRect(FPBAR_X, FPBAR_Y, FPBAR_W, FPBAR_H-percent, cColor);
 	
+	vec3_t color;
+	color[0] = aColor[0];
+	color[1] = aColor[1];
+	color[2] = aColor[2];
+
+	UI_DrawProportionalString( FPBAR_X - 36.0f,FPBAR_Y-7.0f, va( "%i", cg.snap->ps.fd.forcePower ),
+		UI_SMALLFONT|UI_DROPSHADOW, color );
+	/*
 	focusItem = Menu_FindItemByName(menuHUD, "forceamount");
 
 	if (focusItem)
@@ -626,6 +795,7 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 			NUM_FONT_SMALL,
 			qfalse);
 	}
+	*/
 }
 
 //	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--
@@ -747,8 +917,12 @@ void JKEHUD(centity_t *cent)
 					);			
 			}*/
 
-			CG_DrawForcePower(menuHUD);
-			CG_DrawBalanceTicMethod(cent, menuHUD);
+			if(cg.predictedPlayerState.pm_type != PM_SPECTATOR)
+			{
+				CG_DrawForcePower(menuHUD);
+				CG_DrawBalanceTicMethod(cent, menuHUD);
+			}
+			
 
 			// Draw ammo tics or saber style
 			if ( cent->currentState.weapon == WP_SABER ) {

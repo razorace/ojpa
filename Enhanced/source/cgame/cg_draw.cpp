@@ -7118,6 +7118,7 @@ void CG_DrawJetpackFuel(void)
 	float x = JPFUELBAR_X;
 	float y = JPFUELBAR_Y;
 	float percent = ((float)cg.snap->ps.stats[STAT_FUEL] / JETPACK_MAXFUEL) * JPFUELBAR_H;
+	float percent2 = ((float)cg.snap->ps.stats[STAT_HEAT] * 0.1) * JPFUELBAR_H;
 
 	if (percent > JPFUELBAR_H)
 	{
@@ -7128,12 +7129,22 @@ void CG_DrawJetpackFuel(void)
 	{
 		percent = 0.1f;
 	}
+	
 
-	//color of the bar
-	aColor[0] = 0.5f;
-	aColor[1] = 0.0f;
+	aColor[0] = 1.0f;
+	aColor[1] = 1.0f;
 	aColor[2] = 0.0f;
 	aColor[3] = 0.8f;
+
+	if(cg.jetpackHUDTotalFlashTime > cg.time)
+	{
+			aColor[0] = 1.0f;
+			aColor[1] = 0.0f;
+			aColor[2] = 0.0f;
+			aColor[3] = 0.8f;
+			
+			
+	}
 
 	//color of the border
 	bColor[0] = 0.0f;
@@ -7155,6 +7166,43 @@ void CG_DrawJetpackFuel(void)
 
 	//then draw the other part greyed out
 	CG_FillRect(x+1.0f, y+1.0f, JPFUELBAR_W-1.0f, JPFUELBAR_H-percent, cColor);
+
+
+	
+	//DMURPHY - Draw the Jetpack overheat timer also ---------------------------------------------------
+
+	if(percent2 < 0.1f) return;
+
+	//color of the bar
+	vec4_t dColor;
+	if(cg.snap->ps.eFlags & EF_JETPACK_ACTIVE)
+	{
+		
+		float c = abs(10.0f - ((float)cg.snap->ps.stats[STAT_HEAT] * 0.1) );
+
+		dColor[0] = c;
+		dColor[1] = 0.5f;
+		dColor[2] = 0.0f;
+		dColor[3] = 1.0f;
+	}
+	else
+	{
+		dColor[0] = 0.0f;
+		dColor[1] = 1.0f;
+		dColor[2] = 0.0f;
+		dColor[3] = 1.0f;
+	}
+
+
+
+
+	
+
+	
+	//now draw the part to show how much health there is in the color specified
+	CG_FillRect(x-5.0f, y+1.0f+(JPFUELBAR_H-percent2), 5.0f, JPFUELBAR_H-1.0f-(JPFUELBAR_H-percent2), dColor); 
+	
+	
 }
 
 //draw meter showing e-web health when it is in use
@@ -7460,7 +7508,7 @@ static void CG_DrawSiegeHUDItem(void)
 	vec3_t mins, maxs;
 	float len;
 	centity_t *cent = &cg_entities[cgSiegeEntityRender];
-
+	
 	if (cent->ghoul2)
 	{
 		g2 = cent->ghoul2;
@@ -8158,11 +8206,11 @@ static void CG_Draw2D( void ) {
 		CG_DrawActivePowers();
 	}
 
-	if (cg.snap->ps.stats[STAT_FUEL] < JETPACK_MAXFUEL)
+	if (cg.snap->ps.stats[STAT_FUEL] < JETPACK_MAXFUEL && cg.predictedPlayerState.pm_type != PM_SPECTATOR)
 	{ //draw it as long as it isn't full
         CG_DrawJetpackFuel();        
 	}
-	if (cg.snap->ps.cloakFuel < 100)
+	if (cg.snap->ps.cloakFuel < 100 && cg.predictedPlayerState.pm_type != PM_SPECTATOR)
 	{ //draw it as long as it isn't full
 		CG_DrawCloakFuel();
 	}

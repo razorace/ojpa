@@ -1033,6 +1033,7 @@ struct gclient_s {
 	qboolean	noCorpse; //don't leave a corpse on respawn this time.
 
 	int			jetPackTime;
+	int			jetPackTimer;
 
 	qboolean	jetPackOn;
 	int			jetPackToggleTime;

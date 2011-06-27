@@ -2494,6 +2494,13 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 			}
 		}
 		break;
+	case EV_JETPACK_HEAT:
+		if(cg.jetpackHUDNextFlashTime < cg.time)
+		{
+			cg.jetpackHUDTotalFlashTime = cg.time + 250;
+			cg.jetpackHUDNextFlashTime = cg.time + 500;
+		}
+		break;
 	case EV_CHANGE_WEAPON:
 		DEBUGNAME("EV_CHANGE_WEAPON");
 		{

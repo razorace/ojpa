@@ -1388,7 +1388,7 @@ void ItemUse_MedPack(gentity_t *ent)
 	MedPackGive(ent, MAX_MEDPACK_HEAL_AMOUNT);
 }
 
-#define JETPACK_TOGGLE_TIME			1000
+#define JETPACK_TOGGLE_TIME			6000
 void Jetpack_Off(gentity_t *ent)
 { //create effects?
 	if(!ent || !ent->client) {
@@ -1406,6 +1406,7 @@ void Jetpack_Off(gentity_t *ent)
 	G_Sound(ent, CHAN_AUTO, G_SoundIndex("sound/jetpack/jetpackoff"));
 	
 	ent->client->jetPackOn = qfalse;
+	ent->client->jetPackToggleTime = level.time + 2000;
 }
 
 void Jetpack_On(gentity_t *ent)
@@ -1595,10 +1596,15 @@ void ItemUse_Jetpack( gentity_t *ent )
 	}
 	else
 	{
-		Jetpack_On(ent);
+		//if(ent->client->jetPackTimer < level.time)
+		//{
+			Jetpack_On(ent);
+			ent->client->jetPackTimer = level.time + 10000;
+		//}
+			
 	}
 
-	ent->client->jetPackToggleTime = level.time + JETPACK_TOGGLE_TIME;
+
 }
 
 #define CLOAK_TOGGLE_TIME			1000
