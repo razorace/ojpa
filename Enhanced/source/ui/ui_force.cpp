@@ -51,10 +51,10 @@ void UI_InitForceShaders(void)
 	uiForceStarShaders[7][1] = trap_R_RegisterShaderNoMip("forcestar7");
 	uiForceStarShaders[8][0] = trap_R_RegisterShaderNoMip("forcecircle8");
 	uiForceStarShaders[8][1] = trap_R_RegisterShaderNoMip("forcestar8");
-	uiForceStarShaders[9][0] = trap_R_RegisterShaderNoMip("gfx/menus/forcecircle9");
-	uiForceStarShaders[9][1] = trap_R_RegisterShaderNoMip("gfx/menus/forcestar9");
-	uiForceStarShaders[10][0] = trap_R_RegisterShaderNoMip("gfx/menus/forcecircle10");
-	uiForceStarShaders[10][1] = trap_R_RegisterShaderNoMip("gfx/menus/forcestar10");
+	uiForceStarShaders[9][0] = trap_R_RegisterShaderNoMip("forcecircle9");
+	uiForceStarShaders[9][1] = trap_R_RegisterShaderNoMip("forcestar9");
+	uiForceStarShaders[10][0] = trap_R_RegisterShaderNoMip("forcecircle10");
+	uiForceStarShaders[10][1] = trap_R_RegisterShaderNoMip("forcestar10");
 
 	uiSaberColorShaders[SABER_RED]		= trap_R_RegisterShaderNoMip("menu/art/saber_red");
 	uiSaberColorShaders[SABER_ORANGE]	= trap_R_RegisterShaderNoMip("menu/art/saber_orange");
@@ -272,6 +272,102 @@ void UI_SaveForceTemplate()
 uiRank_t prevRank[NUM_TOTAL_SKILLS];
 // 
 extern qboolean UI_TrueJediEnabled( void );
+
+int typeOfGunnery (int skillNum)
+{
+	switch (skillNum)
+	{
+	case NUM_FORCE_POWERS+SK_BLASTER:
+	case NUM_FORCE_POWERS+SK_PISTOL:
+		return TG_LIGHT_WEAPON;
+		break;
+	case NUM_FORCE_POWERS+SK_JETPACK:
+	case NUM_FORCE_POWERS+SK_BOWCASTER:
+	case NUM_FORCE_POWERS+SK_ROCKET:
+	case NUM_FORCE_POWERS+SK_REPEATER:
+	case NUM_FORCE_POWERS+SK_DISRUPTOR:
+	case NUM_FORCE_POWERS+SK_FLECHETTE:
+	case NUM_FORCE_POWERS+SK_TUSKEN_RIFLE:
+		return TG_HEAVY_WEAPON;
+		break;
+	case NUM_FORCE_POWERS+SK_THERMAL:
+	case NUM_FORCE_POWERS+SK_DETPACK:
+		return TG_EXPLOSIVE_WEAPON;
+		break;
+	case NUM_FORCE_POWERS+SK_BACTA:
+	case NUM_FORCE_POWERS+SK_FLAMETHROWER:
+	case NUM_FORCE_POWERS+SK_FORCEFIELD:
+	case NUM_FORCE_POWERS+SK_CLOAK:
+	case NUM_FORCE_POWERS+SK_SEEKER:
+	case NUM_FORCE_POWERS+SK_SENTRY:
+	//case NUM_FORCE_POWERS+SK_SHIELD:
+		return TG_GADGET;
+		break;
+	default:
+		return TG_OTHER;
+	}
+}
+
+const char *getIconForWeapon(int weapon) 
+{
+	switch (weapon)
+	{
+	case SK_PISTOL:
+	return "gfx/hud/w_icon_blaster_pistol_na";
+	break;
+	case SK_BLASTER:
+	return "gfx/hud/w_icon_blaster_na";
+	break;
+	case SK_BOWCASTER:
+	return "gfx/hud/w_icon_bowcaster_na";
+	break;
+	case SK_ROCKET:
+	return "gfx/hud/w_icon_merrsonn_na";
+	break;
+	case SK_REPEATER:
+	return "gfx/hud/w_icon_repeater_na";
+	break;
+	case SK_DISRUPTOR:
+	return "gfx/hud/w_icon_disruptor_na";
+	break;
+	case SK_FLECHETTE:
+	return "gfx/hud/w_icon_flechette_na";
+	break;
+	case SK_TUSKEN_RIFLE:
+	return "gfx/hud/w_icon_tuskenrifle_na";
+	break;
+	case SK_JETPACK:
+	return "gfx/hud/i_icon_jetpack";
+	break;
+	case SK_BACTA:
+	return "gfx/hud/i_icon_bacta";
+	break;
+	case SK_FLAMETHROWER:
+	return "gfx/hud/i_icon_cloak";
+	break;
+	case SK_FORCEFIELD:
+	return "gfx/hud/i_icon_shieldwall";
+	break;
+	case SK_CLOAK:
+	return "gfx/hud/i_icon_cloak";
+	break;
+	case SK_SEEKER:
+	return "gfx/hud/i_icon_seeker";
+	break;
+	case SK_SENTRY:
+	return "gfx/hud/i_icon_sentrygun";
+	break;
+	case SK_SHIELD:
+	return "gfx/hud/psd_medium";
+	break;
+	case SK_THERMAL:
+	return "gfx/hud/w_icon_thermal_na";
+	break;
+	case SK_DETPACK:
+	return "gfx/hud/w_icon_detpack_na";
+	break;
+	}
+}
 void UpdateForceUsed()
 {//racc - updates the current force powers setup based on current powers selected.
 	int curpower, currank,spentInForce=0,i;
@@ -506,7 +602,10 @@ void UpdateForceUsed()
 			spentInForce += bgForcePowerCost[i][uiRank[i].uiForcePowersRank];
 	}
 
+	
 	menu = Menus_FindByName("ingame_playergunnery");
+	/*
+	
 	if(menu)
 	{
 		if(uiForceRank >= 50)
@@ -524,7 +623,7 @@ void UpdateForceUsed()
 			Menu_ShowItemByName(menu, "setsk_jetpack", qtrue);
 		else
 			Menu_ShowItemByName(menu, "setsk_jetpack", qfalse);
-	}
+	}*/
 
 	if(uiRank[NUM_FORCE_POWERS+SK_GRENADE].uiForcePowersRank <= 1)
 	{//Level 0 or 1, hide everything
@@ -696,23 +795,23 @@ void UpdateForceUsed()
 	}
 	*/
 
-	//[Repeater]
-	if(uiRank[NUM_FORCE_POWERS+SK_REPEATER].uiForcePowersRank < FORCE_LEVEL_3)
-	{
-		uiRank[NUM_FORCE_POWERS+SK_REPEATERUPGRADE].uiForcePowersRank = 0;
-		menu = Menus_FindByName("ingame_playergunnery");
-		if(menu)
-		Menu_ShowItemByName(menu, "repeaterupgrade", qfalse);
-	}
-	else
-	{
-		menu = Menus_FindByName("ingame_playergunnery");
-		if(menu)
-		Menu_ShowItemByName(menu, "repeaterupgrade", qtrue);
-	}
-	//[/Repeater]
-	//[BlasterRateOfFireUpgrade]
-	if(uiRank[NUM_FORCE_POWERS+SK_BLASTER].uiForcePowersRank < FORCE_LEVEL_3)
+	////[Repeater]
+	//if(uiRank[NUM_FORCE_POWERS+SK_REPEATER].uiForcePowersRank < FORCE_LEVEL_3)
+	//{
+	//	uiRank[NUM_FORCE_POWERS+SK_REPEATERUPGRADE].uiForcePowersRank = 0;
+	//	menu = Menus_FindByName("ingame_playergunnery");
+	//	if(menu)
+	//	Menu_ShowItemByName(menu, "repeaterupgrade", qfalse);
+	//}
+	//else
+	//{
+	//	menu = Menus_FindByName("ingame_playergunnery");
+	//	if(menu)
+	//	Menu_ShowItemByName(menu, "repeaterupgrade", qtrue);
+	//}
+	////[/Repeater]
+	////[BlasterRateOfFireUpgrade]
+	/*if(uiRank[NUM_FORCE_POWERS+SK_BLASTER].uiForcePowersRank < FORCE_LEVEL_3)
 	{
 		uiRank[NUM_FORCE_POWERS+SK_BLASTERRATEOFFIREUPGRADE].uiForcePowersRank = 0;
 		menu = Menus_FindByName("ingame_playergunnery");
@@ -724,7 +823,7 @@ void UpdateForceUsed()
 		menu = Menus_FindByName("ingame_playergunnery");
 		if(menu)
 		Menu_ShowItemByName(menu, "blasterrateoffire", qtrue);
-	}
+	}*/
 	//[/BlasterRateOfFireUpgrade]
 
 	//[ExpSys]
@@ -1557,6 +1656,122 @@ qboolean UI_ForcePowerRank_HandleKey(int flags, float *special, int key, int num
 			uiForceAvailable += bgForcePowerCost[forcepower][rank];
 			uiRank[forcepower].uiForcePowersRank--;
 		}
+
+		menuDef_t *menu = Menus_FindByName("ingame_playergunnery");
+
+	if(menu)
+	{
+		int lightWp=0;
+		int heavyWP=0;
+		int explosives=0;
+		int gadgets=0;
+		//itemDef_t *item;
+		//item=Menu_FindItemByName(menu,"light_weapon_icon");
+		/*Menu_SetItemBackground(menu,"light_weapon_icon","");
+		Menu_SetItemBackground(menu,"light_weapon2_icon","");
+		Menu_SetItemBackground(menu,"heavy_weapon_icon","");
+		Menu_SetItemBackground(menu,"explosives_weapon_icon","");
+		Menu_SetItemBackground(menu,"gadget1_weapon_icon","");
+		Menu_SetItemBackground(menu,"gadget2_weapon_icon","");*/
+		Menu_ShowItemByName(menu, "light_weapon_icon", qfalse);
+		Menu_ShowItemByName(menu, "light_weapon2_icon", qfalse);
+		Menu_ShowItemByName(menu, "heavy_weapon_icon", qfalse);
+		Menu_ShowItemByName(menu, "explosives_weapon_icon", qfalse);
+		Menu_ShowItemByName(menu, "gadget1_weapon_icon", qfalse);
+		Menu_ShowItemByName(menu, "gadget2_weapon_icon", qfalse);
+		
+		for (int i = NUM_FORCE_POWERS+SK_JETPACK;i<NUM_TOTAL_SKILLS;i++)
+			if (typeOfGunnery(uiRank[i].skillNum) == TG_LIGHT_WEAPON && uiRank[i].uiForcePowersRank >= FORCE_LEVEL_1)
+				lightWp++;
+			else if (typeOfGunnery(uiRank[i].skillNum) == TG_HEAVY_WEAPON && uiRank[i].uiForcePowersRank >= FORCE_LEVEL_1)
+				heavyWP++;
+			else if (typeOfGunnery(uiRank[i].skillNum) == TG_EXPLOSIVE_WEAPON && uiRank[i].uiForcePowersRank >= FORCE_LEVEL_1)
+				explosives++;
+			else if (typeOfGunnery(uiRank[i].skillNum) == TG_GADGET && uiRank[i].uiForcePowersRank >= FORCE_LEVEL_1)
+				gadgets++;
+
+		for (int i=NUM_FORCE_POWERS+SK_JETPACK;i<NUM_TOTAL_SKILLS;i++)
+		{
+			if (uiRank[i].uiForcePowersRank >= FORCE_LEVEL_1)
+				switch (typeOfGunnery(uiRank[i].skillNum))
+				{
+				case TG_LIGHT_WEAPON:
+					if (lightWp == 1)
+					{
+					Menu_SetItemBackground(menu,"light_weapon_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+					Menu_ShowItemByName(menu, "light_weapon_icon", qtrue);
+					}
+					else if (lightWp == 2)
+					{
+					Menu_SetItemBackground(menu,"light_weapon2_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+					Menu_ShowItemByName(menu, "light_weapon2_icon", qtrue);
+					lightWp--;
+					} 
+					else
+					{
+					uiRank[i].uiForcePowersRank = 0;
+					} 
+				break;
+				case TG_HEAVY_WEAPON:
+					if (heavyWP == 1)
+					{
+						Menu_SetItemBackground(menu,"heavy_weapon_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+						Menu_ShowItemByName(menu, "heavy_weapon_icon", qtrue);
+					}
+					else if (uiRank[i].skillNum == forcepower)
+							uiRank[i].uiForcePowersRank = 0;
+						else
+							{
+							Menu_SetItemBackground(menu,"heavy_weapon_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+							Menu_ShowItemByName(menu, "heavy_weapon_icon", qtrue);
+							}
+				break;
+				case TG_EXPLOSIVE_WEAPON:
+					if (explosives == 1)
+					{
+					Menu_SetItemBackground(menu,"explosives_weapon_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+					Menu_ShowItemByName(menu, "explosives_weapon_icon", qtrue);
+					}
+					else if (uiRank[i].skillNum == forcepower)
+							uiRank[i].uiForcePowersRank = 0;
+						else
+							{
+							Menu_SetItemBackground(menu,"explosives_weapon_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+							Menu_ShowItemByName(menu, "explosives_weapon_icon", qtrue);
+							}
+				break;
+				case TG_GADGET:
+					if (gadgets == 1)
+					{
+					Menu_SetItemBackground(menu,"gadget1_weapon_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+					Menu_ShowItemByName(menu, "gadget1_weapon_icon", qtrue);
+					}
+					else if(gadgets == 2)
+					{
+					Menu_SetItemBackground(menu,"gadget2_weapon_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+					Menu_ShowItemByName(menu, "gadget2_weapon_icon", qtrue);
+					gadgets--;
+					}
+					else if (uiRank[i].skillNum == forcepower)
+						uiRank[forcepower].uiForcePowersRank = 0;
+						else if (gadgets == 3)
+						{
+						Menu_SetItemBackground(menu,"gadget2_weapon_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+						Menu_ShowItemByName(menu, "gadget2_weapon_icon", qtrue);
+						gadgets++;
+						} 
+						else
+						{
+						Menu_SetItemBackground(menu,"gadget1_weapon_icon",getIconForWeapon(uiRank[i].skillNum-NUM_FORCE_POWERS));
+						Menu_ShowItemByName(menu, "gadget1_weapon_icon", qtrue);
+						}
+				break;
+				default:
+					break;
+				}
+
+		}
+	}
 
 		UpdateForceUsed();
 
