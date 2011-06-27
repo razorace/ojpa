@@ -181,25 +181,25 @@ int bgForcePowerCost[NUM_TOTAL_SKILLS][NUM_FORCE_POWER_LEVELS] = //0 == neutral
 	{	0,	2,	4,	6	},	// Drain		//FP_DRAIN,//hold/duration
 	{	0,	2,	4,	8	},	// Sight		//FP_SEE,//duration -- lvl3 was 10
 	{	0,	SABER_OFFENSE_L1,	0,	0	},	// Saber Attack	//FP_SABER_OFFENSE,
-	{	0,	SABER_DEFENSE_L1,	2,	10	},	// Saber Defend	//FP_SABER_DEFENSE, -- lvl3 was 10 -- 1.3 was 8
+	{	0,	SABER_DEFENSE_L1,	2,	8	},	// Saber Defend	//FP_SABER_DEFENSE, -- lvl3 was 10 -- 1.3 was 8
 	{	0,	2,	4,	8	},	// Saber Throw	//FP_SABERTHROW,
 	//NUM_FORCE_POWERS
 	//racc - additional skills
 	{	0,	8,	0,	0	},	//SK_JETPACK,		// Jetpack Skill	
-	{	0,	9,	7,	8	},	//SK_PISTOL,		//blaster pistol -- 1.3 was 0,1,2,8
-	{	0,	9,	4,	6	},	//SK_BLASTER,		//blaster rifle skill
+	{	0,	8,	7,	8	},	//SK_PISTOL,		//blaster pistol -- 1.3 was 0,1,2,8
+	{	0,	8,	4,	6	},	//SK_BLASTER,		//blaster rifle skill
 	{	0,	8,	0,	0	},	//SK_THERMAL,		//thermal detenator skill -- 1.3 was 0,6,6,8
-	{	0,	10,	0,	0	},	//SK_ROCKET,		//rocket launcher skill -- 1.3 was 0,6,6,8
+	{	0,	8,	0,	0	},	//SK_ROCKET,		//rocket launcher skill -- 1.3 was 0,6,6,8
 	{	0,	3,	3,	0	},	//SK_BACTA			//bacta medikits skill
 	{	0,	6,	0,	0	},	//SK_FLAMETHROWER	//flamethrower skill
-	{	0,	10,	8,	8	},	//SK_BOWCASTER,		//bowcaster skill
+	{	0,	8,	8,	8	},	//SK_BOWCASTER,		//bowcaster skill
 	{	0,	8,	0,	0	},	//SK_FORCEFIELD,	//forcefield skill -- 1.3 was 3
 	{	0,	8,	0,	0	},	//SK_CLOAK,		//cloaking device skill
 	{	0,	6,	0,	0	},	//SK_SEEKER,		//seeker droid skill
 	{	0,  6,  0,  0	},	//SK_SENTRY,		//sentry gun skill
 	{	0,  5,  0,  0	},	//SK_DETPACK,		//detpack skill -- 1.3 was 0,5,5
-	{   0,  10, 7,  8	},  //SK_REPEATER,      // repeater/clone rifle skill
-	{   0,  9,  7,  7   },	//SK_DISRUPTOR,      // Disruptor/sniper rifle skill
+	{   0,  8, 7,  8	},  //SK_REPEATER,      // repeater/clone rifle skill
+	{   0,  8,  7,  7   },	//SK_DISRUPTOR,      // Disruptor/sniper rifle skill
 	//[StanceSelection]
 	{	0,	8,	8,	0	},	//SK_BLUESTYLE,	//Yellow lightsaber style
 	{	0,	8,	8,	0	},	//SK_REDSTYLE,	//Red lightsaber style
@@ -208,18 +208,18 @@ int bgForcePowerCost[NUM_TOTAL_SKILLS][NUM_FORCE_POWER_LEVELS] = //0 == neutral
 	{	0,	8,	8,	0	},	//SK_DUALSTYLE,	//Dual lightsaber style
 	{	0,	8,	8,	0	},	//SK_STAFFSTYLE,	//Staff lightsaber style
 	//[/StanceSelection]
-	{	0,	10,	0,	0	},  //SK_REPEATERUPGRADE //Repeater Upgrade
-	{	0,	9,	5,	6	},  //SK_FLECHETTE //Flechette
-	{	0,	10,	0,	0	},	//SK_BLASTERRATEOFFIREUPGRADE
-	{	0,	10,	8,	8	},//SK_TUSKEN_RIFLE
-	{	0,	5,	7,	9	},//SK_SHIELD
+	{	0,	8,	0,	0	},  //SK_REPEATERUPGRADE //Repeater Upgrade
+	{	0,	8,	5,	6	},  //SK_FLECHETTE //Flechette
+	{	0,	8,	0,	0	},	//SK_BLASTERRATEOFFIREUPGRADE
+	{	0,	8,	8,	8	},//SK_TUSKEN_RIFLE
+	{	0,	5,	7,	8	},//SK_SHIELD
 	{	0,	5,	5,	5	},//SK_MELEE
 	{	0,	5,	7,	9	},//SK_GRENADE
 	{	0,	1,	0,	0	},//SK_SMOKEGRENADE
 	{	0,	1,	0,	0	},//SK_FLASHGRENADE
 	{	0,	1,	0,	0	},//SK_CRYOBAN
 	{	0,	1,	0,	0	},//SK_EMP
-	{	0,	10,	0,	0	},//SK_ACROBATICS
+	{	0,	8,	0,	0	},//SK_ACROBATICS
 	//[/ExpSys]
 };
 

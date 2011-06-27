@@ -629,6 +629,16 @@ typedef int forcePowers_t;
 
 //[ExpSys]
 typedef enum
+{ //Type of Gunnery
+	TG_LIGHT_WEAPON,
+	TG_HEAVY_WEAPON,
+	TG_EXPLOSIVE_WEAPON,
+	TG_GADGET,
+	TG_OTHER
+};
+typedef int typeOfGunnery_t;
+
+typedef enum
 {
 	SK_JETPACK,		//jetpack skill
 	SK_PISTOL,		//blaster pistol
