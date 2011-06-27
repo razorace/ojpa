@@ -4318,6 +4318,8 @@ void G_RunFrame( int levelTime ) {
 				}
 			}
 
+
+
 			//[SentryHack]
 			if(ent->client->isHacking == -100)
 			{//Sentry hack time, pretty much a copy and paste of the below
@@ -4392,10 +4394,22 @@ void G_RunFrame( int levelTime ) {
 					//[JetpackSys]
 					if (ent->client->pers.cmd.forwardmove || ent->client->pers.cmd.upmove || ent->client->pers.cmd.rightmove)
 					{ //only use fuel when actually boosting.
-						ent->client->ps.stats[STAT_FUEL] -= 1;
+						//DMURPHY - changed. Uses twice the fuel amount when boosting, else uses default rate. 
+						ent->client->ps.stats[STAT_FUEL] -= 4;
+					}
+					else
+					{
+						ent->client->ps.stats[STAT_FUEL] -= 2;
 					}
 					//[/JetpackSys]
 					
+
+					ent->client->ps.stats[STAT_HEAT] = (ent->client->jetPackTimer - level.time) * 0.001;
+					if(ent->client->jetPackTimer < level.time)
+					{
+						Jetpack_Off(ent);
+						ent->client->jetPackToggleTime = level.time + 6000;
+					}
 					if (ent->client->ps.stats[STAT_FUEL] <= 0)
 					{ //turn it off
 						ent->client->ps.stats[STAT_FUEL] = 0;
@@ -4404,6 +4418,16 @@ void G_RunFrame( int levelTime ) {
 
 					ent->client->jetPackDebReduce = level.time + JETPACK_DEFUEL_RATE;
 				}
+
+				if(ent->client->ps.stats[STAT_HEAT] < 3)			//If our jetpack timer is below 3 seconds
+																	//(ATM seems like a cheap way of checking this...)
+				{		
+					G_AddEvent(ent, EV_JETPACK_HEAT,0 );			//Signal the flashing jetpack HUD
+				}
+			}
+			else
+			{
+				ent->client->ps.stats[STAT_HEAT] = (ent->client->jetPackToggleTime - level.time) * 0.001;
 			}
 
 			if (ent->client->ps.powerups[PW_CLOAKED])

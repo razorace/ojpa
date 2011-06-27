@@ -627,6 +627,7 @@ typedef enum {
 	//[DodgeSys]
 	STAT_MAX_HEALTH,					// health / armor limit, changable by handicap
 	STAT_FUEL,
+	STAT_HEAT,
 	//STAT_MAX_HEALTH					// health / armor limit, changable by handicap
 	//[/DodgeSys]
 } statIndex_t;
@@ -1135,6 +1136,7 @@ typedef enum {
 	EV_EMPGRENADE,
 	EV_FLASHGRENADE,
 	EV_ROCKETNEEDCROUCH,
+	EV_JETPACK_HEAT,
 	EV_NUMEVENTS
 
 } entity_event_t;			// There is a maximum of 256 events (8 bits transmission, 2 high bits for uniqueness)

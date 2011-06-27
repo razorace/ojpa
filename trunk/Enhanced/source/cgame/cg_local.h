@@ -1058,6 +1058,9 @@ typedef struct {
 
 	vec3_t			lastFPFlashPoint;
 
+	int				jetpackHUDTotalFlashTime;
+	int				jetpackHUDNextFlashTime;
+
 /*
 Ghoul2 Insert Start
 */
