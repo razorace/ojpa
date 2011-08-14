@@ -88,13 +88,15 @@ ojp/menu/metalpipe3
 	}
 }
 
+
 ojp/menu/mainvideo
 {
-   {
-        //videoMap ojp/menu/mainvideo
-		videoMap jkemainvideo
-   }
+    {
+        videoMap ojp/menu/mainvideo
+    }
 }
+
+
 
 menu/obiwan
 {
@@ -382,46 +384,3 @@ ojp/menu/buttonback
     }
 }
 
-forcecircle9
-{
-	nopicmip
-	nomipmaps
-    {
-        clampmap gfx/menus/forcecircle9
-        blendFunc GL_ONE GL_ONE
-        rgbGen vertex
-    }
-}
-
-forcecircle10
-{
-	nopicmip
-	nomipmaps
-    {
-        clampmap gfx/menus/forcecircle10
-        blendFunc GL_ONE GL_ONE
-        rgbGen vertex
-    }
-}
-
-forcestar9
-{
-	nopicmip
-	nomipmaps
-    {
-        clampmap gfx/menus/forcestar9
-        blendFunc GL_ONE GL_ONE
-        rgbGen vertex
-    }
-}
-
-forcestar10
-{
-	nopicmip
-	nomipmaps
-    {
-        clampmap gfx/menus/forcestar10
-        blendFunc GL_ONE GL_ONE
-        rgbGen vertex
-    }
-}
