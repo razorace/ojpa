@@ -36,6 +36,55 @@
 			close ingame_playergunnery ;
 		}
 		
+		itemDef 
+		{
+			name				background_pic
+			group				none
+			style				WINDOW_STYLE_FILLED
+			rect				0 0 510 400
+			border				1
+			bordercolor			0 0 0 1
+			backcolor			0.1 0.1 0.1 0.5
+			forecolor			1 1 1 1
+			visible				1
+			decoration
+		}
+//----------------------------------------------------------------------------------------------
+//	WEAPON DESCRIPTION TEXT
+//----------------------------------------------------------------------------------------------
+	//	itemDef 
+	//	{
+	//		name				weapon_desc
+	//		group				none
+	//		type				ITEM_TYPE_TEXTSCROLL
+	//		rect				10 230 300 150
+	//		font				4
+	//		forecolor			1 1 1 1
+	//		textscale			1
+	//		textalign			ITEM_ALIGN_LEFT
+	//		textalignx			0
+	//		textaligny			-1
+	//		lineHeight			30
+	//		visible				0
+	//		autowrapped
+	//		decoration
+	//	}
+		itemDef
+		{
+			name				weapon_desc
+			type				ITEM_TYPE_TEXTSCROLL
+			rect				10 230 300 130
+			text				"  "
+			//cvar				ui_move_desc
+			font				4
+			forecolor			.549 .854 1 1
+			textscale			1
+			textalign			ITEM_ALIGN_LEFT
+			textaligny			6
+			visible			1
+			lineHeight			13			
+			
+		}
 //------------------------------------------------------------------------------------------------
 // Gunnery
 //------------------------------------------------------------------------------------------------
@@ -79,7 +128,8 @@
 			style				WINDOW_STYLE_EMPTY	
 			text				@MENUS_POINTS_REMAINING
 			ownerdraw			UI_FORCE_POINTS
-			rect				10 45 0 0
+			//rect				10 45 0 0
+			rect				370 380 0 0
 			textalign			ITEM_ALIGN_LEFT
 			textalignx			0
 			textaligny			0
@@ -93,6 +143,333 @@
 			visible				1 
 			decoration
 		}
+		itemDef 
+		{
+			name				weapon_icon_background
+			group				normal_icon
+			style				WINDOW_STYLE_SHADER
+			rect				20 300 130 130
+			background			"gfx/menus/hex_pattern_gray"
+			forecolor			0.5 0.5 0.5 1
+			visible				0
+			decoration
+		}
+		
+		itemDef 
+		{
+			name				weapon_icon
+			group				bigicons
+			style				WINDOW_STYLE_SHADER
+			rect				350 280 100 100
+			forecolor			1 1 1 1
+			visible				0
+			decoration
+		}
+		
+		itemDef 
+		{
+			name				light_weapon1_background
+			group				normal_icon
+			style				WINDOW_STYLE_SHADER
+			rect				20 90 100 100
+			background			"gfx/menus/hex_pattern_gray"
+			forecolor			0 1 1 1
+			visible				1
+			decoration
+			
+			
+		}
+		itemDef 
+		{
+			name				light_weapon2_background
+			group				normal_icon
+			style				WINDOW_STYLE_SHADER
+			rect				120 90 100 100
+			background			"gfx/menus/hex_pattern_gray"
+			forecolor			0 1 1 1
+			visible				1
+			decoration
+		}
+		
+		itemDef 
+		{
+			name				heavy_weapon_background
+			group				normal_icon
+			style				WINDOW_STYLE_SHADER
+			rect				220 90 100 100
+			background			"gfx/menus/hex_pattern_gray"
+			forecolor			0 1 0 1
+			visible				1
+			decoration
+		}
+		
+		itemDef 
+		{
+			name				explosives_background
+			group				normal_icon
+			style				WINDOW_STYLE_SHADER
+			rect				220 160 100 100
+			background			"gfx/menus/hex_pattern_gray"
+			forecolor			1 0 0 1
+			visible				1
+			decoration
+		}
+		itemDef 
+		{
+			name				gadget1_weapon_background
+			group				normal_icon
+			style				WINDOW_STYLE_SHADER
+			rect				20 160 100 100
+			background			"gfx/menus/hex_pattern_gray"
+			forecolor			0 0 1 1
+			visible				1
+			decoration
+		}
+		itemDef 
+		{
+			name				gadget2_weapon_background
+			group				normal_icon
+			style				WINDOW_STYLE_SHADER
+			rect				120 160 100 100
+			background			"gfx/menus/hex_pattern_gray"
+			forecolor			0 0 1 1
+			visible				1
+			decoration
+		}
+		
+		itemDef 
+		{
+			name				light_weapon_icon
+			group				bigicons
+			style				WINDOW_STYLE_SHADER
+			rect				30 85 64 64
+			//background			"gfx/hud/w_icon_blaster_na"
+			forecolor			1 1 1 1
+			visible				0
+			decoration
+			
+		}
+		itemDef 
+		{
+			name				light_weapon2_icon
+			group				bigicons
+			style				WINDOW_STYLE_SHADER
+			rect				130 85 64 64
+			//background			"gfx/hud/w_icon_blaster_na"
+			forecolor			1 1 1 1
+			visible				0
+			decoration
+		}
+		itemDef 
+		{
+			name				heavy_weapon_icon
+			group				bigicons
+			style				WINDOW_STYLE_SHADER
+			rect				230 85 64 64
+			//background			"gfx/hud/w_icon_disruptor_na"
+			forecolor			1 1 1 1
+			visible				0
+			decoration
+			
+		}
+		
+		itemDef 
+		{
+			name				explosives_weapon_icon
+			group				bigicons
+			style				WINDOW_STYLE_SHADER
+			rect				230 155 64 64
+			//background			"gfx/hud/w_icon_thermal_na"
+			forecolor			1 1 1 1
+			visible				0
+			decoration
+			
+		}
+		
+		itemDef 
+		{
+			name				gadget1_weapon_icon
+			group				bigicons
+			style				WINDOW_STYLE_SHADER
+			rect				30 155 64 64
+			//background			"gfx/hud/i_icon_seeker"
+			forecolor			1 1 1 1
+			visible				0
+			decoration
+			
+		}
+		
+		itemDef 
+		{
+			name				gadget2_weapon_icon
+			group				bigicons
+			style				WINDOW_STYLE_SHADER
+			rect				130 155 64 64
+			//background			"gfx/hud/i_icon_shieldwall"
+			forecolor			1 1 1 1
+			visible				0
+			decoration
+			
+		}
+		
+		itemDef 
+		{
+			name				light_weapon1_button
+			group				normal_icon
+			style				WINDOW_STYLE_FILLED
+			rect				20 90 190 54
+			//background			"gfx/menus/hex_pattern_gray"
+			forecolor			0 1 1 1
+			backcolor			1 1 1 0
+			visible				1
+			action 
+			{ 
+				show			lightgunsgroup
+				hide			heavywpgroup
+				hide			explosivesgroup
+				hide			gadgetsgroup
+				show			numerostitle
+
+			}
+			mouseenter 
+			{ 
+				setitemcolor	light_weapon1_background forecolor			0.8 1 1 1
+				setitemcolor	light_weapon2_background forecolor			0.8 1 1 1
+				setitemcolor	heavy_weapon_background forecolor			0 1 0 1
+				setitemcolor	explosives_background forecolor				1 0 0 1
+				setitemcolor	gadget1_weapon_background forecolor			0 0 1 1
+				setitemcolor	gadget2_weapon_background forecolor			0 0 1 1
+			}
+			mouseexit 
+			{ 
+				setitemcolor	light_weapon1_background forecolor			0 1 1 1
+				setitemcolor	light_weapon2_background forecolor			0 1 1 1
+				setitemcolor	heavy_weapon_background forecolor			0 1 0 1
+				setitemcolor	explosives_background forecolor				1 0 0 1
+				setitemcolor	gadget1_weapon_background forecolor			0 0 1 1
+				setitemcolor	gadget2_weapon_background forecolor			0 0 1 1
+			}
+			
+
+		}
+		itemDef 
+		{
+			name				heavy_weapon_button
+			group				bigicons
+			style				WINDOW_STYLE_FILLED
+			rect				220 90 90 54
+			//background			"gfx/hud/w_icon_disruptor_na"
+			forecolor			1 1 1 1
+			backcolor			1 1 1 0
+			visible				1
+			//decoration
+			action 
+			{ 
+				hide			lightgunsgroup
+				show			heavywpgroup
+				hide			explosivesgroup
+				hide			gadgetsgroup
+				show			numerostitle
+
+			}
+			mouseenter 
+			{ 
+				setitemcolor	light_weapon1_background forecolor			0 1 1 1
+				setitemcolor	light_weapon2_background forecolor			0 1 1 1
+				setitemcolor	heavy_weapon_background forecolor			0.5 1 0.5 1
+				setitemcolor	explosives_background forecolor				1 0 0 1
+				setitemcolor	gadget1_weapon_background forecolor			0 0 1 1
+				setitemcolor	gadget2_weapon_background forecolor			0 0 1 1
+			}
+			mouseexit 
+			{ 
+				setitemcolor	light_weapon1_background forecolor			0 1 1 1
+				setitemcolor	light_weapon2_background forecolor			0 1 1 1
+				setitemcolor	heavy_weapon_background forecolor			0 1 0 1
+				setitemcolor	explosives_background forecolor				1 0 0 1
+				setitemcolor	gadget1_weapon_background forecolor			0 0 1 1
+				setitemcolor	gadget2_weapon_background forecolor			0 0 1 1
+			}
+		}
+		
+		itemDef 
+		{
+			name				explosives_button
+			group				normal_icon
+			style				WINDOW_STYLE_FILLED
+			rect				220 160 90 54
+			//background			"gfx/menus/hex_pattern_gray"
+			forecolor			1 0 0 1
+			backcolor			1 1 1 0
+			visible				1
+			//decoration
+			action 
+			{ 
+				hide			lightgunsgroup
+				hide			heavywpgroup
+				show			explosivesgroup
+				hide			gadgetsgroup
+				show			numerostitle
+				
+			}
+			mouseenter 
+			{ 
+				setitemcolor	light_weapon1_background forecolor			0 1 1 1
+				setitemcolor	light_weapon2_background forecolor			0 1 1 1
+				setitemcolor	heavy_weapon_background forecolor			0 1 0 1
+				setitemcolor	explosives_background forecolor				1 0.5 0.5 1
+				setitemcolor	gadget1_weapon_background forecolor			0 0 1 1
+				setitemcolor	gadget2_weapon_background forecolor			0 0 1 1
+			}
+			mouseexit 
+			{ 
+				setitemcolor	light_weapon1_background forecolor			0 1 1 1
+				setitemcolor	light_weapon2_background forecolor			0 1 1 1
+				setitemcolor	heavy_weapon_background forecolor			0 1 0 1
+				setitemcolor	explosives_background forecolor				1 0 0 1
+				setitemcolor	gadget1_weapon_background forecolor			0 0 1 1
+				setitemcolor	gadget2_weapon_background forecolor			0 0 1 1
+			}
+		}
+		itemDef 
+		{
+			name				gadget_weapon_button
+			group				normal_icon
+			style				WINDOW_STYLE_FILLED
+			rect				20 160 190 54
+			//background			"gfx/menus/hex_pattern_gray"
+			forecolor			0 1 0 1
+			backcolor			1 1 1 0
+			visible				1
+			//decoration
+			action 
+			{ 
+				hide			lightgunsgroup
+				hide			heavywpgroup
+				hide			explosivesgroup
+				show			gadgetsgroup
+				show			numerostitle
+
+			}
+			mouseenter 
+			{ 
+				setitemcolor	light_weapon1_background forecolor			0 1 1 1
+				setitemcolor	light_weapon2_background forecolor			0 1 1 1
+				setitemcolor	heavy_weapon_background forecolor			0 1 0 1
+				setitemcolor	explosives_background forecolor				1 0 0 1
+				setitemcolor	gadget1_weapon_background forecolor			0.5 0.5 1 1
+				setitemcolor	gadget2_weapon_background forecolor			0.5 0.5 1 1
+			}
+			mouseexit 
+			{ 
+				setitemcolor	light_weapon1_background forecolor			0 1 1 1
+				setitemcolor	light_weapon2_background forecolor			0 1 1 1
+				setitemcolor	heavy_weapon_background forecolor			0 1 0 1
+				setitemcolor	explosives_background forecolor				1 0 0 1
+				setitemcolor	gadget1_weapon_background forecolor			0 0 1 1
+				setitemcolor	gadget2_weapon_background forecolor			0 0 1 1
+			}
+		}
 		
 		////////////////////////////////////////////////////////////////////////////////
 		// The Weapon Skills
@@ -102,11 +479,11 @@
 		
 		itemDef 
 		{
-			name				forceranktitle
-			group				"playersettingforcegroup"
+			name				lightweaponstitle
+			group				lightgunsgroup
 			style				0	
 			text				"Light Weapons"
-			rect				20 75 0 0
+			rect				325 73 0 0
 			textalign			ITEM_ALIGN_LEFT		
 			textalignx			0
 			textaligny			0
@@ -114,37 +491,17 @@
 			backcolor			0.3 0.3 0.3 1
 			font				4
 			textscale		   	1 
-			forecolor			0 0.8 0.4 1
+			forecolor			0 0.7 0.7 1
 			border				0
 			bordercolor			0 0 0 0
-			visible				1 
+			visible				1
 			decoration
 		}
 
-		itemDef 
-		{
-			name				forceranktitle2
-			group				"playersettingforcegroup"
-			style				0	
-			text				@MENUS_1_2_3
-			rect				20 75 0 0
-			textalign			ITEM_ALIGN_LEFT
-			textalignx			115
-			textaligny			0
-			outlinecolor		1 .5 .5 .5
-			backcolor			0.3 0.3 0.3 1
-			font				4
-			textscale		    1
-			forecolor			0 0.8 0.4 1
-			border				0
-			bordercolor			0 0 0 0
-			visible				1 
-			decoration
-		}
 		
 		stackPanel
 		{
-			rect		20 90 110 15
+			rect		325 90 110 15
 			orientation	Vertical
 			
 			stackPanel
@@ -156,7 +513,7 @@
 				itemDef 
 				{
 					name					setsk_pistol
-					group					gunpowers
+					group					lightgunsgroup
 					style					0	
 					text					@OJP_MENUS_SKILL_PISTOL
 					rect					0 0 0 15
@@ -165,12 +522,12 @@
 					textaligny				0
 					font					4
 					textscale				1
-					forecolor				1 0.2 0.2 1
-					outlinecolor			1 .5 .5 .5
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
 					backcolor				0 0 0 0
 					border					0
 					bordercolor				0 0 0 0
-					visible					1 
+					visible					1
 					decoration
 				}
 			
@@ -178,7 +535,7 @@
 				itemDef 
 				{
 					name					setsk_pistol
-					group					gunpowers
+					group					lightgunsgroup
 					style					0	
 					ownerdraw				UI_FORCE_RANK_PISTOL
 					rect					20 90 175 15
@@ -187,11 +544,11 @@
 					textaligny				-5
 					textscale				.25        
 					backcolor				0 0 0 0
-					forecolor				1 0.2 0.2 1
+					forecolor				0.8 0.8 0.8 1
 					border					0
 					bordercolor				0 0 0 0
-					descText				@OJP_MENUS_DESC_SKILL_PISTOL
-					visible					1 
+					//descText				@OJP_MENUS_DESC_SKILL_PISTOL
+					visible					1
 					action 
 					{ 
 						play			"sound/interface/button1.wav" ;
@@ -199,24 +556,28 @@
 
 					mouseenter 
 					{ 
-						setitemcolor	setsk_pistol forecolor .7 1 2. 1
+						setitemcolor	setsk_pistol forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_blaster_pistol"
+						show			weapon_desc
+						setitemtext		weapon_desc	@SP_INGAME_NEW_BLASTER_PISTOL_DESC
 					}
 					mouseexit 
 					{ 
-						setitemcolor	setsk_pistol forecolor .2 1 .2 1
+						setitemcolor	setsk_pistol forecolor 0.8 0.8 0.8 1
 					}
 				}
 			}
 			
 			stackPanel
 			{
-				rect		20 105 110 15
+				rect		20 105 110 35
 				orientation	Horizontal
 				// blaster title
 				itemDef 
 				{
 					name					setsk_blaster
-					group					gunpowers
+					group					lightgunsgroup
 					style					0	
 					text					@OJP_MENUS_SKILL_BLASTER
 					rect					0 0 0 15
@@ -225,12 +586,12 @@
 					textaligny				0
 					font					4
 					textscale				1
-					forecolor				.2 1 .2 1
-					outlinecolor			1 .5 .5 .5
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
 					backcolor				0 0 0 0
 					border					0
 					bordercolor				0 0 0 0
-					visible					1 
+					visible					1
 					decoration
 				}
 			
@@ -238,7 +599,7 @@
 				itemDef 
 				{
 					name					setsk_blaster
-					group					gunpowers
+					group					lightgunsgroup
 					style					0	
 					ownerdraw				UI_FORCE_RANK_BLASTER
 					rect					20 105 175 15
@@ -246,13 +607,13 @@
 					textalignx				115
 					textaligny				-5
 					textscale				.25        
-					forecolor				.2 1 .2 1
+					forecolor				0.8 0.8 0.8 1
 					backcolor				0 0 0 0
-					forecolor				1 0.2 0.2 1
+					//forecolor				1 0.2 0.2 1
 					border					0
 					bordercolor				0 0 0 0
-					descText				@OJP_MENUS_DESC_SKILL_BLASTER
-					visible					1 
+					//descText				@OJP_MENUS_DESC_SKILL_BLASTER
+					visible					1
 					action 
 					{ 
 						play			"sound/interface/button1.wav" ;
@@ -260,11 +621,15 @@
 
 					mouseenter 
 					{ 
-						setitemcolor	setsk_blaster forecolor .7 1 2. 1
+						setitemcolor	setsk_blaster forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_blaster"
+						show			weapon_desc
+						setitemtext		weapon_desc	@SP_INGAME_BLASTER_RIFLE_DESC
 					}
 					mouseexit 
 					{ 
-						setitemcolor	setsk_blaster forecolor .2 1 .2 1
+						setitemcolor	setsk_blaster forecolor	0.8 0.8 0.8 1
 					}
 				}
 			}
@@ -286,13 +651,13 @@
 					textalignx				115
 					textaligny				-5
 					textscale				.25        
-					forecolor				.2 1 .2 1
+					forecolor				0.8 0.8 0.8 1
 					backcolor				0 0 0 0
-					forecolor				1 0.2 0.2 1
+					//forecolor				1 0.2 0.2 1
 					border					0
 					bordercolor				0 0 0 0
-					descText				"Increase's blaster's rate of fire."
-					visible					1
+					//descText				"Increase's blaster's rate of fire."
+					visible					0
 					action 
 					{ 
 						play			"sound/interface/button1.wav" ;
@@ -300,11 +665,11 @@
 
 					mouseenter 
 					{ 
-						setitemcolor	blasterrateoffire forecolor .7 1 2. 1
+						setitemcolor	blasterrateoffire forecolor 1 1 1 1
 					}
 					mouseexit 
 					{ 
-						setitemcolor	blasterrateoffire forecolor .2 1 .2 1
+						setitemcolor	blasterrateoffire forecolor 0.8 0.8 0.8 1
 					}
 				}
 				
@@ -320,26 +685,55 @@
 					textaligny				0
 					font					4
 					textscale				1
-					forecolor				.2 1 .2 1
-					outlinecolor			1 .5 .5 .5
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
 					backcolor				0 0 0 0
 					border					0
 					bordercolor				0 0 0 0
-					visible					1
+					visible					0
 					decoration
 				}
 				//[/BlasterRateOfFireUpgrade]
 			}
 			
+		}
+		
+		
+		itemDef 
+		{
+			name				heavyweaponstitle
+			group				heavywpgroup
+			style				0	
+			text				"Heavy Weapons"
+			rect				325 73 0 0
+			textalign			ITEM_ALIGN_LEFT		
+			textalignx			0
+			textaligny			0
+			outlinecolor			1 .5 .5 .5
+			backcolor			0.3 0.3 0.3 1
+			font				4
+			textscale		   	1 
+			forecolor			0 0 0.8 1
+			border				0
+			bordercolor			0 0 0 0
+			visible				0 
+			decoration
+		}
+		stackPanel
+		{
+			rect		325 90 110 15
+			orientation	Vertical
+			
 			stackPanel
 			{
-				rect		20 130 110 15
+				rect		20 90 110 15
 				orientation Horizontal
+				
 				// bowcaster title
 				itemDef 
 				{
 					name					setsk_bowcaster
-					group					gunpowers
+					group					heavywpgroup
 					style					0	
 					text					@OJP_MENUS_SKILL_BOWCASTER
 					rect					0 0 0 15
@@ -348,12 +742,12 @@
 					textaligny				0
 					font					4
 					textscale				1
-					forecolor				.2 1 .2 1
-					outlinecolor			1 .5 .5 .5
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
 					backcolor				0 0 0 0
 					border					0
 					bordercolor				0 0 0 0
-					visible					1 
+					visible					0 
 					decoration
 				}
 			
@@ -361,21 +755,20 @@
 				itemDef 
 				{
 					name					setsk_bowcaster
-					group					gunpowers
+					group					heavywpgroup
 					style					0	
 					ownerdraw				UI_FORCE_RANK_BOWCASTER
-					rect					20 130 175 15
+					rect					20 90 175 15
 					textalign				ITEM_ALIGN_LEFT		
 					textalignx				115
 					textaligny				-5
-					textscale				.25        
-					forecolor				.2 1 .2 1
-					backcolor				0 0 0 0
-					forecolor				1 0.2 0.2 1
+					textscale				.25  
+					backcolor				0 0 0 0					
+					forecolor				0.8 0.8 0.8 1
 					border					0
 					bordercolor				0 0 0 0
-					descText				@OJP_MENUS_DESC_SKILL_BOWCASTER
-					visible					1 
+					//descText				@OJP_MENUS_DESC_SKILL_BOWCASTER
+					visible					0 
 					action 
 					{ 
 						play			"sound/interface/button1.wav" ;
@@ -383,509 +776,619 @@
 
 					mouseenter 
 					{ 
-						setitemcolor	setsk_bowcaster forecolor .7 1 2. 1
+						setitemcolor	setsk_bowcaster forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_bowcaster"
+						show			weapon_desc
+						setitemtext		weapon_desc	@SP_INGAME_BOWCASTER_DESC
 					}
 					mouseexit 
 					{ 
-						setitemcolor	setsk_bowcaster forecolor .2 1 .2 1
+						setitemcolor	setsk_bowcaster forecolor 0.8 0.8 0.8 1
+					}
+				}
+			}
+			stackPanel
+			{
+				rect		20 105 110 15
+				orientation Horizontal
+				// rocket title
+				itemDef 
+				{
+					name					setsk_rocket
+					group					heavywpgroup
+					style					0	
+					text					@OJP_MENUS_SKILL_ROCKET
+					rect					0 0 0 15
+					textalign				ITEM_ALIGN_LEFT												
+					textalignx				0
+					textaligny				0
+					font					4
+					textscale				1
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					visible					0
+					decoration
+				}
+	
+				// rocket assign
+				itemDef 
+				{
+					name					setsk_rocket
+					group					heavywpgroup
+					style					0	
+					ownerdraw				UI_FORCE_RANK_ROCKETS
+					rect					20 105 175 15
+					textalign				ITEM_ALIGN_LEFT		
+					textalignx				115
+					textaligny				-5
+					textscale				.25        
+					forecolor				0.8 0.8 0.8 1
+					backcolor				0 0 0 0
+					//forecolor				1 0.2 0.2 1
+					border					0
+					bordercolor				0 0 0 0
+					//descText				@OJP_MENUS_DESC_SKILL_ROCKET
+					visible					0 
+					action 
+					{ 
+						play			"sound/interface/button1.wav" ;
+					}
+	
+					mouseenter 
+					{ 
+						setitemcolor	setsk_rocket forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_merrsonn"
+						show			weapon_desc
+						setitemtext		weapon_desc	@SP_INGAME_MERR_SONN_DESC
+					}
+					mouseexit 
+					{ 
+						setitemcolor	setsk_rocket forecolor 0.8 0.8 0.8 1
+					}
+				}
+			}
+			stackPanel
+			{
+				rect		20 130 110 15
+				orientation Horizontal
+				// repeater title
+				itemDef 
+				{
+					name					setsk_repeater
+					group					heavywpgroup
+					style					0	
+					text					@OJP_MENUS_SKILL_REPEATER
+					rect					0 0 0 15
+					textalign				ITEM_ALIGN_LEFT												
+					textalignx				0
+					textaligny				0
+					font					4
+					textscale				1
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					visible					0 
+					decoration
+				}
+			
+				// repeater assign
+				itemDef 
+				{
+					name					setsk_repeater
+					group					heavywpgroup
+					style					0	
+					ownerdraw				UI_FORCE_RANK_REPEATER
+					rect					20 130 175 15
+					textalign				ITEM_ALIGN_LEFT		
+					textalignx				115
+					textaligny				-5
+					textscale				.25        
+					forecolor				0.8 0.8 0.8 1
+					backcolor				0 0 0 0
+					//forecolor				1 0.2 0.2 1
+					border					0
+					bordercolor				0 0 0 0
+					//descText				@OJP_MENUS_DESC_SKILL_REPEATER
+					visible					0 
+					action 
+					{ 
+						play			"sound/interface/button1.wav" ;
+					}
+	
+					mouseenter 
+					{ 
+						setitemcolor	setsk_repeater forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_repeater"
+						show			weapon_desc
+						setitemtext		weapon_desc	@SP_INGAME_HEAVYREPEATER_DESC
+					}
+					mouseexit 
+					{ 
+						setitemcolor	setsk_repeater forecolor 0.8 0.8 0.8 1
+					}
+				}
+			
+				// repeater upgrade by t3h 1337 DarthDie ;) MERRY CHRISTMAS
+				//[RepeaterUpgrade]
+				itemDef 
+				{
+					name					repeaterupgrade
+					group					repeaterupgradeg
+					style					0	
+					ownerdraw				UI_FORCE_RANK_REPEATERUPGRADE  
+					rect					30 145 175 15
+					textalign				ITEM_ALIGN_LEFT		
+					textalignx				115
+					textaligny				-5
+					textscale				.25        
+					forecolor				0.8 0.8 0.8 1
+					backcolor				0 0 0 0
+					forecolor				1 0.2 0.2 1
+					border					0
+					bordercolor				0 0 0 0
+					//descText				"Increase's amount of bullets clone rifle reloads per 0.1 to 4 bullets."
+					visible					1
+					action 
+					{ 
+						play			"sound/interface/button1.wav" ;
+					}
+	
+					mouseenter 
+					{ 
+						setitemcolor	repeaterupgrade forecolor 1 1 1 1
+					}
+					mouseexit 
+					{ 
+						setitemcolor	repeaterupgrade forecolor 0.8 0.8 0.8 1
+					}
+				}
+			
+				itemDef 
+				{
+					name					repeaterupgrade
+					group					repeaterupgradeg
+					style					0	
+					text					"Reload Upgrade"
+					rect					30 195 110 15
+					textalign				ITEM_ALIGN_LEFT												
+					textalignx				0
+					textaligny				0
+					font					4
+					textscale				1
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					visible					1
+					decoration
+				}
+				//[/RepeaterUpgrade]
+			}
+			stackPanel
+			{
+				rect		20 160 110 15
+				orientation Horizontal
+				// disruptor title by JRHockney
+				itemDef 
+				{
+					name					setsk_disruptor
+					group					heavywpgroup
+					style					0	
+					text					@OJP_MENUS_SKILL_DISRUPTOR
+					rect					0 0 0 15
+					textalign				ITEM_ALIGN_LEFT												
+					textalignx				0
+					textaligny				0
+					font					4
+					textscale				1
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					visible					0 
+					decoration
+				}
+			
+					// diruptor assign by JRHockney
+				itemDef 
+				{
+					name					setsk_disruptor
+					group					heavywpgroup
+					style					0	
+					ownerdraw				UI_FORCE_RANK_DISRUPTOR   
+					rect					20 160 175 15
+					textalign				ITEM_ALIGN_LEFT		
+					textalignx				115
+					textaligny				-5
+					textscale				.25        
+					forecolor				0.8 0.8 0.8 1
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					//descText				@OJP_MENUS_DESC_SKILL_DISRUPTOR
+					visible					0
+					action 
+					{ 
+						play			"sound/interface/button1.wav" ;
+					}
+	
+					mouseenter 
+					{ 
+						setitemcolor	setsk_disruptor forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_disruptor"
+						show			weapon_desc
+						setitemtext		weapon_desc	@SP_INGAME_DISRUPTOR_RIFLE_DESC
+					}
+					mouseexit 
+					{ 
+						setitemcolor	setsk_disruptor forecolor 0.8 0.8 0.8 1
+					}
+				}
+			}
+			stackPanel
+			{
+				rect		20 175 110 15
+				orientation Horizontal
+				// t-21 title
+				itemDef 
+				{
+					name					setsk_flechette
+					group					heavywpgroup
+					style					0	
+					text					"T-21"
+					rect					0 0 0 15
+					textalign				ITEM_ALIGN_LEFT												
+					textalignx				0
+					textaligny				0
+					font					4
+					textscale				1
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					visible					0 
+					decoration
+				}
+			
+				// t-21 assign
+				itemDef 
+				{
+					name					setsk_flechette
+					group					heavywpgroup
+					style					0	
+					ownerdraw				UI_FORCE_RANK_FLECHETTE  
+					rect					20 175 175 15
+					textalign				ITEM_ALIGN_LEFT		
+					textalignx				115
+					textaligny				-5
+					textscale				.25        
+					forecolor				0.8 0.8 0.8 1
+					backcolor				0 0 0 0
+					//forecolor				1 0.2 0.2 1
+					border					0
+					bordercolor				0 0 0 0
+					//descText				"Gains the T-21 shotgun.  Rapid secondary fire."
+					visible					0 
+					action 
+					{ 
+						play			"sound/interface/button1.wav" ;
+					}
+	
+					mouseenter 
+					{ 
+						setitemcolor	setsk_flechette forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_flechette"
+						show			weapon_desc
+						//setitemtext		weapon_desc	@SP_INGAME_FLECHETTE_DESC
+						setitemtext		weapon_desc 	"Gains the T-21 shotgun.  Rapid secondary fire."
+					}
+					mouseexit 
+					{ 
+						setitemcolor	setsk_flechette forecolor 0.8 0.8 0.8 1
+					}
+				}
+			}
+			stackPanel
+			{
+				rect		20 190 110 15
+				orientation Horizontal
+				// tusken rifle title
+				itemDef 
+				{
+					name					setsk_tusken_rifle
+					group					heavywpgroup
+					style					0	
+					text					"Tusken rifle:"
+					rect					0 0 0 15
+					textalign				ITEM_ALIGN_LEFT												
+					textalignx				0
+					textaligny				0
+					font					4
+					textscale				1
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					visible					0 
+					decoration
+				}
+		
+				// detpack assign
+				itemDef 
+				{
+					name					setsk_tusken_rifle
+					group					heavywpgroup
+					style					0	
+					ownerdraw				UI_FORCE_RANK_TUSKEN_RIFLE
+					rect					20 190 175 15
+					textalign				ITEM_ALIGN_LEFT		
+					textalignx				115
+					textaligny				-5
+					textscale				.25        
+					forecolor				0.8 0.8 0.8 1
+					backcolor				0 0 0 0
+					//forecolor				1 0.2 0.2 1
+					border					0
+					bordercolor				0 0 0 0
+					//descText				"Menu desc about tusken, add mah to string file!"
+					visible					0
+					action 
+					{ 
+						play			"sound/interface/button1.wav" ;
+					}
+	
+					mouseenter 
+					{ 
+						setitemcolor	setsk_tusken_rifle forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_tuskenrifle"
+						show			weapon_desc
+						setitemtext		weapon_desc	"Menu desc about tusken, add mah to string file!"
+					}
+					mouseexit 
+					{ 
+						setitemcolor	setsk_tusken_rifle forecolor 0.8 0.8 0.8 1
+					}
+				}
+			}
+			stackPanel
+			{
+				rect		20 220 110 15
+				orientation Horizontal
+				// Jetpack title
+				itemDef 
+				{
+					name					setsk_jetpack
+					group					heavywpgroup
+					style					0	
+					text					@OJP_MENUS_SKILL_JETPACK
+					rect					0 0 0 15
+					textalign				ITEM_ALIGN_LEFT												
+					textalignx				0
+					textaligny				0
+					font					4
+					textscale				1
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					visible					0
+					decoration
+				}
+	
+				
+			
+				// Jetpack assign
+				itemDef 
+				{
+					name					setsk_jetpack
+					group					heavywpgroup
+					style					0	
+					ownerdraw				UI_FORCE_RANK_JETPACK
+					rect					0 220 175 15
+					textalign				ITEM_ALIGN_LEFT		
+					textalignx				115
+					textaligny				-5
+					textscale				.25        
+					//forecolor				.2 1 .2 1
+					backcolor				0 0 0 0
+					forecolor				0.8 0.8 0.8 1
+					border					0
+					bordercolor				0 0 0 0
+					//descText				@OJP_MENUS_DESC_SKILL_JETPACK
+					visible					0
+					action 
+					{ 
+						play			"sound/interface/button1.wav" ;
+					}
+
+					mouseenter 
+					{ 
+						setitemcolor	setsk_jetpack forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/i_icon_jetpack2"
+						show			weapon_desc
+						setitemtext		weapon_desc	@MENUS_JETPACK_DESC
+					}
+					mouseexit 
+					{ 
+						setitemcolor	setsk_jetpack forecolor	0.8 0.8 0.8 1
 					}
 				}
 			}
 		}
-		
-		
-		itemDef 
+			
+			itemDef 
+			{
+				name				explosivestitle
+				group				explosivesgroup
+				style				0	
+				text				"Explosives"
+				rect				325 73 0 0
+				textalign			ITEM_ALIGN_LEFT		
+				textalignx			0
+				textaligny			0
+				outlinecolor		1 .5 .5 .5
+				backcolor			0.3 0.3 0.3 1
+				font				4
+				textscale		   	1 
+				forecolor			0.8 0 0 1
+				border				0
+				bordercolor			0 0 0 0
+				visible				0
+				decoration
+			}
+			
+		stackPanel
 		{
-			name				heavyweapz
-			group				"playersettingforcegroup"
-			style				0	
-			text				"Heavy Weapons"
-			rect				20 145 0 0
-			textalign			ITEM_ALIGN_LEFT		
-			textalignx			0
-			textaligny			0
-			outlinecolor		1 .5 .5 .5
-			backcolor			0.3 0.3 0.3 1
-			font				4
-			textscale		   	1 
-			forecolor			0 0.8 0.4 1
-			border				0
-			bordercolor			0 0 0 0
-			visible				1 
-			decoration
-		}
-		
-		
-		// rocket title
-		itemDef 
-		{
-			name					setsk_rocket
-			group					gunpowers
-			style					0	
-			text					@OJP_MENUS_SKILL_ROCKET
-			rect					20 160 110 15
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1 
-			decoration
-		}
+			rect		325 90 110 15
+			orientation	Vertical
+			stackPanel
+			{
+				rect		20 90 110 15
+				orientation	Horizontal
+				
+				// thermal title
+				itemDef 
+				{
+				name					setsk_thermal
+				group					explosivesgroup
+				style					0	
+				text					@OJP_MENUS_SKILL_THERMALS
+				rect					0 0 0 15
+				textalign				ITEM_ALIGN_LEFT												
+				textalignx				0
+				textaligny				0
+				font					4
+				textscale				1
+				forecolor				0.8 0.8 0.8 1
+				outlinecolor				1 .5 .5 .5
+				backcolor				0 0 0 0
+				border					0
+				bordercolor				0 0 0 0
+				visible					0 
+				decoration
+				}
 	
-		// rocket assign
-		itemDef 
-		{
-			name					setsk_rocket
-			group					gunpowers
-			style					0	
-			ownerdraw				UI_FORCE_RANK_ROCKETS
-			rect					20 160 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_ROCKET
-			visible					1 
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
+				// thermal assign
+				itemDef 
+				{
+					name					setsk_thermal
+					group					explosivesgroup
+					style					0	
+					ownerdraw				UI_FORCE_RANK_THERMALS
+					rect					20 90 175 15
+					textalign				ITEM_ALIGN_LEFT		
+					textalignx				115
+					textaligny				-5
+					textscale				.25        
+					forecolor				0.8 0.8 0.8 1
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					//descText				@OJP_MENUS_DESC_SKILL_THERMALS
+					visible					0 
+					action 
+					{ 
+						play			"sound/interface/button1.wav" ;
+					}
 
-			mouseenter 
-			{ 
-				setitemcolor	setsk_rocket forecolor .7 1 2. 1
+					mouseenter 
+					{ 
+						setitemcolor	setsk_thermal forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_thermal"
+						show			weapon_desc
+						setitemtext		weapon_desc	@SP_INGAME_THERMAL_DETONATOR_DESC
+					}
+					mouseexit 
+					{ 
+						setitemcolor	setsk_thermal forecolor	0.8 0.8 0.8 1
+					}
+				}
 			}
-			mouseexit 
-			{ 
-				setitemcolor	setsk_rocket forecolor .2 1 .2 1
-			}
-		}
-		
-		// repeater title
-		itemDef 
-		{
-			name					setsk_repeater
-			group					gunpowers
-			style					0	
-			text					@OJP_MENUS_SKILL_REPEATER
-			rect					20 180 110 15
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1 
-			decoration
-		}
-		
-		// repeater assign
-		itemDef 
-		{
-			name					setsk_repeater
-			group					gunpowers
-			style					0	
-			ownerdraw				UI_FORCE_RANK_REPEATER
-			rect					20 180 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_REPEATER
-			visible					1 
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
-
-			mouseenter 
-			{ 
-				setitemcolor	setsk_repeater forecolor .7 1 2. 1
-			}
-			mouseexit 
-			{ 
-				setitemcolor	setsk_repeater forecolor .2 1 .2 1
-			}
-		}
-		
-		// repeater upgrade by t3h 1337 DarthDie ;) MERRY CHRISTMAS
-		//[RepeaterUpgrade]
-		itemDef 
-		{
-			name					repeaterupgrade
-			group					repeaterupgradeg
-			style					0	
-			ownerdraw				UI_FORCE_RANK_REPEATERUPGRADE  
-			rect					30 195 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				"Increase's amount of bullets clone rifle reloads per 0.1 to 4 bullets."
-			visible					1
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
-
-			mouseenter 
-			{ 
-				setitemcolor	repeaterupgrade forecolor .7 1 2. 1
-			}
-			mouseexit 
-			{ 
-				setitemcolor	repeaterupgrade forecolor .2 1 .2 1
-			}
-		}
-		
-		itemDef 
-		{
-			name					repeaterupgrade
-			group					repeaterupgradeg
-			style					0	
-			text					"Reload Upgrade"
-			rect					30 195 110 15
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1
-			decoration
-		}
-		//[/RepeaterUpgrade]
-		
-		
-		// disruptor title by JRHockney
-		itemDef 
-		{
-			name					setsk_disruptor
-			group					gunpowers
-			style					0	
-			text					@OJP_MENUS_SKILL_DISRUPTOR
-			rect					20 210 110 15
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1 
-			decoration
-		}
-		
-				// diruptor assign by JRHockney
-		itemDef 
-		{
-			name					setsk_disruptor
-			group					gunpowers
-			style					0	
-			ownerdraw				UI_FORCE_RANK_DISRUPTOR   
-			rect					20 210 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_DISRUPTOR
-			visible					1 
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
-
-			mouseenter 
-			{ 
-				setitemcolor	setsk_disruptor forecolor .7 1 2. 1
-			}
-			mouseexit 
-			{ 
-				setitemcolor	setsk_disruptor forecolor .2 1 .2 1
-			}
-		}
-		
-		// t-21 title
-		itemDef 
-		{
-			name					setsk_flechette
-			group					gunpowers
-			style					0	
-			text					"T-21"
-			rect					20 225 110 15
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1 
-			decoration
-		}
-		
-		// t-21 assign
-		itemDef 
-		{
-			name					setsk_flechette
-			group					gunpowers
-			style					0	
-			ownerdraw				UI_FORCE_RANK_FLECHETTE  
-			rect					20 225 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				"Gains the T-21 shotgun.  Rapid secondary fire."
-			visible					1 
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
-
-			mouseenter 
-			{ 
-				setitemcolor	setsk_flechette forecolor .7 1 2. 1
-			}
-			mouseexit 
-			{ 
-				setitemcolor	setsk_flechette forecolor .2 1 .2 1
-			}
-		}
-		
-		itemDef 
-		{
-			name				explosvies
-			group				"playersettingforcegroup"
-			style				0	
-			text				"Explosives"
-			rect				20 240 0 0
-			textalign			ITEM_ALIGN_LEFT		
-			textalignx			0
-			textaligny			0
-			outlinecolor		1 .5 .5 .5
-			backcolor			0.3 0.3 0.3 1
-			font				4
-			textscale		   	1 
-			forecolor			0 0.8 0.4 1
-			border				0
-			bordercolor			0 0 0 0
-			visible				1 
-			decoration
-		}
-		
-		// thermal title
-		itemDef 
-		{
-			name					setsk_thermal
-			group					gunpowers
-			style					0	
-			text					@OJP_MENUS_SKILL_THERMALS
-			rect					20 255 110 10
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1 
-			decoration
-		}
+			stackPanel
+			{
+				rect		20 105 110 35
+				orientation	Horizontal
+				// detpack title
+				itemDef 
+				{
+					name					setsk_detpack
+					group					explosivesgroup
+					style					0	
+					text					@OJP_MENUS_SKILL_DETPACK
+					rect					0 0 0 15
+					textalign				ITEM_ALIGN_LEFT												
+					textalignx				0
+					textaligny				0
+					font					4
+					textscale				1
+					forecolor				0.8 0.8 0.8 1
+					outlinecolor				1 .5 .5 .5
+					backcolor				0 0 0 0
+					border					0
+					bordercolor				0 0 0 0
+					visible					0 
+					decoration
+				}
 	
-		// thermal assign
-		itemDef 
-		{
-			name					setsk_thermal
-			group					gunpowers
-			style					0	
-			ownerdraw				UI_FORCE_RANK_THERMALS
-			rect					20 255 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_THERMALS
-			visible					1 
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
+				// detpack assign
+				itemDef 
+				{
+					name					setsk_detpack
+					group					explosivesgroup
+					style					0	
+					ownerdraw				UI_FORCE_RANK_DETPACK
+					rect					20 110 175 15
+					textalign				ITEM_ALIGN_LEFT		
+					textalignx				115
+					textaligny				-5
+					textscale				.25        
+					forecolor				0.8 0.8 0.8 1
+					backcolor				0 0 0 0
+					//forecolor				1 0.2 0.2 1
+					border					0
+					bordercolor				0 0 0 0
+					//descText				@OJP_MENUS_DESC_SKILL_DETPACK
+					visible					0
+					action 
+					{ 
+						play			"sound/interface/button1.wav" ;
+					}
 
-			mouseenter 
-			{ 
-				setitemcolor	setsk_thermal forecolor .7 1 2. 1
-			}
-			mouseexit 
-			{ 
-				setitemcolor	setsk_thermal forecolor .2 1 .2 1
-			}
-		}
-		
-		// detpack title
-		itemDef 
-		{
-			name					setsk_detpack
-			group					gunpowers
-			style					0	
-			text					@OJP_MENUS_SKILL_DETPACK
-			rect					20 270 110 15
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1 
-			decoration
-		}
-	
-		// detpack assign
-		itemDef 
-		{
-			name					setsk_detpack
-			group					gunpowers
-			style					0	
-			ownerdraw				UI_FORCE_RANK_DETPACK
-			rect					20 270 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_DETPACK
-			visible					1 
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
-
-			mouseenter 
-			{ 
-				setitemcolor	setsk_detpack forecolor .7 1 2. 1
-			}
-			mouseexit 
-			{ 
-				setitemcolor	setsk_detpack forecolor .2 1 .2 1
+					mouseenter 
+					{ 
+						setitemcolor	setsk_detpack forecolor 1 1 1 1
+						show			weapon_icon
+						setitembackground	weapon_icon	"gfx/hud/w_icon_detpack"
+						show			weapon_desc
+						setitemtext		weapon_desc	@SP_INGAME_DET_PACK_DESC
+						
+					}
+					mouseexit 
+					{ 
+						setitemcolor	setsk_detpack forecolor	0.8 0.8 0.8 1
+					}
+				}
 			}
 		}
 
-		// tusken rifle title
-		itemDef 
-		{
-			name					setsk_tusken_rifle
-			group					gunpowers
-			style					0	
-			text					"Tusken rifle:"
-			rect					20 285 110 15
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1 
-			decoration
-		}
-	
-		// detpack assign
-		itemDef 
-		{
-			name					setsk_tusken_rifle
-			group					gunpowers
-			style					0	
-			ownerdraw				UI_FORCE_RANK_TUSKEN_RIFLE
-			rect					20 285 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				"Menu desc about tusken, add mah to string file!"
-			visible					1 
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
-
-			mouseenter 
-			{ 
-				setitemcolor	setsk_tusken_rifle forecolor .7 1 2. 1
-			}
-			mouseexit 
-			{ 
-				setitemcolor	setsk_tusken_rifle forecolor .2 1 .2 1
-			}
-		}
 		
 	// Second Column
 	
@@ -896,43 +1399,43 @@
 	// Force Ranks title		
 		itemDef 
 		{
-			name				forceranktitle
-			group				"playersettingforcegroup"
+			name				gadgetstitle
+			group				gadgetsgroup
 			style				0	
 			text				"Gadgets"
-			rect				270 75 0 0
+			rect				325 73 0 0
 			textalign			ITEM_ALIGN_LEFT		
 			textalignx			0
 			textaligny			0
-			outlinecolor		1 .5 .5 .5
+			outlinecolor			1 .5 .5 .5
 			backcolor			0.3 0.3 0.3 1
 			font				4
 			textscale		   	1 
-			forecolor			0 0.8 0.4 1
+			forecolor			0 0.8 0 1
 			border				0
 			bordercolor			0 0 0 0
-			visible				1 
+			visible				0
 			decoration
 		}
 
 		itemDef 
 		{
-			name				forceranktitle2
+			name				numerostitle
 			group				"playersettingforcegroup"
 			style				0	
 			text				@MENUS_1_2_3
-			rect				270 75 0 0
+			rect				325 73 0 0
 			textalign			ITEM_ALIGN_LEFT
 			textalignx			115
 			textaligny			0
-			outlinecolor		1 .5 .5 .5
+			outlinecolor			1 .5 .5 .5
 			backcolor			0.3 0.3 0.3 1
 			font				4
-			textscale		    1
-			forecolor			0 0.8 0.4 1
+			textscale			    1
+			forecolor			0.5 0.5 0.5 1
 			border				0
 			bordercolor			0 0 0 0
-			visible				1 
+			visible				1
 			decoration
 		}
 		
@@ -940,21 +1443,21 @@
 		itemDef 
 		{
 			name					setsk_bacta
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			text					@OJP_MENUS_SKILL_BACTA
-			rect					270 90 110 15
+			rect					325 90 110 15
 			textalign				ITEM_ALIGN_LEFT												
 			textalignx				0
 			textaligny				0
 			font					4
 			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
+			forecolor				0.8 0.8 0.8 1
+			outlinecolor				1 .5 .5 .5
 			backcolor				0 0 0 0
 			border					0
 			bordercolor				0 0 0 0
-			visible					1 
+			visible					0 
 			decoration
 		}
 	
@@ -962,21 +1465,21 @@
 		itemDef 
 		{
 			name					setsk_bacta
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			ownerdraw				UI_FORCE_RANK_BACTA
-			rect					270 90 175 15
+			rect					325 90 175 15
 			textalign				ITEM_ALIGN_LEFT		
 			textalignx				115
 			textaligny				-5
 			textscale				.25        
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
+			//forecolor				1 0.2 0.2 1
 			border					0
 			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_BACTA
-			visible					1 
+			//descText				@OJP_MENUS_DESC_SKILL_BACTA
+			visible					0 
 			action 
 			{ 
 				play			"sound/interface/button1.wav" ;
@@ -984,89 +1487,39 @@
 
 			mouseenter 
 			{ 
-				setitemcolor	setsk_bacta forecolor .7 1 2. 1
+				setitemcolor	setsk_bacta forecolor 1 1 1 1
+				show			weapon_icon
+				setitembackground	weapon_icon	"gfx/hud/i_icon_bacta2"
+				show			weapon_desc
+				setitemtext		weapon_desc	@MENUS_BACTA_CANISTERS_ARE_PORTABLE
 			}
 			mouseexit 
 			{ 
-				setitemcolor	setsk_bacta forecolor .2 1 .2 1
+				setitemcolor	setsk_bacta forecolor 0.8 0.8 0.8 1
 			}
 		}
 		
-		// Jetpack title
-		itemDef 
-		{
-			name					setsk_jetpack
-			group					gunpowers
-			style					0	
-			text					@OJP_MENUS_SKILL_JETPACK
-			rect					270 105 110 15
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1 
-			decoration
-		}
-	
-		// Jetpack assign
-		itemDef 
-		{
-			name					setsk_jetpack
-			group					gunpowers
-			style					0	
-			ownerdraw				UI_FORCE_RANK_JETPACK
-			rect					270 105 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_JETPACK
-			visible					1 
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
-
-			mouseenter 
-			{ 
-				setitemcolor	setsk_jetpack forecolor .7 1 2. 1
-			}
-			mouseexit 
-			{ 
-				setitemcolor	setsk_jetpack forecolor .2 1 .2 1
-			}
-		}
+		
 		
 		// force field title
 		itemDef 
 		{
 			name					setsk_forcefield
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			text					@OJP_MENUS_SKILL_FORCEFIELD
-			rect					270 120 110 15
+			rect					325 105 110 15
 			textalign				ITEM_ALIGN_LEFT												
 			textalignx				0
 			textaligny				0
 			font					4
 			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
+			forecolor				0.8 0.8 0.8 1
+			outlinecolor				1 .5 .5 .5
 			backcolor				0 0 0 0
 			border					0
 			bordercolor				0 0 0 0
-			visible					1 
+			visible					0 
 			decoration
 		}
 	
@@ -1074,21 +1527,21 @@
 		itemDef 
 		{
 			name					setsk_forcefield
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			ownerdraw				UI_FORCE_RANK_FORCEFIELD
-			rect					270 120 175 15
+			rect					325 105 175 15
 			textalign				ITEM_ALIGN_LEFT		
 			textalignx				115
 			textaligny				-5
 			textscale				.25        
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
+			//forecolor				1 0.2 0.2 1
 			border					0
 			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_FORCEFIELD
-			visible					1 
+			//descText				@OJP_MENUS_DESC_SKILL_FORCEFIELD
+			visible					0 
 			action 
 			{ 
 				play			"sound/interface/button1.wav" ;
@@ -1096,11 +1549,15 @@
 
 			mouseenter 
 			{ 
-				setitemcolor	setsk_forcefield forecolor .7 1 2. 1
+				setitemcolor	setsk_forcefield forecolor 1 1 1 1
+				show			weapon_icon
+				setitembackground	weapon_icon	"gfx/hud/i_icon_shieldwall2"
+				show			weapon_desc
+				setitemtext		weapon_desc	@MENUS_THIS_STATIONARY_ENERGY
 			}
 			mouseexit 
 			{ 
-				setitemcolor	setsk_forcefield forecolor .2 1 .2 1
+				setitemcolor	setsk_forcefield forecolor 0.8 0.8 0.8 1
 			}
 		}
 		
@@ -1108,21 +1565,21 @@
 		itemDef 
 		{
 			name					setsk_cloak
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			text					@OJP_MENUS_SKILL_CLOAK
-			rect					270 135 110 15
+			rect					325 120 110 15
 			textalign				ITEM_ALIGN_LEFT												
 			textalignx				0
 			textaligny				0
 			font					4
 			textscale				1
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			outlinecolor			1 .5 .5 .5
 			backcolor				0 0 0 0
 			border					0
 			bordercolor				0 0 0 0
-			visible					1 
+			visible					0
 			decoration
 		}
 	
@@ -1130,21 +1587,21 @@
 		itemDef 
 		{
 			name					setsk_cloak
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			ownerdraw				UI_FORCE_RANK_CLOAK
-			rect					270 135 175 15
+			rect					325 120 175 15
 			textalign				ITEM_ALIGN_LEFT		
 			textalignx				115
 			textaligny				-5
 			textscale				.25        
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
+			//forecolor				1 0.2 0.2 1
 			border					0
 			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_CLOAK
-			visible					1 
+			//descText				@OJP_MENUS_DESC_SKILL_CLOAK
+			visible					0 
 			action 
 			{ 
 				play			"sound/interface/button1.wav" ;
@@ -1152,11 +1609,15 @@
 
 			mouseenter 
 			{ 
-				setitemcolor	setsk_cloak forecolor .7 1 2. 1
+				setitemcolor	setsk_cloak forecolor 1 1 1 1
+				show			weapon_icon
+				setitembackground	weapon_icon	"gfx/hud/i_icon_cloak2"
+				show			weapon_desc
+				setitemtext		weapon_desc	@MENUS_CLOAK_DESC
 			}
 			mouseexit 
 			{ 
-				setitemcolor	setsk_cloak forecolor .2 1 .2 1
+				setitemcolor	setsk_cloak forecolor 0.8 0.8 0.8 1
 			}
 		}
 		
@@ -1165,21 +1626,21 @@
 		itemDef 
 		{
 			name					setsk_flamethrower
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			text					@OJP_MENUS_SKILL_FLAMETHROWER
-			rect					270 150 110 15
+			rect					325 135 110 15
 			textalign				ITEM_ALIGN_LEFT												
 			textalignx				0
 			textaligny				0
 			font					4
 			textscale				1
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			outlinecolor			1 .5 .5 .5
 			backcolor				0 0 0 0
 			border					0
 			bordercolor				0 0 0 0
-			visible					1 
+			visible					0 
 			decoration
 		}
 	
@@ -1187,21 +1648,21 @@
 		itemDef 
 		{
 			name					setsk_flamethrower
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			ownerdraw				UI_FORCE_RANK_FLAMETHROWER
-			rect					270 150 175 15
+			rect					325 135 175 15
 			textalign				ITEM_ALIGN_LEFT		
 			textalignx				115
 			textaligny				-5
 			textscale				.25        
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
+			//forecolor				1 0.2 0.2 1
 			border					0
 			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_FLAMETHROWER
-			visible					1 
+			//descText				@OJP_MENUS_DESC_SKILL_FLAMETHROWER
+			visible					0 
 			action 
 			{ 
 				play			"sound/interface/button1.wav" ;
@@ -1209,11 +1670,15 @@
 
 			mouseenter 
 			{ 
-				setitemcolor	setsk_flamethrower forecolor .7 1 2. 1
+				setitemcolor	setsk_flamethrower forecolor 1 1 1 1
+				show			weapon_icon
+				setitembackground	weapon_icon	"gfx/hud/i_icon_flamethrower"
+				show			weapon_desc
+				setitemtext		weapon_desc	@OJP_MENUS_DESC_SKILL_FLAMETHROWER
 			}
 			mouseexit 
 			{ 
-				setitemcolor	setsk_flamethrower forecolor .2 1 .2 1
+				setitemcolor	setsk_flamethrower forecolor 0.8 0.8 0.8 1
 			}
 		}
 		//[/Flamethrower]
@@ -1222,21 +1687,21 @@
 		itemDef 
 		{
 			name					setsk_seeker
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			text					@OJP_MENUS_SKILL_SEEKER
-			rect					270 165 110 15
+			rect					325 150 110 15
 			textalign				ITEM_ALIGN_LEFT												
 			textalignx				0
 			textaligny				0
 			font					4
 			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
+			forecolor				0.8 0.8 0.8 1
+			outlinecolor				1 .5 .5 .5
 			backcolor				0 0 0 0
 			border					0
 			bordercolor				0 0 0 0
-			visible					1 
+			visible					0 
 			decoration
 		}
 	
@@ -1244,21 +1709,21 @@
 		itemDef 
 		{
 			name					setsk_seeker
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			ownerdraw				UI_FORCE_RANK_SEEKER
-			rect					270 165 175 15
+			rect					325 150 175 15
 			textalign				ITEM_ALIGN_LEFT		
 			textalignx				115
 			textaligny				-5
 			textscale				.25        
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
+			//forecolor				1 0.2 0.2 1
 			border					0
 			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_SEEKER
-			visible					1 
+			//descText				@OJP_MENUS_DESC_SKILL_SEEKER
+			visible					0
 			action 
 			{ 
 				play			"sound/interface/button1.wav" ;
@@ -1266,11 +1731,15 @@
 
 			mouseenter 
 			{ 
-				setitemcolor	setsk_seeker forecolor .7 1 2. 1
+				setitemcolor	setsk_seeker forecolor 1 1 1 1
+				show			weapon_icon
+				setitembackground	weapon_icon	"gfx/hud/i_icon_seeker2"
+				show			weapon_desc
+				setitemtext		weapon_desc	@MENUS_AN_ATTACK_DRONE_SIMILAR
 			}
 			mouseexit 
 			{ 
-				setitemcolor	setsk_seeker forecolor .2 1 .2 1
+				setitemcolor	setsk_seeker forecolor 0.8 0.8 0.8 1
 			}
 		}
 		
@@ -1278,21 +1747,21 @@
 		itemDef 
 		{
 			name					setsk_sentry
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			text					@OJP_MENUS_SKILL_SENTRY
-			rect					270 180 110 15
+			rect					325 165 110 15
 			textalign				ITEM_ALIGN_LEFT												
 			textalignx				0
 			textaligny				0
 			font					4
 			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
+			forecolor				0.8 0.8 0.8 1
+			outlinecolor				1 .5 .5 .5
 			backcolor				0 0 0 0
 			border					0
 			bordercolor				0 0 0 0
-			visible					1 
+			visible					0 
 			decoration
 		}
 	
@@ -1300,21 +1769,21 @@
 		itemDef 
 		{
 			name					setsk_sentry
-			group					gunpowers
+			group					gadgetsgroup
 			style					0	
 			ownerdraw				UI_FORCE_RANK_SENTRY
-			rect					270 180 175 15
+			rect					325 165 175 15
 			textalign				ITEM_ALIGN_LEFT		
 			textalignx				115
 			textaligny				-5
 			textscale				.25        
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			backcolor				0 0 0 0
 			forecolor				1 0.2 0.2 1
 			border					0
 			bordercolor				0 0 0 0
-			descText				@OJP_MENUS_DESC_SKILL_SENTRY
-			visible					1 
+			//descText				@OJP_MENUS_DESC_SKILL_SENTRY
+			visible					0
 			action 
 			{ 
 				play			"sound/interface/button1.wav" ;
@@ -1322,86 +1791,36 @@
 
 			mouseenter 
 			{ 
-				setitemcolor	setsk_sentry forecolor .7 1 2. 1
+				setitemcolor	setsk_sentry forecolor 1 1 1 1
+				show			weapon_icon
+				setitembackground	weapon_icon	"gfx/hud/i_icon_sentrygun2"
+				show			weapon_desc
+				setitemtext		weapon_desc	@MENUS_THIS_DEADLY_WEAPON_IS
 			}
 			mouseexit 
 			{ 
-				setitemcolor	setsk_sentry forecolor .2 1 .2 1
+				setitemcolor	setsk_sentry forecolor 0.8 0.8 0.8 1
 			}
 		}
 		
-		// shield title
-		itemDef 
-		{
-			name					setsk_shield
-			group					gunpowers
-			style					0	
-			text					"Shields:"
-			rect					270 195 110 15
-			textalign				ITEM_ALIGN_LEFT												
-			textalignx				0
-			textaligny				0
-			font					4
-			textscale				1
-			forecolor				.2 1 .2 1
-			outlinecolor			1 .5 .5 .5
-			backcolor				0 0 0 0
-			border					0
-			bordercolor				0 0 0 0
-			visible					1 
-			decoration
-		}
-	
-		// shield assign
-		itemDef 
-		{
-			name					setsk_shield
-			group					gunpowers
-			style					0	
-			ownerdraw				UI_FORCE_RANK_SHIELD
-			rect					270 195 175 15
-			textalign				ITEM_ALIGN_LEFT		
-			textalignx				115
-			textaligny				-5
-			textscale				.25        
-			forecolor				.2 1 .2 1
-			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
-			border					0
-			bordercolor				0 0 0 0
-			descText				"Gives the user shields, which help protect the user from damage"
-			visible					1 
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ;
-			}
-
-			mouseenter 
-			{ 
-				setitemcolor	setsk_shield forecolor .7 1 2. 1
-			}
-			mouseexit 
-			{ 
-				setitemcolor	setsk_shield forecolor .2 1 .2 1
-			}
-		}
+		
 		
 		itemDef 
 		{
-			name				forceranktitle
+			name				attributetitle
 			group				"playersettingforcegroup"
 			style				0	
 			text				"Attribute Upgrades"
-			rect				270 240 0 0
+			rect				325 220 0 0
 			//rect				100 100 0 0
 			textalign			ITEM_ALIGN_LEFT		
 			textalignx			0
 			textaligny			0
-			outlinecolor		1 .5 .5 .5
+			outlinecolor			1 .5 .5 .5
 			backcolor			0.3 0.3 0.3 1
 			font				4
 			textscale		   	1 
-			forecolor			0 0.8 0.4 1
+			forecolor			0.5 0.5 0.5 1
 			border				0
 			bordercolor			0 0 0 0
 			visible				1 
@@ -1410,19 +1829,19 @@
 
 		itemDef 
 		{
-			name				forceranktitle2
+			name				numerostitle2
 			group				"playersettingforcegroup"
 			style				0	
 			text				@MENUS_1_2_3
-			rect				270 240 0 0
+			rect				325 220 0 0
 			textalign			ITEM_ALIGN_LEFT
 			textalignx			115
 			textaligny			0
-			outlinecolor		1 .5 .5 .5
+			outlinecolor			1 .5 .5 .5
 			backcolor			0.3 0.3 0.3 1
 			font				4
-			textscale		    1
-			forecolor			0 0.8 0.4 1
+			textscale			1
+			forecolor			0.5 0.5 0.5 1
 			border				0
 			bordercolor			0 0 0 0
 			visible				1 
@@ -1436,13 +1855,13 @@
 			group					attributeupgrades
 			style					0	
 			text					"Acrobatics:"
-			rect					270 255 110 15
+			rect					325 235 110 15
 			textalign				ITEM_ALIGN_LEFT												
 			textalignx				0
 			textaligny				0
 			font					4
 			textscale				1
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			outlinecolor			1 .5 .5 .5
 			backcolor				0 0 0 0
 			border					0
@@ -1458,17 +1877,17 @@
 			group					attributeupgrades
 			style					0	
 			ownerdraw				UI_FORCE_RANK_ACROBATICS
-			rect					270 255 175 15
+			rect					325 235 175 15
 			textalign				ITEM_ALIGN_LEFT		
 			textalignx				115
 			textaligny				-5
 			textscale				.25        
-			forecolor				.2 1 .2 1
+			forecolor				0.8 0.8 0.8 1
 			backcolor				0 0 0 0
-			forecolor				1 0.2 0.2 1
+			//forecolor				1 0.2 0.2 1
 			border					0
 			bordercolor				0 0 0 0
-			descText				"Allows the player to jump a little bit higher"
+			//descText				"Allows the player to jump a little bit higher"
 			visible					1 
 			action 
 			{ 
@@ -1477,11 +1896,73 @@
 
 			mouseenter 
 			{ 
-				setitemcolor	setsk_acrobatics forecolor .7 1 2. 1
+				setitemcolor	setsk_acrobatics forecolor 1 1 1 1
+				hide 			weapon_icon
+				hide			weapon_desc
 			}
 			mouseexit 
 			{ 
-				setitemcolor	setsk_acrobatics forecolor .2 1 .2 1
+				setitemcolor	setsk_acrobatics forecolor 0.8 0.8 0.8 1
+			}
+		}
+		
+		// shield title
+		itemDef 
+		{
+			name					setsk_shield
+			group					othergroup
+			style					0	
+			text					"Shields:"
+			rect					325 250 110 15
+			textalign				ITEM_ALIGN_LEFT												
+			textalignx				0
+			textaligny				0
+			font					4
+			textscale				1
+			forecolor				0.8 0.8 0.8 1
+			outlinecolor				1 .5 .5 .5
+			backcolor				0 0 0 0
+			border					0
+			bordercolor				0 0 0 0
+			visible					1
+			decoration
+		}
+	
+		// shield assign
+		itemDef 
+		{
+			name					setsk_shield
+			group					othergroup
+			style					0	
+			ownerdraw				UI_FORCE_RANK_SHIELD
+			rect					325 250 175 15
+			textalign				ITEM_ALIGN_LEFT		
+			textalignx				115
+			textaligny				-5
+			textscale				.25        
+			forecolor				0.8 0.8 0.8 1
+			backcolor				0 0 0 0
+			//forecolor				1 0.2 0.2 1
+			border					0
+			bordercolor				0 0 0 0
+			//descText				"Gives the user shields, which help protect the user from damage"
+			visible					1
+			action 
+			{ 
+				play			"sound/interface/button1.wav" ;
+			}
+
+			mouseenter 
+			{ 
+				setitemcolor	setsk_shield forecolor 1 1 1 1
+				show			weapon_icon
+				setitembackground	weapon_icon	"gfx/hud/psd_medium"
+				show			weapon_desc
+				setitemtext		weapon_desc	@MENUS_THE_PERSONAL_SHIELD_IS
+			}
+			mouseexit 
+			{ 
+				setitemcolor	setsk_shield forecolor 0.8 0.8 0.8 1
 			}
 		}
 		
