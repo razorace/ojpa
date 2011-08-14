@@ -337,25 +337,25 @@ const char *getIconForWeapon(int weapon)
 	return "gfx/hud/w_icon_tuskenrifle_na";
 	break;
 	case SK_JETPACK:
-	return "gfx/hud/i_icon_jetpack";
+	return "gfx/hud/i_icon_jetpack_na2";
 	break;
 	case SK_BACTA:
-	return "gfx/hud/i_icon_bacta";
+	return "gfx/hud/i_icon_bacta_na2";
 	break;
 	case SK_FLAMETHROWER:
-	return "gfx/hud/i_icon_cloak";
+	return "gfx/hud/i_icon_flamethrower_na";
 	break;
 	case SK_FORCEFIELD:
-	return "gfx/hud/i_icon_shieldwall";
+	return "gfx/hud/i_icon_shieldwall_na2";
 	break;
 	case SK_CLOAK:
-	return "gfx/hud/i_icon_cloak";
+	return "gfx/hud/i_icon_cloak_na2";
 	break;
 	case SK_SEEKER:
-	return "gfx/hud/i_icon_seeker";
+	return "gfx/hud/i_icon_seeker_na2";
 	break;
 	case SK_SENTRY:
-	return "gfx/hud/i_icon_sentrygun";
+	return "gfx/hud/i_icon_sentrygun_na2";
 	break;
 	case SK_SHIELD:
 	return "gfx/hud/psd_medium";
