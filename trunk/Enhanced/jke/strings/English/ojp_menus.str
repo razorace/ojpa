@@ -18,31 +18,31 @@ LANG_ENGLISH		"Rank:"
 
 //[ExpSys]
 REFERENCE	    STARTINGSKILLPOINTS
-LANG_ENGLISH	    "Initial Skill Points:"
+LANG_ENGLISH	    "Initial XP Points:"
 
 REFERENCE	    MAXSKILLPOINTS
-LANG_ENGLISH	    "Maximum Skill Points:"
+LANG_ENGLISH	    "Maximum XP Points:"
 
 REFERENCE	    SKILL
 LANG_ENGLISH	    "Skill"
 
 REFERENCE	    NOTFORCESENSITIVE
-LANG_ENGLISH	    "Not Force-Sensitive."
+LANG_ENGLISH	    "Not Force-Sensitive. Train Force Sense."
 
 REFERENCE	    DESC_NOTFORCESENSITIVE
-LANG_ENGLISH	    "Must acquire a minimum rank of 1 in Force Seeing to use other Force Powers."
+LANG_ENGLISH	    "Must acquire a minimum rank of 1 in Force Sense to use other Force Powers."
 
 REFERENCE	    SKILL_JETPACK
 LANG_ENGLISH	    "JT-12 Jetpack:"
 
 REFERENCE	    DESC_SKILL_JETPACK
-LANG_ENGLISH	"A Merr-Sonn JT-12 Jetpack."
+LANG_ENGLISH	"A Merr-Sonn JT-12 Jetpack. Short-term carry time before having to cool down."
 
 REFERENCE	    SKILL_PISTOL
 LANG_ENGLISH	    "DL-44 Blaster"
 
 REFERENCE	    DESC_SKILL_PISTOL
-LANG_ENGLISH	"The DL-44 Heavy Blaster pistol. Allows akimbo-wielding at level 3."
+LANG_ENGLISH	"The DL-44 Heavy Blaster pistol. Level 3 allows for a stun shot that bypasses Jedi’s saber defenses."
 
 REFERENCE	    SKILL_BLASTER
 LANG_ENGLISH	    "E-11 Blaster"
@@ -60,7 +60,7 @@ REFERENCE	    SKILL_ROCKET
 LANG_ENGLISH	    "Merr-Sonn RL:"
 
 REFERENCE	    DESC_SKILL_ROCKET
-LANG_ENGLISH	"Merr-Sonn Rocket Launcher. Ammo added for each level; reload time improved."
+LANG_ENGLISH	"Merr-Sonn Rocket Launcher. Area of Effect damage."
 
 REFERENCE	    SKILL_BACTA
 LANG_ENGLISH	    "Bacta Canister"
@@ -78,7 +78,7 @@ REFERENCE	    SKILL_BOWCASTER
 LANG_ENGLISH	    "Bowcaster:"
 
 REFERENCE	    DESC_SKILL_BOWCASTER
-LANG_ENGLISH	"Wookiee Bowcaster. Decimates Dodge and bears a scope at level 3."
+LANG_ENGLISH	"Wookiee Bowcaster. Scope unlocked at level 3."
 
 REFERENCE	    SKILL_FORCEFIELD
 LANG_ENGLISH	    "Force Field:"
@@ -114,7 +114,7 @@ REFERENCE	    SKILL_REPEATER
 LANG_ENGLISH	"DC-15 Rifle:"
 
 REFERENCE	    DESC_SKILL_REPEATER
-LANG_ENGLISH	"DC-15 Rifle. Accurate at all ranges, boasts concussive blasts at level 3."
+LANG_ENGLISH	"DC-15 Rifle. Accurate at all ranges, boasts concussive blast attack at level 3."	
 
 REFERENCE	    SKILL_DISRUPTOR
 LANG_ENGLISH	"DXR-6 Disruptor:"
@@ -130,43 +130,43 @@ REFERENCE	SKILL_BLUESTYLE
 LANG_ENGLISH	"Soresu:"
 
 REFERENCE	    DESC_SKILL_BLUESTYLE
-LANG_ENGLISH	"Parry defense bonuses; blaster defense bonuses."
+LANG_ENGLISH	"A conservative and defensive style."
 
 REFERENCE	SKILL_YELLOWSTYLE
 LANG_ENGLISH	"Shii-Cho:"
 
 REFERENCE	    DESC_SKILL_YELLOWSTYLE
-LANG_ENGLISH	"Lightsaber training; faster mishap regeneration."
+LANG_ENGLISH	"Moderate lightsaber form."
 
 REFERENCE	SKILL_REDSTYLE
 LANG_ENGLISH	"Djem So:"
 
 REFERENCE	    DESC_SKILL_REDSTYLE
-LANG_ENGLISH	"Destructive combination attacks; fatigue-inducing strikes if not parried."
+LANG_ENGLISH	"Heavy lightsaber form. "
 
 REFERENCE	SKILL_GREENSTYLE
 LANG_ENGLISH	"Makashi:"
 
 REFERENCE	    DESC_SKILL_GREENSTYLE
-LANG_ENGLISH	"Attacks do mishap damage if unparried; easier disarming."
+LANG_ENGLISH	"Accurate lightsaber form utilizing controlled strokes."
 
 REFERENCE	SKILL_PURPLESTYLE
 LANG_ENGLISH	"Juyo:"
 
 REFERENCE	    DESC_SKILL_PURPLESTYLE
-LANG_ENGLISH	"Power attacks damage mishap if unparried; opponent vulnerable to Force and melee attacks."
+LANG_ENGLISH	"Ferocious lightsaber form utilizing deception and unpredictability."
 
 REFERENCE	SKILL_DUALSTYLE
 LANG_ENGLISH	"Dual/Ataru:"
 
 REFERENCE	    DESC_SKILL_DUALSTYLE
-LANG_ENGLISH	"Triple damage for run attacks; low Force cost for acrobatics."
+LANG_ENGLISH	"Dual saber style."
 
 REFERENCE	SKILL_STAFFSTYLE
 LANG_ENGLISH	"Staff/Niman:"
 
 REFERENCE	    DESC_SKILL_STAFFSTYLE
-LANG_ENGLISH	"Upgraded damage potential; faster Force regeneration."
+LANG_ENGLISH	"Style required to wield a Saber Staff properly."
 //[/StanceSelection]
 //[/ExpSys]
 

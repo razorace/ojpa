@@ -1532,7 +1532,7 @@ LANG_ENGLISH        "Disruptor Rifle:"
 
 REFERENCE           HEAVY_REPEATER
 NOTES               "Used in weapon binding."
-LANG_ENGLISH        "Clone Rifle:"
+LANG_ENGLISH        "Imp. Repeater:"
 
 REFERENCE           DEMP_2
 NOTES               "Used in weapon binding."
@@ -1540,7 +1540,7 @@ LANG_ENGLISH        "DEMP 2:"
 
 REFERENCE           FLECHETTE
 NOTES               "Used in weapon binding."
-LANG_ENGLISH        "T-21:"
+LANG_ENGLISH        "Imp. Flechette:"
 
 REFERENCE           CONC_RIFLE_SETUP
 LANG_ENGLISH        "Concussion Rifle:"
