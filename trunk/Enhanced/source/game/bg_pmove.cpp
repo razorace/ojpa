@@ -8714,14 +8714,17 @@ static void PM_Weapon( void )
 	}
 
 //1.3
+	
 	if ( pm->ps->weaponTime > 0 && pm->ps->weapon != WP_REPEATER)
 	{
 		return;
 	}
 	else if(pm->ps->weapon == WP_REPEATER)
 	{
-		if ( ! (pm->cmd.buttons & (BUTTON_ATTACK|BUTTON_ALT_ATTACK)) && pm->ps->weaponTime > 50000 ) 
+		
+		if ( pm->ps->weaponTime > 50000 ) 
 		{
+			addTime = weaponData[pm->ps->weapon].fireTime;
 			pm->ps->weaponTime = 0;
 			pm->ps->weaponstate = WEAPON_READY;
 			return;
@@ -8730,7 +8733,7 @@ static void PM_Weapon( void )
 			return;
 		
 	}
-
+	
 #ifdef QAGAME
 	if(1)
 	{
