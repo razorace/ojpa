@@ -4771,6 +4771,7 @@ void ClientSpawn(gentity_t *ent) {
 		client->ps.ammo[AMMO_DETPACK] = ammoData[AMMO_DETPACK].max * (float) client->skillLevel[SK_DETPACK]/FORCE_LEVEL_2;
 		//client->ps.ammo[AMMO_TRIPMINE] = ClipSize(AMMO_TRIPMINE,ent);
 		//client->ps.ammo[AMMO_TUSKEN_RIFLE] = ClipSize(AMMO_TUSKEN_RIFLE,ent);
+		client->ps.ammo[AMMO_TUSKEN_RIFLE] = 100;
 		//client->ps.ammo[AMMO_BLASTER] = 100; //ammoData[AMMO_BLASTER].max; //100 seems fair.
 		//[/ExpSys]
 	}

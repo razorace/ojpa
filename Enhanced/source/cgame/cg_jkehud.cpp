@@ -18,12 +18,12 @@
 
 #define MAX_HUD_TICS 8
 
-const float FPBAR_H		= 14.0f;
+const float FPBAR_H		= 7.0f;
 const float FPBAR_W		= 65.0f;
 const float FPBAR_X		= 537.0f;
-const float FPBAR_Y		= 420.0f;
+const float FPBAR_Y		= 425.0f;
 
-const float MPBAR_Y		= 400.0;
+const float MPBAR_Y		= 410.0;
 
 const float HPBAR_X		= 10.0f;
 
@@ -130,8 +130,10 @@ void CG_DrawHealthTicMethod(menuDef_t *menuHUD)
 	//CG_FillRect(FPBAR_X, FPBAR_Y, FPBAR_W, FPBAR_H-percent, cColor);
 	
 
-	UI_DrawProportionalString( HPBAR_X+FPBAR_W + 2.0f,FPBAR_Y-7.0f, va( "%i", cg.snap->ps.stats[STAT_HEALTH] ),
-		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_RED] );
+	/*UI_DrawProportionalString( HPBAR_X+FPBAR_W + 2.0f,FPBAR_Y-7.0f, va( "%i", cg.snap->ps.stats[STAT_HEALTH] ),
+		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_RED] );*/
+	UI_DrawScaledProportionalString(HPBAR_X+FPBAR_W + 3.0f,FPBAR_Y-4.0f, va( "%i", cg.snap->ps.stats[STAT_HEALTH] ),
+		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_RED] , 0.5f);
 	/*
 	focusItem = Menu_FindItemByName(menuHUD, "healthamount");
 
@@ -242,8 +244,8 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 	CG_FillRect((HPBAR_X + FPBAR_W), APBAR_Y, -((FPBAR_W)-percent), FPBAR_H, cColor);
 
 
-	UI_DrawProportionalString( HPBAR_X+FPBAR_W + 2.0f,APBAR_Y-7.0f, va( "%i", armor ),
-		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_GREEN] );
+	UI_DrawScaledProportionalString( HPBAR_X+FPBAR_W + 3.0f,APBAR_Y-4.0f, va( "%i", armor ),
+		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_GREEN] , 0.5f);
 
 	/*
 	inc = (float) maxArmor / MAX_HUD_TICS;
@@ -368,10 +370,10 @@ void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
 	//}
 
 	int amt = cg.snap->ps.saberAttackChainCount;
-	if(amt > MISHAPLEVEL_FULL) amt = MISHAPLEVEL_FULL;
+	if(amt > BALANCE_MAX) amt = BALANCE_MAX;
 	
 	// What's the health?
-	percent = (float(amt) / float(MISHAPLEVEL_FULL))  * float(FPBAR_W);
+	percent = (float(amt) / float(BALANCE_MAX))  * float(FPBAR_W);
 
 
 	vec4_t aColor;
@@ -394,8 +396,8 @@ void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
 	color[1] = aColor[1];
 	color[2] = aColor[2];
 
-	UI_DrawProportionalString( FPBAR_X - 26.0f,MPBAR_Y-7.0f, va( "%i", cg.snap->ps.saberAttackChainCount ),
-		UI_SMALLFONT|UI_DROPSHADOW, color );
+	UI_DrawScaledProportionalString( FPBAR_X - 12.0f,MPBAR_Y-4.0f, va( "%i", cg.snap->ps.saberAttackChainCount ),
+		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT, color, 0.5f );
 
 	/*
 	trap_R_SetColor( colorTable[CT_WHITE] );	
@@ -491,8 +493,8 @@ void CG_DrawAmmoTicMethod(centity_t *cent, menuDef_t *menuHUD)
 	color[1] = aColor[1];
 	color[2] = aColor[2];
 
-	UI_DrawProportionalString( FPBAR_X - 36.0f,APBAR_Y-7.0f, va( "%i",(int)value  ),
-		UI_SMALLFONT|UI_DROPSHADOW, color );
+	UI_DrawScaledProportionalString( FPBAR_X - 12.0f,APBAR_Y-4.0f, va( "%i",(int)value  ),
+		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT, color, 0.5f );
 	/*
 	focusItem = Menu_FindItemByName(menuHUD, "ammoamount");
 
@@ -776,8 +778,8 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	color[1] = aColor[1];
 	color[2] = aColor[2];
 
-	UI_DrawProportionalString( FPBAR_X - 36.0f,FPBAR_Y-7.0f, va( "%i", cg.snap->ps.fd.forcePower ),
-		UI_SMALLFONT|UI_DROPSHADOW, color );
+	UI_DrawScaledProportionalString( FPBAR_X - 12.0f,FPBAR_Y-4.0f, va( "%i", cg.snap->ps.fd.forcePower ),
+		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT, color, 0.5f);
 	/*
 	focusItem = Menu_FindItemByName(menuHUD, "forceamount");
 

@@ -158,7 +158,7 @@ void ForceLightningDamage( gentity_t *self, gentity_t *traceEnt, vec3_t dir, vec
 					G_Throw(traceEnt, dir, 50);
 					traceEnt->client->ps.velocity[2]+=50;
 					if(!WalkCheck(traceEnt) 
-					|| (WalkCheck(traceEnt) && traceEnt->client->ps.saberAttackChainCount >= MISHAPLEVEL_HEAVY) 
+					|| (WalkCheck(traceEnt) && traceEnt->client->ps.saberAttackChainCount <= BALANCE_LOW) 
 					|| BG_IsUsingHeavyWeap(&traceEnt->client->ps)
 					|| PM_SaberInBrokenParry(traceEnt->client->ps.saberMove)
 					|| traceEnt->client->ps.fd.forcePower < DODGE_CRITICALLEVEL)

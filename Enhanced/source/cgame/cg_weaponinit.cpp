@@ -188,38 +188,36 @@ void CG_RegisterWeapon( int weaponNum) {
 	case WP_BLASTER:
 	case WP_EMPLACED_GUN: //rww - just use the same as this for now..
 		//Handles by scripting:
-		//weaponInfo->selectSound			= trap_S_RegisterSound("sound/weapons/blaster/select.wav");
-		//weaponInfo->flashSound[0]		= trap_S_RegisterSound( "sound/weapons/blaster/fire.wav");
-		//weaponInfo->firingSound			= NULL_SOUND;
-		//weaponInfo->muzzleEffect		= trap_FX_RegisterEffect( "blaster/muzzle_flash" );
-		//weaponInfo->chargeSound			= NULL_SOUND;
-		//weaponInfo->missileSound		= NULL_SOUND;
-		//weaponInfo->missileHitSound		= NULL_SOUND;
-		//weaponInfo->altFlashSound		= trap_S_RegisterSound( "sound/weapons/blaster/alt_fire.wav");
-		//weaponInfo->altFiringSound		= NULL_SOUND;
-		//weaponInfo->altChargeSound		= NULL_SOUND;
-		//weaponInfo->altMuzzleEffect		= trap_FX_RegisterEffect( "blaster/muzzle_flash" );
-		//cgs.effects.blasterWallImpactEffect		= trap_FX_RegisterEffect( "blaster/wall_impact" );
-		//cgs.effects.blasterFleshImpactEffect	= trap_FX_RegisterEffect( "blaster/flesh_impact" );
-		//cgs.effects.blasterDroidImpactEffect	= trap_FX_RegisterEffect( "blaster/droid_impact" );
-		//cgs.effects.blasterShotEffect			= trap_FX_RegisterEffect( "blaster/shot" );
-		//trap_FX_RegisterEffect( "blaster/deflect" );
-		//weaponInfo->altMissileHitSound	= NULL_SOUND;
-		//weaponInfo->altMissileSound		= NULL_SOUND;
-		//weaponInfo->missileModel		= NULL_HANDLE;
-		//weaponInfo->altMissileModel		= NULL_HANDLE;
-		//weaponInfo->missileDlight		= 0;
-		//weaponInfo->altMissileDlight	= 0;
-
+		weaponInfo->selectSound			= trap_S_RegisterSound("sound/weapons/blaster/select.wav");
+		weaponInfo->flashSound		= trap_S_RegisterSound( "sound/weapons/blaster/fire.wav");
+		weaponInfo->firingSound			= NULL_SOUND;
+		weaponInfo->muzzleEffect		= trap_FX_RegisterEffect( "blaster/muzzle_flash" );
+		weaponInfo->chargeSound			= NULL_SOUND;
+		weaponInfo->missileSound		= NULL_SOUND;
+		weaponInfo->missileHitSound		= NULL_SOUND;
+		weaponInfo->altFlashSound		= trap_S_RegisterSound( "sound/weapons/blaster/alt_fire.wav");
+		weaponInfo->altFiringSound		= NULL_SOUND;
+		weaponInfo->altChargeSound		= NULL_SOUND;
+		weaponInfo->altMuzzleEffect		= trap_FX_RegisterEffect( "blaster/muzzle_flash" );
+		cgs.effects.blasterWallImpactEffect		= trap_FX_RegisterEffect( "blaster/wall_impact" );
+		cgs.effects.blasterFleshImpactEffect	= trap_FX_RegisterEffect( "blaster/flesh_impact" );
+		cgs.effects.blasterDroidImpactEffect	= trap_FX_RegisterEffect( "blaster/droid_impact" );
+		cgs.effects.blasterShotEffect			= trap_FX_RegisterEffect( "blaster/shot" );
+		trap_FX_RegisterEffect( "blaster/deflect" );
+		weaponInfo->altMissileHitSound	= NULL_SOUND;
+		weaponInfo->altMissileSound		= NULL_SOUND;
+		weaponInfo->missileModel		= NULL_HANDLE;
+		weaponInfo->altMissileModel		= NULL_HANDLE;
+		weaponInfo->missileDlight		= 0;
+		weaponInfo->altMissileDlight	= 0;
+		
 		weaponInfo->missileTrailFunc	= FX_BlasterProjectileThink;
-		
-		
 		weaponInfo->altMissileTrailFunc = FX_BlasterProjectileThink;
 		
 		
-		RunScript("E11.nut");
+		/*RunScript("E11.nut");
 		RunFunction("LoadE11Effects");
-
+		*/
 		break;
 
 	case WP_TUSKEN_RIFLE:

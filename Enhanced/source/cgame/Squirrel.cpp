@@ -1,4 +1,4 @@
-#include "sqplus.h"
+/*#include "sqplus.h"
 
 #pragma comment(lib,"squirrelD.lib")
 #pragma comment(lib,"sqstdlibD.lib")
@@ -209,6 +209,7 @@ void RunScript(const char* file)
 		char path[1024];
 		trap_Cvar_VariableStringBuffer("fs_game", gamepath, sizeof(gamepath));
 		strcpy(path,va("%s\\%s",gamepath,file));
+		//strcpy(path,file);
 		/*char files[1024];
 
 		int fileCnt = trap_FS_GetFileList("", "/", files, sizeof(files) );
@@ -220,7 +221,7 @@ void RunScript(const char* file)
 		trap_FS_Read(tempReadBuffer, len, f);
 		tempReadBuffer[len] = 0;
 
-		trap_FS_FCloseFile(f);*/
+		trap_FS_FCloseFile(f);*//*
 		
 		SquirrelObject sqFile = SquirrelVM::CompileScript(path);
 		SquirrelVM::RunScript(sqFile);
@@ -245,3 +246,4 @@ void RunFunction(const char* func)
 }
 
 //Add RegisterSound,RegisterEffect,RegisterModel, couple different NULL_'s, and several FX_ functions
+*/

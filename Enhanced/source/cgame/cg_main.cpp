@@ -3900,10 +3900,10 @@ void CG_PmoveClientPointerUpdate();
 
 void WP_SaberLoadParms( void );
 void BG_VehicleLoadParms( void );
-
+/*
 void LoadSquirrel(void);
 void CloseSquirrel(void);
-
+*/
 //[WEAPONSDAT]
 extern void BG_LoadWeaponsData();
 //[/WEAPONSDAT]
@@ -3922,7 +3922,7 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum )
 	const char	*s;
 	int i = 0;
 
-	LoadSquirrel();
+	//LoadSquirrel();
 
 	BG_InitAnimsets(); //clear it out
 
@@ -4276,7 +4276,7 @@ void CG_Shutdown( void )
 	// some mods may need to do cleanup work here,
 	// like closing files or archiving session data
 
-	CloseSquirrel();
+	//CloseSquirrel();
 }
 
 /*

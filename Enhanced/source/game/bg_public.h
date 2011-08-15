@@ -117,11 +117,19 @@
 //[/FatigueSys]
 
 //[SaberSys]
-#define MISHAPLEVEL_MAX			15  //the max possible amount of MP.  This is currently dictated by network variable size limits.
-#define MISHAPLEVEL_FULL		14  //the point at which full mishaps occur on the balance bar.
-#define MISHAPLEVEL_HEAVY		8
-#define MISHAPLEVEL_LIGHT		5
-#define MISHAPLEVEL_NONE		0
+//#define MISHAPLEVEL_MAX			15  //the max possible amount of MP.  This is currently dictated by network variable size limits.
+//#define MISHAPLEVEL_FULL		14  //the point at which full mishaps occur on the balance bar.
+//#define MISHAPLEVEL_HEAVY		8
+//#define MISHAPLEVEL_LIGHT		5
+//#define MISHAPLEVEL_NONE		0
+//[/SaberSys]
+
+//[SaberSys] 
+#define BALANCE_MAX			15  //replace mishap none
+#define BALANCE_HIGH		10  //replace mishap light 
+#define BALANCE_LOW			7	//replace mishap heavy
+#define BALANCE_LOST		1	//replace mishap full
+#define BALANCE_NONE		0	//Replace for mishap max
 //[/SaberSys]
 
 //[WeaponSys]

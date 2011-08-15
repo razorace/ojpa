@@ -273,7 +273,7 @@ static void CG_ReloadMenu(void)
 }
 
 #ifdef _DEBUG
-
+/*
 extern void RunFunction(const char* func); 
 extern void RunScript(const char* file);
 
@@ -298,7 +298,7 @@ static void CG_ReloadFile()
 		RunScript(buffer);
 	}
 }
-
+*/
 #endif
 
 typedef struct {
@@ -311,10 +311,10 @@ extern void siegecvarlist(void);
 //[/SIEGECVARFIX]
 
 static consoleCommand_t	commands[] = {
-	#ifdef _DEBUG
+	/*#ifdef _DEBUG
 	{ "RunFunction", CG_RunFunction },
 	{ "LoadFile", CG_ReloadFile },
-	#endif
+	#endif*/
 	{ "addText", CG_AddText },
 	{ "testgun", CG_TestGun_f },
 	{ "testmodel", CG_TestModel_f },
