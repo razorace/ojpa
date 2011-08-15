@@ -2,17 +2,13 @@ repeatDelay				300
 
 Line
 {
-	flags				depthHack
-
-	life				10 20
-
-	cullrange			100
+	spawnFlags			rgbComponentInterpolation
 
 	origin2				24 0 0 30 0 0
 
 	rgb
 	{
-		start			1 0 0
+		start			1 0.502 0
 	}
 
 	alpha
@@ -37,15 +33,18 @@ Line
 
 Particle
 {
-	flags				depthHack
+	spawnFlags			rgbComponentInterpolation
 
-	count				0
-
-	life				20
+	life				40 50
 
 	origin				5 0 0
 
 	rotation			0 360
+
+	rgb
+	{
+		start			1 0.502 0 0.949 0 0
+	}
 
 	alpha
 	{
@@ -56,21 +55,19 @@ Particle
 
 	size
 	{
-		start			45 12.5
+		start			10
 		end				7
 		flags			linear
 	}
 
 	shaders
 	[
-		gfx/effects/bryarFrontFlash
+		gfx/effects/fire_radial
 	]
 }
 
 Light
 {
-	flags				depthHack
-
 	spawnFlags			rgbComponentInterpolation
 
 	rgb
@@ -80,14 +77,12 @@ Light
 
 	size
 	{
-		start			300 350
+		start			35 5
 	}
 }
 
 Sound
 {
-	flags				depthHack
-
 	sounds
 	[
 		sound/weapons/disruptor/fire.wav

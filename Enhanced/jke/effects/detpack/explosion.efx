@@ -27,8 +27,6 @@ Decal
 {
 	name				explosiondecal
 
-	count				2 1
-
 	life				1400 800
 
 	size
@@ -43,82 +41,31 @@ Decal
 	]
 }
 
-FxRunner
-{
-	name				chunks
-
-	delay				75 86
-
-	playfx
-	[
-		chunks/chunks4
-	]
-}
-
-FxRunner
-{
-	name				sparks
-
-	count				1 0
-
-	playfx
-	[
-		sparks/smallsparkexplosion3
-	]
-}
-
-Flash
-{
-	name				flash
-
-	life				200
-
-	delay				200
-
-	alpha
-	{
-		start			0.6 0.8
-		end				0.1 0.3
-		flags			nonlinear
-	}
-
-	size
-	{
-		start			200
-	}
-
-	shaders
-	[
-		gfx/effects/whiteFlash
-	]
-}
-
-Particle
+Light
 {
 	spawnFlags			rgbComponentInterpolation
 
-	life				400 300
+	life				100
 
 	rgb
 	{
-		start			1 0 0
-	}
-
-	alpha
-	{
-		start			0.4 0.3
+		start			1 0.502 0 0.949 0 0
 	}
 
 	size
 	{
-		end				355
-		parm			1
-		flags			wave
+		start			100
 	}
+}
 
-	shaders
+FxRunner
+{
+	count				2 1
+
+	playfx
 	[
-		gfx/effects/whiteGlow
+		explosions/orangeglow
+		sparks/fountainsparkalldirectionsshortpowerful
 	]
 }
 
@@ -126,55 +73,6 @@ FxRunner
 {
 	playfx
 	[
-		chunks/chunks4up
-	]
-}
-
-FxRunner
-{
-	playfx
-	[
-		smoke/bestsmok
-	]
-}
-
-FxRunner
-{
-	name				lingeringsmoke
-
-	playfx
-	[
-		smoke/lingeringsmoke
-	]
-}
-
-Particle
-{
-	name				backblow
-
-	spawnFlags			rgbComponentInterpolation
-
-	life				400 300
-
-	rgb
-	{
-		start			1 0.502 0 1 0 0
-	}
-
-	alpha
-	{
-		start			0.7 0.4
-	}
-
-	size
-	{
-		end				400
-		parm			22
-		flags			nonlinear
-	}
-
-	shaders
-	[
-		gfx/effects/whiteFlare
+		explosions/explosion2
 	]
 }

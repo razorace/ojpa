@@ -60,6 +60,11 @@ Light
 	{
 		start			1 0.1 0.1
 	}
+
+	size
+	{
+		start			45
+	}
 }
 
 Sound
