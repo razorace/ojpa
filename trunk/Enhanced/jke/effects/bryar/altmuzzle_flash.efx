@@ -2,7 +2,7 @@ repeatDelay				300
 
 Line
 {
-	origin2				32 0 0 40 0 0
+	origin2				24 0 0 30 0 0
 
 	alpha
 	{
@@ -14,13 +14,13 @@ Line
 	size
 	{
 		start			6.25 8.5
-		end				7
+		end				5
 		flags			linear
 	}
 
 	shaders
 	[
-		gfx/effects/blasterSideFlash
+		gfx/effects/bryarSideFlash
 	]
 }
 
@@ -42,24 +42,15 @@ Particle
 	size
 	{
 		start			6 7.5
-		end				9
+		end				7
 		flags			linear
 	}
 
 	shaders
 	[
-		gfx/effects/blasterFrontFlash
+		gfx/effects/bryarFrontFlash
 	]
 }
-
-//CameraShake
-//{
-//	life				100
-//
-//	intensity			1.4
-//
-//	radius				60
-//}
 
 Light
 {
@@ -67,7 +58,7 @@ Light
 
 	rgb
 	{
-		start			1 0 0
+		start			1 0.7 0.2
 	}
 
 	size

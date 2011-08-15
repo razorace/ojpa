@@ -51,7 +51,7 @@ Particle
 
 	size
 	{
-		start			8 10.5
+		start			5
 		end				7
 		flags			random linear
 	}
@@ -71,7 +71,7 @@ Light
 
 	size
 	{
-		start			0.3 0.6
+		start			45
 	}
 }
 

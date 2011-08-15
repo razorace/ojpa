@@ -6,30 +6,25 @@ Line
 
 	flags				useAlpha
 
-	life				30
+	life				10
 
 	origin				8 0 0
 
 	origin2				-35 0 0
 
-	rgb
-	{
-		start			1 0.9843 0.9412 1 1 1
-	}
-
 	alpha
 	{
-		start			1 0.9
+		start			0.6 0.7
 	}
 
 	size
 	{
-		start			2
+		start			1.5
 	}
 
 	shaders
 	[
-		gfx/effects/bryar_blob
+		gfx/effects/blaster_blob
 	]
 }
 
@@ -37,13 +32,13 @@ Line
 {
 	name				Glow
 
-	count				0
+	spawnFlags			rgbComponentInterpolation
 
-	life				30
+	life				10
 
 	origin				16 0 0
 
-	origin2				-23 0 0
+	origin2				-35 0 0
 
 	rgb
 	{
@@ -57,7 +52,7 @@ Line
 
 	size
 	{
-		start			3
+		start			1.8
 	}
 
 	shaders
@@ -72,7 +67,7 @@ Particle
 
 	count				0
 
-	life				30
+	life				10
 
 	origin				-8 0 0
 
@@ -83,7 +78,7 @@ Particle
 
 	size
 	{
-		start			2
+		start			1.6 1.8
 	}
 
 	shaders

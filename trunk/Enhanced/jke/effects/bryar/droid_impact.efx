@@ -1,69 +1,66 @@
-repeatDelay				300
+// Blaster droid impact effect
 
+// glowing chunks
 Particle
 {
-	flags				useAlpha
+	count	6	10
+	life	800	1200
 
-	count				3 4
-
-	life				800 1200
-
-	origin				2 -3 -3 2 3 3
-
-	velocity			15 -12 -12 20 12 12
-
-	gravity				32 80
-
-	alpha
-	{
-		end				0
-		parm			60 75
-		flags			nonlinear
-	}
+	origin	2 -3 -3		2 3 3
+	vel	40 -48 -48		100 48 48
+	gravity	-100	-300
+	bounce	0.3 	0.5
 
 	size
 	{
-		start			2 6
-		end				6 10
-		flags			linear
+		start 	0.3	1.0
+		end	0.0
+		parm	80	90
+		flags	nonlinear
 	}
-
-	shaders
-	[
-		gfx/misc/black_smoke
-	]
-}
-
-Electricity
-{
-	flags				useModel useBBox usePhysics useAlpha
-
-	spawnFlags			rgbComponentInterpolation
-
-	count				4 3
-
-	life				700 800
-
-	bounce				2
-
-	origin2				25 25 25 -25 -25 -25
 
 	rgb
 	{
-		start			0.502 0 0.502
-		end				1 1 1 1 0.9843 0.9412
-		flags			linear wave
+		start	1.0 0.4 0.0	1.0 1.0 0.2
+		end	1.0 0.4 0.0
+		flags	linear
 	}
+
+	shader
+	[
+		gfx/effects/whiteGlow
+	]
+}
+
+// Dark smoke
+Particle
+{
+	count	3	4
+	life	800	1200
+
+	origin	2 -3 -3		2 3 3
+	vel	15 -12 -12		20 12 12
+	gravity	32	80
+
+	flags	useAlpha
 
 	size
 	{
-		start			0.4 0.3
-		end				0.5 0.4
-		flags			linear wave
+		start 	2.0	6.0
+		end	6.0	10.0
+		flags	linear
 	}
 
-	shaders
+	alpha
+	{
+		start	1.0
+		end 	0.0
+		parm	60 	75
+		flags	nonlinear
+	}
+
+	shader
 	[
-		gfx/effects/blueLine
+		gfx/misc/black_smoke
 	]
 }
