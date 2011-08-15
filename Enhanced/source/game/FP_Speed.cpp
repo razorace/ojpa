@@ -25,7 +25,7 @@ void ForceSpeed( gentity_t *self, int forceDuration )
 
 	self->client->ps.forceAllowDeactivateTime = level.time + 5000;
 	AngleVectors(self->client->ps.viewangles, dir, NULL, NULL);
-	self->client-l>ps.velocity[0] = self->client->ps.velocity[0]*15;
+	self->client->ps.velocity[0] = self->client->ps.velocity[0]*15;
 	self->client->ps.velocity[1] = self->client->ps.velocity[1]*15;
 	//self->client->
 	/*if(self->client->ps.weapon == WP_SABER) {

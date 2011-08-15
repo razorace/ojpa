@@ -1861,8 +1861,8 @@ void CG_FireWeapon( centity_t *cent, qboolean altFire ) {
 		return;
 	}
 
-	if(!altFire && ent->weapon == WP_REPEATER && cg.predictedPlayerState.weaponTime != 100000)
-		return;
+	//if(!altFire && ent->weapon == WP_REPEATER && cg.predictedPlayerState.weaponTime != 100000)
+		//return;
 
 	if ( ent->weapon >= WP_NUM_WEAPONS ) {
 		CG_Error( "CG_FireWeapon: ent->weapon >= WP_NUM_WEAPONS" );
