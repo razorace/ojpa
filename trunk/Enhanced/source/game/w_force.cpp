@@ -492,7 +492,7 @@ void WP_SpawnInitForcePowers( gentity_t *ent )
 	//[SaberSys]
 	//new balancing system uses 7 as the default.
 	//ent->client->ps.saberAttackChainCount = 7;
-	ent->client->ps.saberAttackChainCount = 0;
+	ent->client->ps.saberAttackChainCount = BALANCE_MAX;
 	//[/SaberSys]
 
 	i = 0;
@@ -519,7 +519,7 @@ void WP_SpawnInitForcePowers( gentity_t *ent )
 
 	ent->client->ps.holocronBits = 0;
 
-	if(ent->client->ps.fd.forcePowerLevel[FP_SEE] >= FORCE_LEVEL_2)
+	/*if(ent->client->ps.fd.forcePowerLevel[FP_SEE] >= FORCE_LEVEL_2)
 	{
 		ent->client->ps.fd.forcePower+=10;
 		ent->client->ps.fd.forcePowerMax+=10;
@@ -529,7 +529,7 @@ void WP_SpawnInitForcePowers( gentity_t *ent )
 	{
 		ent->client->ps.fd.forcePower+=15;
 		ent->client->ps.fd.forcePowerMax+=15;
-	}
+	}*/
 
 	i = 0;
 	while (i < NUM_FORCE_POWERS)
@@ -683,7 +683,7 @@ int ForcePowerUsableOn(gentity_t *attacker, gentity_t *other, forcePowers_t forc
 	//[InAirChange]
 
 	if(other->client && other->client->ps.fd.saberAnimLevel == SS_DESANN
-		&& other->client->ps.saberAttackChainCount >= MISHAPLEVEL_HEAVY) {
+		&& other->client->ps.saberAttackChainCount <= BALANCE_LOW) {
 		return 0;
 	}
 
@@ -1198,10 +1198,10 @@ qboolean OJP_CounterForce(gentity_t *attacker, gentity_t *defender, int attackPo
 		return qfalse;
 
 
-	if( defender->client->ps.saberAttackChainCount >= MISHAPLEVEL_HEAVY )
+	if( defender->client->ps.saberAttackChainCount <= BALANCE_LOW )
 		return qfalse;
 	
-	if( defender->client->ps.saberAttackChainCount >= MISHAPLEVEL_LIGHT
+	if( defender->client->ps.saberAttackChainCount <= BALANCE_HIGH
 		&& attacker->client->ps.fd.saberAnimLevel == SS_DESANN)
 		return qfalse;
 
@@ -3172,9 +3172,9 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 		&& self->client->ps.saberLockTime < level.time	//not in a saber lock.
 		&& self->client->ps.groundEntityNum != ENTITYNUM_NONE)  //can't regen while in the air.
 	{
-		if(self->client->ps.saberAttackChainCount > 0)
+		if(self->client->ps.saberAttackChainCount < BALANCE_MAX)
 		{
-			self->client->ps.saberAttackChainCount--;
+			self->client->ps.saberAttackChainCount++;
 		}
 		
 		if(self->client->ps.weapon == WP_SABER)

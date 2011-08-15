@@ -492,6 +492,13 @@ ammoData_t ammoData[AMMO_MAX] =
 		1				//	int		max;		// Max amount player can hold of ammo
 		//10				//	int		max;		// Max amount player can hold of ammo -- 1.3
 		//[/WeaponSys]
+	},
+	{	// AMMO_TUSKEN
+//		"",				//	char	icon[32];	// Name of ammo icon file
+		//[WeaponSys]
+		100				//	int		max;		// Max amount player can hold of ammo
+		//10				//	int		max;		// Max amount player can hold of ammo -- 1.3
+		//[/WeaponSys]
 	}
 };
 

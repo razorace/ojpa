@@ -5108,16 +5108,16 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		
 		G_Printf("%i: %i: Bryar MP Damage %i, Charge %i\n", level.time, targ->s.number, mpDamage, inflictor->s.generic1);
 
-		targ->client->ps.saberAttackChainCount += mpDamage;
+		targ->client->ps.saberAttackChainCount -= mpDamage;
 
-		if ((targ->client->ps.saberAttackChainCount >= MISHAPLEVEL_HEAVY
+		if ((targ->client->ps.saberAttackChainCount <= BALANCE_LOW
 			|| targ->client->ps.fd.forcePower <= DODGE_CRITICALLEVEL))
 		{//knockdown
 			vec3_t blowBackDir;
 			VectorSubtract(targ->client->ps.origin,attacker->client->ps.origin, blowBackDir);
 
 			G_Throw(targ,blowBackDir, 1);
-			if ( targ->client->ps.saberAttackChainCount >= MISHAPLEVEL_FULL )
+			if ( targ->client->ps.saberAttackChainCount <= BALANCE_LOST )
 			{
 				G_Knockdown( targ, attacker, dir, 150, qtrue );
 			}
@@ -5126,7 +5126,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 				G_Knockdown( targ, attacker, dir, 50, qtrue );
 			}
 		}
-		else if(targ->client->ps.saberAttackChainCount >= MISHAPLEVEL_LIGHT)
+		else if(targ->client->ps.saberAttackChainCount <= BALANCE_HIGH)
 		{//stumble
 			vec3_t blowBackDir;
 			VectorSubtract(targ->client->ps.origin,attacker->client->ps.origin, blowBackDir);
@@ -6707,7 +6707,7 @@ void G_DodgeDrain(gentity_t *victim, gentity_t *attacker, int amount)
 	if(attacker->client && (attacker->client->ps.torsoAnim == saberMoveData[16].animToUse
 		|| attacker->client->ps.torsoAnim == 1252) )
 	{//In DFA?
-		victim->client->ps.saberAttackChainCount += 16;
+		victim->client->ps.saberAttackChainCount = 0; //victim->client->ps.saberAttackChainCount += 16;// CHECK
 	}
 
 	if(victim->client->ps.fd.forcePower < 0)

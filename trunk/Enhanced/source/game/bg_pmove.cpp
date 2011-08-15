@@ -10097,10 +10097,10 @@ void BG_AdjustClientSpeed(playerState_t *ps, usercmd_t *cmd, int svTime)
 		{
 			ps->speed *= 0.9;
 		}
-		else if (ps->fd.forcePowersActive & (1 << FP_SPEED))
+		/*else if (ps->fd.forcePowersActive & (1 << FP_SPEED))
 		{ //force speed will help us escape
 			ps->speed *= 0.8;
-		}
+		}*/
 		else
 		{
 			ps->speed *= 0.2;
@@ -12709,7 +12709,7 @@ void PmoveSingle (pmove_t *pmove) {
 	}
 
 	if (pm->ps->fd.forceGripCripple
-		&& pm->ps->saberAttackChainCount >= MISHAPLEVEL_HEAVY
+		&& pm->ps->saberAttackChainCount <= BALANCE_LOW
 		&& (pm->ps->weapon != WP_SABER 
 		&& pm->ps->weapon != WP_MELEE))
 	{ //don't let attack or alt attack if being gripped I guess

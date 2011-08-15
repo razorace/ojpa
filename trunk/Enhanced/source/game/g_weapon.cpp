@@ -1373,8 +1373,8 @@ void FireWeapon( gentity_t *ent, qboolean altFire )
 		if(ent && ent->client)
 		{
 			vec3_t angs; //used for adding in mishap inaccuracy.
-			float slopFactor = MISHAP_MAXINACCURACY * ent->client->ps.saberAttackChainCount/MISHAPLEVEL_MAX;
-
+			float slopFactor = 1.0f - (ent->client->ps.saberAttackChainCount/(float)BALANCE_MAX);
+			slopFactor = ((float)MISHAP_MAXINACCURACY) * slopFactor;
 			vectoangles( forward, angs );
 			angs[PITCH] += flrand(-slopFactor, slopFactor);
 			angs[YAW] += flrand(-slopFactor, slopFactor);
@@ -1384,7 +1384,7 @@ void FireWeapon( gentity_t *ent, qboolean altFire )
 			if(!Q_irand(0, SkillLevelforWeapon(ent, ent->s.weapon)-1) && ent->s.weapon != WP_EMPLACED_GUN )//Sorry but the mishap meter needs to go up more that before.
 			{//failed skill roll, add mishap.
 				if(PM_InKnockDown(&ent->client->ps))
-					G_AddMercBalance(ent,MISHAPLEVEL_FULL);
+					G_AddMercBalance(ent,BALANCE_LOST);
 				else if(ent->s.weapon == WP_DISRUPTOR && ent->client->ps.zoomMode == 0)
 					G_AddMercBalance(ent, Q_irand(2, 3));// 1 was not enough
 				else if(ent->s.weapon == WP_FLECHETTE)
@@ -1405,7 +1405,7 @@ void FireWeapon( gentity_t *ent, qboolean altFire )
 					}
 				}
 				else if(ent->s.weapon == WP_TUSKEN_RIFLE)
-					G_AddMercBalance(ent,MISHAPLEVEL_FULL);
+					G_AddMercBalance(ent,BALANCE_LOST);
 				else
 					G_AddMercBalance(ent, Q_irand(1, 2));// 1 was not enough
 			}
