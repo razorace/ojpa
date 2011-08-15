@@ -2,11 +2,11 @@ repeatDelay				509
 
 Line
 {
+	spawnFlags			orgOnCylinder
+
 	count				2 4
 
 	life				100
-
-	cullrange			450
 
 	origin2				6 -10 -10 12 10 10
 
@@ -31,19 +31,23 @@ Line
 
 Tail
 {
-	flags				usePhysics
+	spawnFlags			orgOnCylinder
 
 	count				14 12
 
-	life				1200 1900
+	life				500 1900
 
-	cullrange			300
+	delay				0 250
 
-	bounce				0.25 0.3
+	intensity			0.25 0.3
 
-	velocity			150 -180 -180 230 150 180
+	radius				5
 
-	gravity				-600 -450
+	height				0
+
+	velocity			515 -180 -180 330 150 180
+
+	gravity				-800 -850
 
 	size
 	{
@@ -66,8 +70,6 @@ Tail
 Particle
 {
 	life				900 1000
-
-	cullrange			250
 
 	velocity			8 -6 -6 10 6 6
 
@@ -95,8 +97,6 @@ Particle
 
 Sound
 {
-	cullrange			1200
-
 	sounds
 	[
 		sound/ambience/spark1.mp3

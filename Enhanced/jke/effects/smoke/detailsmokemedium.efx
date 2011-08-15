@@ -1,4 +1,4 @@
-repeatDelay				250
+repeatDelay				799
 
 Particle
 {
@@ -6,7 +6,7 @@ Particle
 
 	flags				useAlpha
 
-	spawnFlags			orgOnSphere rgbComponentInterpolation
+	spawnFlags			rgbComponentInterpolation
 
 	count				18 20
 
@@ -44,7 +44,6 @@ Particle
 
 	size
 	{
-		start			5
 		end				13 12
 		parm			4 15
 		flags			linear nonlinear
@@ -57,31 +56,21 @@ Particle
 	]
 }
 
-Light
-{
-	spawnFlags			rgbComponentInterpolation
-
-	rgb
-	{
-		start			1 0 0 1 0.9843 0.9412
-	}
-}
-
 Particle
 {
 	name				boomsmoke
 
 	flags				useAlpha
 
-	spawnFlags			orgOnSphere rgbComponentInterpolation
+	spawnFlags			rgbComponentInterpolation
 
 	count				10
 
 	life				1500 1800
 
-	radius				6 4
+	radius				4
 
-	height				5
+	height				2
 
 	rotation			-180 180
 
@@ -109,10 +98,9 @@ Particle
 
 	size
 	{
-		start			2 3
 		end				12 10
 		parm			7
-		flags			linear clamp
+		flags			nonlinear
 	}
 
 	shaders
@@ -125,7 +113,7 @@ Particle
 {
 	name				steam
 
-	spawnFlags			orgOnSphere rgbComponentInterpolation
+	spawnFlags			rgbComponentInterpolation
 
 	count				20 16
 
@@ -165,10 +153,9 @@ Particle
 
 	size
 	{
-		start			2 6
-		end				10
-		parm			4 15
-		flags			linear nonlinear
+		end				4 6
+		parm			3
+		flags			linear clamp
 	}
 
 	shaders
@@ -183,7 +170,7 @@ Particle
 
 	flags				useAlpha
 
-	spawnFlags			orgOnSphere rgbComponentInterpolation
+	spawnFlags			rgbComponentInterpolation
 
 	count				9
 
@@ -219,10 +206,9 @@ Particle
 
 	size
 	{
-		start			2 3
 		end				10 12
 		parm			7
-		flags			linear clamp
+		flags			linear nonlinear
 	}
 
 	shaders

@@ -1,12 +1,14 @@
-repeatDelay				2192
+repeatDelay				153
 
 Particle
 {
+	name				Shaft2
+
 	spawnFlags			rgbComponentInterpolation
 
-	count				12
+	count				0
 
-	life				400
+	life				200
 
 	origin				-1 -1 -1 1 1 1
 
@@ -14,84 +16,32 @@ Particle
 
 	rotationDelta		-20 20
 
-	velocity			375 -100 -10 479 100 10
+	velocity			500 0 0
 
-	acceleration		-10 -10 -10 -50 10 10
+	acceleration		-10 -10 -10 -40 10 10
 
 	rgb
 	{
 		start			0 0 0.7333 0.1255 0.1255 1
 		end				1 1 1 0.9569 0.702 0.4667
-		parm			2 60
-		flags			nonlinear
-	}
-
-	alpha
-	{
-		start			0.5 0.2
-		end				0
-		parm			20 2
-		flags			nonlinear
-	}
-
-	size
-	{
-		start			3 4
-		end				28 24
-		flags			linear
-	}
-
-	shaders
-	[
-		gfx/effects/fire2
-		gfx/effects/fire3
-		gfx/effects/fire4
-	]
-}
-
-Particle
-{
-	name				Copy of Unnamed Particle 0
-
-	spawnFlags			rgbComponentInterpolation
-
-	count				2 12
-
-	life				400
-
-	delay				100 200
-
-	origin				-1 -1 -1 1 1 1
-
-	rotation			-1 1
-
-	rotationDelta		-20 20
-
-	velocity			320 -10 -10 440 10 10
-
-	acceleration		-10 -10 -10 -50 10 10
-
-	rgb
-	{
-		start			0 0 1 0.1255 0.1255 1
-		end				0.7216 0.702 1 0.4667 0.4667 1
 		parm			50 60
 		flags			nonlinear
 	}
 
 	alpha
 	{
-		start			0.7 0.8
-		end				0
-		parm			2 3
+		start			0.7 0.5
+		end				0.2
+		parm			13
 		flags			linear nonlinear
 	}
 
 	size
 	{
-		start			3 4
-		end				12 30
-		flags			linear
+		start			2
+		end				20
+		parm			2
+		flags			nonlinear
 	}
 
 	shaders
@@ -104,15 +54,13 @@ Particle
 
 Particle
 {
-	name				Copy of Copy of Unnamed Particl
+	name				shart1
 
 	spawnFlags			rgbComponentInterpolation
 
-	count				12
+	count				0 1
 
-	life				300 400
-
-	delay				200
+	life				200
 
 	origin				-1 -1 -1 1 1 1
 
@@ -120,30 +68,32 @@ Particle
 
 	rotationDelta		-20 20
 
-	velocity			300 -10 -10 440 10 10
+	velocity			150 -10 -10 200 10 10
 
-	acceleration		-10 -10 -10 -50 10 10
+	acceleration		-10 -10 -10 -40 10 10
 
 	rgb
 	{
-		start			0 0 1 0.1255 0.1255 1
-		end				0 0 1 0.4667 0.4667 1
+		start			0 0 0.7333 0.1255 0.1255 1
+		end				1 1 1 0.9569 0.702 0.4667
 		parm			50 60
 		flags			nonlinear
 	}
 
 	alpha
 	{
-		end				0
-		parm			3 2
+		start			0.9 0.8
+		end				0.1 0.3
+		parm			10 1
 		flags			linear nonlinear
 	}
 
 	size
 	{
-		start			3 4
-		end				12 16
-		flags			linear
+		start			2
+		end				10
+		parm			23
+		flags			nonlinear
 	}
 
 	shaders
@@ -154,23 +104,15 @@ Particle
 	]
 }
 
-Sound
-{
-	sounds
-	[
-		sound/effects/fireburst.mp3
-	]
-}
-
 Particle
 {
-	name				Copy of Unnamed Particle 0
+	name				shaft4
 
 	spawnFlags			rgbComponentInterpolation
 
-	count				12
+	count				0 1
 
-	life				700 400
+	life				200
 
 	origin				-1 -1 -1 1 1 1
 
@@ -178,31 +120,32 @@ Particle
 
 	rotationDelta		-20 20
 
-	velocity			275 -110 -25 379 100 25
+	velocity			800 -10 -10 850 10 10
 
-	acceleration		-10 -10 -10 -50 10 10
+	acceleration		-10 -10 -10 -40 10 10
 
 	rgb
 	{
 		start			0 0 0.7333 0.1255 0.1255 1
 		end				1 1 1 0.9569 0.702 0.4667
-		parm			2 60
+		parm			50 60
 		flags			nonlinear
 	}
 
 	alpha
 	{
-		start			0.5 0.2
-		end				0
-		parm			20 2
-		flags			nonlinear
+		start			0.6 0.5
+		end				0.1 0.2
+		parm			10 1
+		flags			linear nonlinear
 	}
 
 	size
 	{
-		start			3 4
-		end				32
-		flags			linear
+		start			4 2
+		end				30
+		parm			25 15
+		flags			linear nonlinear
 	}
 
 	shaders
@@ -215,15 +158,13 @@ Particle
 
 Particle
 {
-	name				Copy of Copy of Unnamed Particl
+	name				Base
 
 	spawnFlags			rgbComponentInterpolation
 
-	count				6
+	count				1 0
 
-	life				300 400
-
-	delay				0 200
+	life				200
 
 	origin				-1 -1 -1 1 1 1
 
@@ -231,14 +172,14 @@ Particle
 
 	rotationDelta		-20 20
 
-	velocity			220 -155 -25 340 155 25
+	velocity			50 -10 -10 100 10 10
 
-	acceleration		-10 -10 -10 -50 10 10
+	acceleration		-10 -10 -10 -40 10 10
 
 	rgb
 	{
-		start			0 0 1 0.1255 0.1255 1
-		end				0.7216 0.702 1 0.4667 0.4667 1
+		start			0 0 0.7333 0.1255 0.1255 1
+		end				1 1 1 0.9569 0.702 0.4667
 		parm			50 60
 		flags			nonlinear
 	}
@@ -246,15 +187,328 @@ Particle
 	alpha
 	{
 		start			0.7 0.6
-		end				0
-		parm			2 3
-		flags			linear
+		end				0 0.2
+		parm			1
+		flags			linear nonlinear
 	}
 
 	size
 	{
-		start			3 4
-		end				12 16
+		start			2
+		end				10
+		parm			1
+		flags			nonlinear
+	}
+
+	shaders
+	[
+		gfx/effects/fire2
+		gfx/effects/fire3
+		gfx/effects/fire4
+	]
+}
+
+Particle
+{
+	name				base2
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				0 2
+
+	life				200
+
+	origin				-1 -1 -1 1 1 1
+
+	rotation			-1 1
+
+	rotationDelta		-20 20
+
+	velocity			600 -10 -10 650 10 10
+
+	acceleration		-10 -10 -10 -40 10 10
+
+	rgb
+	{
+		start			0 0 0.7333 0.1255 0.1255 1
+		end				1 1 1 0.9569 0.702 0.4667
+		parm			50 60
+		flags			nonlinear
+	}
+
+	alpha
+	{
+		start			0.7 0.6
+		end				0.1 0.2
+		parm			1
+		flags			linear nonlinear
+	}
+
+	size
+	{
+		start			5
+		end				15 5
+		parm			1
+		flags			nonlinear
+	}
+
+	shaders
+	[
+		gfx/effects/fire2
+		gfx/effects/fire3
+		gfx/effects/fire4
+	]
+}
+
+Particle
+{
+	name				shaft2.5
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				0
+
+	life				255 200
+
+	origin				-1 -1 -1 1 1 1
+
+	rotation			-1 1
+
+	rotationDelta		-20 20
+
+	velocity			800 0 0 900 0 0
+
+	acceleration		-10 -10 -10 -40 10 10
+
+	rgb
+	{
+		start			0 0 1 1 1 1
+		end				1 1 1 0.9569 0.702 0.4667
+		parm			50 60
+		flags			nonlinear
+	}
+
+	alpha
+	{
+		start			0.7 0.5
+		end				0.2
+		parm			13
+		flags			linear nonlinear
+	}
+
+	size
+	{
+		start			5 2
+		end				25
+		parm			25
+		flags			nonlinear
+	}
+
+	shaders
+	[
+		gfx/effects/fire2
+		gfx/effects/fire3
+		gfx/effects/fire4
+		gfx/effects/whiteGlow
+	]
+}
+
+Particle
+{
+	name				shaft4.5
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				0
+
+	life				250
+
+	origin				-1 -1 -1 1 1 1
+
+	rotation			-1 1
+
+	rotationDelta		-20 20
+
+	velocity			850 -10 -10 900 10 10
+
+	acceleration		-10 -10 -10 -40 10 10
+
+	rgb
+	{
+		start			0 0 0.7333 0.1255 0.1255 1
+		end				1 1 1 0.9569 0.702 0.4667
+		parm			50 60
+		flags			nonlinear
+	}
+
+	alpha
+	{
+		start			0.6 0.5
+		end				0
+		parm			10 1
+		flags			linear nonlinear
+	}
+
+	size
+	{
+		start			3 2
+		end				35
+		parm			15 25
+		flags			nonlinear
+	}
+
+	shaders
+	[
+		gfx/effects/fire2
+		gfx/effects/fire3
+		gfx/effects/fire4
+	]
+}
+
+Particle
+{
+	name				shaft1.5
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				0
+
+	life				250
+
+	origin				-1 -1 -1 1 1 1
+
+	rotation			-1 1
+
+	rotationDelta		25 20
+
+	velocity			650 -10 -10 750 10 10
+
+	acceleration		-10 -10 -10 -40 10 10
+
+	rgb
+	{
+		start			0 0 0.7333 0.1255 0.1255 1
+		end				1 1 1 0.9569 0.702 0.4667
+		parm			50 60
+		flags			nonlinear
+	}
+
+	alpha
+	{
+		start			0.9 0.8
+		end				0.3
+		parm			10 1
+		flags			linear nonlinear
+	}
+
+	size
+	{
+		start			2
+		end				10
+		parm			23
+		flags			linear nonlinear
+	}
+
+	shaders
+	[
+		gfx/effects/fire2
+		gfx/effects/fire3
+		gfx/effects/fire4
+		gfx/effects/whiteGlow
+	]
+}
+
+Particle
+{
+	name				shaft5
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				0
+
+	life				250 225
+
+	origin				-1 -1 -1 1 1 1
+
+	rotation			-125 1
+
+	rotationDelta		-20 20
+
+	velocity			1000 -10 -10 1000 10 10
+
+	acceleration		-10 -10 -10 -40 10 10
+
+	rgb
+	{
+		start			0 0 0.7333 0.1255 0.1255 1
+		end				1 1 1 0.9569 0.702 0.4667
+		parm			50 60
+		flags			nonlinear
+	}
+
+	alpha
+	{
+		start			0.6 0.5
+		end				0 0.1
+		parm			10 1
+		flags			linear nonlinear
+	}
+
+	size
+	{
+		start			5 2
+		end				25 35
+		parm			25 15
+		flags			linear nonlinear
+	}
+
+	shaders
+	[
+		gfx/effects/fire2
+		gfx/effects/fire3
+		gfx/effects/fire4
+	]
+}
+
+Particle
+{
+	name				Lasting
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				4 2
+
+	life				900 600
+
+	origin				-1 -2 -2 1 2 2
+
+	rotation			-125 1
+
+	rotationDelta		-20 20
+
+	velocity			430 -25 -25 410 25 25
+
+	acceleration		-10 -10 -10 -40 10 10
+
+	rgb
+	{
+		parm			50 60
+		flags			nonlinear
+	}
+
+	alpha
+	{
+		start			0.6 0.5
+		end				0
+		parm			10 1
+		flags			linear nonlinear
+	}
+
+	size
+	{
+		start			2
+		end				25 30
+		parm			25 15
 		flags			linear
 	}
 
@@ -268,30 +522,28 @@ Particle
 
 Particle
 {
-	name				Copy of Copy of Copy of Unnamed
+	name				LastingSmoke
+
+	flags				useAlpha
 
 	spawnFlags			rgbComponentInterpolation
 
-	count				6
+	count				5 4
 
-	life				300 400
+	life				900
 
-	delay				0 200
+	origin				-1 -2 -2 1 2 2
 
-	origin				-1 -1 -1 1 1 1
-
-	rotation			-1 1
+	rotation			-125 1
 
 	rotationDelta		-20 20
 
-	velocity			300 -100 25 300 100 0
+	velocity			350 -25 -25 400 25 25
 
-	acceleration		-10 -10 -10 -50 10 10
+	acceleration		-10 -10 -10 -40 10 10
 
 	rgb
 	{
-		start			0 0 1 0.1255 0.1255 1
-		end				0 0 1 0.4667 0.4667 1
 		parm			50 60
 		flags			nonlinear
 	}
@@ -299,22 +551,21 @@ Particle
 	alpha
 	{
 		start			0.7
-		end				0
-		parm			3 2
-		flags			linear wave
+		end				0 0.2
+		parm			10 1
+		flags			linear nonlinear
 	}
 
 	size
 	{
-		start			3 4
-		end				12 20
+		start			5 2
+		end				25
+		parm			25 15
 		flags			linear
 	}
 
 	shaders
 	[
-		gfx/effects/fire2
-		gfx/effects/fire3
-		gfx/effects/fire4
+		gfx/misc/black_smoke2
 	]
 }
