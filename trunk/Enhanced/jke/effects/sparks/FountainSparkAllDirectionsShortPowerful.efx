@@ -1,4 +1,72 @@
-repeatDelay				1078
+repeatDelay				250
+
+Tail
+{
+	name				DirectionalFountainspark
+
+	count				16
+
+	life				300 100
+
+	intensity			0.25 0.4
+
+	velocity			235 -250 -251 350 250 250
+
+	gravity				-450 -550
+
+	size
+	{
+		start			0.3
+		end				0
+		flags			linear
+	}
+
+	length
+	{
+		start			4 7
+		end				0.1 1
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/misc/spark
+	]
+}
+
+Tail
+{
+	name				Copy of Unnamed Tail 1
+
+	count				16 12
+
+	life				200
+
+	intensity			0.25 0.4
+
+	velocity			250 -140 -135 390 140 135
+
+	gravity				-450 -550
+
+	size
+	{
+		start			0.42 0.4
+		end				0.1
+		flags			linear
+	}
+
+	length
+	{
+		start			4 1
+		end				1 2
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/misc/spark
+	]
+}
 
 Tail
 {
@@ -20,7 +88,7 @@ Tail
 
 	height				2
 
-	velocity			335 115 95 335 -115 -95
+	velocity			335 250 250 335 -250 -249
 
 	gravity				-700 -250
 
@@ -71,7 +139,7 @@ Tail
 
 	intensity			0.22 0.21
 
-	velocity			165 85 65 175 -85 -65
+	velocity			165 185 165 175 -185 -165
 
 	gravity				-700 -250
 
@@ -128,7 +196,7 @@ Tail
 
 	height				3 4
 
-	velocity			200 50 50 250 -50 -50
+	velocity			200 250 250 250 -250 -250
 
 	gravity				-700 -250
 

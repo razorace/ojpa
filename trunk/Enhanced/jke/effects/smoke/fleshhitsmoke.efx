@@ -1,4 +1,4 @@
-repeatDelay				300
+repeatDelay				1857
 
 Particle
 {
@@ -10,19 +10,19 @@ Particle
 
 	count				11 10
 
-	life				900 1000
+	life				1000 1100
 
-	delay				10 20
+	delay				0 20
 
-	radius				3
+	radius				5 6
 
-	height				3
+	height				5 6
 
 	rotation			0 80
 
-	rotationDelta		-10 10
+	rotationDelta		-5 10
 
-	acceleration		15 15 15 -15 -15 -15
+	velocity			15 25 25 -15 -25 -25
 
 	rgb
 	{
@@ -34,10 +34,10 @@ Particle
 
 	alpha
 	{
-		start			0.3 0.4
-		end				0.2 0.1
+		start			0.2 0.5
+		end				0
 		parm			40 50
-		flags			linear nonlinear
+		flags			linear
 	}
 
 	size
@@ -54,117 +54,59 @@ Particle
 	]
 }
 
-Sound
-{
-}
-
 Particle
 {
-	name				Copy of blackwhite
+	name				white
 
 	flags				useAlpha
 
 	spawnFlags			orgOnSphere rgbComponentInterpolation
 
-	count				6
+	count				16 19
 
-	life				1100 1300
+	life				1300 1400
 
-	delay				160 100
+	radius				5
 
-	radius				7
+	height				5
 
-	height				7
+	rotation			15 25
 
-	rotation			0 35
+	rotationDelta		-5 10
 
-	rotationDelta		-10 10
+	velocity			28 0 0 29 0 0
 
-	acceleration		15 15 15 -15 -15 -15
+	acceleration		9 0 0 3 0 0
+
+	gravity				-35
 
 	rgb
 	{
-		start			0.7529 0.7529 0.7529
-		end				0.7529 0.7529 0.7529 0.4863 0.4863 0.4863
+		start			1 0.9843 0.9412 1 1 1
+		end				1 0.9843 0.9412
 		parm			1
 		flags			linear wave
 	}
 
 	alpha
 	{
-		start			0.7 0.5
-		end				0.2 0.1
-		parm			40 50
-		flags			linear nonlinear
+		start			0.4 0.2
+		end				0
+		parm			1
+		flags			linear
 	}
 
 	size
 	{
-		start			6
-		end				15
-		parm			50
-		flags			linear clamp
+		start			1 5
+		end				30 15
+		parm			333 13
+		flags			nonlinear
 	}
 
 	shaders
 	[
 		gfx/effects/alpha_smoke
-	]
-}
-
-Particle
-{
-	name				Copy of blackwhite
-
-	flags				useAlpha
-
-	spawnFlags			orgOnSphere rgbComponentInterpolation
-
-	count				9 7
-
-	life				1100 1300
-
-	delay				160 100
-
-	radius				4 3
-
-	height				4 3
-
-	rotation			0 80
-
-	rotationDelta		-10 10
-
-	velocity			5 5 5 -5 -5 -5
-
-	acceleration		15 15 15 -15 -15 -15
-
-	rgb
-	{
-		start			0 0 0
-		end				0 0 0 0.4863 0.4863 0.4863
-		parm			1
-		flags			linear wave
-	}
-
-	alpha
-	{
-		start			0.3 0.4
-		end				0.2 0.1
-		parm			40 50
-		flags			linear nonlinear
-	}
-
-	size
-	{
-		start			3
-		end				10
-		parm			2 1
-		flags			linear wave
-	}
-
-	shaders
-	[
-		gfx/misc/black_smoke
 	]
 }
 
@@ -176,48 +118,46 @@ Particle
 
 	spawnFlags			absoluteAccel orgOnSphere rgbComponentInterpolation
 
-	count				11 10
+	count				14 13
 
-	life				400
+	life				1500 2000
 
-	radius				4 3
+	radius				10 5
 
-	height				4 3
+	height				6 7
 
-	rotation			0 80
+	rotation			2 3
 
-	rotationDelta		-10 10
+	rotationDelta		-2 10
 
-	acceleration		15 15 15 -15 -15 -15
-
-	gravity				125
+	gravity				5
 
 	rgb
 	{
-		start			0 0 0
-		end				0 0 0 0.4863 0.4863 0.4863
+		start			0.7529 0.7529 0.7529 1 1 1
+		end				1 0.9843 0.9412 1 1 1
 		parm			1
 		flags			linear
 	}
 
 	alpha
 	{
-		start			0.5 0.7
+		start			0.4 0.3
 		end				0
-		parm			2
+		parm			3 2
 		flags			linear nonlinear
 	}
 
 	size
 	{
-		start			2
-		end				22 15
-		parm			2
-		flags			linear wave
+		start			4
+		end				15
+		parm			1 15
+		flags			linear nonlinear
 	}
 
 	shaders
 	[
-		gfx/misc/black_smoke
+		gfx/effects/alpha_smoke
 	]
 }

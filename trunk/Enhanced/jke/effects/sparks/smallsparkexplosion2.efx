@@ -34,19 +34,19 @@ Tail
 
 	spawnFlags			absoluteVel orgOnSphere
 
-	count				150
+	count				25 75
 
-	life				200
+	life				800 200
 
 	bounce				0.25 0.4
 
-	radius				25
+	radius				50
 
-	height				25
+	height				50
 
-	velocity			300 300 1000 -300 -300 100
+	velocity			300 300 500 -300 -300 100
 
-	gravity				-350 -450
+	gravity				-850 -450
 
 	size
 	{
@@ -74,15 +74,15 @@ Tail
 
 	spawnFlags			absoluteVel orgOnSphere
 
-	count				150
+	count				75
 
 	life				200
 
 	bounce				0.25 0.4
 
-	radius				5
+	radius				45
 
-	height				5
+	height				45
 
 	velocity			550 550 700 -550 -550 0
 

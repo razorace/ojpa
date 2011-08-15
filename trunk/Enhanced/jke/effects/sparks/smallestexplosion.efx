@@ -6,7 +6,7 @@ Tail
 
 	spawnFlags			absoluteVel orgOnSphere
 
-	count				100
+	count				50
 
 	life				100
 
@@ -46,7 +46,7 @@ Tail
 
 	spawnFlags			absoluteVel orgOnSphere
 
-	count				100
+	count				50
 
 	life				100
 
