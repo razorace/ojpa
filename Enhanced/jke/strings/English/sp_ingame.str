@@ -217,8 +217,7 @@ LANG_ENGLISH        "Wookiee Bowcaster\nThis archaic-looking weapon fires powerf
 
 REFERENCE           HEAVYREPEATER_DESC
 //[CloneRifle]
-LANG_ENGLISH        "Blastech DC-15A Rifle\nThis destructive energy weapon is extremely deadly, firing rapid streams of tibanna gas powered projectiles.  This rifle was invented for the Republic Clone Troopers during the Clone Wars and was the main weapon in most of the early battles.\nPrimary Fire - Fully automatic projectile fire \nSecondary Fire - Single shot, concussion explosive round\nAmmo type - Metallic bolts"
-//LANG_ENGLISH        "Imperial Heavy Repeater with Concussion Launcher\nThis destructive projectile weapon is extremely deadly, firing rapid streams of metal bullets.  Imperial forces use the Heavy Repeater's deadly suppressive fire and concussion launcher for crowd control and to spread heavy fire over large areas.\nPrimary Fire - Fully automatic projectile fire \nSecondary Fire - Single shot, concussion explosive round\nAmmo type - Metallic bolts"
+LANG_ENGLISH        "Imperial Heavy Repeater with Concussion Launcher\nThis destructive projectile weapon is extremely deadly, firing rapid streams of metal bullets.  Imperial forces use the Heavy Repeater's deadly suppressive fire and concussion launcher for crowd control and to spread heavy fire over large areas.\nPrimary Fire - Fully automatic     projectile fire \nSecondary Fire - Single shot, concussion explosive round\nAmmo type - Metallic bolts"
 //[/CloneRifle]
 
 REFERENCE           DEMP2_DESC
