@@ -6249,6 +6249,17 @@ static void PM_Footsteps( void ) {
 	pm->xyspeed = sqrt( pm->ps->velocity[0] * pm->ps->velocity[0]
 		+  pm->ps->velocity[1] * pm->ps->velocity[1] );
 
+
+#ifdef QAGAME
+		if(g_entities[pm->ps->clientNum].client->flameTime > level.time)
+		{
+			//if(! (pm->cmd.buttons & BUTTON_WALKING) ) { pml.walking = qtrue;}
+				//Com_Printf("A");
+				
+				//pm->cmd.buttons |= (1 << BUTTON_WALKING );
+		}
+#endif
+
 	if (pm->ps->saberMove == LS_SPINATTACK)
 	{
 		PM_ContinueLegsAnim( pm->ps->torsoAnim );
@@ -6777,6 +6788,22 @@ static void PM_Footsteps( void ) {
 			}
 		}
 	}
+
+#ifdef QAGAME
+	if(g_entities[pm->ps->clientNum].client->flameTime > level.time)
+	{
+	int desiredAnim = BOTH_WALK1;
+	int ires = PM_LegsSlopeBackTransition(desiredAnim);
+	if ((pm->ps->legsAnim) != desiredAnim && ires == desiredAnim)
+	{
+		PM_SetAnim(SETANIM_LEGS, desiredAnim, setAnimFlags, 100);
+	}
+	else
+	{
+		PM_ContinueLegsAnim(ires);
+	}
+	}
+#endif
 
 	// check for footstep / splash sounds
 	old = pm->ps->bobCycle;
@@ -8527,6 +8554,7 @@ static void PM_Weapon( void )
 				return;
 			}
 
+			
 			//[Flamethrower]
 			if(bg_itemlist[pm->ps->stats[STAT_HOLDABLE_ITEM]].giTag == HI_FLAMETHROWER)
 			{//flame thrower is handled earlier, just terminate out
@@ -9177,9 +9205,10 @@ static void PM_Weapon( void )
 
 		else
 		{
-			if (pm->ps->weapon != WP_MELEE ||
-				!pm->ps->m_iVehicleNum)
+			if ( pm->ps->weapon != WP_MELEE ||
+				!pm->ps->m_iVehicleNum )		
 			{ //do not fire melee events at all when on vehicle
+
 				PM_AddEvent( EV_ALT_FIRE );
 			}
 			addTime = weaponData[pm->ps->weapon].altFireTime;
@@ -9211,6 +9240,24 @@ static void PM_Weapon( void )
 		}
 		#endif
 		//[/BlasterRateOfFireUpgrade]
+
+		//[RepeaterRateOfFireUpgrade]
+		#ifdef QAGAME
+		if(1)
+		{
+			gentity_t *ent = &g_entities[pm->ps->clientNum];
+			if(ent->client->ps.weapon == WP_REPEATER)
+			{
+				if(ent->client->skillLevel[SK_REPEATER] == FORCE_LEVEL_3)
+					addTime =100;
+				else if(ent->client->skillLevel[SK_REPEATER] == FORCE_LEVEL_2)
+					addTime = 250;
+				else
+					addTime = 400;
+			}
+		}
+		#endif
+		//[/RepeaterRateOfFireUpgrade]
 
 		if ( pm->gametype == GT_SIEGE && pm->ps->weapon == WP_DET_PACK )
 		{	// were far too spammy before?  So says Rick.
@@ -13963,6 +14010,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 					case BOTH_KNOCKDOWN1:
 						//RAFIXME - Impliment PM_ControlledByPlayer?
 						if ( pm->ps->fd.forcePowerLevel[FP_LEVITATION] > FORCE_LEVEL_0 //has force jump
+							&& pm->ps->fd.forcePowerLevel[FP_SEE] > FORCE_LEVEL_0 //is force-sensitive
 							&& !(pm->ps->userInt3 & (1 << FLAG_FATIGUED))  //player isn't fatigued.
 							&& ( (pm->ps->clientNum < MAX_CLIENTS && pm->cmd.upmove > 0) //is a player trying to jump
 								|| pm->ps->clientNum >= MAX_CLIENTS) ) //an NPC doesn't have to give a command to do this.
@@ -13980,6 +14028,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 					case BOTH_PLAYER_PA_3_FLY:
 						//RAFIXME - impliment PM_ControlledByPlayer?
 						if ( pm->ps->fd.forcePowerLevel[FP_LEVITATION] > FORCE_LEVEL_0 //has force jump
+							&& pm->ps->fd.forcePowerLevel[FP_SEE] > FORCE_LEVEL_0 //is force-sensitive
 							&& !(pm->ps->userInt3 & (1 << FLAG_FATIGUED))  //player isn't fatigued.
 							&& ( (pm->ps->clientNum < MAX_CLIENTS && pm->cmd.upmove > 0) //is a player trying to jump
 								|| pm->ps->clientNum >= MAX_CLIENTS) ) //an NPC doesn't have to give a command to do this.
@@ -13998,6 +14047,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 					case BOTH_KNOCKDOWN3:
 						//RAFIXME - impliment PM_ControlledByPlayer?
 						if ( pm->ps->fd.forcePowerLevel[FP_LEVITATION] > FORCE_LEVEL_0 //has force jump
+							&& pm->ps->fd.forcePowerLevel[FP_SEE] > FORCE_LEVEL_0 //is force-sensitive
 							&& !(pm->ps->userInt3 & (1 << FLAG_FATIGUED))  //player isn't fatigued.
 							&& ( (pm->ps->clientNum < MAX_CLIENTS && pm->cmd.upmove > 0) //is a player trying to jump
 								|| pm->ps->clientNum >= MAX_CLIENTS) ) //an NPC doesn't have to give a command to do this.
@@ -14016,6 +14066,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 					case BOTH_RELEASED:
 						//RAFIXME - impliment PM_ControlledByPlayer?
 						if ( pm->ps->fd.forcePowerLevel[FP_LEVITATION] > FORCE_LEVEL_0 //has force jump
+							&& pm->ps->fd.forcePowerLevel[FP_SEE] > FORCE_LEVEL_0 //is force-sensitive
 							&& !(pm->ps->userInt3 & (1 << FLAG_FATIGUED))  //player isn't fatigued.
 							&& ( (pm->ps->clientNum < MAX_CLIENTS && pm->cmd.upmove > 0) //is a player trying to jump
 								|| pm->ps->clientNum >= MAX_CLIENTS) ) //an NPC doesn't have to give a command to do this.
@@ -14033,6 +14084,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 					case BOTH_LK_DL_ST_T_SB_1_L:
 						//RAFIXME - impliment PM_ControlledByPlayer?
 						if ( pm->ps->fd.forcePowerLevel[FP_LEVITATION] > FORCE_LEVEL_0 //has force jump
+							&& pm->ps->fd.forcePowerLevel[FP_SEE] > FORCE_LEVEL_0 //is force-sensitive
 							&& !(pm->ps->userInt3 & (1 << FLAG_FATIGUED))  //player isn't fatigued.
 							&& ( (pm->ps->clientNum < MAX_CLIENTS && pm->cmd.upmove > 0) //is a player trying to jump
 								|| pm->ps->clientNum >= MAX_CLIENTS) ) //an NPC doesn't have to give a command to do this.

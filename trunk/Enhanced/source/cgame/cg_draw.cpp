@@ -7102,12 +7102,12 @@ void CG_DrawFlagStatus()
 }
 
 //draw meter showing jetpack fuel when it's not full
-#define JPFUELBAR_H			100.0f
-#define JPFUELBAR_W			20.0f
+#define JPFUELBAR_H			50.0f
+#define JPFUELBAR_W			15.0f
 #define JPFUELBAR_X			(SCREEN_WIDTH-JPFUELBAR_W-8.0f)
 //[NewHud]
 //moved the jetpack fuel bar a little since the new hud overlapped it.
-#define JPFUELBAR_Y			240.0f
+#define JPFUELBAR_Y			390.0f
 //#define JPFUELBAR_Y			260.0f
 //[/NewHud]
 void CG_DrawJetpackFuel(void)
@@ -7118,7 +7118,7 @@ void CG_DrawJetpackFuel(void)
 	float x = JPFUELBAR_X;
 	float y = JPFUELBAR_Y;
 	float percent = ((float)cg.snap->ps.stats[STAT_FUEL] / JETPACK_MAXFUEL) * JPFUELBAR_H;
-	float percent2 = ((float)cg.snap->ps.stats[STAT_HEAT] * 0.1) * JPFUELBAR_H;
+	float percent2 = ((float)cg.snap->ps.stats[STAT_HEAT] * 0.1) * 40.0f;
 
 	if (percent > JPFUELBAR_H)
 	{
@@ -7134,16 +7134,14 @@ void CG_DrawJetpackFuel(void)
 	aColor[0] = 1.0f;
 	aColor[1] = 1.0f;
 	aColor[2] = 0.0f;
-	aColor[3] = 0.8f;
+	aColor[3] = 0.5f;
 
 	if(cg.jetpackHUDTotalFlashTime > cg.time)
 	{
 			aColor[0] = 1.0f;
 			aColor[1] = 0.0f;
 			aColor[2] = 0.0f;
-			aColor[3] = 0.8f;
-			
-			
+			aColor[3] = 0.5f;				
 	}
 
 	//color of the border
@@ -7159,48 +7157,36 @@ void CG_DrawJetpackFuel(void)
 	cColor[3] = 0.1f;
 
 	//draw the background (black)
-	CG_DrawRect(x, y, JPFUELBAR_W, JPFUELBAR_H, 1.0f, colorTable[CT_BLACK]);
+	CG_DrawRect(x, y, JPFUELBAR_W, JPFUELBAR_H, 0.7f, colorTable[CT_BLACK]);
 
 	//now draw the part to show how much health there is in the color specified
-	CG_FillRect(x+1.0f, y+1.0f+(JPFUELBAR_H-percent), JPFUELBAR_W-1.0f, JPFUELBAR_H-1.0f-(JPFUELBAR_H-percent), aColor);
+	CG_FillRect(x+2.0f, y+(JPFUELBAR_H-percent), JPFUELBAR_W-3.0f, JPFUELBAR_H-1.0f-(JPFUELBAR_H-percent), aColor);
 
 	//then draw the other part greyed out
 	CG_FillRect(x+1.0f, y+1.0f, JPFUELBAR_W-1.0f, JPFUELBAR_H-percent, cColor);
 
 
-	
+	//draw amount of fuel remaining
+	UI_DrawScaledProportionalString(JPFUELBAR_X,JPFUELBAR_Y-10.0f, va( "%i", cg.snap->ps.stats[STAT_FUEL] ),
+		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_WHITE] , 0.5f);
+
 	//DMURPHY - Draw the Jetpack overheat timer also ---------------------------------------------------
+
+
 
 	if(percent2 < 0.1f) return;
 
 	//color of the bar
-	vec4_t dColor;
-	if(cg.snap->ps.eFlags & EF_JETPACK_ACTIVE)
-	{
-		
-		float c = abs(10.0f - ((float)cg.snap->ps.stats[STAT_HEAT] * 0.1) );
-
-		dColor[0] = c;
-		dColor[1] = 0.5f;
-		dColor[2] = 0.0f;
-		dColor[3] = 1.0f;
-	}
-	else
-	{
-		dColor[0] = 0.0f;
-		dColor[1] = 1.0f;
-		dColor[2] = 0.0f;
-		dColor[3] = 1.0f;
-	}
-
+	vec4_t dColor = {0.0f, 1.0f, 0.0f, 0.5f};
 
 
 
 	
 
-	
-	//now draw the part to show how much health there is in the color specified
-	CG_FillRect(x-5.0f, y+1.0f+(JPFUELBAR_H-percent2), 5.0f, JPFUELBAR_H-1.0f-(JPFUELBAR_H-percent2), dColor); 
+	y = 439.0f;
+	x += 6.0f;
+	//Draw the rectangle showing the time left
+	CG_FillRect(x-4.0f, y, 5.0f, -percent2, dColor); 
 	
 	
 }
@@ -7212,7 +7198,6 @@ void CG_DrawJetpackFuel(void)
 //[NewHud]
 //moved to prevent overlap with new hud.
 #define EWEBHEALTH_Y			240.0f
-//#define EWEBHEALTH_Y			290.0f
 //[/NewHud]
 void CG_DrawEWebHealth(void)
 {

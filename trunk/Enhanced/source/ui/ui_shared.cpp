@@ -5240,9 +5240,9 @@ static bind_t g_bindings[] =
 	{"+button12",		-1,					-1,		-1,	-1},
 	//[/SaberThrowSys]
 
-	//For Detonator quickthrow
+	//For Special Button1
 	{"+button13",		-1,					-1,		-1,	-1},
-	//For Quick Parry
+	//For Special Button2
 	{"+button14",		-1,					-1,		-1,	-1},
 	{"reload",			'r',				-1,		-1,	-1},
 };

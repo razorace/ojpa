@@ -2123,6 +2123,41 @@ void ClientThink_real( gentity_t *ent ) {
 		ent->client->ps.userInt3 &= ~(1 << FLAG_FROZEN);
 	}
 
+	if(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON1)
+	{
+		if(ent->client->ps.fd.forcePowerLevel[FP_SEE] )
+		{//Jedi
+
+		}
+		else
+		{//Gunner
+			if(ent->client->itemSlot1 == 0)
+			{//Nothing to use this button on
+			}
+			else
+			{
+				UseItem(ent,ent->client->itemSlot1,1);					
+			}
+		}
+	}
+	if(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON2)
+	{
+		if(ent->client->ps.fd.forcePowerLevel[FP_SEE] )
+		{//Jedi
+
+		}
+		else
+		{//Gunner
+			if(ent->client->itemSlot2 == 0)
+			{//Nothing to use this button on
+			}
+			else
+			{
+				UseItem(ent,ent->client->itemSlot2,2);					
+			}
+		}
+	}
+	/*
 	if((ent->client->pers.cmd.buttons & BUTTON_THERMALTHROW) && !ent->client->weaponbuttonNeedRelease)
 	{
 		gentity_t *item = TouchingItem(ent);
@@ -2143,7 +2178,7 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 	else if(!(ent->client->pers.cmd.buttons & BUTTON_THERMALTHROW) && ent->client->weaponbuttonNeedRelease)
 		ent->client->weaponbuttonNeedRelease = qfalse;
-
+		*/
 	// This code was moved here from clientThink to fix a problem with g_synchronousClients 
 	// being set to 1 when in vehicles. 
 	if ( ent->s.number < MAX_CLIENTS && ent->client->ps.m_iVehicleNum )
@@ -2497,6 +2532,7 @@ void ClientThink_real( gentity_t *ent ) {
 		ent->client->ps.forceHandExtend = HANDEXTEND_WEAPONREADY;
 	}
 
+	
 	if (ent->NPC && ent->s.NPC_class != CLASS_VEHICLE) //vehicles manage their own speed
 	{
 		//FIXME: swoop should keep turning (and moving forward?) for a little bit?

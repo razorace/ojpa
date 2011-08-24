@@ -1510,38 +1510,7 @@
 				hide			keybindstatus
 			}
 		}
-		itemDef 
-		{
-			name				force5
-			group				attackcontrols
-			type				ITEM_TYPE_BIND
-			text				@OJP_MENUS_RELOAD
-			cvar				"reload"
-			rect				260 230 340 14
-			textalign			ITEM_ALIGN_RIGHT
-			textalignx			174
-			textaligny			0
-			font				4
-			textscale			1
-			forecolor			.615 .615 .956 1
-			visible				0
-			descText			@OJP_MENUS_USESRELOAD
-
-			mouseenter 
-			{ 
-				show			highlight2
-				show			keybindstatus
-			}
-			mouseexit 
-			{ 
-				hide			highlight2
-				hide			keybindstatus
-			}
-			action 
-			{ 
-				play			"sound/interface/button1.wav" ; 
-			}
-		}
+		
 		itemDef 
 		{
 			group				attackcontrols
@@ -1575,7 +1544,7 @@
 				play			"sound/interface/button1.wav" ; 
 			}
 		}
-
+/*
 		itemDef 
 		{
 			name				attacklook
@@ -1677,7 +1646,7 @@
 				play			"sound/interface/button1.wav" ; 
 			}
 		}
-
+*/
 		itemDef 
 		{
 			name				attacklook4
@@ -1817,12 +1786,44 @@
 
 		itemDef 
 		{
+			name				force5
+			group				attackcontrols
+			type				ITEM_TYPE_BIND
+			text				"Special Button 1:"
+			cvar				"+button13"
+			rect				260 258 340 14
+			textalign			ITEM_ALIGN_RIGHT
+			textalignx			174
+			textaligny			0
+			font				4
+			textscale			1
+			forecolor			.615 .615 .956 1
+			visible				0
+			descText			"Performs action assosciated with Special Button 1"
+
+			mouseenter 
+			{ 
+				show			highlight7
+				show			keybindstatus
+			}
+			mouseexit 
+			{ 
+				hide			highlight7
+				hide			keybindstatus
+			}
+			action 
+			{ 
+				play			"sound/interface/button1.wav" ; 
+			}
+		}
+		itemDef 
+		{
 			name				attacklook
 			group				attackcontrols
 			type				ITEM_TYPE_BIND
-			text				"Quick Parry"
+			text				"Special Button 2:"
 			cvar				"+button14"
-			rect				260 370 340 14
+			rect				260 272 340 14
 			textalign			ITEM_ALIGN_RIGHT
 			textalignx			174
 			textaligny			0
@@ -1831,17 +1832,17 @@
 			forecolor			1 1 1 1
 			visible			0
 			// appearance_slot		6
-			descText			"Allow for quick parry"
+			descText			"Performs action assosciated with Special Button 2"
 			forecolor			.615 .615 .956 1
 
 			mouseenter 
 			{ 
-				show			highlight13
+				show			highlight8
 				show			keybindstatus
 			}
 			mouseexit 
 			{ 
-				hide			highlight13
+				hide			highlight8
 				hide			keybindstatus
 			}
 			action 
@@ -2289,7 +2290,8 @@
 				play			"sound/interface/button1.wav" ; 
 			}
 		}
-itemDef 
+/*
+		itemDef 
 		{
 			name				none
 			group				weaponcontrols
@@ -2322,6 +2324,7 @@ itemDef
 				play			"sound/interface/button1.wav" ; 
 			}
 		}
+*/
 //----------------------------------------------------------------------------------------------
 //
 //	FORCE BINDING

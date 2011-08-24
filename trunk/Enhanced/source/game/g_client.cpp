@@ -4675,9 +4675,12 @@ void ClientSpawn(gentity_t *ent) {
 	}
 	else
 	{
+		client->itemSlot1 = 0;
+		client->itemSlot2 = 0; //Reset it to 0
+
 		//[ExpSys]
 		client->ps.stats[STAT_HOLDABLE_ITEMS] = 0;
-
+		client->ps.stats[STAT_GADGET_1] = client->ps.stats[STAT_GADGET_2] = 999;
 		
 		if(client->skillLevel[SK_JETPACK])
 		{//player has jetpack
@@ -4686,37 +4689,126 @@ void ClientSpawn(gentity_t *ent) {
 
 		if(client->skillLevel[SK_FORCEFIELD])
 		{//give the player the force field item
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SHIELD);
+			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SHIELD);
+			
+			//If we can't find any available slot it means they're already taken
+			//and so don't allow any more items
+			if(client->itemSlot1 == 0)
+			{
+				client->ps.stats[STAT_GADGET_1] = HI_SHIELD;
+				client->itemSlot1 = SK_FORCEFIELD;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SHIELD);
+			}
+			else if(client->itemSlot2 == 0)
+			{
+				client->ps.stats[STAT_GADGET_2] = HI_SHIELD;
+				client->itemSlot2 = SK_FORCEFIELD;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SHIELD);
+			}
+
 		}
 
 		if(client->skillLevel[SK_CLOAK])
 		{//give the player the cloaking device
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_CLOAK);
+			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_CLOAK);
+
+			if(client->itemSlot1 == 0)
+			{
+				client->ps.stats[STAT_GADGET_1] = HI_CLOAK;
+				client->itemSlot1 = SK_CLOAK;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_CLOAK);
+			}
+			else if(client->itemSlot2 == 0)
+			{
+				client->ps.stats[STAT_GADGET_2] = HI_CLOAK;
+				client->itemSlot2 = SK_CLOAK;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_CLOAK);
+			}
 		}
 
 		if(client->skillLevel[SK_BACTA] == FORCE_LEVEL_2)
 		{
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC_BIG);
+			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC_BIG);
+			if(client->itemSlot1 == 0)
+			{
+				client->ps.stats[STAT_GADGET_1] = HI_MEDPAC_BIG;
+				client->itemSlot1 = SK_BACTA;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC_BIG);
+			}
+			else if(client->itemSlot2 == 0)
+			{
+				client->ps.stats[STAT_GADGET_2] = HI_MEDPAC_BIG;
+				client->itemSlot2 = SK_BACTA;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC_BIG);
+			}
 		}
 		else if(client->skillLevel[SK_BACTA])
 		{
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC);
+			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC);
+			if(client->itemSlot1 == 0)
+			{
+				client->ps.stats[STAT_GADGET_1] = HI_MEDPAC;
+				client->itemSlot1 = SK_BACTA;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC);
+			}
+			else if(client->itemSlot2 == 0)
+			{
+				client->ps.stats[STAT_GADGET_2] = HI_MEDPAC;
+				client->itemSlot2 = SK_BACTA;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC);
+			}
 		}
 
 		//gain flamethrower
 		if(client->skillLevel[SK_FLAMETHROWER])
 		{
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_FLAMETHROWER);
+			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_FLAMETHROWER);
+			if(client->itemSlot1 == 0)
+			{
+				client->ps.stats[STAT_GADGET_1] = HI_FLAMETHROWER;
+				client->itemSlot1 = SK_FLAMETHROWER;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_FLAMETHROWER);
+			}
+			else if(client->itemSlot2 == 0)
+			{
+				client->ps.stats[STAT_GADGET_2] = HI_FLAMETHROWER;
+				client->itemSlot2 = SK_FLAMETHROWER;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_FLAMETHROWER);
+			}
 		}
 
 		if(client->skillLevel[SK_SEEKER])
 		{
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SEEKER);
+			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SEEKER);
+			if(client->itemSlot1 == 0)
+			{
+				client->ps.stats[STAT_GADGET_1] = HI_SEEKER;
+				client->itemSlot1 = SK_SEEKER;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SEEKER);
+			}
+			else if(client->itemSlot2 == 0)
+			{
+				client->ps.stats[STAT_GADGET_2] = HI_SEEKER;
+				client->itemSlot2 = SK_SEEKER;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SEEKER);
+			}
 		}
 
 		if(client->skillLevel[SK_SENTRY])
 		{
-			client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SENTRY_GUN);
+
+			if(client->itemSlot1 == 0)
+			{
+				client->ps.stats[STAT_GADGET_1] = HI_SENTRY_GUN;
+				client->itemSlot1 = SK_SENTRY;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SENTRY_GUN);
+			}
+			else if(client->itemSlot2 == 0)
+			{
+				client->ps.stats[STAT_GADGET_2] = HI_SENTRY_GUN;
+				client->itemSlot2 = SK_SENTRY;
+				client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SENTRY_GUN);
+			}
 		}
 
 		//client->ps.stats[STAT_HOLDABLE_ITEMS] = 0;
@@ -5063,6 +5155,7 @@ void ClientSpawn(gentity_t *ent) {
 		ent->client->invulnerableTimer = level.time + g_spawnInvulnerability.integer;
 	}
 
+	
 	// run the presend to set anything else
 	ClientEndFrame( ent );
 

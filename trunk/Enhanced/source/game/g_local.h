@@ -1032,6 +1032,10 @@ struct gclient_s {
 
 	qboolean	noCorpse; //don't leave a corpse on respawn this time.
 
+
+	int			itemSlot1;	//For gunners Special Button System
+	int			itemSlot2;
+
 	int			jetPackTime;
 	int			jetPackTimer;
 
@@ -1433,6 +1437,8 @@ gentity_t *G_GetDuelWinner(gclient_t *client);
 //
 // g_items.c
 //
+
+void UseItem(gentity_t *ent, int item, int itemSlot);
 void ItemUse_Binoculars(gentity_t *ent);
 void ItemUse_Shield(gentity_t *ent);
 void ItemUse_Sentry(gentity_t *ent);
