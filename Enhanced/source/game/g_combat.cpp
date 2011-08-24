@@ -6538,8 +6538,8 @@ qboolean G_RadiusDamage ( vec3_t origin, gentity_t *attacker, float damage, floa
 	for ( e = 0 ; e < numListedEntities ; e++ ) {
 		ent = &g_entities[entityList[ e ]];
 
-		if (ent == ignore)
-			continue;
+		//if (ent == ignore)
+			//continue;
 		if (!ent->takedamage)
 			continue;
 

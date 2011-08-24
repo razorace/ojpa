@@ -2413,9 +2413,9 @@ typedef struct siegePers_s
 //new button defines.
 #define	BUTTON_SABERTHROW		4096		//+button12
 //[SnapThrow]
-#define	BUTTON_THERMALTHROW		8192		//+button13
+#define	BUTTON_SPECIALBUTTON1	8192		//+button13
 //[/SnapThrow]
-#define	BUTTON_15				16384		//+button14
+#define	BUTTON_SPECIALBUTTON2	16384		//+button14
 //NOTE: As far as I've been able to test, the buttons seen below don't work because they 
 //aren't set to command buttons in the engine.
 #define	BUTTON_16				32768

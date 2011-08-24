@@ -3353,10 +3353,10 @@ void BG_SaberStartTransAnim( int clientNum, int saberAnimLevel, int weapon, int 
 			*animSpeed *= 0.65f;
 		}
 	}
-#ifdef QAGAME //1.3
-	if(ent && ent->client && (ent->client->pers.cmd.buttons & BUTTON_15))
-		*animSpeed*=0.8f;
-#endif
+//#ifdef QAGAME //1.3
+//	if(ent && ent->client && (ent->client->pers.cmd.buttons & BUTTON_15))
+	//	*animSpeed*=0.8f;
+//#endif
 
 	//[SaberSys]
 	//slow down the saber speeds

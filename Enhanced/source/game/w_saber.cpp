@@ -3414,8 +3414,8 @@ int OJP_SaberBlockCost(gentity_t *defender, gentity_t *attacker, vec3_t hitLoc)
 					saberBlockCost++;
 
 				saberBlockCost+=2;
-				if(attacker->activator->client->pers.cmd.buttons & BUTTON_ALT_ATTACK)
-					saberBlockCost *= 2;
+				//if(attacker->activator->client->pers.cmd.buttons & BUTTON_ALT_ATTACK)
+					//saberBlockCost *= 2;
 			}
 			else if(attacker->activator->s.weapon != WP_BOWCASTER || attacker->activator->s.weapon != WP_BOWCASTER && attacker->activator->client->skillLevel[SK_BOWCASTER] < FORCE_LEVEL_3 )
 			{
@@ -3997,6 +3997,11 @@ int OJP_SaberCanBlock(gentity_t *self, gentity_t *atk, qboolean checkBBoxBlock, 
 	{//can't block this stuff with a saber
 		return 0;
 	}
+
+	//Can only block with alt click held down, and bots just block by default
+	//(Makes it easier for testing )
+	if(!(self->client->pers.cmd.buttons & BUTTON_ALT_ATTACK) && !(self->r.svFlags & SVF_BOT))
+		return 0;
 
 	if(BG_InGrappleMove(self->client->ps.torsoAnim))
 	{//you can't block while doing a melee move.
@@ -6009,7 +6014,11 @@ bool G_CanDodge(gentity_t *self, gentity_t *attacker, int dpCost) {
 		}
 	}
 
-	if(attacker && attacker->client) {
+	
+	if(attacker && attacker->client) 
+	{
+		if(attacker->client->ps.fd.forcePowerLevel[FP_SEE] == FORCE_LEVEL_0)
+			return false; //Can't dodge if gunner
 		if(!InFront(attacker->client->ps.origin, self->client->ps.origin, self->client->ps.viewangles, -.7f)) {
 			return false;
 		}
@@ -9882,10 +9891,10 @@ qboolean OJP_DodgeKick( gentity_t *self, gentity_t *pusher, const vec3_t pushDir
 				return qfalse;
 			}
 		}
-		else if(!(self->client->buttons & BUTTON_15))
-		{
-			return qfalse;
-		}
+	//	else if(!(self->client->buttons & BUTTON_15))
+		//{
+			//return qfalse;
+	//	}
 	}
 
 	if ( self->client->ps.fd.forcePower < DODGE_KICKCOST )
@@ -10017,6 +10026,7 @@ static gentity_t *G_KickTrace( gentity_t *ent, vec3_t kickDir, float kickDist, v
 				return (hitEnt);
 			}
 
+			/*
 			if(hitEnt->client && hitEnt->client->pers.cmd.buttons & BUTTON_15)
 			{
 				G_SetAnim(ent, &ent->client->pers.cmd, SETANIM_BOTH, BOTH_SWEEPKICKED, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD, 0);
@@ -10024,7 +10034,7 @@ static gentity_t *G_KickTrace( gentity_t *ent, vec3_t kickDir, float kickDist, v
 				G_Throw( ent, kickDir, kickPush );
 				return hitEnt;
 			}
-
+			*/
 			if ( ent->client->ps.torsoAnim == BOTH_A7_HILT )
 			{
 				G_Sound( ent, CHAN_AUTO, G_SoundIndex( "sound/movers/objects/saber_slam" ) );
@@ -12203,7 +12213,7 @@ void WP_SaberBlockNonRandom( gentity_t *self, vec3_t hitloc, qboolean missileBlo
 	{
 		self->client->ps.saberBlocked = WP_MissileBlockForBlock( self->client->ps.saberBlocked );
 	}
-
+	self->client->ps.weaponTime = 400;
 	//[SaberSys]
 	//this is a "real" block so don't allow it to be interrupted
 	self->client->ps.userInt3 &= ~( 1 << FLAG_PREBLOCK );
@@ -12726,10 +12736,10 @@ qboolean G_BlockIsQuickParry( gentity_t *self, gentity_t *attacker, vec3_t hitLo
 					//vs the actual attack location.
 	qboolean inFront = InFront(attacker->client->ps.origin, self->client->ps.origin, self->client->ps.viewangles, 0.0f);
     
-	if(!(self->client->pers.cmd.buttons & BUTTON_15))
-	{
-		return qfalse;
-	}
+	//if(!(self->client->pers.cmd.buttons & BUTTON_15))
+	//{
+		//return qfalse;
+	//}
 	if(!inFront)
 	{//can't parry attacks to the rear.
 		return qfalse;

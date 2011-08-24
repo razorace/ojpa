@@ -499,11 +499,107 @@ qboolean PlaceShield(gentity_t *playerent)
 			// Play placing sound...
 			G_AddEvent(shield, EV_GENERAL_SOUND, shieldAttachSound);
 
+
+			gentity_t *ent = &g_entities[0];
+			for (int i=0 ; i<level.num_entities ; i++, ent++) 
+			{
+				if ( !ent->inuse) 
+				{
+					continue;
+				}
+				if(ent == shield) continue;
+
+				if(ent->classname != shieldItem->classname)
+					continue;
+
+				if(ent->s.owner == playerent->s.number)
+				{ //If they already had a shield up, deactivate the old one.
+					ShieldRemove(ent);
+				}
+
+			}
 			return qtrue;
 		}
 	}
 	// no room
 	return qfalse;
+}
+
+extern void Jedi_Cloak( gentity_t *self );
+extern void Jedi_Decloak( gentity_t *self );
+
+void UseItem(gentity_t *ent, int item, int itemSlot)
+{
+	if(!ent->client)
+		return;
+
+	switch(item)
+	{
+	case SK_FORCEFIELD:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SHIELD)) &&
+				G_ItemUsable(&ent->client->ps, HI_SHIELD) )
+			{
+				ItemUse_Shield(ent);
+				G_AddEvent(ent, EV_USE_ITEM0+HI_SHIELD, 0);
+				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SHIELD);
+			}
+		break;
+	case SK_BACTA:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC)) &&
+				G_ItemUsable(&ent->client->ps, HI_MEDPAC) )
+			{
+				ItemUse_MedPack(ent);
+				G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC, 0);
+				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC);
+			}
+		else if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC_BIG)) &&
+				G_ItemUsable(&ent->client->ps, HI_MEDPAC_BIG) )
+			{
+				ItemUse_MedPack_Big(ent);
+				G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC_BIG, 0);
+				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC_BIG);
+			}
+		break;
+	case SK_SEEKER:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SEEKER)) &&
+				G_ItemUsable(&ent->client->ps, HI_SEEKER) )
+			{
+				ItemUse_Seeker(ent);
+				G_AddEvent(ent, EV_USE_ITEM0+HI_SEEKER, 0);
+				//[SeekerItemNpc] the seeker is an npc and is commandable by using the item again.  This flag will be removed when the
+				//seeker dies
+				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SEEKER);
+				//[/SeekerItemNpc]
+			}
+		break;
+	case SK_SENTRY:
+		if(ent->client->isHacking)
+			break;
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SENTRY_GUN)) &&
+			G_ItemUsable(&ent->client->ps, HI_SENTRY_GUN) )
+		{
+			ItemUse_Sentry(ent);
+				//G_AddEvent(ent, EV_USE_ITEM0+HI_SENTRY_GUN, 0);
+				//ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SENTRY_GUN);
+		}
+		break;
+	case SK_CLOAK:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_CLOAK)) &&
+				G_ItemUsable(&ent->client->ps, HI_CLOAK) )
+			{
+				ItemUse_UseCloak(ent);
+			}
+		break;
+	case SK_FLAMETHROWER:
+		if(ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_FLAMETHROWER) )
+			ItemUse_FlameThrower(ent);
+		break;
+	}
+
+	//if(itemSlot == 1)
+		//ent->client->itemSlot1 = 0;
+	//else if(itemSlot == 2)
+		//ent->client->itemSlot2 = 0;
 }
 
 void ItemUse_Binoculars(gentity_t *ent)
@@ -1435,7 +1531,7 @@ void Jetpack_On(gentity_t *ent)
 
 
 //[FlameThrower]
-#define FLAMETHROWER_RADIUS 300
+#define FLAMETHROWER_RADIUS 130
 void Flamethrower_Fire( gentity_t *self )
 {
 	trace_t	tr;
@@ -1444,7 +1540,7 @@ void Flamethrower_Fire( gentity_t *self )
 	vec3_t	center, mins, maxs, dir, ent_org, size, v;
 
 	float	radius = FLAMETHROWER_RADIUS, dot, dist;
-	int damage = 1;
+	int damage = 6;
 	gentity_t	*entityList[MAX_GENTITIES];
 	int			iEntityList[MAX_GENTITIES];
 	int		e, numListedEntities, i;

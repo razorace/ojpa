@@ -4339,7 +4339,8 @@ void G_RunFrame( int levelTime ) {
 				}
 				ent->client->ps.weaponTime = ent->client->ps.torsoTimer;
 
-				if (!(ent->client->pers.cmd.buttons & BUTTON_USE_HOLDABLE))
+				if (!(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON1)//(ent->client->pers.cmd.buttons & BUTTON_USE_HOLDABLE)
+					&&!(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON2))
 				{ //have to keep holding use
 					ent->client->isHacking = 0;
 					ent->client->ps.hackingTime = 0;

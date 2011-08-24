@@ -308,7 +308,8 @@ void SabBeh_AttackVsBlock( gentity_t *attacker, sabmech_t *mechAttacker,
 #ifdef _DEBUG
 			mechAttacker->behaveMode = SABBEHAVE_ATTACK;
 #endif
-			if (blocker->client->pers.cmd.buttons & BUTTON_15
+			//DMURPHY
+			if (blocker->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON2 //(was Button_15)
 				&& blocker->client->ps.fd.forcePowerLevel[FP_SABER_DEFENSE] >= FORCE_LEVEL_2)
 			{
 				attacker->client->ps.userInt3 |= (1 << FLAG_QUICKPARRY);
@@ -393,14 +394,15 @@ void SabBeh_AttackVsBlock( gentity_t *attacker, sabmech_t *mechAttacker,
 			mechAttacker->behaveMode = SABBEHAVE_ATTACKPARRIED;
 #endif
 			//[QuickParry]
-			if (blocker->client->pers.cmd.buttons & BUTTON_15
+			
+			if (blocker->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON2 //Was Button 15 DMURPHY
 				&& blocker->client->ps.fd.forcePowerLevel[FP_SABER_DEFENSE] >= FORCE_LEVEL_2)
 			{
 				attacker->client->ps.userInt3 |= ( 1 << FLAG_QUICKPARRY);
 			}
 			else
 			{
-			attacker->client->ps.userInt3 |= ( 1 << FLAG_PARRIED );
+				attacker->client->ps.userInt3 |= ( 1 << FLAG_PARRIED );
 			}
 			//[/QuickParry]
 

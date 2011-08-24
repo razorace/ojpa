@@ -1391,6 +1391,12 @@ void FireWeapon( gentity_t *ent, qboolean altFire )
 					G_AddMercBalance(ent,1);
 				else if(ent->s.weapon == WP_BRYAR_PISTOL)
 					G_AddMercBalance(ent,1);
+				else if(ent->s.weapon == WP_THERMAL
+						|| ent->s.weapon == WP_DET_PACK
+						|| ent->s.weapon == WP_GRENADE)
+				{
+
+				}
 				else if(ent->s.weapon == WP_REPEATER)
 				{
 					ent->client->cloneFired++;

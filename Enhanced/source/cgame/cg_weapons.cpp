@@ -702,7 +702,7 @@ Ghoul2 Insert End
 			}
 			else	
 			{	// Regular firing
-				if (weapon->muzzleEffect && (cg.predictedPlayerState.weapon != WP_REPEATER || cg.predictedPlayerState.weapon == WP_REPEATER && cg.predictedPlayerState.weaponTime == 100000))
+				if (weapon->muzzleEffect)// && (cg.predictedPlayerState.weapon != WP_REPEATER || cg.predictedPlayerState.weapon == WP_REPEATER && cg.predictedPlayerState.weaponTime == 100000))
 				{
 					if (!thirdPerson)
 					{
@@ -1936,7 +1936,7 @@ void CG_FireWeapon( centity_t *cent, qboolean altFire ) {
 
 	if(altFire && ent->weapon == WP_BOWCASTER)
 		return;
-
+	
 	// play a sound
 	if (altFire)
 	{

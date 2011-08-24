@@ -133,7 +133,7 @@ void CG_DrawHealthTicMethod(menuDef_t *menuHUD)
 	/*UI_DrawProportionalString( HPBAR_X+FPBAR_W + 2.0f,FPBAR_Y-7.0f, va( "%i", cg.snap->ps.stats[STAT_HEALTH] ),
 		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_RED] );*/
 	UI_DrawScaledProportionalString(HPBAR_X+FPBAR_W + 3.0f,FPBAR_Y-4.0f, va( "%i", cg.snap->ps.stats[STAT_HEALTH] ),
-		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_RED] , 0.5f);
+		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_WHITE] , 0.5f);
 	/*
 	focusItem = Menu_FindItemByName(menuHUD, "healthamount");
 
@@ -190,7 +190,7 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 	itemDef_t		*focusItem;
 	float			percent,quarterArmor;
 	int				i,currValue,inc;
-
+	
 	calcColor[0] = 0;
 	calcColor[1] = 0;
 	calcColor[2] = 0;
@@ -245,7 +245,7 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 
 
 	UI_DrawScaledProportionalString( HPBAR_X+FPBAR_W + 3.0f,APBAR_Y-4.0f, va( "%i", armor ),
-		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_HUD_GREEN] , 0.5f);
+		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_WHITE] , 0.5f);
 
 	/*
 	inc = (float) maxArmor / MAX_HUD_TICS;
@@ -397,7 +397,7 @@ void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
 	color[2] = aColor[2];
 
 	UI_DrawScaledProportionalString( FPBAR_X - 12.0f,MPBAR_Y-4.0f, va( "%i", cg.snap->ps.saberAttackChainCount ),
-		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT, color, 0.5f );
+		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT, colorTable[CT_WHITE], 0.5f );
 
 	/*
 	trap_R_SetColor( colorTable[CT_WHITE] );	
@@ -494,7 +494,7 @@ void CG_DrawAmmoTicMethod(centity_t *cent, menuDef_t *menuHUD)
 	color[2] = aColor[2];
 
 	UI_DrawScaledProportionalString( FPBAR_X - 12.0f,APBAR_Y-4.0f, va( "%i",(int)value  ),
-		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT, color, 0.5f );
+		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT, colorTable[CT_WHITE], 0.5f );
 	/*
 	focusItem = Menu_FindItemByName(menuHUD, "ammoamount");
 
@@ -728,7 +728,7 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 		aColor[2] = 0.0f;
 		aColor[3] = 0.5f;
 	}
-
+	
 	if (cg.forceHUDTotalFlashTime > cg.time || (cg_entities[cg.snap->ps.clientNum].currentState.userInt3 &  ( 1 << FLAG_FATIGUED)))
 	{//color of the bar
 		aColor[0] = 1.0f;
@@ -779,7 +779,7 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	color[2] = aColor[2];
 
 	UI_DrawScaledProportionalString( FPBAR_X - 12.0f,FPBAR_Y-4.0f, va( "%i", cg.snap->ps.fd.forcePower ),
-		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT, color, 0.5f);
+		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT,colorTable[CT_WHITE], 0.5f);
 	/*
 	focusItem = Menu_FindItemByName(menuHUD, "forceamount");
 
@@ -805,6 +805,59 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 //	--	--	--	--	--	END OF TIC METHOD	--	--	--	--	--	--	--
 //	  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
 //	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--
+
+//Draw the (max 2) gadgets the player has
+void CG_DrawGadgets(void)
+{	
+	//if(cg.snap->ps.stats[STAT_HOLDABLE_ITEMS] == 0)
+		//return; //We don't have any items
+
+	int inven1 = cg.snap->ps.stats[STAT_GADGET_1], inven2 = cg.snap->ps.stats[STAT_GADGET_2];
+
+	if(inven1 != 999)
+	{
+		if((cg.snap->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << inven1) ) )
+		{
+			//trap_R_SetColor(NULL);
+			trap_R_SetColor(colorTable[CT_ICON_BLUE]);
+			CG_DrawPic( 110, 420, 30, 30, cgs.media.invenIcons[inven1] );
+			
+		}
+		else
+		{
+			trap_R_SetColor(colorTable[CT_RED]);
+			CG_DrawPic( 110, 420, 30, 30, cgs.media.invenIcons[inven1] );
+			//trap_R_SetColor(colorTable[CT_RED]);
+		}
+		UI_DrawScaledProportionalString(125, 446, "SB1", 
+						UI_RIGHT|UI_DROPSHADOW, 
+						colorTable[CT_ICON_BLUE], 
+						0.4);
+	}
+	if(inven2 != 999)
+	{
+		if(cg.snap->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << inven2) )
+		{
+			//trap_R_SetColor(NULL);
+			trap_R_SetColor(colorTable[CT_ICON_BLUE]);
+			CG_DrawPic( 150, 420, 30, 30, cgs.media.invenIcons[inven2] );		
+			
+
+		}
+		else
+		{
+			//trap_R_SetColor(NULL);
+			trap_R_SetColor(colorTable[CT_RED]);
+			CG_DrawPic( 153, 420, 30, 30, cgs.media.invenIcons[inven2] );
+			
+		}
+
+		UI_DrawScaledProportionalString(163, 446, "SB2", 
+						UI_RIGHT|UI_DROPSHADOW, 
+						colorTable[CT_ICON_BLUE], 
+						0.4);
+	}
+}
 
 
 //Draw the actual HUD
@@ -842,6 +895,8 @@ void JKEHUD(centity_t *cent)
 			{
 				CG_DrawArmorTicMethod(menuHUD);
 				CG_DrawHealthTicMethod(menuHUD);
+
+				CG_DrawGadgets();
 			}
 		}
 		else

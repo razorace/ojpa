@@ -850,7 +850,7 @@
 				hide			keybindstatus
 			}
 		}
-		
+/*	
 		itemDef 
 		{
 			group				attackcontrols
@@ -880,7 +880,7 @@
 				hide			keybindstatus
 			}
 		}
-		
+*/
 		itemDef 
 		{
 			name				attacksaber
@@ -912,7 +912,7 @@
 				hide			keybindstatus
 			}
 		}
-		
+/*
 		itemDef 
 		{
 			name				attacksaber
@@ -1008,7 +1008,7 @@
 				hide			keybindstatus
 			}
 		}
-
+*/
 		itemDef 
 		{
 			name				attacklook4
@@ -1137,7 +1137,74 @@
 				hide			keybindstatus
 			}
 		}
+		itemDef 
+		{
+			name				force5
+			group				attackcontrols
+			type				ITEM_TYPE_BIND
+			text				"Special Button 1:"
+			cvar				"+button13"
+			rect				220 161 340 14
+			textalign			ITEM_ALIGN_RIGHT
+			textalignx			174
+			textaligny			0
+			font				4
+			textscale			1
+			forecolor			.615 .615 .956 1
+			visible				0
+			descText			"Performs action assosciated with Special Button 1"
 
+			mouseenter 
+			{ 
+				//show			highlight14
+				show			keybindstatus
+			}
+			mouseexit 
+			{ 
+				//hide			highlight14
+				hide			keybindstatus
+			}
+			action 
+			{ 
+				play			"sound/interface/button1.wav" ; 
+			}
+		}
+
+		itemDef 
+		{
+			name				attacklook
+			group				attackcontrols
+			type				ITEM_TYPE_BIND
+			text				"Special Button 2:"
+			cvar				"+button14"
+			rect				220 181 340 14
+			textalign			ITEM_ALIGN_RIGHT
+			textalignx			174
+			textaligny			0
+			font				4
+			textscale			1
+			forecolor			1 1 1 1
+			visible			0
+			// appearance_slot		6
+			descText			"Performs action assosciated with Special Button 2"
+			forecolor			.615 .615 .956 1
+
+			mouseenter 
+			{ 
+				//show			highlight15
+				show			keybindstatus
+			}
+			mouseexit 
+			{ 
+				//hide			highlight15
+				hide			keybindstatus
+			}
+			action 
+			{ 
+				play			"sound/interface/button1.wav" ; 
+			}
+		}
+/*
 		itemDef 
 		{
 			name				attacklook
@@ -1169,7 +1236,7 @@
 				hide			keybindstatus
 			}
 		}
-
+*/
 //----------------------------------------------------------------------------------------------
 //
 //	WEAPON BINDING
@@ -1576,6 +1643,7 @@
 				hide			keybindstatus
 			} 
 		}
+/*
 		itemDef 
 		{
 			name				none
@@ -1607,6 +1675,7 @@
 				hide			keybindstatus
 			} 
 		}
+*/
 //----------------------------------------------------------------------------------------------
 //
 //	FORCE BINDING

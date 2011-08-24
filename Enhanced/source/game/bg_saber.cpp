@@ -3469,9 +3469,11 @@ extern bgEntity_t *pm_entSelf;
 /*  NUAM
 //Sets your saber block position based on your current movement commands.
 //Be careful as this assumes that you have already done all the nessicary prechecks.
+*/
 void PM_SetBlock(void)
 {
 	//for now I'll assume that we're using an inverted control system.
+	
 	if( pm->cmd.forwardmove < 0 )
 	{
 		if( pm->cmd.rightmove < 0 )
@@ -3517,7 +3519,7 @@ void PM_SetBlock(void)
 		}
 	}
 }
-*/
+
 
 
 int PM_ReturnforQuad( int quad )
@@ -4112,7 +4114,13 @@ void PM_WeaponLightsaber(void)
 	}
 	else
 	{
-		pm->ps->weaponstate = WEAPON_READY;
+		if(pm->cmd.buttons & BUTTON_ALT_ATTACK)
+		{
+			
+			PM_SetBlock();			//DMURPHY HERE
+
+		}
+		else pm->ps->weaponstate = WEAPON_READY;
 	}
 
 	// Now we react to a block action by the player's lightsaber.
@@ -4125,7 +4133,7 @@ void PM_WeaponLightsaber(void)
 		{//hold the parry for a bit
 			//[SaberSys]
 			//make these blocks be consistent length
-			pm->ps->weaponTime = 350;
+			pm->ps->weaponTime = 0;
 			//pm->ps->weaponTime = bg_parryDebounce[pm->ps->fd.forcePowerLevel[FP_SABER_DEFENSE]]+200;
 			//[/SaberSys]
 		}
@@ -4545,12 +4553,14 @@ weapChecks:
 
 	}
 
+	//DMURPHY - changed
 	//[MELEE]
 	//moved the kick code to here so the player can kick while their saber is off.
-	if((pm->cmd.buttons & BUTTON_ALT_ATTACK) && !(pm->cmd.buttons & BUTTON_ATTACK) && PM_DoKick())
-	{
-		return;
-	}
+	//if((pm->cmd.buttons & BUTTON_ALT_ATTACK) && !(pm->cmd.buttons & BUTTON_ATTACK) && PM_DoKick())
+	//{
+		//return;
+	//}
+
 	//[/MELEE]
 	//[SaberThrowSys]
 	else if(pm->ps->saberInFlight && pm->ps->forceHandExtend != HANDEXTEND_SABERPULL 

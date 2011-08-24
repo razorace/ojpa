@@ -153,7 +153,7 @@
 //[/ExpSys]
 
 //[Flamethrower]
-const int FLAMETHROWER_FUELCOST = 3;		//fuel cost of flamethrower per hit trace -- 1.3 was 3
+const int FLAMETHROWER_FUELCOST = 6;		//fuel cost of flamethrower per hit trace -- 1.3 was 3
 const float JETPACK_MAXFUEL = 550;
 //[/Flamethrower]
 
@@ -636,6 +636,8 @@ typedef enum {
 	STAT_MAX_HEALTH,					// health / armor limit, changable by handicap
 	STAT_FUEL,
 	STAT_HEAT,
+	STAT_GADGET_1,
+	STAT_GADGET_2
 	//STAT_MAX_HEALTH					// health / armor limit, changable by handicap
 	//[/DodgeSys]
 } statIndex_t;

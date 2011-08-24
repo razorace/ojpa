@@ -2833,10 +2833,12 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 				G_Sound( self, CHAN_WEAPON, G_SoundIndex("sound/effects/fireburst") );
 				Flamethrower_Fire(self);
 				LightningDebounceTime = level.time;
-				if(!Q_irand(0, 1))
-				{
-				   G_AddMercBalance(self, 1);
-				}
+				//DMURPHY
+				//Dont want flame to cost balance
+				//if(!Q_irand(0, 1))
+				//{
+				 //  G_AddMercBalance(self, 1);
+				//}
 				self->client->ps.stats[STAT_FUEL] -= FLAMETHROWER_FUELCOST;
 			}
 		}

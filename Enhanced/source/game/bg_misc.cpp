@@ -1331,7 +1331,7 @@ Do not place. For siege classes ONLY.
 		{ "models/items/psgun.glm", //FIXME: no model
 		0, 0, 0} ,
 /* view */		NULL,			
-/* icon */		"gfx/hud/i_icon_cloak",
+/* icon */		"gfx/hud/i_icon_flamethrower",
 /* pickup *///	"Seeker Drone",
 		120,
 		IT_HOLDABLE,
@@ -2507,10 +2507,10 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 
 	switch( item->giType ) {
 	case IT_WEAPON:
-#if defined(CGAME) || defined(QAGAME)
-		if(!(pm->cmd.buttons & BUTTON_THERMALTHROW))
-			return qfalse;
-#endif
+//#if defined(CGAME) || defined(QAGAME)
+		//if(!(pm->cmd.buttons & BUTTON_THERMALTHROW))
+			//return qfalse;
+//#endif
 		
 		if (ent->generic1 == ps->clientNum && ent->powerups)
 		{
