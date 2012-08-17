@@ -39,13 +39,13 @@ REFERENCE	    DESC_SKILL_JETPACK
 LANG_ENGLISH	"A Merr-Sonn JT-12 Jetpack. Short-term carry time before having to cool down."
 
 REFERENCE	    SKILL_PISTOL
-LANG_ENGLISH	    "DL-44 Blaster"
+LANG_ENGLISH	    "DL-44 Pistol"
 
 REFERENCE	    DESC_SKILL_PISTOL
 LANG_ENGLISH	"The DL-44 Heavy Blaster pistol. Level 3 allows for a stun shot that bypasses Jedi’s saber defenses."
 
 REFERENCE	    SKILL_BLASTER
-LANG_ENGLISH	    "E-11 Blaster"
+LANG_ENGLISH	    "E-11 Rifle"
 
 REFERENCE	    DESC_SKILL_BLASTER
 LANG_ENGLISH	"The BlasTech E-11 Blaster rifle. All-purpose rifle."
@@ -57,7 +57,7 @@ REFERENCE	    DESC_SKILL_THERMALS
 LANG_ENGLISH	"The Thermal Detonator. Crowd-control grenade capable of vaporization."
 
 REFERENCE	    SKILL_ROCKET
-LANG_ENGLISH	    "Merr-Sonn RL:"
+LANG_ENGLISH	    "R. Launcher:"
 
 REFERENCE	    DESC_SKILL_ROCKET
 LANG_ENGLISH	"Merr-Sonn Rocket Launcher. Area of Effect damage."
@@ -111,35 +111,35 @@ REFERENCE	    DESC_SKILL_DETPACK
 LANG_ENGLISH	"Detonation packs with highly concentrated area of effect damage."
 
 REFERENCE	    SKILL_REPEATER
-LANG_ENGLISH	"DC-15 Rifle:"
+LANG_ENGLISH	"Imperial repeater:"
 
 REFERENCE	    DESC_SKILL_REPEATER
-LANG_ENGLISH	"DC-15 Rifle. Accurate at all ranges, boasts concussive blast attack at level 3."	
+LANG_ENGLISH	"An autogun used to quickly dispatch enemies. "	
 
 REFERENCE	    SKILL_DISRUPTOR
 LANG_ENGLISH	"DXR-6 Disruptor:"
 
 REFERENCE	    DESC_SKILL_DISRUPTOR
-LANG_ENGLISH	"Molecular destabilizer. Fully charged shots decimate Dodge from afar."
+LANG_ENGLISH	"Molecular destabilizer. Fully charged shots decimate a person from afar."
 
 //[StanceSelection]
 REFERENCE	REQUIRES_BLUESTYLE
 LANG_ENGLISH	"(requires Basic Lightsaber training in Shii-Cho Form)"
 
 REFERENCE	SKILL_BLUESTYLE
-LANG_ENGLISH	"Soresu:"
+LANG_ENGLISH	"Fast style:"
 
 REFERENCE	    DESC_SKILL_BLUESTYLE
-LANG_ENGLISH	"A conservative and defensive style."
+LANG_ENGLISH	"A kinetically conservative and defensive style."
 
 REFERENCE	SKILL_YELLOWSTYLE
-LANG_ENGLISH	"Shii-Cho:"
+LANG_ENGLISH	"Medium style:"
 
 REFERENCE	    DESC_SKILL_YELLOWSTYLE
 LANG_ENGLISH	"Moderate lightsaber form."
 
 REFERENCE	SKILL_REDSTYLE
-LANG_ENGLISH	"Djem So:"
+LANG_ENGLISH	"Heavy style:"
 
 REFERENCE	    DESC_SKILL_REDSTYLE
 LANG_ENGLISH	"Heavy lightsaber form. "
