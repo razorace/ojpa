@@ -32,6 +32,10 @@ LANG_ENGLISH	    "Not Force-Sensitive. Train Force Sense."
 REFERENCE	    DESC_NOTFORCESENSITIVE
 LANG_ENGLISH	    "Must acquire a minimum rank of 1 in Force Sense to use other Force Powers."
 
+//[Weapons]
+REFERENCE	    SKILL_JETPACK
+LANG_ENGLISH	    "JT-12 Jetpack:"
+
 REFERENCE	    SKILL_JETPACK
 LANG_ENGLISH	    "JT-12 Jetpack:"
 
