@@ -741,7 +741,7 @@ REFERENCE           CANT_SAVE_DEAD
 LANG_ENGLISH        "Can't save game while dead!"
 
 REFERENCE           WEAPON_FLECHETTE
-LANG_ENGLISH        "T-21 Light Repeater"
+LANG_ENGLISH        "Flechette Repeater"
 
 REFERENCE			WEAPON_TUSKEN_RIFLE
 LANG_ENGLISH		"Tusken Rifle"
