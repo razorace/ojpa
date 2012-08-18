@@ -14,7 +14,7 @@ You will need the latest version of TortoiseSVN installed to be able to download
 Right click that folder and select *SVN Checkout*.
 
 == Step 3 ==
-In the window that pops up, enter *https://ojpa.googlecode.com/svn/trunk* for the repository.
+In the window that pops up, enter * https://ojpa.googlecode.com/svn/trunk * for the repository.
 
 == Step 4 ==
 Click *OK* and you should be in the clear.
