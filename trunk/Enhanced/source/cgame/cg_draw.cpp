@@ -7104,7 +7104,7 @@ void CG_DrawFlagStatus()
 //draw meter showing jetpack fuel when it's not full
 #define JPFUELBAR_H			50.0f
 #define JPFUELBAR_W			15.0f
-#define JPFUELBAR_X			(SCREEN_WIDTH-JPFUELBAR_W-8.0f)
+#define JPFUELBAR_X			(SCREEN_WIDTH-JPFUELBAR_W-10.0f)
 //[NewHud]
 //moved the jetpack fuel bar a little since the new hud overlapped it.
 #define JPFUELBAR_Y			390.0f
@@ -7136,12 +7136,11 @@ void CG_DrawJetpackFuel(void)
 	aColor[2] = 0.0f;
 	aColor[3] = 0.5f;
 
-	if(cg.jetpackHUDTotalFlashTime > cg.time)
-	{
-			aColor[0] = 1.0f;
-			aColor[1] = 0.0f;
-			aColor[2] = 0.0f;
-			aColor[3] = 0.5f;				
+	if(cg.jetpackHUDTotalFlashTime > cg.time) {
+		aColor[0] = 1.0f;
+		aColor[1] = 0.0f;
+		aColor[2] = 0.0f;
+		aColor[3] = 0.5f;				
 	}
 
 	//color of the border
@@ -7157,17 +7156,20 @@ void CG_DrawJetpackFuel(void)
 	cColor[3] = 0.1f;
 
 	//draw the background (black)
-	CG_DrawRect(x, y, JPFUELBAR_W, JPFUELBAR_H, 0.7f, colorTable[CT_BLACK]);
+	//CG_DrawRect(x-1.0f, y-1.0f, JPFUELBAR_W, JPFUELBAR_H, 1.0f, colorTable[CT_BLACK]);
 
 	//now draw the part to show how much health there is in the color specified
-	CG_FillRect(x+2.0f, y+(JPFUELBAR_H-percent), JPFUELBAR_W-3.0f, JPFUELBAR_H-1.0f-(JPFUELBAR_H-percent), aColor);
+	//CG_FillRect(x, y+(JPFUELBAR_H-percent), JPFUELBAR_W-3.0f, JPFUELBAR_H-1.0f-(JPFUELBAR_H-percent), aColor);
 
 	//then draw the other part greyed out
-	CG_FillRect(x+1.0f, y+1.0f, JPFUELBAR_W-1.0f, JPFUELBAR_H-percent, cColor);
+	//CG_FillRect(x+1.0f, y+1.0f, JPFUELBAR_W-1.0f, JPFUELBAR_H-percent, cColor);
+
+	CG_DrawRect(x - 1.0f, y- 1.0f, JPFUELBAR_W + 2.1f, JPFUELBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+	CG_FillRect(x, y+(JPFUELBAR_H-percent), JPFUELBAR_W, percent, aColor);
 
 
 	//draw amount of fuel remaining
-	UI_DrawScaledProportionalString(JPFUELBAR_X,JPFUELBAR_Y-10.0f, va( "%i", cg.snap->ps.stats[STAT_FUEL] ),
+	UI_DrawScaledProportionalString(JPFUELBAR_X,JPFUELBAR_Y-13.0f, va( "%i", cg.snap->ps.stats[STAT_FUEL] ),
 		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_WHITE] , 0.5f);
 
 	//DMURPHY - Draw the Jetpack overheat timer also ---------------------------------------------------

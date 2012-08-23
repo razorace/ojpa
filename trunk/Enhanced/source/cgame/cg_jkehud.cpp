@@ -20,7 +20,7 @@
 
 const float FPBAR_H		= 7.0f;
 const float FPBAR_W		= 65.0f;
-const float FPBAR_X		= 537.0f;
+const float FPBAR_X		= 535.0f;
 const float FPBAR_Y		= 425.0f;
 
 const float MPBAR_Y		= 410.0;
@@ -118,7 +118,7 @@ void CG_DrawHealthTicMethod(menuDef_t *menuHUD)
 
 	CG_DrawRect(HPBAR_X - 1.0f, FPBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
 	CG_FillRect(HPBAR_X, FPBAR_Y, percent, FPBAR_H, aColor);
-	CG_FillRect((HPBAR_X + FPBAR_W), FPBAR_Y, -((FPBAR_W)-percent), FPBAR_H, cColor);
+	//CG_FillRect((HPBAR_X + FPBAR_W), FPBAR_Y, -((FPBAR_W)-percent), FPBAR_H, cColor);
 
 	//CG_DrawRect(FPBAR_X - 1.0f, FPBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
 	//CG_FillRect(FPBAR_X, FPBAR_Y, FPBAR_W-(FPBAR_W-percent), FPBAR_H, aColor);
@@ -351,7 +351,7 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 
 	*/
 }
-
+void CG_FillRect2( float x, float y, float width, float height, const float *color );
 
 //Balance
 void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
@@ -381,14 +381,19 @@ void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
 	aColor[1] = 0.0f;
 	aColor[2] = 1.0f;
 	aColor[3] = 0.5f;
-	vec4_t cColor;
+	/*vec4_t cColor;
 	Vector4Copy(colorTable[CT_BLACK], cColor);
-	cColor[3] = 0.4f;
+	cColor[3] = 0.4f;*/
 
+	CG_DrawRect(FPBAR_X - 1.0f, MPBAR_Y- 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
 
-	CG_DrawRect(FPBAR_X - 1.0f, MPBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
-	CG_FillRect(FPBAR_X + ( FPBAR_W- percent), MPBAR_Y, FPBAR_W-(FPBAR_W-percent), FPBAR_H, aColor);
-	CG_FillRect((FPBAR_X), MPBAR_Y, (FPBAR_W)-percent, FPBAR_H, cColor);
+	CG_FillRect(FPBAR_X, MPBAR_Y, percent, FPBAR_H, aColor);
+
+	//CG_DrawRect(FPBAR_X - 1.0f, MPBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+	//CG_DrawRect(FPBAR_X - 0.5f, MPBAR_Y, FPBAR_W + 0.5f, FPBAR_H, 1.0f, colorTable[CT_BLACK]);
+	//CG_FillRect2(FPBAR_X, MPBAR_Y, FPBAR_W, FPBAR_H, colorTable[CT_BLACK]);
+	//CG_FillRect(FPBAR_X + ( FPBAR_W- percent)+0.5f, MPBAR_Y, FPBAR_W-(FPBAR_W-percent), FPBAR_H, aColor);
+	//CG_FillRect((FPBAR_X), MPBAR_Y, (FPBAR_W)-percent, FPBAR_H, cColor);
 
 
 	vec3_t color;
