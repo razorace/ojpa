@@ -709,6 +709,9 @@ void CG_DrawSaberStyleTicMethod(centity_t *cent, menuDef_t *menuHUD)
 
 }
 
+int lastForceAmount = -1;
+int forceLostAmount = 0;
+int forceLostTimer = 0;
 
 //Force
 void CG_DrawForcePower( menuDef_t *menuHUD )
@@ -716,18 +719,32 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	vec4_t			aColor;
 	vec4_t			cColor;
 	itemDef_t		*focusItem;
-	float			percent = ((float)cg.snap->ps.fd.forcePower / 100.0f) * FPBAR_W;
+	int				currentForceAmount = cg.snap->ps.fd.forcePower;
+	float			percent = ((float)currentForceAmount / 100.0f) * FPBAR_W;
+	int	forceAmountDifference = currentForceAmount - (lastForceAmount == -1 ? currentForceAmount : lastForceAmount);
+
+	forceLostAmount -= forceAmountDifference;
 	
-	//color of the bar
-	if(cg.snap->ps.fd.forcePowerLevel[FP_SEE] > 0)
-	{
+	if(forceLostAmount < 0) {
+		forceLostAmount = 0;
+	}
+
+	if(forceLostTimer < cg.time) {
+		forceLostTimer = cg.time + 50;
+
+		if(forceLostAmount > 0) {
+			forceLostAmount--;
+		}
+	}
+
+	//color of the bar -- DD: What are these silly magic numbers??
+	if(cg.snap->ps.fd.forcePowerLevel[FP_SEE] > 0) {
 		aColor[0] = 0.503f;
 		aColor[1] = 0.375f;
 		aColor[2] = 0.996f;
 		aColor[3] = 0.5f;
 	}
-	else
-	{
+	else {
 		aColor[0] = 1.0f;
 		aColor[1] = 1.0f;
 		aColor[2] = 0.0f;
@@ -752,13 +769,11 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	}
 
 
-	if (percent > FPBAR_W)
-	{
+	if (percent > FPBAR_W) {
 		return;
 	}
 
-	if (percent < 0.1f)
-	{
+	if (percent < 0.1f) {
 		percent = 0.1f;
 	}
 
@@ -766,17 +781,13 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	cColor[3] = 0.4f;
 
 	CG_DrawRect(FPBAR_X - 1.0f, FPBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+
 	CG_FillRect(FPBAR_X + ( FPBAR_W- percent), FPBAR_Y, FPBAR_W-(FPBAR_W-percent), FPBAR_H, aColor);
-	CG_FillRect((FPBAR_X), FPBAR_Y, (FPBAR_W)-percent, FPBAR_H, cColor);
 
-	//CG_DrawRect(FPBAR_X - 1.0f, FPBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
-	//CG_FillRect(FPBAR_X, FPBAR_Y, FPBAR_W-(FPBAR_W-percent), FPBAR_H, aColor);
-	//CG_FillRect((FPBAR_X + percent), FPBAR_Y, (FPBAR_W)-percent, FPBAR_H, cColor);
-
-	//CG_DrawRect(FPBAR_X - 1.0f, FPBAR_Y - 1.0f, FPBAR_W + 2.0f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
-	//CG_FillRect(FPBAR_X, FPBAR_Y+(FPBAR_H-percent), FPBAR_W, FPBAR_H-(FPBAR_H-percent), aColor);
-	
-	//CG_FillRect(FPBAR_X, FPBAR_Y, FPBAR_W, FPBAR_H-percent, cColor);
+	if(forceLostAmount != 0) {
+		float lPercent = ((float)forceLostAmount / 100.0f) * FPBAR_W;
+		CG_FillRect(FPBAR_X + ( FPBAR_W- percent)-lPercent, FPBAR_Y, FPBAR_W-(FPBAR_W-lPercent), FPBAR_H, colorTable[CT_RED]);
+	}
 	
 	vec3_t color;
 	color[0] = aColor[0];
@@ -785,24 +796,8 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 
 	UI_DrawScaledProportionalString( FPBAR_X - 12.0f,FPBAR_Y-4.0f, va( "%i", cg.snap->ps.fd.forcePower ),
 		UI_SMALLFONT|UI_DROPSHADOW|UI_RIGHT,colorTable[CT_WHITE], 0.5f);
-	/*
-	focusItem = Menu_FindItemByName(menuHUD, "forceamount");
 
-	if (focusItem)
-	{// Print force amount
-		trap_R_SetColor( colorTable[CT_WHITE] );	
-
-		CG_DrawNumField (
-			FPBAR_X - 19.0f, 
-			FPBAR_Y + 0.3f, 
-			3, 
-			cg.snap->ps.fd.forcePower, 
-			4, 
-			7, 
-			NUM_FONT_SMALL,
-			qfalse);
-	}
-	*/
+	lastForceAmount = currentForceAmount;
 }
 
 //	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--
