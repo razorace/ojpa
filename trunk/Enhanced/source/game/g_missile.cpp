@@ -322,8 +322,7 @@ gentity_t *CreateMissile( vec3_t org, vec3_t dir, float vel, int life,
 	missile->parent = owner;
 	missile->r.ownerNum = owner->s.number;
 
-	if (altFire)
-	{
+	if (altFire) {
 		missile->s.eFlags |= EF_ALT_FIRING;
 	}
 

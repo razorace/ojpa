@@ -3703,9 +3703,6 @@ void ClientSpawn(gentity_t *ent) {
 	//[ExpSys]
 	int					savedSkill[NUM_SKILLS];
 	//[/ExpSys]
-	//[DodgeSys]
-	int					savedDodgeMax;
-	//[/DodgeSys]
 	int					maxHealth;
 	saberInfo_t			saberSaved[MAX_SABERS];
 	int					l = 0;

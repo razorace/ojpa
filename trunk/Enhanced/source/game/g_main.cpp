@@ -674,13 +674,6 @@ vmCvar_t		ojp_truebalance;//[TrueBalance]
 
 vmCvar_t	ojp_modelscaleEnabled;//[ModelScale]
 
-//[Survivor]
-vmCvar_t	ojp_survivor;
-vmCvar_t	ojp_survivor_spawn_time;
-vmCvar_t	ojp_survivor_spawn_size;
-vmCvar_t	ojp_survivor_spawn_type;
-//[/Survivor]
-
 // bk001129 - made static to avoid aliasing
 static cvarTable_t		gameCvarTable[] = {
 	// don't override the cheat state set by the system
@@ -1109,11 +1102,6 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &ojp_truebalance, "ojp_trueBalance","1",CVAR_ARCHIVE|CVAR_LATCH,0,qtrue},  //[TrueBalance]
 
 	{ &ojp_modelscaleEnabled, "ojp_modelscaleenabled","0", CVAR_ARCHIVE ,0,qtrue},//[ModelScale]
-
-	{ &ojp_survivor, "ojp_survivor", "0", 0, qtrue },
-	{ &ojp_survivor_spawn_time, "ojp_survivor_spawn_time", "15", 0, qtrue },
-	{ &ojp_survivor_spawn_size, "ojp_survivor_spawn_size", "20", 0, qtrue },
-	{ &ojp_survivor_spawn_type, "ojp_survivor_spawn_type", "stormtrooper", 0, qtrue },
 };
 
 // bk001129 - made static to avoid aliasing
@@ -2163,11 +2151,7 @@ void CalculateRanks( void ) {
 		}
 	}
 
-	//[FIXWARMUP]
-	if (!g_warmup.integer)
-	//if (1)
-	//[/FIXWARMUP]
-	{
+	if (!g_warmup.integer) {
 		level.warmupTime = 0;
 	}
 
@@ -3952,16 +3936,6 @@ const int CLOAK_REFUEL_RATE		= 150;
 
 extern gentity_t *NPC_SpawnType( vec3_t loc, char *npc_type, char *targetname, qboolean isVehicle );
 
-void survivor_npc_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath )
-{
-	ojp_survivor_npc_count--;
-	if(ojp_survivor_npc_count <= 0)
-	{
-		ojp_survivorSpawnTimerCheck = level.time + (ojp_survivor_spawn_time.integer * 1000);
-		ojp_survivor_npc_count = 0;
-	}
-}
-
 void G_RunFrame( int levelTime ) {
 	int			i;
 	gentity_t	*ent;
@@ -3995,32 +3969,6 @@ void G_RunFrame( int levelTime ) {
 		}
 
 		g_siegeRespawnCheck = level.time + g_siegeRespawn.integer * 1000;
-	}
-
-	/*
-	int ojp_survivorSpawnTimerCheck = 0;
-	vmCvar_t	ojp_survivor;
-	vmCvar_t	ojp_survivor_spawn_time;
-	vmCvar_t	ojp_survivor_spawn_size;
-	vmCvar_t	ojp_survivor_spawn_type;*/
-
-	if(ojp_survivor.integer && ojp_survivorSpawnTimerCheck <= level.time && ojp_survivor_npc_count <= 0)
-	{
-		gentity_t *spawnpoint = NULL;
-		spawnpoint = G_Find(spawnpoint, FOFS(classname), "info_player_deathmatch");
-		for(int i = 0; i < ojp_survivor_spawn_size.integer; i++)
-		{
-			//Spawn
-			if(spawnpoint != NULL)
-			{
-				gentity_t*npc = NPC_SpawnType( spawnpoint->r.currentOrigin, ojp_survivor_spawn_type.string, "", qfalse );
-				if(npc != NULL)
-				{
-					npc->genericValue10 = 1;
-					ojp_survivor_npc_count++;
-				}
-			}
-		}
 	}
 
 	//[FFARespawnTimer]

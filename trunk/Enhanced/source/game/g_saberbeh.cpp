@@ -76,16 +76,13 @@ qboolean SabBeh_RollBalance(gentity_t *self, sabmech_t *mechSelf, qboolean force
 
 //[WeapAccuracy]
 extern qboolean GAME_INLINE WalkCheck( gentity_t * self );
-void G_AddMercBalance(gentity_t *self, int amount)
+void G_AddMishap(gentity_t *self, int amount)
 {//mercs don't suffer mishaps, but they do lose/gain MP
-	if(!WalkCheck(self))
-	{//running or moving very fast, can't balance as well
-		if(amount > 0)
-		{
+	if(!WalkCheck(self)) {
+		if(amount > 0) {
 			amount *= 2;
 		}
-		else
-		{
+		else {
 			amount = amount * .5f;
 		}
 	}
@@ -94,12 +91,10 @@ void G_AddMercBalance(gentity_t *self, int amount)
 
 	self->client->ps.saberAttackChainCount -= amount;
 
-	if(self->client->ps.saberAttackChainCount < BALANCE_NONE)
-	{
+	if(self->client->ps.saberAttackChainCount < BALANCE_NONE) {
 		self->client->ps.saberAttackChainCount = BALANCE_NONE;
 	}
-	else if(self->client->ps.saberAttackChainCount > BALANCE_MAX)
-	{
+	else if(self->client->ps.saberAttackChainCount > BALANCE_MAX) {
 		self->client->ps.saberAttackChainCount = BALANCE_MAX;
 	}
 }

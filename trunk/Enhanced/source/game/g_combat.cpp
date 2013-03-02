@@ -2097,7 +2097,6 @@ extern void BubbleShield_TurnOff(gentity_t *self);
 //[SaberSys]
 void AddFatigueKillBonus( gentity_t *attacker, gentity_t *victim );
 //[/SaberSys]
-extern void survivor_npc_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath );
 void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath ) {
 
 	int			anim;
@@ -2114,9 +2113,6 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	qboolean	tempInflictor = qfalse;
 	int			actualMOD = meansOfDeath;
 	//[/Asteroids]
-
-	if(self->genericValue10)
-		survivor_npc_die(self, inflictor, attacker, damage, meansOfDeath);
 
 	if(MOD == MOD_THERMAL_SPLASH || MOD == MOD_THERMAL)
 	{
@@ -2483,10 +2479,6 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		}
 		//[/SeekerItemNPC]
 
-		if (0)
-		{
-			Boba_FlyStop( self );
-		}
 		//[NPCSandCreature]
 		if ( self->s.NPC_class == CLASS_RANCOR || self->s.NPC_class == CLASS_WAMPA || self->s.NPC_class == CLASS_SAND_CREATURE)
 		//[/NPCSandCreature]
@@ -4314,81 +4306,78 @@ qboolean G_GetHitLocFromSurfName( gentity_t *ent, const char *surfName, int *hit
 		else if ( dir && (dir[0] || dir[1] || dir[2]) &&
 			bladeDir && (bladeDir[0] || bladeDir[1] || bladeDir[2]) )
 		{//we care about direction (presumably for dismemberment)
-			//if ( g_dismemberProbabilities->value<=0.0f||G_Dismemberable( ent, *hitLoc ) )
-			if (1) //Fix me?
-			{//either we don't care about probabilties or the probability let us continue
-				char *tagName = NULL;
-				float	aoa = 0.5f;
-				//dir must be roughly perpendicular to the hitLoc's cap bolt
-				switch ( *hitLoc )
-				{
-					case HL_LEG_RT:
-						tagName = "*hips_cap_r_leg";
-						break;
-					case HL_LEG_LT:
-						tagName = "*hips_cap_l_leg";
-						break;
-					case HL_WAIST:
-						tagName = "*hips_cap_torso";
-						aoa = 0.25f;
-						break;
-					case HL_CHEST_RT:
-					case HL_ARM_RT:
-					case HL_BACK_LT:
-						tagName = "*torso_cap_r_arm";
-						break;
-					case HL_CHEST_LT:
-					case HL_ARM_LT:
-					case HL_BACK_RT:
-						tagName = "*torso_cap_l_arm";
-						break;
-					case HL_HAND_RT:
-						tagName = "*r_arm_cap_r_hand";
-						break;
-					case HL_HAND_LT:
-						tagName = "*l_arm_cap_l_hand";
-						break;
-					case HL_HEAD:
-						tagName = "*torso_cap_head";
-						aoa = 0.25f;
-						break;
-					case HL_CHEST:
-					case HL_BACK:
-					case HL_FOOT_RT:
-					case HL_FOOT_LT:
-					default:
-						//no dismemberment possible with these, so no checks needed
-						break;
-				}
-				if ( tagName )
-				{
-					int tagBolt = trap_G2API_AddBolt( ent->ghoul2, 0, tagName );
-					if ( tagBolt != -1 )
-					{
-						mdxaBone_t	boltMatrix;
-						vec3_t	tagOrg, tagDir, angles;
+			char *tagName = NULL;
+			float	aoa = 0.5f;
+			//dir must be roughly perpendicular to the hitLoc's cap bolt
+			switch ( *hitLoc )
+			{
+				case HL_LEG_RT:
+					tagName = "*hips_cap_r_leg";
+					break;
+				case HL_LEG_LT:
+					tagName = "*hips_cap_l_leg";
+					break;
+				case HL_WAIST:
+					tagName = "*hips_cap_torso";
+					aoa = 0.25f;
+					break;
+				case HL_CHEST_RT:
+				case HL_ARM_RT:
+				case HL_BACK_LT:
+					tagName = "*torso_cap_r_arm";
+					break;
+				case HL_CHEST_LT:
+				case HL_ARM_LT:
+				case HL_BACK_RT:
+					tagName = "*torso_cap_l_arm";
+					break;
+				case HL_HAND_RT:
+					tagName = "*r_arm_cap_r_hand";
+					break;
+				case HL_HAND_LT:
+					tagName = "*l_arm_cap_l_hand";
+					break;
+				case HL_HEAD:
+					tagName = "*torso_cap_head";
+					aoa = 0.25f;
+					break;
+				case HL_CHEST:
+				case HL_BACK:
+				case HL_FOOT_RT:
+				case HL_FOOT_LT:
+				default:
+					//no dismemberment possible with these, so no checks needed
+					break;
+			}
 
-						VectorSet( angles, 0, ent->r.currentAngles[YAW], 0 );
-						trap_G2API_GetBoltMatrix( ent->ghoul2, 0, tagBolt, 
-										&boltMatrix, angles, ent->r.currentOrigin,
-										actualTime, NULL, ent->modelScale );
-						BG_GiveMeVectorFromMatrix( &boltMatrix, ORIGIN, tagOrg );
-						BG_GiveMeVectorFromMatrix( &boltMatrix, NEGATIVE_Y, tagDir );
-						if ( DistanceSquared( point, tagOrg ) < 256 )
-						{//hit close
-							float dot = DotProduct( dir, tagDir );
+			if ( tagName ) {
+				int tagBolt = trap_G2API_AddBolt( ent->ghoul2, 0, tagName );
+				if ( tagBolt != -1 )
+				{
+					mdxaBone_t	boltMatrix;
+					vec3_t	tagOrg, tagDir, angles;
+
+					VectorSet( angles, 0, ent->r.currentAngles[YAW], 0 );
+					trap_G2API_GetBoltMatrix( ent->ghoul2, 0, tagBolt, 
+									&boltMatrix, angles, ent->r.currentOrigin,
+									actualTime, NULL, ent->modelScale );
+					BG_GiveMeVectorFromMatrix( &boltMatrix, ORIGIN, tagOrg );
+					BG_GiveMeVectorFromMatrix( &boltMatrix, NEGATIVE_Y, tagDir );
+					if ( DistanceSquared( point, tagOrg ) < 256 )
+					{//hit close
+						float dot = DotProduct( dir, tagDir );
+						if ( dot < aoa && dot > -aoa )
+						{//hit roughly perpendicular
+							dot = DotProduct( bladeDir, tagDir );
 							if ( dot < aoa && dot > -aoa )
-							{//hit roughly perpendicular
-								dot = DotProduct( bladeDir, tagDir );
-								if ( dot < aoa && dot > -aoa )
-								{//blade was roughly perpendicular
-									dismember = qtrue;
-								}
+							{//blade was roughly perpendicular
+								dismember = qtrue;
 							}
 						}
 					}
 				}
 			}
+
 		}
 		else
 		{ //hmm, no direction supplied.

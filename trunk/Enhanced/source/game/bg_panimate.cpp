@@ -2835,10 +2835,6 @@ int BG_ParseAnimationFile(const char *filename, animation_t *animset, qboolean i
 
 
 	// load the file
-	//[NewGLA]
-	//you're now allowed to load multiple GLAs for the humanoid set.
-	//if (1)
-	//[/NewGLA]
 	if (!BGPAFtextLoaded || !isHumanoid)
 	{ //rww - We are always using the same animation config now. So only load it once.
 		len = trap_FS_FOpenFile( filename, &f, FS_READ );
@@ -3285,9 +3281,6 @@ void BG_SaberStartTransAnim( int clientNum, int saberAnimLevel, int weapon, int 
 	//I don't like having to do this every time but it's the best I can think of for now.
 	char	buf[128];
 	float	saberanimscale = 1.0;
-#ifdef QAGAME //1.3
-	gentity_t*ent=&g_entities[clientNum];
-#endif
 	trap_Cvar_VariableStringBuffer("g_saberanimspeed", buf, sizeof(buf));
 	saberanimscale = atof(buf);
 	//[/SaberSys]

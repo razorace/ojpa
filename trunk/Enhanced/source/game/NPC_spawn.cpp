@@ -2452,23 +2452,11 @@ void SP_NPC_spawner( gentity_t *self)
 	if ( self->targetname )
 	{//Wait for triggering
 		self->use = NPC_Spawn;
-	//	self->r.svFlags |= SVF_NPC_PRECACHE;//FIXME: precache my weapons somehow?
-
-		//NPC_PrecacheModels( self->NPC_type );
 	}
 	else
 	{
-		//NOTE: auto-spawners never check for shy spawning
-		//if ( spawning )
-		if (1) //just gonna always do this I suppose.
-		{//in entity spawn stage - map starting up
-			self->think = NPC_Spawn_Go;
-			self->nextthink = level.time + START_TIME_REMOVE_ENTS + 50;
-		}
-		else
-		{//else spawn right now
-			NPC_Spawn( self, self, self );
-		}
+		self->think = NPC_Spawn_Go;
+		self->nextthink = level.time + START_TIME_REMOVE_ENTS + 50;
 	}
 
 	//[CoOp]

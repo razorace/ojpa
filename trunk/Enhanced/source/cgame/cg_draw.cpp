@@ -6358,38 +6358,17 @@ static void CG_DrawCrosshairNames( void ) {
 
 	name = cgs.clientinfo[ cg.crosshairClientNum ].name;
 
-	//[CoOp]
-	//make other players show as allies in CoOp
-	//if (cgs.gametype >= GT_TEAM)
-	if (cgs.gametype >= GT_SINGLE_PLAYER)
-	//[/CoOp]
-	{
-		//if (cgs.gametype == GT_SIEGE)
-		if (1)
-		{ //instead of team-based we'll make it oriented based on which team we're on
-			if (cgs.clientinfo[cg.crosshairClientNum].team == cg.predictedPlayerState.persistant[PERS_TEAM])
-			{
-				baseColor = CT_GREEN;
-			}
-			else
-			{
-				baseColor = CT_RED;
-			}
+	if (cgs.gametype >= GT_SINGLE_PLAYER) {
+		if (cgs.clientinfo[cg.crosshairClientNum].team == cg.predictedPlayerState.persistant[PERS_TEAM])
+		{
+			baseColor = CT_GREEN;
 		}
 		else
 		{
-			if (cgs.clientinfo[cg.crosshairClientNum].team == TEAM_RED)
-			{
-				baseColor = CT_RED;
-			}
-			else
-			{
-				baseColor = CT_BLUE;
-			}
+			baseColor = CT_RED;
 		}
 	}
-	else
-	{
+	else {
 		//baseColor = CT_WHITE;
 		if (cgs.gametype == GT_POWERDUEL &&
 			cgs.clientinfo[cg.snap->ps.clientNum].team != TEAM_SPECTATOR &&
@@ -6397,16 +6376,13 @@ static void CG_DrawCrosshairNames( void ) {
 		{ //on the same duel team in powerduel, so he's a friend
 			baseColor = CT_GREEN;
 		}
-		else
-		{
+		else {
 			baseColor = CT_RED; //just make it red in nonteam modes since everyone is hostile and crosshair will be red on them too
 		}
 	}
 
-	if (cg.snap->ps.duelInProgress)
-	{
-		if (cg.crosshairClientNum != cg.snap->ps.duelIndex)
-		{ //grey out crosshair for everyone but your foe if you're in a duel
+	if (cg.snap->ps.duelInProgress) {
+		if (cg.crosshairClientNum != cg.snap->ps.duelIndex) {
 			baseColor = CT_BLACK;
 		}
 	}

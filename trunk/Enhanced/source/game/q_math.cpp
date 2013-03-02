@@ -1856,5 +1856,3 @@ float VectorDistance(vec3_t v1, vec3_t v2)
 	return VectorLength(dir);
 }
 //[/AotCAI]
-
-

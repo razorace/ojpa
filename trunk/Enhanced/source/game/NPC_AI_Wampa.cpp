@@ -224,7 +224,7 @@ void Wampa_Slash( int boltIndex, qboolean backhand )
 					&& radiusEnt->client->NPC_class != CLASS_ATST )
 				{
 					G_Throw( radiusEnt, pushDir, 65 );
-					if ( BG_KnockDownable(&radiusEnt->client->ps) &&
+					if ( BG_IsKnockDownable(&radiusEnt->client->ps) &&
 						radiusEnt->health > 0 && Q_irand( 0, 1 ) )
 					{//do pain on enemy
 						radiusEnt->client->ps.forceHandExtend = HANDEXTEND_KNOCKDOWN;

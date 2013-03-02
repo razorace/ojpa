@@ -44,8 +44,6 @@ vec3_t  muzzle2;//[DualPistols]
 #define ATST_SIDE_ALT_ROCKET_SPLASH_SCALE	0.5f	// scales splash for NPC's
 
 extern qboolean G_BoxInBounds( vec3_t point, vec3_t mins, vec3_t maxs, vec3_t boundsMins, vec3_t boundsMaxs );
-extern qboolean G_HeavyMelee( gentity_t *attacker );
-extern void Jedi_Decloak( gentity_t *self );
 
 //[Asteroids]
 extern vmCvar_t		g_vehAutoAimLead;
@@ -54,7 +52,7 @@ extern vmCvar_t		g_vehAutoAimLead;
 //We should really organize weapon data into tables or parse from the ext data so we have accurate info for this,
 
 //-----------------------------------------------------------------------------
-void W_TraceSetStart( gentity_t *ent, vec3_t start, vec3_t mins, vec3_t maxs )
+void W_EyeTraceSetStart( gentity_t *ent, vec3_t start, vec3_t mins, vec3_t maxs )
 //-----------------------------------------------------------------------------
 {
 	//make sure our start point isn't on the other side of a wall
@@ -66,13 +64,11 @@ void W_TraceSetStart( gentity_t *ent, vec3_t start, vec3_t mins, vec3_t maxs )
 	VectorAdd( ent->r.currentOrigin, ent->r.mins, entMins );
 	VectorAdd( ent->r.currentOrigin, ent->r.maxs, entMaxs );
 
-	if ( G_BoxInBounds( start, mins, maxs, entMins, entMaxs ) )
-	{
+	if ( G_BoxInBounds( start, mins, maxs, entMins, entMaxs ) ) {
 		return;
 	}
 
-	if ( !ent->client )
-	{
+	if (!ent->client) {
 		return;
 	}
 
@@ -81,17 +77,43 @@ void W_TraceSetStart( gentity_t *ent, vec3_t start, vec3_t mins, vec3_t maxs )
 		
 	trap_Trace( &tr, eyePoint, mins, maxs, start, ent->s.number, MASK_SOLID|CONTENTS_SHOTCLIP );
 
-	if ( tr.startsolid || tr.allsolid )
-	{
+	if ( tr.startsolid || tr.allsolid ) {
 		return;
 	}
 
-	if ( tr.fraction < 1.0f )
-	{
+	if ( tr.fraction < 1.0f ) {
 		VectorCopy( tr.endpos, start );
 	}
 }
 
+void WP_TraceSetStart( gentity_t *ent, vec3_t start, vec3_t mins, vec3_t maxs )
+{
+	//make sure our start point isn't on the other side of a wall
+	trace_t	tr;
+	vec3_t	entMins;
+	vec3_t	entMaxs;
+
+	VectorAdd( ent->r.currentOrigin, ent->r.mins, entMins );
+	VectorAdd( ent->r.currentOrigin, ent->r.maxs, entMaxs );
+
+	if ( G_BoxInBounds( start, mins, maxs, entMins, entMaxs ) ) {
+		return;
+	}
+
+	if ( !ent->client ) {
+		return;
+	}
+
+	trap_Trace( &tr, ent->client->ps.origin, mins, maxs, start, ent->s.number, MASK_SOLID|CONTENTS_SHOTCLIP );
+
+	if ( tr.startsolid || tr.allsolid ) {
+		return;
+	}
+
+	if ( tr.fraction < 1.0f ) {
+		VectorCopy( tr.endpos, start );
+	}
+}
 
 /*
 ======================================================================
@@ -198,40 +220,6 @@ void WP_FireTurboLaserMissile( gentity_t *ent, vec3_t start, vec3_t dir )
 
 int G_GetHitLocation(gentity_t *target, vec3_t ppoint);
 
-
-void WP_TraceSetStart( gentity_t *ent, vec3_t start, vec3_t mins, vec3_t maxs )
-{
-	//make sure our start point isn't on the other side of a wall
-	trace_t	tr;
-	vec3_t	entMins;
-	vec3_t	entMaxs;
-
-	VectorAdd( ent->r.currentOrigin, ent->r.mins, entMins );
-	VectorAdd( ent->r.currentOrigin, ent->r.maxs, entMaxs );
-
-	if ( G_BoxInBounds( start, mins, maxs, entMins, entMaxs ) )
-	{
-		return;
-	}
-
-	if ( !ent->client )
-	{
-		return;
-	}
-
-	trap_Trace( &tr, ent->client->ps.origin, mins, maxs, start, ent->s.number, MASK_SOLID|CONTENTS_SHOTCLIP );
-
-	if ( tr.startsolid || tr.allsolid )
-	{
-		return;
-	}
-
-	if ( tr.fraction < 1.0f )
-	{
-		VectorCopy( tr.endpos, start );
-	}
-}
-
 /*
 ======================
 SnapVectorTowards
@@ -243,9 +231,7 @@ into a wall.
 ======================
 */
 void SnapVectorTowards( vec3_t v, vec3_t to ) {
-	int		i;
-
-	for ( i = 0 ; i < 3 ; i++ ) {
+	for (int i = 0 ; i < 3 ; i++ ) {
 		if ( to[i] <= v[i] ) {
 			v[i] = (int)v[i];
 		} else {
@@ -1243,10 +1229,9 @@ tryFire:
 }
 
 //[WeapAccuracy]
-int SkillLevelforWeapon(gentity_t *ent, int weapon)
+int GetSkillLevelforWeapon(gentity_t *ent, int weapon)
 {
-	if(!ent || !ent->inuse || !ent->client)
-	{
+	if(!ent || !ent->inuse || !ent->client) {
 		return 0;
 	}
 
@@ -1281,9 +1266,50 @@ FireWeapon
 */
 
 int BG_EmplacedView(vec3_t baseAngles, vec3_t angles, float *newYaw, float constraint);
-
 extern qboolean PM_InKnockDown( playerState_t *ps );
-extern void G_AddMercBalance(gentity_t *self, int amount);
+extern void G_AddMishap(gentity_t *self, int amount);
+
+qboolean WP_CanWeaponMishap(int weapon) {
+	return (qboolean)(weapon != WP_EMPLACED_GUN);
+}
+
+qboolean WP_PassMishapSkillRoll(gentity_t *ent) {
+	return (qboolean)(!WP_CanWeaponMishap(ent->s.weapon) || !Q_irand(0, GetSkillLevelforWeapon(ent, ent->s.weapon)-1));
+}
+
+int WP_CalculateMishapAmount(gentity_t *ent) {
+	if(PM_InKnockDown(&ent->client->ps) || ent->s.weapon == WP_TUSKEN_RIFLE) {
+		return BALANCE_LOST;
+	}
+	else if(ent->s.weapon == WP_DISRUPTOR && ent->client->ps.zoomMode == 0) {
+		return Q_irand(2, 3);
+	}
+	else if(ent->s.weapon == WP_FLECHETTE || ent->s.weapon == WP_BRYAR_PISTOL) {
+		return 1;
+	}
+	else if(ent->s.weapon == WP_THERMAL
+			|| ent->s.weapon == WP_DET_PACK
+			|| ent->s.weapon == WP_GRENADE)
+	{
+		return 0;
+	}
+	else if(ent->s.weapon == WP_REPEATER)
+	{
+		ent->client->cloneFired++;
+		if(ent->client->cloneFired == 2) {
+			ent->client->cloneFired = 0;
+
+			if(ent->client->pers.cmd.forwardmove == 0 && ent->client->pers.cmd.rightmove == 0) {
+				return 1;
+			}
+			else {
+				return 2;
+			}
+		}
+	}
+
+	return Q_irand(1, 2);	
+}
 
 void FireWeapon( gentity_t *ent, qboolean altFire ) 
 {
@@ -1291,8 +1317,7 @@ void FireWeapon( gentity_t *ent, qboolean altFire )
 	float alert = 256;  //alert level for weapon alter events
 	//[/CoOp]
 
-	if ( ent && ent->client && ent->client->NPC_class == CLASS_VEHICLE )
-	{
+	if ( ent && ent->client && ent->client->NPC_class == CLASS_VEHICLE ) {
 		FireVehicleWeapon( ent, altFire );
 		return;
 	}
@@ -1304,30 +1329,25 @@ void FireWeapon( gentity_t *ent, qboolean altFire )
 		{ //if using emplaced then base muzzle point off of gun position/angles
 			gentity_t *emp = &g_entities[ent->client->ps.emplacedIndex];
 
-			if (emp->inuse)
-			{
+			if (emp->inuse) {
 				float yaw;
 				vec3_t viewAngCap;
 				int override;
 
 				VectorCopy(ent->client->ps.viewangles, viewAngCap);
-				if (viewAngCap[PITCH] > 40)
-				{
+				if (viewAngCap[PITCH] > 40) {
 					viewAngCap[PITCH] = 40;
 				}
 
-				override = BG_EmplacedView(ent->client->ps.viewangles, emp->s.angles, &yaw,
-					emp->s.origin2[0]);
+				override = BG_EmplacedView(ent->client->ps.viewangles, emp->s.angles, &yaw, emp->s.origin2[0]);
 				
-				if (override)
-				{
+				if (override) {
 					viewAngCap[YAW] = yaw;
 				}
 
 				AngleVectors( viewAngCap, forward, vright, up );
 			}
-			else
-			{
+			else {
 				AngleVectors( ent->client->ps.viewangles, forward, vright, up );
 			}
 		}
@@ -1364,177 +1384,119 @@ void FireWeapon( gentity_t *ent, qboolean altFire )
 
 		CalcMuzzlePoint ( ent, forward, vright, up, muzzle );
 		//[DualPistols]
-		if (ent->client->ps.eFlags & EF_DUAL_WEAPONS)
+		if (ent->client->ps.eFlags & EF_DUAL_WEAPONS) {
 			CalcMuzzlePoint2 ( ent, forward, vright, up, muzzle2 );
+		}
 		//[/DualPistols]
 
 		//[WeapAccuracy]
-		//bump accuracy based on MP level.
-		if(ent && ent->client)
-		{
-			vec3_t angs; //used for adding in mishap inaccuracy.
-			float slopFactor = 1.0f - (ent->client->ps.saberAttackChainCount/(float)BALANCE_MAX);
-			slopFactor = ((float)MISHAP_MAXINACCURACY) * slopFactor;
-			vectoangles( forward, angs );
-			angs[PITCH] += flrand(-slopFactor, slopFactor);
-			angs[YAW] += flrand(-slopFactor, slopFactor);
-			AngleVectors( angs, forward, NULL, NULL );
-
-			//increase mishap level
-			if(!Q_irand(0, SkillLevelforWeapon(ent, ent->s.weapon)-1) && ent->s.weapon != WP_EMPLACED_GUN )//Sorry but the mishap meter needs to go up more that before.
-			{//failed skill roll, add mishap.
-				if(PM_InKnockDown(&ent->client->ps))
-					G_AddMercBalance(ent,BALANCE_LOST);
-				else if(ent->s.weapon == WP_DISRUPTOR && ent->client->ps.zoomMode == 0)
-					G_AddMercBalance(ent, Q_irand(2, 3));// 1 was not enough
-				else if(ent->s.weapon == WP_FLECHETTE)
-					G_AddMercBalance(ent,1);
-				else if(ent->s.weapon == WP_BRYAR_PISTOL)
-					G_AddMercBalance(ent,1);
-				else if(ent->s.weapon == WP_THERMAL
-						|| ent->s.weapon == WP_DET_PACK
-						|| ent->s.weapon == WP_GRENADE)
-				{
-
-				}
-				else if(ent->s.weapon == WP_REPEATER)
-				{
-					ent->client->cloneFired++;
-					if(ent->client->cloneFired == 2)
-					{
-						if(ent->client->pers.cmd.forwardmove == 0 && ent->client->pers.cmd.rightmove ==0)
-							G_AddMercBalance(ent,1);
-						else
-							G_AddMercBalance(ent,2);
-
-						ent->client->cloneFired=0;
-					}
-				}
-				else if(ent->s.weapon == WP_TUSKEN_RIFLE)
-					G_AddMercBalance(ent,BALANCE_LOST);
-				else
-					G_AddMercBalance(ent, Q_irand(1, 2));// 1 was not enough
-			}
+		//increase mishap level
+		if(!WP_PassMishapSkillRoll(ent)) {
+			G_AddMishap(ent, WP_CalculateMishapAmount(ent));
 		}
 		//[/WeapAccuracy]
 
-		if(ent->client && ent->client->ps.ammo[weaponData[ent->s.weapon].ammoIndex] == 0)
-		{/*
-			ent->client->ps.zoomMode = 0;
-			ent->client->ps.zoomTime = ent->client->ps.commandTime;
-			ent->client->ps.zoomLocked = qfalse;*/
-		}
-
 		// fire the specific weapon
 		switch( ent->s.weapon ) {
-
-		case WP_MELEE:
-			//[CoOp]
-			alert = 0;
-			//[/CoOp]
-			WP_FireMelee(ent, altFire);
-			break;
-
-		case WP_SABER:
-			break;
-
-		case WP_BRYAR_PISTOL:
-			//if ( g_gametype.integer == GT_SIEGE )
-			if (1) 
-			{//allow alt-fire
-				WP_FireBryarPistol( ent, altFire );
-			}
-			else
-			{
-				WP_FireBryarPistol( ent, qfalse );
-			}
-			break;
-
-		case WP_CONCUSSION:
-			if ( altFire )
-			{
-				WP_FireConcussionAlt( ent );
-			}
-			else
-			{
-				WP_FireConcussion( ent );
-			}
-			break;
-
-		case WP_BRYAR_OLD:
-			//[WeaponSys]
-			WP_FireBryarPistol( ent, qfalse );
-			//WP_FireBryarPistol( ent, altFire );
-			//[/WeaponSys]
-			break;
-
-		case WP_BLASTER:
-			WP_FireBlaster( ent, altFire );
-			break;
-		case WP_TUSKEN_RIFLE:
-			alert = 50;
-			WP_FireTuskenRifle(ent,altFire);
-			break;
-		case WP_DISRUPTOR:
-			//[CoOp]
-			alert = 50;
-			//[/CoOp]
-			WP_FireDisruptor( ent, altFire );
-			break;
-
-		case WP_BOWCASTER:
-			if(altFire)
-				return;
-			WP_FireBowcaster( ent, altFire );
-			break;
-
-		case WP_REPEATER:
-			WP_FireRepeater( ent, altFire );
-			break;
-
-		case WP_DEMP2:
-			WP_FireDEMP2( ent, altFire );
-			break;
-
-		case WP_FLECHETTE:
-			WP_FireT21( ent, altFire );
-			break;
-
-		case WP_ROCKET_LAUNCHER:
-			WP_FireRocket( ent, altFire );
-			break;
-
-		case WP_THERMAL:
-			//[WeaponSys]
-			WP_FireThermalDetonator( ent, qfalse );
-			//[/WeaponSys]
-			break;
-
-		case WP_GRENADE:
-			//[CoOp]
-			alert = 0;
-			//[/CoOp]
-			WP_ThrowGrenade(ent,altFire);
-			//WP_PlaceLaserTrap( ent, altFire );
-			break;
-
-		case WP_DET_PACK:
-			//[CoOp]
-			alert = 0;
-			//[/CoOp]
-			WP_DropDetPack( ent, altFire );
-			break;
-
-		case WP_EMPLACED_GUN:
-			if (ent->client && ent->client->ewebIndex)
-			{ //specially handled by the e-web itself
+			case WP_MELEE:
+				//[CoOp]
+				alert = 0;
+				//[/CoOp]
+				WP_FireMelee(ent, altFire);
 				break;
-			}
-			WP_FireEmplaced( ent, altFire );
-			break;
-		default:
-//			assert(!"unknown weapon fire");
-			break;
+
+			case WP_SABER:
+				break;
+
+			case WP_BRYAR_PISTOL:
+				WP_FireBryarPistol( ent, altFire );
+				break;
+
+			case WP_CONCUSSION:
+				if ( altFire )
+				{
+					WP_FireConcussionAlt( ent );
+				}
+				else
+				{
+					WP_FireConcussion( ent );
+				}
+				break;
+
+			case WP_BRYAR_OLD:
+				//[WeaponSys]
+				WP_FireBryarPistol( ent, qfalse );
+				//WP_FireBryarPistol( ent, altFire );
+				//[/WeaponSys]
+				break;
+
+			case WP_BLASTER:
+				WP_FireBlaster( ent, altFire );
+				break;
+			case WP_TUSKEN_RIFLE:
+				alert = 50;
+				WP_FireTuskenRifle(ent,altFire);
+				break;
+			case WP_DISRUPTOR:
+				//[CoOp]
+				alert = 50;
+				//[/CoOp]
+				WP_FireDisruptor( ent, altFire );
+				break;
+
+			case WP_BOWCASTER:
+				if(altFire)
+					return;
+				WP_FireBowcaster( ent, altFire );
+				break;
+
+			case WP_REPEATER:
+				WP_FireRepeater( ent, altFire );
+				break;
+
+			case WP_DEMP2:
+				WP_FireDEMP2( ent, altFire );
+				break;
+
+			case WP_FLECHETTE:
+				WP_FireT21( ent, altFire );
+				break;
+
+			case WP_ROCKET_LAUNCHER:
+				WP_FireRocket( ent, altFire );
+				break;
+
+			case WP_THERMAL:
+				//[WeaponSys]
+				WP_FireThermalDetonator( ent, qfalse );
+				//[/WeaponSys]
+				break;
+
+			case WP_GRENADE:
+				//[CoOp]
+				alert = 0;
+				//[/CoOp]
+				WP_ThrowGrenade(ent,altFire);
+				//WP_PlaceLaserTrap( ent, altFire );
+				break;
+
+			case WP_DET_PACK:
+				//[CoOp]
+				alert = 0;
+				//[/CoOp]
+				WP_DropDetPack( ent, altFire );
+				break;
+
+			case WP_EMPLACED_GUN:
+				if (ent->client && ent->client->ewebIndex)
+				{ //specially handled by the e-web itself
+					break;
+				}
+				WP_FireEmplaced( ent, altFire );
+				break;
+			default:
+	//			assert(!"unknown weapon fire");
+				break;
 		}
 	}
 

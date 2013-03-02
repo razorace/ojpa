@@ -151,7 +151,7 @@ void WP_FireConcussionAlt( gentity_t *ent )
 						{//alive
 							//if ( G_HasKnockdownAnims( traceEnt ) )
 							if (!noKnockBack && !traceEnt->localAnimIndex && traceEnt->client->ps.forceHandExtend != HANDEXTEND_KNOCKDOWN &&
-								BG_KnockDownable(&traceEnt->client->ps)) //just check for humanoids..
+								BG_IsKnockDownable(&traceEnt->client->ps)) //just check for humanoids..
 							{//knock-downable
 								//G_Knockdown( traceEnt, ent, pushDir, 400, qtrue );
 								vec3_t plPDif;
