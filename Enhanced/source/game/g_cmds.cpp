@@ -2835,7 +2835,7 @@ void G_LeaveVehicle( gentity_t* ent, qboolean ConCheck ) {
 }
 //[/BugFix38]
 
-int G_ItemUsable(playerState_t *ps, int forcedUse)
+int G_IsItemUsable(playerState_t *ps, int forcedUse)
 {
 	vec3_t fwd, fwdorg, dest, pos;
 	vec3_t yawonly;

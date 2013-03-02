@@ -530,14 +530,15 @@ extern void Jedi_Decloak( gentity_t *self );
 
 void UseItem(gentity_t *ent, int item, int itemSlot)
 {
-	if(!ent->client)
+	if(!ent->client) {
 		return;
+	}
 
 	switch(item)
 	{
 	case SK_FORCEFIELD:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SHIELD)) &&
-				G_ItemUsable(&ent->client->ps, HI_SHIELD) )
+				G_IsItemUsable(&ent->client->ps, HI_SHIELD) )
 			{
 				ItemUse_Shield(ent);
 				G_AddEvent(ent, EV_USE_ITEM0+HI_SHIELD, 0);
@@ -546,14 +547,14 @@ void UseItem(gentity_t *ent, int item, int itemSlot)
 		break;
 	case SK_BACTA:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC)) &&
-				G_ItemUsable(&ent->client->ps, HI_MEDPAC) )
+				G_IsItemUsable(&ent->client->ps, HI_MEDPAC) )
 			{
 				ItemUse_MedPack(ent);
 				G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC, 0);
 				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC);
 			}
 		else if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC_BIG)) &&
-				G_ItemUsable(&ent->client->ps, HI_MEDPAC_BIG) )
+				G_IsItemUsable(&ent->client->ps, HI_MEDPAC_BIG) )
 			{
 				ItemUse_MedPack_Big(ent);
 				G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC_BIG, 0);
@@ -562,7 +563,7 @@ void UseItem(gentity_t *ent, int item, int itemSlot)
 		break;
 	case SK_SEEKER:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SEEKER)) &&
-				G_ItemUsable(&ent->client->ps, HI_SEEKER) )
+				G_IsItemUsable(&ent->client->ps, HI_SEEKER) )
 			{
 				ItemUse_Seeker(ent);
 				G_AddEvent(ent, EV_USE_ITEM0+HI_SEEKER, 0);
@@ -575,17 +576,16 @@ void UseItem(gentity_t *ent, int item, int itemSlot)
 	case SK_SENTRY:
 		if(ent->client->isHacking)
 			break;
+
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SENTRY_GUN)) &&
-			G_ItemUsable(&ent->client->ps, HI_SENTRY_GUN) )
+			G_IsItemUsable(&ent->client->ps, HI_SENTRY_GUN) )
 		{
 			ItemUse_Sentry(ent);
-				//G_AddEvent(ent, EV_USE_ITEM0+HI_SENTRY_GUN, 0);
-				//ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SENTRY_GUN);
 		}
 		break;
 	case SK_CLOAK:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_CLOAK)) &&
-				G_ItemUsable(&ent->client->ps, HI_CLOAK) )
+				G_IsItemUsable(&ent->client->ps, HI_CLOAK) )
 			{
 				ItemUse_UseCloak(ent);
 			}
@@ -1502,6 +1502,7 @@ void Jetpack_Off(gentity_t *ent)
 	
 	ent->client->jetPackOn = qfalse;
 	ent->client->jetPackToggleTime = level.time + 2000;
+	ent->client->ps.eFlags &= ~EF_JETPACK_ACTIVE;
 }
 
 void Jetpack_On(gentity_t *ent)
@@ -1526,6 +1527,7 @@ void Jetpack_On(gentity_t *ent)
 	G_Sound(ent, CHAN_AUTO, G_SoundIndex("sound/jetpack/ignite"));
 
 	ent->client->jetPackOn = qtrue;
+	ent->client->ps.eFlags |= EF_JETPACK_ACTIVE;
 }
 
 

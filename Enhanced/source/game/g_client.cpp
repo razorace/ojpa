@@ -4682,6 +4682,7 @@ void ClientSpawn(gentity_t *ent) {
 		if(client->skillLevel[SK_JETPACK])
 		{//player has jetpack
 			client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_JETPACK);
+			client->ps.eFlags |= EF_JETPACK;
 		}
 
 		if(client->skillLevel[SK_FORCEFIELD])

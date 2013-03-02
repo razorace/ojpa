@@ -10564,6 +10564,8 @@ void _UI_Init( qboolean inGameLoad ) {
 	trap_Cvar_Register(NULL, "debug_protocol", "", 0 );
 
 	trap_Cvar_Set("ui_actualNetGameType", va("%d", ui_netGameType.integer));
+
+	uiMaxRank = ui_rankChange.integer;
 }
 
 /*
