@@ -15,7 +15,7 @@ FORCE INTERFACE
 int uiForceSide = FORCE_LIGHTSIDE;
 int uiJediNonJedi = -1;  //racc - indicates if we're jedi or merc while in jediVsMerc mode.  -1 == unknown
 int uiForceRank = FORCE_MASTERY_JEDI_KNIGHT;
-int uiMaxRank = MAX_FORCE_RANK;
+int uiMaxRank = 0;
 int uiMaxPoints = 20;
 int	uiForceUsed = 0;
 int uiForceAvailable=0;

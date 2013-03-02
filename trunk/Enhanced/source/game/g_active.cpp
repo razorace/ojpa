@@ -1672,47 +1672,30 @@ void G_SetTauntAnim( gentity_t *ent, int taunt )
 {
 	if (ent->client->pers.cmd.upmove ||
 		ent->client->pers.cmd.forwardmove ||
-		ent->client->pers.cmd.rightmove)
-	{ //hack, don't do while moving
+		ent->client->pers.cmd.rightmove ||
+		ent->client->ps.stats[STAT_HEALTH] <= 0 ||
+		ent->client->ps.emplacedIndex)
+	{ 
 		return;
 	}
 
-	//[TAUNTFIX]
-	// dead clients dont get to spam taunt
-	if ( ent->client->ps.stats[STAT_HEALTH] <= 0 ) {
-		return;
-	}
-	if (ent->client->ps.emplacedIndex)
-	{ //on an emplaced gun
-		return;
-	}
 	if (ent->client->ps.m_iVehicleNum)
 	{ //in a vehicle like at-st
 		gentity_t *veh = &g_entities[ent->client->ps.m_iVehicleNum];
 
-		if ( veh->m_pVehicle && veh->m_pVehicle->m_pVehicleInfo->type == VH_WALKER )
+		if ( veh->m_pVehicle && veh->m_pVehicle->m_pVehicleInfo->type == VH_WALKER ) {
 			return;
+		}
 
-		if ( veh->m_pVehicle && veh->m_pVehicle->m_pVehicleInfo->type == VH_FIGHTER )
+		if ( veh->m_pVehicle && veh->m_pVehicle->m_pVehicleInfo->type == VH_FIGHTER ) {
 			return;
+		}
 
 		if ( taunt == TAUNT_FLOURISH || taunt == TAUNT_GLOAT ) taunt = TAUNT_TAUNT;
-		if ( taunt == TAUNT_MEDITATE || taunt == TAUNT_BOW ) return;
-	}
-	//[/TAUNTFIX]
-
-	//[ALLTAUNTS]
-	/*
-	if ( taunt != TAUNT_TAUNT )
-	{//normal taunt always allowed
-		if ( g_gametype.integer != GT_DUEL
-			&& g_gametype.integer != GT_POWERDUEL )
-		{//no taunts unless in Duel
+		if ( taunt == TAUNT_MEDITATE || taunt == TAUNT_BOW ) { 
 			return;
 		}
 	}
-	*/
-	//[/ALLTAUNTS]
 
 	if ( ent->client->ps.torsoTimer < 1 
 		&& ent->client->ps.forceHandExtend == HANDEXTEND_NONE 
@@ -1724,84 +1707,77 @@ void G_SetTauntAnim( gentity_t *ent, int taunt )
 		switch ( taunt )
 		{
 		case TAUNT_TAUNT:
-			if ( ent->client->ps.weapon != WP_SABER )
-			{
+			if ( ent->client->ps.weapon != WP_SABER ) {
 				anim = BOTH_ENGAGETAUNT;
 			}
-			else if ( ent->client->saber[0].tauntAnim != -1 )
-			{
+			else if ( ent->client->saber[0].tauntAnim != -1 ) {
 				anim = ent->client->saber[0].tauntAnim;
 			}
 			else if ( ent->client->saber[1].model 
 					&& ent->client->saber[1].model[0]
-					&& ent->client->saber[1].tauntAnim != -1 )
-			{
+					&& ent->client->saber[1].tauntAnim != -1 ) {
 				anim = ent->client->saber[1].tauntAnim;
 			}
-			else
-			{
-				switch ( ent->client->ps.fd.saberAnimLevel )
-				{
-				case SS_FAST:
-				case SS_TAVION:
-					if ( ent->client->ps.saberHolstered == 1 
-						&& ent->client->saber[1].model 
-						&& ent->client->saber[1].model[0] )
-					{//turn off second saber
-						G_Sound( ent, CHAN_WEAPON, ent->client->saber[1].soundOff );
-					}
-					else if ( ent->client->ps.saberHolstered == 0 )
-					{//turn off first
-						G_Sound( ent, CHAN_WEAPON, ent->client->saber[0].soundOff );
-					}
-					ent->client->ps.saberHolstered = 2;
-					anim = BOTH_GESTURE1;
-					break;
-				case SS_MEDIUM:
-				case SS_STRONG:
-				case SS_DESANN:
-					anim = BOTH_ENGAGETAUNT;
-					break;
-				case SS_DUAL:
-					if ( ent->client->ps.saberHolstered == 1 
-						&& ent->client->saber[1].model 
-						&& ent->client->saber[1].model[0] )
-					{//turn on second saber
-						G_Sound( ent, CHAN_WEAPON, ent->client->saber[1].soundOn );
-					}
-					else if ( ent->client->ps.saberHolstered == 2 )
-					{//turn on first
-						G_Sound( ent, CHAN_WEAPON, ent->client->saber[0].soundOn );
-					}
-					ent->client->ps.saberHolstered = 0;
-					anim = BOTH_DUAL_TAUNT;
-					break;
-				case SS_STAFF:
-					if ( ent->client->ps.saberHolstered > 0 )
-					{//turn on all blades
-						G_Sound( ent, CHAN_WEAPON, ent->client->saber[0].soundOn );
-					}
-					ent->client->ps.saberHolstered = 0;
-					anim = BOTH_STAFF_TAUNT;
-					break;
+			else {
+				switch ( ent->client->ps.fd.saberAnimLevel ) {
+					case SS_FAST:
+					case SS_TAVION:
+						if ( ent->client->ps.saberHolstered == 1 
+							&& ent->client->saber[1].model 
+							&& ent->client->saber[1].model[0] )
+						{//turn off second saber
+							G_Sound( ent, CHAN_WEAPON, ent->client->saber[1].soundOff );
+						}
+						else if ( ent->client->ps.saberHolstered == 0 )
+						{//turn off first
+							G_Sound( ent, CHAN_WEAPON, ent->client->saber[0].soundOff );
+						}
+						ent->client->ps.saberHolstered = 2;
+						anim = BOTH_GESTURE1;
+						break;
+					case SS_MEDIUM:
+					case SS_STRONG:
+					case SS_DESANN:
+						anim = BOTH_ENGAGETAUNT;
+						break;
+					case SS_DUAL:
+						if ( ent->client->ps.saberHolstered == 1 
+							&& ent->client->saber[1].model 
+							&& ent->client->saber[1].model[0] )
+						{//turn on second saber
+							G_Sound( ent, CHAN_WEAPON, ent->client->saber[1].soundOn );
+						}
+						else if ( ent->client->ps.saberHolstered == 2 )
+						{//turn on first
+							G_Sound( ent, CHAN_WEAPON, ent->client->saber[0].soundOn );
+						}
+						ent->client->ps.saberHolstered = 0;
+						anim = BOTH_DUAL_TAUNT;
+						break;
+					case SS_STAFF:
+						if ( ent->client->ps.saberHolstered > 0 )
+						{//turn on all blades
+							G_Sound( ent, CHAN_WEAPON, ent->client->saber[0].soundOn );
+						}
+						ent->client->ps.saberHolstered = 0;
+						anim = BOTH_STAFF_TAUNT;
+						break;
 				}
 			}
 			break;
 		case TAUNT_BOW:
-			if ( ent->client->saber[0].bowAnim != -1 )
-			{
+			if ( ent->client->saber[0].bowAnim != -1 ) {
 				anim = ent->client->saber[0].bowAnim;
 			}
 			else if ( ent->client->saber[1].model 
 					&& ent->client->saber[1].model[0]
-					&& ent->client->saber[1].bowAnim != -1 )
-			{
+					&& ent->client->saber[1].bowAnim != -1 ) {
 				anim = ent->client->saber[1].bowAnim;
 			}
-			else
-			{
+			else {
 				anim = BOTH_BOW;
 			}
+
 			if ( ent->client->ps.saberHolstered == 1 
 				&& ent->client->saber[1].model 
 				&& ent->client->saber[1].model[0] )
@@ -1959,6 +1935,7 @@ void G_SetTauntAnim( gentity_t *ent, int taunt )
 			}
 			break;
 		}
+
 		if ( anim != -1 )
 		{
 			if ( ent->client->ps.groundEntityNum != ENTITYNUM_NONE ) 
@@ -1976,29 +1953,30 @@ void G_SetTauntAnim( gentity_t *ent, int taunt )
 	}
 }
 
-gentity_t *TouchingItem(gentity_t *ent)
-{
-	int			i, num;
+gentity_t *TouchingItem(gentity_t *ent) {
 	int			touch[MAX_GENTITIES];
 	vec3_t		mins, maxs;
 	static vec3_t	range = { 40, 40, 52 };
-	gentity_t *hit;
 
 	VectorSubtract( ent->client->ps.origin, range, mins );
 	VectorAdd( ent->client->ps.origin, range, maxs );
 
-	num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
+	int num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
 
-	for ( i=0 ; i<num ; i++ )
+	for (int i = 0; i < num; i++)
 	{
-		hit = &g_entities[touch[i]];
-		if ( !hit->touch && !ent->touch )
+		gentity_t *hit = &g_entities[touch[i]];
+		if ( !hit->touch && !ent->touch ) {
 			continue;
-		if ( !( hit->r.contents & CONTENTS_TRIGGER ) )
-			continue;
+		}
 
-		if(hit->s.eType == ET_ITEM && hit->item && hit->item->giType == IT_WEAPON)
+		if ( !( hit->r.contents & CONTENTS_TRIGGER ) ) {
+			continue;
+		}
+
+		if(hit->s.eType == ET_ITEM && hit->item && hit->item->giType == IT_WEAPON) {
 			return hit;
+		}
 	}
 
 	return NULL;
@@ -2104,7 +2082,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_SEEKER:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SEEKER)) &&
-			G_ItemUsable(&ent->client->ps, HI_SEEKER) )
+			G_IsItemUsable(&ent->client->ps, HI_SEEKER) )
 		{
 			ItemUse_Seeker(ent);
 			G_AddEvent(ent, EV_USE_ITEM0+HI_SEEKER, 0);
@@ -2116,7 +2094,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_FIELD:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SHIELD)) &&
-			G_ItemUsable(&ent->client->ps, HI_SHIELD) )
+			G_IsItemUsable(&ent->client->ps, HI_SHIELD) )
 		{
 			ItemUse_Shield(ent);
 			G_AddEvent(ent, EV_USE_ITEM0+HI_SHIELD, 0);
@@ -2125,7 +2103,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_BACTA:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC)) &&
-			G_ItemUsable(&ent->client->ps, HI_MEDPAC) )
+			G_IsItemUsable(&ent->client->ps, HI_MEDPAC) )
 		{
 			ItemUse_MedPack(ent);
 			G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC, 0);
@@ -2134,7 +2112,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_BACTABIG:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC_BIG)) &&
-			G_ItemUsable(&ent->client->ps, HI_MEDPAC_BIG) )
+			G_IsItemUsable(&ent->client->ps, HI_MEDPAC_BIG) )
 		{
 			ItemUse_MedPack_Big(ent);
 			G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC_BIG, 0);
@@ -2143,7 +2121,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_ELECTROBINOCULARS:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_BINOCULARS)) &&
-			G_ItemUsable(&ent->client->ps, HI_BINOCULARS) )
+			G_IsItemUsable(&ent->client->ps, HI_BINOCULARS) )
 		{
 			ItemUse_Binoculars(ent);
 			if (ent->client->ps.zoomMode == 0)
@@ -2158,7 +2136,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_ZOOM:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_BINOCULARS)) &&
-			G_ItemUsable(&ent->client->ps, HI_BINOCULARS) )
+			G_IsItemUsable(&ent->client->ps, HI_BINOCULARS) )
 		{
 			ItemUse_Binoculars(ent);
 			if (ent->client->ps.zoomMode == 0)
@@ -2173,7 +2151,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_SENTRY:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SENTRY_GUN)) &&
-			G_ItemUsable(&ent->client->ps, HI_SENTRY_GUN) )
+			G_IsItemUsable(&ent->client->ps, HI_SENTRY_GUN) )
 		{
 			ItemUse_Sentry(ent);
 			//G_AddEvent(ent, EV_USE_ITEM0+HI_SENTRY_GUN, 0);
@@ -2182,7 +2160,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_JETPACK:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_JETPACK)) &&
-			G_ItemUsable(&ent->client->ps, HI_JETPACK) )
+			G_IsItemUsable(&ent->client->ps, HI_JETPACK) )
 		{
 			ItemUse_Jetpack(ent);
 			G_AddEvent(ent, EV_USE_ITEM0+HI_JETPACK, 0);
@@ -2200,7 +2178,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_HEALTHDISP:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_HEALTHDISP)) &&
-			G_ItemUsable(&ent->client->ps, HI_HEALTHDISP) )
+			G_IsItemUsable(&ent->client->ps, HI_HEALTHDISP) )
 		{
 			//ItemUse_UseDisp(ent, HI_HEALTHDISP);
 			G_AddEvent(ent, EV_USE_ITEM0+HI_HEALTHDISP, 0);
@@ -2208,7 +2186,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_AMMODISP:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_AMMODISP)) &&
-			G_ItemUsable(&ent->client->ps, HI_AMMODISP) )
+			G_IsItemUsable(&ent->client->ps, HI_AMMODISP) )
 		{
 			//ItemUse_UseDisp(ent, HI_AMMODISP);
 			G_AddEvent(ent, EV_USE_ITEM0+HI_AMMODISP, 0);
@@ -2216,7 +2194,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_EWEB:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_EWEB)) &&
-			G_ItemUsable(&ent->client->ps, HI_EWEB) )
+			G_IsItemUsable(&ent->client->ps, HI_EWEB) )
 		{
 			ItemUse_UseEWeb(ent);
 			G_AddEvent(ent, EV_USE_ITEM0+HI_EWEB, 0);
@@ -2224,7 +2202,7 @@ void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
 		break;
 	case GENCMD_USE_CLOAK:
 		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_CLOAK)) &&
-			G_ItemUsable(&ent->client->ps, HI_CLOAK) )
+			G_IsItemUsable(&ent->client->ps, HI_CLOAK) )
 		{
 			if ( ent->client->ps.powerups[PW_CLOAKED] )
 			{//decloak
@@ -2491,13 +2469,6 @@ void UpdatePlayerStateFlags(gentity_t *ent) {
 		ent->client->ps.eFlags &= ~EF_BODYPUSH;
 	}
 
-	if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_JETPACK)) {
-		ent->client->ps.eFlags |= EF_JETPACK;
-	}
-	else {
-		ent->client->ps.eFlags &= ~EF_JETPACK;
-	}
-
 	if ( ent->client->noclip ) {
 		ent->client->ps.pm_type = PM_NOCLIP;
 	} else if ( ent->client->ps.eFlags & EF_DISINTEGRATION ) {
@@ -2511,7 +2482,6 @@ void UpdatePlayerStateFlags(gentity_t *ent) {
 		else {
 			if (ent->client->jetPackOn) {
 				ent->client->ps.pm_type = PM_JETPACK;
-				ent->client->ps.eFlags |= EF_JETPACK_ACTIVE;
 				killJetFlags = qfalse;
 			}
 			else {
@@ -2521,7 +2491,6 @@ void UpdatePlayerStateFlags(gentity_t *ent) {
 	}
 
 	if (killJetFlags) {
-		ent->client->ps.eFlags &= ~EF_JETPACK_ACTIVE;
 		ent->client->ps.eFlags &= ~EF_JETPACK_FLAMING;
 	}
 }
@@ -2561,7 +2530,69 @@ void ClientThink_real( gentity_t *ent ) {
 		return;
 	}
 	//[/ROQFILES]
-	
+
+	// mark the time, so the connection sprite can be removed
+	ucmd = &ent->client->pers.cmd;
+
+	// sanity check, check the command time to prevent speedup cheating
+	ucmd->serverTime = max(min(level.time + 200, ucmd->serverTime), level.time - 1000);
+
+	if (isNPC && (ucmd->serverTime - client->ps.commandTime) < 1) {
+		ucmd->serverTime = client->ps.commandTime + 100;
+	}
+
+	msec = ucmd->serverTime - client->ps.commandTime;
+	// following others may result in bad times, but we still want
+	// to check for follow toggles
+	if ( msec < 1 && client->sess.spectatorState != SPECTATOR_FOLLOW ) {
+		return;
+	}
+
+	if ( msec > 200 ) {
+		msec = 200;
+	}
+
+	if ( pmove_msec.integer < 8 ) {
+		trap_Cvar_Set("pmove_msec", "8");
+	}
+	else if (pmove_msec.integer > 33) {
+		trap_Cvar_Set("pmove_msec", "33");
+	}
+
+	if ( pmove_fixed.integer || client->pers.pmoveFixed ) {
+		ucmd->serverTime = ((ucmd->serverTime + pmove_msec.integer-1) / pmove_msec.integer) * pmove_msec.integer;
+	}
+
+	//
+	// check for exiting intermission
+	//
+	if ( level.intermissiontime ) {
+		if ( ent->s.number < MAX_CLIENTS
+			|| client->NPC_class == CLASS_VEHICLE )
+		{//players and vehicles do nothing in intermissions
+			ClientIntermissionThink( client );
+			return;
+		}
+	}
+
+	// spectators don't do much
+	//[CoOp]
+	//NPCs on the NPCTEAM_NEUTRAL (vehicles and bots) use the same team number as the TEAM_SPECTATOR.  
+	//As such, this was causing those NPCs to act like they were spectating while in CoOp!
+	if ( client->ps.clientNum < MAX_CLIENTS && (client->sess.sessionTeam == TEAM_SPECTATOR || client->tempSpectate > level.time) ) {
+	//[/CoOp]
+		if ( client->sess.spectatorState == SPECTATOR_SCOREBOARD ) {
+			return;
+		}
+
+		SpectatorThink( ent, ucmd );
+		return;
+	}
+
+	if ( client && (client->ps.eFlags2 & EF2_HELD_BY_MONSTER) ) {
+		G_HeldByMonster( ent, &ucmd );
+	}
+
 	if(ent->client->blockTime <= level.time && ent->client->blockTime > 0) {
 		ent->client->ps.userInt3 &= ~ (1 << FLAG_BLOCKING);
 		ent->client->blockTime = 0;
@@ -2579,35 +2610,17 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 
 	if(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON1) {
-		if(ent->client->ps.fd.forcePowerLevel[FP_SEE] )
-		{//Jedi
-
-		}
-		else
-		{//Gunner
-			if(ent->client->itemSlot1 == 0)
-			{//Nothing to use this button on
-			}
-			else
-			{
-				UseItem(ent,ent->client->itemSlot1,1);					
+		if(!ent->client->ps.fd.forcePowerLevel[FP_SEE] ) {
+			if(ent->client->itemSlot1 != 0) {
+				UseItem(ent,ent->client->itemSlot1, 1);	
 			}
 		}
 	}
-	if(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON2)
-	{
-		if(ent->client->ps.fd.forcePowerLevel[FP_SEE] )
-		{//Jedi
 
-		}
-		else
-		{//Gunner
-			if(ent->client->itemSlot2 == 0)
-			{//Nothing to use this button on
-			}
-			else
-			{
-				UseItem(ent,ent->client->itemSlot2,2);					
+	if(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON2) {
+		if(!ent->client->ps.fd.forcePowerLevel[FP_SEE] ){
+			if(ent->client->itemSlot2 != 0) {
+				UseItem(ent,ent->client->itemSlot2, 2);		
 			}
 		}
 	}
@@ -2708,18 +2721,10 @@ void ClientThink_real( gentity_t *ent ) {
 
 	}
 
-	// mark the time, so the connection sprite can be removed
-	ucmd = &ent->client->pers.cmd;
-
-	if ( client && (client->ps.eFlags2 & EF2_HELD_BY_MONSTER) ) {
-		G_HeldByMonster( ent, &ucmd );
-	}
-
 	//[CoOp]
 	if (client->ps.clientNum < MAX_CLIENTS)
 	{//player stuff
-		if ( in_camera )
-		{
+		if ( in_camera ) {
 			// watch the code here, you MUST "return" within this IF(), *unless* you're stopping the cinematic skip.
 				//skip cutscene code
 			if ( !skippingCutscene && (ojp_skipcutscenes.integer == 1 
@@ -2743,8 +2748,8 @@ void ClientThink_real( gentity_t *ent ) {
 				|| ((ojp_skipcutscenes.integer == 3 || ojp_skipcutscenes.integer == 4) 
 				&& ClientCinematicThink(ent->client, &ent->client->pers.cmd))) )
 			{//stopping a skip already in progress
-					skippingCutscene = qfalse;
-					trap_Cvar_Set("timescale", "1");
+				skippingCutscene = qfalse;
+				trap_Cvar_Set("timescale", "1");
 			}
 		}
 
@@ -2757,62 +2762,6 @@ void ClientThink_real( gentity_t *ent ) {
 		}
 	}
 	//[/CoOp]
-
-	// sanity check, check the command time to prevent speedup cheating
-	ucmd->serverTime = max(min(level.time + 200, ucmd->serverTime), level.time - 1000);
-
-	if (isNPC && (ucmd->serverTime - client->ps.commandTime) < 1) {
-		ucmd->serverTime = client->ps.commandTime + 100;
-	}
-
-	msec = ucmd->serverTime - client->ps.commandTime;
-	// following others may result in bad times, but we still want
-	// to check for follow toggles
-	if ( msec < 1 && client->sess.spectatorState != SPECTATOR_FOLLOW ) {
-		return;
-	}
-
-	if ( msec > 200 ) {
-		msec = 200;
-	}
-
-	if ( pmove_msec.integer < 8 ) {
-		trap_Cvar_Set("pmove_msec", "8");
-	}
-	else if (pmove_msec.integer > 33) {
-		trap_Cvar_Set("pmove_msec", "33");
-	}
-
-	if ( pmove_fixed.integer || client->pers.pmoveFixed ) {
-		ucmd->serverTime = ((ucmd->serverTime + pmove_msec.integer-1) / pmove_msec.integer) * pmove_msec.integer;
-	}
-
-	//
-	// check for exiting intermission
-	//
-	if ( level.intermissiontime ) {
-		if ( ent->s.number < MAX_CLIENTS
-			|| client->NPC_class == CLASS_VEHICLE )
-		{//players and vehicles do nothing in intermissions
-			ClientIntermissionThink( client );
-			return;
-		}
-	}
-
-	// spectators don't do much
-	//[CoOp]
-	//NPCs on the NPCTEAM_NEUTRAL (vehicles and bots) use the same team number as the TEAM_SPECTATOR.  
-	//As such, this was causing those NPCs to act like they were spectating while in CoOp!
-	if ( client->ps.clientNum < MAX_CLIENTS && (client->sess.sessionTeam == TEAM_SPECTATOR || client->tempSpectate > level.time) ) {
-	//if ( client->sess.sessionTeam == TEAM_SPECTATOR || client->tempSpectate > level.time ) {
-	//[/CoOp]
-		if ( client->sess.spectatorState == SPECTATOR_SCOREBOARD ) {
-			return;
-		}
-
-		SpectatorThink( ent, ucmd );
-		return;
-	}
 
 	if (ent && ent->client && (ent->client->ps.eFlags & EF_INVULNERABLE)) {
 		if (ent->client->invulnerableTimer <= level.time) {
