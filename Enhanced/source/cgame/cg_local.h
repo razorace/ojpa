@@ -5,6 +5,7 @@
 #include "../game/bg_public.h"
 #include "cg_public.h"
 
+
 // The entire cgame module is unloaded and reloaded on each level change,
 // so there is NO persistant data between levels on the client side.
 // If you absolutely need something stored, it can either be kept
@@ -1739,8 +1740,6 @@ typedef struct {
 	//This value is set by the server.
 	char			mapURL[MAX_QPATH];  
 	//[/MapURLs]
-
-	int				quoteThink;
 
 } cgs_t;
 

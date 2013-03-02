@@ -3962,21 +3962,6 @@ void ClientCommand( int clientNum ) {
 		return;
 	}
 
-	if(Q_stricmp(cmd, "ayn") == 0) {
-		//G_Say( ent, NULL, mode, GetRandQuote() );
-		//trap_SendServerCommand( -1, va("print \"Ayn Rand: %s\n\"", GetRandQuote() ) );
-		char		name[64];
-		Com_sprintf (name, sizeof(name), "%s%c%c"EC" : ", "^1Ayn Rand", Q_COLOR_ESCAPE, COLOR_WHITE );
-
-		for (int j = 0; j < level.maxclients; j++) {
-			gentity_t *other = &g_entities[j];
-
-			trap_SendServerCommand( other-g_entities, va("%s \"%s%c%c%s\"", "chat", name, Q_COLOR_ESCAPE, COLOR_GREEN, GetRandQuote()));
-		}
-
-		return;
-	}
-
 	//note: these voice_cmds come from the ui/jamp/ingame_voicechat.menu menu file...
 	//		the strings are in strings/English/menus.str and all start with "VC_"
 	if (Q_stricmp(cmd, "voice_cmd") == 0)

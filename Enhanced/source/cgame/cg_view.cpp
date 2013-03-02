@@ -1352,15 +1352,15 @@ static void CG_DamageBlendBlob( void )
 
 	ent.radius = cg.damageValue * 3 * ( 1.0 - ((float)t / maxTime) );
 
-	if (cg.snap->ps.damageType == 0)
-	{ //pure health
+	if (cg.snap->ps.damageType == DamageType_Health)
+	{
 		ent.customShader = cgs.media.viewPainShader;
 		ent.shaderRGBA[0] = 180 * ( 1.0 - ((float)t / maxTime) );
 		ent.shaderRGBA[1] = 50 * ( 1.0 - ((float)t / maxTime) );
 		ent.shaderRGBA[2] = 50 * ( 1.0 - ((float)t / maxTime) );
 		ent.shaderRGBA[3] = 255;
 	}
-	else if (cg.snap->ps.damageType == 1)
+	else if (cg.snap->ps.damageType == DamageType_Shields)
 	{ //pure shields
 		ent.customShader = cgs.media.viewPainShader_Shields;
 		ent.shaderRGBA[0] = 50 * ( 1.0 - ((float)t / maxTime) );
@@ -2846,13 +2846,6 @@ void CG_DrawActiveFrame( int serverTime, stereoFrame_t stereoView, qboolean demo
 
 	if ( cg_stats.integer ) {
 		CG_Printf( "cg.clientFrame:%i\n", cg.clientFrame );
-	}
-
-	if(cgs.localServer) {
-		if(cgs.quoteThink <= cg.time) {
-			trap_SendClientCommand("ayn");
-			cgs.quoteThink = cg.time + 900000;
-		}
 	}
 }
 

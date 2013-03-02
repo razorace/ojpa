@@ -1111,7 +1111,6 @@ void pas_think( gentity_t *ent )
 void turret_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod)
 //------------------------------------------------------------------------------------------------------------
 {
-	gentity_t *owner = &g_entities[self->genericValue3];
 	// Turn off the thinking of the base & use it's targets
 	self->think = 0;//NULL;
 	self->use = 0;//NULL;

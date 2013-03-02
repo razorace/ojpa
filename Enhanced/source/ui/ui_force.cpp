@@ -92,39 +92,24 @@ void UI_DrawForceStars(Rectangle *rect, float scale, vec4_t color, int textStyle
 	max = NumberOfSkillRanks(forceindex);
 	//[/ExpSys]
 
-	if (val < min || val > max) 
-	{
+	if (val < min || val > max) {
 		val = min;
 	}
 
-	if (1)	// if (val)
+	xPos = rect->x;
+
+	for (i = FORCE_LEVEL_1;i <= max; i++)
 	{
-		xPos = rect->x;
+		starcolor = bgForcePowerCost[forceindex][i];
 
-		for (i=FORCE_LEVEL_1;i<=max;i++)
-		{
-			starcolor = bgForcePowerCost[forceindex][i];
+		if(uiRank[forceindex].disabled) {
+			vec4_t grColor = {0.2f, 0.2f, 0.2f, 1.0f};
+			trap_R_SetColor(grColor);
+		}
 
-			if(uiRank[forceindex].disabled)
-			{
-				vec4_t grColor = {0.2f, 0.2f, 0.2f, 1.0f};
-				trap_R_SetColor(grColor);
-			}
-
-			//[ExpSys]
-			if(starcolor != 0)
-			{//only render if the force skill at this level costs something.
-				if (val >= i)
-				{	// Draw a star.
-					UI_DrawHandlePic( xPos, rect->y+6, width, width, uiForceStarShaders[starcolor][1] );
-				}
-				else
-				{	// Draw a circle.
-					UI_DrawHandlePic( xPos, rect->y+6, width, width, uiForceStarShaders[starcolor][0] );
-				}
-			}
-
-			/*
+		//[ExpSys]
+		if(starcolor != 0)
+		{//only render if the force skill at this level costs something.
 			if (val >= i)
 			{	// Draw a star.
 				UI_DrawHandlePic( xPos, rect->y+6, width, width, uiForceStarShaders[starcolor][1] );
@@ -133,16 +118,14 @@ void UI_DrawForceStars(Rectangle *rect, float scale, vec4_t color, int textStyle
 			{	// Draw a circle.
 				UI_DrawHandlePic( xPos, rect->y+6, width, width, uiForceStarShaders[starcolor][0] );
 			}
-			*/
-			//[/ExpSys]
-
-			if(uiRank[forceindex].disabled)
-			{
-				trap_R_SetColor(NULL);
-			}
-
-			xPos += width + pad;
 		}
+		//[/ExpSys]
+
+		if(uiRank[forceindex].disabled) {
+			trap_R_SetColor(NULL);
+		}
+
+		xPos += width + pad;
 	}
 }
 
@@ -151,32 +134,25 @@ void UI_UpdateClientForcePowers(const char *teamArg)
 {
 	//[ExpSys]
 	char newForceString[MAX_INFO_STRING];
-	int i;
 	//Q_strcat
 	strncpy(newForceString,va("%i-%i-",uiForceRank, uiForceSide),sizeof(newForceString));
 
-	for(i =0;i<NUM_TOTAL_SKILLS;i++)
+	for(int i = 0; i < NUM_TOTAL_SKILLS; i++)
 	{
 		Q_strcat(newForceString,sizeof(newForceString),va("%i",uiRank[i].uiForcePowersRank));
 	}
 
-	if (gTouchedForce)
-	{
-		if (teamArg && teamArg[0])
-		{
+	if (gTouchedForce) {
+		if (teamArg && teamArg[0]) {
 			//[ExpSys]
 			trap_Cmd_ExecuteText( EXEC_APPEND, va("forcechanged \"%s\" %s\n", teamArg, newForceString ) );
-			//trap_Cmd_ExecuteText( EXEC_APPEND, va("forcechanged \"%s\"\n", teamArg) );
 			//[/ExpSys]
 		}
-		else
-		{
+		else {
 			//[ExpSys]
 			trap_Cmd_ExecuteText( EXEC_APPEND, va("forcechanged x %s\n", newForceString) );
-			//trap_Cmd_ExecuteText( EXEC_APPEND, "forcechanged\n" );
 			//[/ExpSys]
 		}
-
 	}
 
 	gTouchedForce = qfalse;
@@ -312,62 +288,66 @@ const char *getIconForWeapon(int weapon)
 {
 	switch (weapon)
 	{
-	case SK_PISTOL:
-	return "gfx/hud/w_icon_blaster_pistol_na";
-	break;
-	case SK_BLASTER:
-	return "gfx/hud/w_icon_blaster_na";
-	break;
-	case SK_BOWCASTER:
-	return "gfx/hud/w_icon_bowcaster_na";
-	break;
-	case SK_ROCKET:
-	return "gfx/hud/w_icon_merrsonn_na";
-	break;
-	case SK_REPEATER:
-	return "gfx/hud/w_icon_repeater_na";
-	break;
-	case SK_DISRUPTOR:
-	return "gfx/hud/w_icon_disruptor_na";
-	break;
-	case SK_FLECHETTE:
-	return "gfx/hud/w_icon_flechette_na";
-	break;
-	case SK_TUSKEN_RIFLE:
-	return "gfx/hud/w_icon_tuskenrifle_na";
-	break;
-	case SK_JETPACK:
-	return "gfx/hud/i_icon_jetpack_na2";
-	break;
-	case SK_BACTA:
-	return "gfx/hud/i_icon_bacta_na2";
-	break;
-	case SK_FLAMETHROWER:
-	return "gfx/hud/i_icon_flamethrower_na";
-	break;
-	case SK_FORCEFIELD:
-	return "gfx/hud/i_icon_shieldwall_na2";
-	break;
-	case SK_CLOAK:
-	return "gfx/hud/i_icon_cloak_na2";
-	break;
-	case SK_SEEKER:
-	return "gfx/hud/i_icon_seeker_na2";
-	break;
-	case SK_SENTRY:
-	return "gfx/hud/i_icon_sentrygun_na2";
-	break;
-	case SK_SHIELD:
-	return "gfx/hud/psd_medium";
-	break;
-	case SK_THERMAL:
-	return "gfx/hud/w_icon_thermal_na";
-	break;
-	case SK_DETPACK:
-	return "gfx/hud/w_icon_detpack_na";
-	break;
+		case SK_PISTOL:
+			return "gfx/hud/w_icon_blaster_pistol_na";
+			break;
+		case SK_BLASTER:
+			return "gfx/hud/w_icon_blaster_na";
+			break;
+		case SK_BOWCASTER:
+			return "gfx/hud/w_icon_bowcaster_na";
+			break;
+		case SK_ROCKET:
+			return "gfx/hud/w_icon_merrsonn_na";
+			break;
+		case SK_REPEATER:
+			return "gfx/hud/w_icon_repeater_na";
+			break;
+		case SK_DISRUPTOR:
+			return "gfx/hud/w_icon_disruptor_na";
+			break;
+		case SK_FLECHETTE:
+			return "gfx/hud/w_icon_flechette_na";
+			break;
+		case SK_TUSKEN_RIFLE:
+			return "gfx/hud/w_icon_tuskenrifle_na";
+			break;
+		case SK_JETPACK:
+			return "gfx/hud/i_icon_jetpack_na2";
+			break;
+		case SK_BACTA:
+			return "gfx/hud/i_icon_bacta_na2";
+			break;
+		case SK_FLAMETHROWER:
+			return "gfx/hud/i_icon_flamethrower_na";
+			break;
+		case SK_FORCEFIELD:
+			return "gfx/hud/i_icon_shieldwall_na2";
+			break;
+		case SK_CLOAK:
+			return "gfx/hud/i_icon_cloak_na2";
+			break;
+		case SK_SEEKER:
+			return "gfx/hud/i_icon_seeker_na2";
+			break;
+		case SK_SENTRY:
+			return "gfx/hud/i_icon_sentrygun_na2";
+			break;
+		case SK_SHIELD:
+			return "gfx/hud/psd_medium";
+			break;
+		case SK_THERMAL:
+			return "gfx/hud/w_icon_thermal_na";
+			break;
+		case SK_DETPACK:
+			return "gfx/hud/w_icon_detpack_na";
+			break;
+		default:
+			return "gfx/hud/w_icon_blaster_pistol_na";
+			break;
 	}
 }
+
 void UpdateForceUsed()
 {//racc - updates the current force powers setup based on current powers selected.
 	int curpower, currank,spentInForce=0,i;

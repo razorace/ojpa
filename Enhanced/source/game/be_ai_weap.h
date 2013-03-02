@@ -13,9 +13,9 @@
 //weapon flags
 #define WFL_FIRERELEASED			1		//set when projectile is fired with key-up event
 //damage types
-#define DAMAGETYPE_IMPACT			1		//damage on impact
-#define DAMAGETYPE_RADIAL			2		//radial damage
-#define DAMAGETYPE_VISIBLE			4		//damage to all entities visible to the projectile
+#define BOTDAMAGETYPE_IMPACT			1		//damage on impact
+#define BOTDAMAGETYPE_RADIAL			2		//radial damage
+#define BOTDAMAGETYPE_VISIBLE			4		//damage to all entities visible to the projectile
 
 typedef struct projectileinfo_s
 {

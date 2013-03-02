@@ -260,41 +260,35 @@ qboolean PM_CanSetWeaponReadyAnim(void)
 }
 //[/DualPistols]
 
-qboolean BG_SabersOff( playerState_t *ps )
-{
-	if ( !ps->saberHolstered )
-	{
+qboolean BG_SabersOff( playerState_t *ps ) {
+	if ( !ps->saberHolstered ) {
 		return qfalse;
 	}
+
 	if ( ps->fd.saberAnimLevelBase == SS_DUAL
-		|| ps->fd.saberAnimLevelBase == SS_STAFF )
-	{
-		if ( ps->saberHolstered < 2 )
-		{
+		|| ps->fd.saberAnimLevelBase == SS_STAFF ) {
+		if ( ps->saberHolstered < 2 ) {
 			return qfalse;
 		}
 	}
+
 	return qtrue;
 }
 
-qboolean BG_KnockDownable(playerState_t *ps)
+qboolean BG_IsKnockDownable(playerState_t *ps)
 {
-	if (!ps)
-	{ //just for safety
+	if (!ps) { 
 		return qfalse;
 	}
 
-	if (ps->m_iVehicleNum)
-	{ //riding a vehicle, don't knock me down
+	if (ps->m_iVehicleNum) {
 		return qfalse;
 	}
 
-	if (ps->emplacedIndex)
-	{ //using emplaced gun or eweb, can't be knocked down
+	if (ps->emplacedIndex) { 
 		return qfalse;
 	}
 
-	//ok, I guess?
 	return qtrue;
 }
 
@@ -323,10 +317,12 @@ qboolean PM_INLINE PM_IsRocketTrooper(void)
 //[DualPistols]
 animNumber_t PM_INLINE PM_GetWeaponReadyAnim(void)
 {
-	if (pm->ps->eFlags & EF_DUAL_WEAPONS)
+	if (pm->ps->eFlags & EF_DUAL_WEAPONS) {
 		return (animNumber_t)WeaponReadyAnim2[pm->ps->weapon];
-	else
+	}
+	else {
 		return (animNumber_t)WeaponReadyAnim[pm->ps->weapon];	
+	}
 }
 //[/DualPistols]
 
@@ -1716,30 +1712,19 @@ qboolean PM_AdjustAngleForWallRunUp( playerState_t *ps, usercmd_t *ucmd, qboolea
 				*/
 				ucmd->angles[YAW] = ANGLE2SHORT( ps->viewangles[YAW] ) - ps->delta_angles[YAW];
 				//if ( ent->s.number || !player_locked )
-				if (1) //aslkfhsakf
+				if ( doMove )
 				{
-					if ( doMove )
-					{
-						//pull me toward the wall
-						VectorScale( trace.plane.normal, -dist*trace.fraction, ps->velocity );
-						//push me up
-						if ( ps->legsTimer > 200 )
-						{//not at end of anim yet
-							float speed = 300;
-							/*
-							if ( ucmd->forwardmove < 0 )
-							{//slower
-								speed = 100;
-							}
-							else if ( ucmd->forwardmove > 0 )
-							{
-								speed = 250;//running speed
-							}
-							*/
-							ps->velocity[2] = speed;//preserve z velocity
-						}
+					//pull me toward the wall
+					VectorScale( trace.plane.normal, -dist*trace.fraction, ps->velocity );
+					//push me up
+					if ( ps->legsTimer > 200 )
+					{//not at end of anim yet
+						float speed = 300;
+
+						ps->velocity[2] = speed;//preserve z velocity
 					}
 				}
+
 				ucmd->forwardmove = 0;
 				return qtrue;
 			}
@@ -1875,13 +1860,10 @@ qboolean PM_AdjustAngleForWallJump( playerState_t *ps, usercmd_t *ucmd, qboolean
 			*/
 			ucmd->angles[YAW] = ANGLE2SHORT( ps->viewangles[YAW] ) - ps->delta_angles[YAW];
 			//if ( ent->s.number || !player_locked )
-			if (1)
+			if ( doMove )
 			{
-				if ( doMove )
-				{
-					//pull me toward the wall
-					VectorScale( trace.plane.normal, -128.0f, ps->velocity );
-				}
+				//pull me toward the wall
+				VectorScale( trace.plane.normal, -128.0f, ps->velocity );
 			}
 			ucmd->upmove = 0;
 			ps->pm_flags |= PMF_STUCK_TO_WALL;
@@ -3074,60 +3056,58 @@ static qboolean PM_CheckJump( void )
 							parts = SETANIM_BOTH;
 						}
 					}
-					//if ( PM_HasAnimation( pm->gent, wallWalkAnim ) )
-					if (1) //sure, we have it! Because I SAID SO.
-					{
-						vec3_t fwd, traceto, mins, maxs, fwdAngles;
-						trace_t	trace;
-						vec3_t	idealNormal;
-						bgEntity_t *traceEnt;
 
-						VectorSet(mins, pm->mins[0], pm->mins[1], 0.0f);
-						VectorSet(maxs, pm->maxs[0], pm->maxs[1], 24.0f);
-						VectorSet(fwdAngles, 0, pm->ps->viewangles[YAW], 0.0f);
+					vec3_t fwd, traceto, mins, maxs, fwdAngles;
+					trace_t	trace;
+					vec3_t	idealNormal;
+					bgEntity_t *traceEnt;
 
-						AngleVectors( fwdAngles, fwd, NULL, NULL );
-						VectorMA( pm->ps->origin, 32, fwd, traceto );
+					VectorSet(mins, pm->mins[0], pm->mins[1], 0.0f);
+					VectorSet(maxs, pm->maxs[0], pm->maxs[1], 24.0f);
+					VectorSet(fwdAngles, 0, pm->ps->viewangles[YAW], 0.0f);
 
-						pm->trace( &trace, pm->ps->origin, mins, maxs, traceto, pm->ps->clientNum, contents );//FIXME: clip brushes too?
-						VectorSubtract( pm->ps->origin, traceto, idealNormal );
-						VectorNormalize( idealNormal );
-						traceEnt = PM_BGEntForNum(trace.entityNum);
+					AngleVectors( fwdAngles, fwd, NULL, NULL );
+					VectorMA( pm->ps->origin, 32, fwd, traceto );
+
+					pm->trace( &trace, pm->ps->origin, mins, maxs, traceto, pm->ps->clientNum, contents );//FIXME: clip brushes too?
+					VectorSubtract( pm->ps->origin, traceto, idealNormal );
+					VectorNormalize( idealNormal );
+					traceEnt = PM_BGEntForNum(trace.entityNum);
 						
-						if ( trace.fraction < 1.0f
-							&&((trace.entityNum<ENTITYNUM_WORLD&&traceEnt&&traceEnt->s.solid!=SOLID_BMODEL)||DotProduct(trace.plane.normal,idealNormal)>0.7) )
-						{//there is a wall there
-							pm->ps->velocity[0] = pm->ps->velocity[1] = 0;
-							if ( wallWalkAnim == BOTH_FORCEWALLRUNFLIP_START )
-							{
-								pm->ps->velocity[2] = forceJumpStrength[FORCE_LEVEL_3]/2.0f;
-							}
-							else
-							{
-								VectorMA( pm->ps->velocity, -150, fwd, pm->ps->velocity );
-								pm->ps->velocity[2] += 150.0f;
-							}
-							//animate me
-							PM_SetAnim( parts, wallWalkAnim, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD, 0 );
-	//						pm->ps->pm_flags |= PMF_JUMPING|PMF_SLOW_MO_FALL;
-							//again with the flags!
-							//G_SoundOnEnt( pm->gent, CHAN_BODY, "sound/weapons/force/jump.wav" );
-							//yucky!
-							PM_SetForceJumpZStart(pm->ps->origin[2]);//so we don't take damage if we land at same height
-							pm->cmd.upmove = 0;
-							pm->ps->fd.forceJumpSound = 1;
-							BG_ForcePowerDrain( pm->ps, FP_LEVITATION, 5 );
-
-							//kick if jumping off an ent
-							/*
-							if ( kick && traceEnt && (traceEnt->s.eType == ET_PLAYER || traceEnt->s.eType == ET_NPC) )
-							{ //kick that thang!
-								pm->ps->forceKickFlip = traceEnt->s.number+1;
-							}
-							*/
-							pm->cmd.rightmove = pm->cmd.forwardmove= 0;
+					if ( trace.fraction < 1.0f
+						&&((trace.entityNum<ENTITYNUM_WORLD&&traceEnt&&traceEnt->s.solid!=SOLID_BMODEL)||DotProduct(trace.plane.normal,idealNormal)>0.7) )
+					{//there is a wall there
+						pm->ps->velocity[0] = pm->ps->velocity[1] = 0;
+						if ( wallWalkAnim == BOTH_FORCEWALLRUNFLIP_START )
+						{
+							pm->ps->velocity[2] = forceJumpStrength[FORCE_LEVEL_3]/2.0f;
 						}
+						else
+						{
+							VectorMA( pm->ps->velocity, -150, fwd, pm->ps->velocity );
+							pm->ps->velocity[2] += 150.0f;
+						}
+						//animate me
+						PM_SetAnim( parts, wallWalkAnim, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD, 0 );
+//						pm->ps->pm_flags |= PMF_JUMPING|PMF_SLOW_MO_FALL;
+						//again with the flags!
+						//G_SoundOnEnt( pm->gent, CHAN_BODY, "sound/weapons/force/jump.wav" );
+						//yucky!
+						PM_SetForceJumpZStart(pm->ps->origin[2]);//so we don't take damage if we land at same height
+						pm->cmd.upmove = 0;
+						pm->ps->fd.forceJumpSound = 1;
+						BG_ForcePowerDrain( pm->ps, FP_LEVITATION, 5 );
+
+						//kick if jumping off an ent
+						/*
+						if ( kick && traceEnt && (traceEnt->s.eType == ET_PLAYER || traceEnt->s.eType == ET_NPC) )
+						{ //kick that thang!
+							pm->ps->forceKickFlip = traceEnt->s.number+1;
+						}
+						*/
+						pm->cmd.rightmove = pm->cmd.forwardmove= 0;
 					}
+
 				}
 			}
 			else if ( (!BG_InSpecialJump( legsAnim )//not in a special jump anim 
@@ -7874,23 +7854,6 @@ backAgain:
 				{ //saber holstered, normal idle
 					Anim = BOTH_VS_IDLE;
 				}
-				// In the Air.
-				//else if ( pVeh->m_ulFlags & VEH_FLYING )
-				else if (0)
-				{
-					iBlend = 800;
-					Anim = BOTH_VS_AIR_G;
-					iFlags = SETANIM_FLAG_OVERRIDE;
-				}
-				// Crashing.
-				//else if ( pVeh->m_ulFlags & VEH_CRASHING )
-				else if (0)
-				{
-					pVeh->m_ulFlags &= ~VEH_CRASHING;	// Remove the flag, we are doing the animation.
-					iBlend = 800;
-					Anim = BOTH_VS_LAND_SR;
-					iFlags = SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD;
-				}
 				else
 				{
 					Anim = BOTH_VS_IDLE_SR;
@@ -7898,27 +7861,7 @@ backAgain:
 				break;
 
 			case WP_BLASTER:
-				// In the Air.
-				//if ( pVeh->m_ulFlags & VEH_FLYING )
-				if (0)
-				{
-					iBlend = 800;
-					Anim = BOTH_VS_AIR_G;
-					iFlags = SETANIM_FLAG_OVERRIDE;
-				}
-				// Crashing.
-				//else if ( pVeh->m_ulFlags & VEH_CRASHING )
-				else if (0)
-				{
-					pVeh->m_ulFlags &= ~VEH_CRASHING;	// Remove the flag, we are doing the animation.
-					iBlend = 800;
-					Anim = BOTH_VS_LAND_G;
-					iFlags = SETANIM_FLAG_OVERRIDE | SETANIM_FLAG_HOLD;
-				}
-				else
-				{
-					Anim = BOTH_VS_IDLE_G;
-				}
+				Anim = BOTH_VS_IDLE_G;
 				break;
 
 			default:
@@ -9192,12 +9135,7 @@ static void PM_Weapon( void )
 
 	if ( pm->cmd.buttons & BUTTON_ALT_ATTACK ) 	{
 		//if ( pm->ps->weapon == WP_BRYAR_PISTOL && pm->gametype != GT_SIEGE )
-		if (0)
-		{ //kind of a hack for now
-			PM_AddEvent( EV_FIRE_WEAPON );
-			addTime = weaponData[pm->ps->weapon].fireTime;
-		}
-		else if (pm->ps->weapon == WP_DISRUPTOR && pm->ps->zoomMode != 1)
+		if (pm->ps->weapon == WP_DISRUPTOR && pm->ps->zoomMode != 1)
 		{
 			PM_AddEvent( EV_FIRE_WEAPON );
 			addTime = weaponData[pm->ps->weapon].fireTime;

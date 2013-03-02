@@ -525,7 +525,7 @@ void PM_VehicleImpact(bgEntity_t *pEnt, trace_t *trace)
 					}
 
 					if (hitEnt->client &&
-						BG_KnockDownable(&hitEnt->client->ps) &&
+						BG_IsKnockDownable(&hitEnt->client->ps) &&
 						G_CanBeEnemy((gentity_t *)pEnt, hitEnt))
 					{ //smash!
 						if (hitEnt->client->ps.forceHandExtend != HANDEXTEND_KNOCKDOWN)

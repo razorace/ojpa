@@ -547,12 +547,8 @@ void NPC_BSPointShoot (qboolean shoot)
 			ucmd.buttons |= BUTTON_ATTACK;
 		}
 		
-		//if ( !shoot || !(NPC->svFlags & SVF_LOCKEDENEMY) )
-		if (1)
-		{//If locked_enemy is on, dont complete until it is destroyed...
-			trap_ICARUS_TaskIDComplete( NPC, TID_BSTATE );
-			goto finished;
-		}
+		trap_ICARUS_TaskIDComplete( NPC, TID_BSTATE );
+		goto finished;
 	}
 	//else if ( shoot && (NPC->svFlags & SVF_LOCKEDENEMY) )
 	if (0)

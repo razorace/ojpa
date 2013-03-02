@@ -1853,21 +1853,19 @@ Caused by an EV_FIRE_WEAPON event
 */
 void CG_FireWeapon( centity_t *cent, qboolean altFire ) {
 	entityState_t *ent;
-	int				c;
 	weaponInfo_t	*weap;
 	int mishap = cg.predictedPlayerState.saberAttackChainCount;
 	ent = &cent->currentState;
+
 	if ( ent->weapon == WP_NONE ) {
 		return;
 	}
-
-	//if(!altFire && ent->weapon == WP_REPEATER && cg.predictedPlayerState.weaponTime != 100000)
-		//return;
 
 	if ( ent->weapon >= WP_NUM_WEAPONS ) {
 		CG_Error( "CG_FireWeapon: ent->weapon >= WP_NUM_WEAPONS" );
 		return;
 	}
+
 	weap = &cg_weapons[ ent->weapon ];
 
 	// mark the entity as muzzle flashing, so when it is added it will
@@ -1933,21 +1931,17 @@ void CG_FireWeapon( centity_t *cent, qboolean altFire ) {
 			return;
 		}
 	}
-
-	if(altFire && ent->weapon == WP_BOWCASTER)
-		return;
 	
 	// play a sound
-	if (altFire)
-	{
-		if ( weap->altFlashSound )
+	if (altFire) {
+		if ( weap->altFlashSound ) {
 			trap_S_StartSound( NULL, ent->number, CHAN_WEAPON, weap->altFlashSound);
+		}
 	}
-	else
-	{
-		// play a sound
-		if (weap->flashSound)
+	else {
+		if (weap->flashSound) {
 			trap_S_StartSound( NULL, ent->number, CHAN_WEAPON, weap->flashSound);
+		}
 	}
 }
 
@@ -1963,6 +1957,7 @@ qboolean CG_VehicleWeaponImpact( centity_t *cent )
 		trap_FX_PlayEffectID( g_vehWeaponInfo[cent->currentState.otherEntityNum2].iImpactFX, cent->lerpOrigin, normal, -1, -1 );
 		return qtrue;
 	}
+
 	return qfalse;
 }
 
@@ -1984,13 +1979,11 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 	switch( weapon )
 	{
 	case WP_BRYAR_PISTOL:
-		if ( altFire )
-		{
+		if ( altFire ) {
 			parm = charge;
 			FX_BryarAltHitWall( origin, dir, parm );
 		}
-		else
-		{
+		else {
 			FX_BryarHitWall( origin, dir );
 		}
 		break;
@@ -2031,41 +2024,29 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 		break;
 
 	case WP_REPEATER:
-		if ( altFire )
-		{
+		if ( altFire ) {
 			FX_RepeaterAltHitWall( origin, dir );
 		}
-		else
-		{
+		else {
 			FX_RepeaterHitWall( origin, dir );
 		}
 		break;
 
 	case WP_DEMP2:
-		if (altFire)
-		{
+		if (altFire) {
 			trap_FX_PlayEffectID(cgs.effects.mAltDetonate, origin, dir, -1, -1);
 		}
-		else
-		{
+		else {
 			FX_DEMP2_HitWall( origin, dir );
 		}
 		break;
 
 	case WP_FLECHETTE:
-		/*if (altFire)
-		{
-			CG_SurfaceExplosion(origin, dir, 20.0f, 12.0f, qtrue);
+		if (altFire) {
+			FX_FlechetteWeaponHitWallAlt(origin, dir);	
 		}
-		else
-		*/
-		if (!altFire)
-		{
+		else {
 			FX_FlechetteWeaponHitWall( origin, dir );
-		}
-		else
-		{
-			FX_FlechetteWeaponHitWallAlt(origin, dir);
 		}
 		break;
 
@@ -2099,32 +2080,14 @@ void CG_MissileHitPlayer(int weapon, vec3_t origin, vec3_t dir, int entityNum, q
 	qboolean	humanoid = qtrue;
 	vec3_t up={0,0,1};
 
-	/*
-	// NOTENOTE Non-portable code from single player
-	if ( cent->gent )
-	{
-		other = &g_entities[cent->gent->s.otherEntityNum];
-
-		if ( other->client && other->client->playerTeam == TEAM_BOTS )
-		{
-			humanoid = qfalse;
-		}
-	}
-	*/	
-
-	// NOTENOTE No bleeding in this game
-//	CG_Bleed( origin, entityNum );
-
 	// some weapons will make an explosion with the blood, while
 	// others will just make the blood
 	switch ( weapon ) {
 	case WP_BRYAR_PISTOL:
-		if ( altFire )
-		{
+		if ( altFire ) {
 			FX_BryarAltHitPlayer( origin, dir, humanoid );
 		}
-		else
-		{
+		else {
 			FX_BryarHitPlayer( origin, dir, humanoid );
 		}
 		break;
@@ -2134,12 +2097,10 @@ void CG_MissileHitPlayer(int weapon, vec3_t origin, vec3_t dir, int entityNum, q
 		break;
 
 	case WP_BRYAR_OLD:
-		if ( altFire )
-		{
+		if ( altFire ) {
 			FX_BryarAltHitPlayer( origin, dir, humanoid );
 		}
-		else
-		{
+		else {
 			FX_BryarHitPlayer( origin, dir, humanoid );
 		}
 		break;
@@ -2164,32 +2125,19 @@ void CG_MissileHitPlayer(int weapon, vec3_t origin, vec3_t dir, int entityNum, q
 		break;
 
 	case WP_REPEATER:
-		if ( altFire )
-		{
+		if ( altFire ) {
 			FX_RepeaterAltHitPlayer( origin, dir, humanoid );
 		}
-		else
-		{
+		else {
 			FX_RepeaterHitPlayer( origin, dir, humanoid );
 		}
 		break;
 
 	case WP_DEMP2:
-		// Do a full body effect here for some more feedback
-		// NOTENOTE The chaining of the demp2 is not yet implemented.
-		/*
-		if ( other )
-		{
-			other->s.powerups |= ( 1 << PW_DISINT_1 );
-			other->client->ps.powerups[PW_DISINT_1] = cg.time + 650;
-		}
-		*/
-		if (altFire)
-		{
+		if (altFire) {
 			trap_FX_PlayEffectID(cgs.effects.mAltDetonate, origin, dir, -1, -1);
 		}
-		else
-		{
+		else {
 			FX_DEMP2_HitPlayer( origin, dir, humanoid );
 		}
 		break;
@@ -2245,46 +2193,39 @@ qboolean CG_CalcMuzzlePoint( int entityNum, vec3_t muzzle ) {
 
 		VectorCopy(WP_MuzzlePoint[weapontype], weaponMuzzle);
 
-		if (weapontype == WP_DISRUPTOR || weapontype == WP_MELEE || weapontype == WP_SABER)
-		{
+		if (weapontype == WP_DISRUPTOR || weapontype == WP_MELEE || weapontype == WP_SABER) {
 			VectorClear(weaponMuzzle);
 		}
 
-		if (cg.renderingThirdPerson)
-		{
+		if (cg.renderingThirdPerson) {
 			VectorCopy( pEnt->lerpOrigin, gunpoint );
 			AngleVectors( pEnt->lerpAngles, forward, right, NULL );
 		}
-		else
-		{
+		else {
 			VectorCopy( cg.refdef.vieworg, gunpoint );
 			AngleVectors( cg.refdef.viewangles, forward, right, NULL );
 		}
 
-		if (weapontype == WP_EMPLACED_GUN && cg.snap->ps.emplacedIndex)
-		{
+		if (weapontype == WP_EMPLACED_GUN && cg.snap->ps.emplacedIndex) {
 			centity_t *gunEnt = &cg_entities[cg.snap->ps.emplacedIndex];
 
-			if (gunEnt)
-			{
+			if (gunEnt) {
 				vec3_t pitchConstraint;
 
 				VectorCopy(gunEnt->lerpOrigin, gunpoint);
 				gunpoint[2] += 46;
 
-				if (cg.renderingThirdPerson)
-				{
+				if (cg.renderingThirdPerson) {
 					VectorCopy(pEnt->lerpAngles, pitchConstraint);
 				}
-				else
-				{
+				else {
 					VectorCopy(cg.refdef.viewangles, pitchConstraint);
 				}
 
-				if (pitchConstraint[PITCH] > 40)
-				{
+				if (pitchConstraint[PITCH] > 40) {
 					pitchConstraint[PITCH] = 40;
 				}
+
 				AngleVectors( pitchConstraint, forward, right, NULL );
 			}
 		}
@@ -2294,16 +2235,13 @@ qboolean CG_CalcMuzzlePoint( int entityNum, vec3_t muzzle ) {
 		VectorMA(muzzle, weaponMuzzle[0], forward, muzzle);
 		VectorMA(muzzle, weaponMuzzle[1], right, muzzle);
 
-		if (weapontype == WP_EMPLACED_GUN && cg.snap->ps.emplacedIndex)
-		{
+		if (weapontype == WP_EMPLACED_GUN && cg.snap->ps.emplacedIndex) {
 			//Do nothing
 		}
-		else if (cg.renderingThirdPerson)
-		{
+		else if (cg.renderingThirdPerson) {
 			muzzle[2] += cg.snap->ps.viewheight + weaponMuzzle[2];
 		}
-		else
-		{
+		else {
 			muzzle[2] += weaponMuzzle[2];
 		}
 
@@ -2328,7 +2266,6 @@ qboolean CG_CalcMuzzlePoint( int entityNum, vec3_t muzzle ) {
 	VectorMA( muzzle, 14, forward, muzzle );
 
 	return qtrue;
-
 }
 
 
@@ -2361,38 +2298,32 @@ void CG_InitG2Weapons(void)
 			//init holster models at the same time.
 			trap_G2API_InitGhoul2Model(&g2HolsterWeaponInstances[item->giTag], item->world_model[0], 0, 0, 0, 0, 0);
 			//[/VisualWeapons]
-//			trap_G2API_InitGhoul2Model(&g2WeaponInstances[i], item->world_model[0],G_ModelIndex( item->world_model[0] ) , 0, 0, 0, 0);
-			if (g2WeaponInstances[/*i*/item->giTag])
+			if (g2WeaponInstances[item->giTag])
 			{
 				// indicate we will be bolted to model 0 (ie the player) on bolt 0 (always the right hand) when we get copied
 				trap_G2API_SetBoltInfo(g2WeaponInstances[/*i*/item->giTag], 0, 0);
 				// now set up the gun bolt on it
-				if (item->giTag == WP_SABER)
-				{
+				if (item->giTag == WP_SABER) {
 					trap_G2API_AddBolt(g2WeaponInstances[/*i*/item->giTag], 0, "*blade1");
 				}
-				else
-				{
+				else {
 					trap_G2API_AddBolt(g2WeaponInstances[/*i*/item->giTag], 0, "*flash");
 				}
+
 				i++;
 			}
 			
 			//[DualPistols]
 			trap_G2API_InitGhoul2Model(&g2WeaponInstances2[/*i*/item->giTag], item->world_model[0], 0, 0, 0, 0, 0);
-//			trap_G2API_InitGhoul2Model(&g2WeaponInstances2[i], item->world_model[0],G_ModelIndex( item->world_model[0] ) , 0, 0, 0, 0);
-			if (g2WeaponInstances2[/*i*/item->giTag])
-			{
+			if (g2WeaponInstances2[item->giTag]) {
 				// indicate we will be bolted to model 0 (ie the player) on bolt 0 (always the right hand) when we get copied
 				//WeaponMod FIXME ? : c bien 1?
 				trap_G2API_SetBoltInfo(g2WeaponInstances2[/*i*/item->giTag], 0, 1);
 				// now set up the gun bolt on it
-				if (item->giTag == WP_SABER)
-				{
+				if (item->giTag == WP_SABER) {
 					trap_G2API_AddBolt(g2WeaponInstances2[/*i*/item->giTag], 0, "*blade1");
 				}
-				else
-				{
+				else {
 					trap_G2API_AddBolt(g2WeaponInstances2[/*i*/item->giTag], 0, "*flash");
 				}
 			}
@@ -2400,12 +2331,10 @@ void CG_InitG2Weapons(void)
 
 			i++;
 
-			if (i == MAX_WEAPONS)
-			{
+			if (i == MAX_WEAPONS) {
 				assert(0);	
 				break;
-			}
-			
+			}		
 		}
 	}
 }
@@ -2413,8 +2342,7 @@ void CG_InitG2Weapons(void)
 // clean out any g2 models we instanciated for copying purposes
 void CG_ShutDownG2Weapons(void)
 {
-	int i;
-	for (i=0; i<MAX_WEAPONS; i++)
+	for (int i = 0; i < MAX_WEAPONS; i++)
 	{
 		trap_G2API_CleanGhoul2Models(&g2WeaponInstances[i]);
 		//[VisualWeapons]
@@ -2428,35 +2356,29 @@ void *CG_G2WeaponInstance(centity_t *cent, int weapon)
 {
 	clientInfo_t *ci = NULL;
 
-	if (weapon != WP_SABER)
-	{
+	if (weapon != WP_SABER) {
 		return g2WeaponInstances[weapon];
 	}
 
 	if (cent->currentState.eType != ET_PLAYER &&
-		cent->currentState.eType != ET_NPC)
-	{
+		cent->currentState.eType != ET_NPC) {
 		return g2WeaponInstances[weapon];
 	}
 
-	if (cent->currentState.eType == ET_NPC)
-	{
+	if (cent->currentState.eType == ET_NPC) {
 		ci = cent->npcClient;
 	}
-	else
-	{
+	else {
 		ci = &cgs.clientinfo[cent->currentState.number];
 	}
 
-	if (!ci)
-	{
+	if (!ci) {
 		return g2WeaponInstances[weapon];
 	}
 
 	//Try to return the custom saber instance if we can.
 	if (ci->saber[0].model && ci->saber[0].model[0] && ci->ghoul2Weapons &&
-		ci->ghoul2Weapons[0])
-	{
+		ci->ghoul2Weapons[0]) {
 		return ci->ghoul2Weapons[0];
 	}
 
@@ -2469,35 +2391,29 @@ void *CG_G2WeaponInstance2(centity_t *cent, int weapon)
 {
 	clientInfo_t *ci = NULL;
 
-	if (weapon != WP_SABER)
-	{
+	if (weapon != WP_SABER) {
 		return g2WeaponInstances2[weapon];
 	}
 
 	if (cent->currentState.eType != ET_PLAYER &&
-		cent->currentState.eType != ET_NPC)
-	{
+		cent->currentState.eType != ET_NPC) {
 		return g2WeaponInstances2[weapon];
 	}
 
-	if (cent->currentState.eType == ET_NPC)
-	{
+	if (cent->currentState.eType == ET_NPC) {
 		ci = cent->npcClient;
 	}
-	else
-	{
+	else {
 		ci = &cgs.clientinfo[cent->currentState.number];
 	}
 
-	if (!ci)
-	{
+	if (!ci) {
 		return g2WeaponInstances2[weapon];
 	}
 
 	//Try to return the custom saber instance if we can.
 	if (ci->saber[0].model[0] &&
-		ci->ghoul2Weapons[0])
-	{
+		ci->ghoul2Weapons[0]) {
 		return ci->ghoul2Weapons[0];
 	}
 

@@ -1828,11 +1828,8 @@ qboolean PM_CanBackstab(void)
 }
 
 saberMoveName_t PM_SaberFlipOverAttackMove(void)
-{ 
+{//TAGS: DFA
 	vec3_t fwdAngles, jumpFwd;
-//	float zDiff = 0;
-//	playerState_t *psData;
-//	bgEntity_t *bgEnt;
 
 	saberInfo_t *saber1 = BG_MySaber( pm->ps->clientNum, 0 );
 	saberInfo_t *saber2 = BG_MySaber( pm->ps->clientNum, 1 );
@@ -1868,7 +1865,7 @@ saberMoveName_t PM_SaberFlipOverAttackMove(void)
 	VectorCopy( pm->ps->viewangles, fwdAngles );
 	fwdAngles[PITCH] = fwdAngles[ROLL] = 0;
 	AngleVectors( fwdAngles, jumpFwd, NULL, NULL );
-	VectorScale( jumpFwd, 150, pm->ps->velocity );//was 50
+	VectorScale( jumpFwd, 215, pm->ps->velocity );//was 50
 	pm->ps->velocity[2] = 400;
 
 	/*
@@ -2623,16 +2620,7 @@ saberMoveName_t PM_SaberAttackForMovement(saberMoveName_t curmove)
 					PM_AddEvent( EV_JUMP );
 					pm->ps->velocity[2] = 300.0f;
 
-					//if ( !Q_irand( 0, 1 ) )
-					//if (PM_GroundDistance() >= 25.0f)
-					if (1)
-					{
-						newmove = LS_JUMPATTACK_ARIAL_RIGHT;
-					}
-					else
-					{
-						newmove = LS_JUMPATTACK_CART_RIGHT;
-					}
+					newmove = LS_JUMPATTACK_ARIAL_RIGHT;
 				}
 			}
 		}
@@ -2692,16 +2680,7 @@ saberMoveName_t PM_SaberAttackForMovement(saberMoveName_t curmove)
 					PM_AddEvent( EV_JUMP );
 					pm->ps->velocity[2] = 350.0f;
 
-					//if ( !Q_irand( 0, 1 ) )
-					//if (PM_GroundDistance() >= 25.0f)
-					if (1)
-					{
-						newmove = LS_JUMPATTACK_ARIAL_LEFT;
-					}
-					else
-					{
-						newmove = LS_JUMPATTACK_CART_LEFT;
-					}
+					newmove = LS_JUMPATTACK_ARIAL_LEFT;
 				}
 			}
 		}
@@ -3154,36 +3133,6 @@ int PM_KickMoveForConditions(void)
 			kickMove = LS_KICK_B;
 		}
 		pm->cmd.forwardmove = 0;
-	}
-	else
-	{
-		//if (pm->cmd.buttons & BUTTON_ATTACK)
-		//if (pm->ps->pm_flags & PMF_JUMP_HELD)
-		if (0)
-		{ //ok, let's try some fancy kicks
-			//qboolean is actually of type int anyway, but just for safeness.
-			int front = (int)PM_CheckEnemyPresence( DIR_FRONT, 100.0f );
-			int back = (int)PM_CheckEnemyPresence( DIR_BACK, 100.0f );
-			int right = (int)PM_CheckEnemyPresence( DIR_RIGHT, 100.0f );
-			int left = (int)PM_CheckEnemyPresence( DIR_LEFT, 100.0f );
-			int numEnemy = front+back+right+left;
-
-			if (numEnemy >= 3 ||
-				((!right || !left) && numEnemy >= 2))
-			{ //> 2 enemies near, or, >= 2 enemies near and they are not to the right and left.
-                kickMove = LS_KICK_S;
-			}
-			else if (right && left)
-			{ //enemies on both sides
-				kickMove = LS_KICK_RL;
-			}
-			else
-			{ //oh well, just do a forward kick
-				kickMove = LS_KICK_F;
-			}
-
-			pm->cmd.upmove = 0;
-		}
 	}
 
 	return kickMove;

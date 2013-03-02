@@ -792,18 +792,7 @@ void NPC_BSGM_Attack( void )
 		{//charging up
 			if ( TIMER_Done( NPC, "beamDelay" ) )
 			{//time to start the beam
-				int laserAnim;
-				//if ( Q_irand( 0, 1 ) )
-				if (1)
-				{
-					laserAnim = BOTH_ATTACK2;
-				}
-				/*
-				else
-				{
-					laserAnim = BOTH_ATTACK7;
-				}
-				*/
+				int laserAnim = BOTH_ATTACK2;
 				NPC_SetAnim( NPC, SETANIM_BOTH, laserAnim, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD );
 				TIMER_Set( NPC, "attackDelay", NPC->client->ps.torsoTimer + Q_irand( 1000, 3000 ) );
 				//turn on beam effect

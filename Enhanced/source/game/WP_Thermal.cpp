@@ -16,7 +16,7 @@ const int FROZEN_TIME = 5000;
 
 void thermalThinkStandard(gentity_t *ent);
 
-void W_TraceSetStart( gentity_t *ent, vec3_t start, vec3_t mins, vec3_t maxs );
+void W_EyeTraceSetStart( gentity_t *ent, vec3_t start, vec3_t mins, vec3_t maxs );
 
 void Thermal_Touch(gentity_t *self, gentity_t *other, trace_t *trace) 
 {
@@ -328,7 +328,7 @@ void WP_ThrowGrenade(gentity_t*ent,qboolean altFire)
 	VectorSet( bolt->r.maxs, 3.0f, 3.0f, 3.0f );
 	bolt->clipmask = MASK_SHOT;
 
-	W_TraceSetStart( ent, start, bolt->r.mins, bolt->r.maxs );//make sure our start point isn't on the other side of a wall
+	W_EyeTraceSetStart( ent, start, bolt->r.mins, bolt->r.maxs );//make sure our start point isn't on the other side of a wall
 
 	if ( ent->client )
 	{

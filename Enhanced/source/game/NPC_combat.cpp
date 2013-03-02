@@ -591,17 +591,6 @@ void G_SetEnemy( gentity_t *self, gentity_t *enemy )
 					}
 				}
 			}
-			
-			/*
-			//if ( self->forcePushTime < level.time ) // not currently being pushed
-			if (1) //rwwFIXMEFIXME: Set forcePushTime
-			{
-				if ( !G_TeamEnemy( self ) )
-				{//team did not have an enemy previously
-					event = Q_irand(EV_ANGER1, EV_ANGER3);
-				}
-			}
-			*/
 			//[/CoOp]
 			
 			if ( event )

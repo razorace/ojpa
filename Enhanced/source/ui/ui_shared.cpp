@@ -7037,7 +7037,7 @@ void Item_Init(itemDef_t *item) {
 	Window_Init(&item->window);
 }
 
-void Container_FocusItem(ContainerElement *container, int x, int y, bool focusSet, int pass) {
+void Container_FocusItem(ContainerElement *container, int x, int y, qboolean focusSet, int pass) {
 	std::list<itemDef_t*> children = container->GetOldChildren();
 
 	std::list<itemDef_t*>::const_iterator it;

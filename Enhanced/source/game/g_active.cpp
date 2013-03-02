@@ -15,8 +15,7 @@ qboolean saberCheckKnockdown_DuelLoss(gentity_t *saberent, gentity_t *saberOwner
 
 extern vmCvar_t g_saberLockRandomNess;
 
-void P_SetTwitchInfo(gclient_t	*client)
-{
+void P_SetTwitchInfo(gclient_t	*client) {
 	client->ps.painTime = level.time;
 	client->ps.painDirection ^= 1;
 }
@@ -32,17 +31,14 @@ global pain sound events for all clients.
 ===============
 */
 void P_DamageFeedback( gentity_t *player ) {
-	gclient_t	*client;
-	float	count;
-	vec3_t	angles;
+	gclient_t	*client = player->client;
 
-	client = player->client;
 	if ( client->ps.pm_type == PM_DEAD ) {
 		return;
 	}
 
 	// total points of damage shot at the player this frame
-	count = client->damage_blood + client->damage_armor;
+	float count = client->damage_blood + client->damage_armor;
 	if ( count == 0 ) {
 		return;		// didn't take any damage
 	}
@@ -61,17 +57,17 @@ void P_DamageFeedback( gentity_t *player ) {
 
 		client->damage_fromWorld = qfalse;
 	} else {
+		vec3_t	angles;
 		vectoangles( client->damage_from, angles );
 		client->ps.damagePitch = angles[PITCH]/360.0 * 256;
 		client->ps.damageYaw = angles[YAW]/360.0 * 256;
 
 		//cap them since we can't send negative values in here across the net
-		if (client->ps.damagePitch < 0)
-		{
+		if (client->ps.damagePitch < 0){
 			client->ps.damagePitch = 0;
 		}
-		if (client->ps.damageYaw < 0)
-		{
+		
+		if (client->ps.damageYaw < 0) {
 			client->ps.damageYaw = 0;
 		}
 	}
@@ -84,23 +80,21 @@ void P_DamageFeedback( gentity_t *player ) {
 		if ( level.time - client->ps.painTime < 500 || count < 10) {
 			return;
 		}
+
 		P_SetTwitchInfo(client);
 		player->pain_debounce_time = level.time + 700;
 		
 		G_AddEvent( player, EV_PAIN, player->health );
 		client->ps.damageEvent++;
 
-		if (client->damage_armor && !client->damage_blood)
-		{
-			client->ps.damageType = 1; //pure shields
+		if (client->damage_armor && !client->damage_blood) {
+			client->ps.damageType = DamageType_Shields;
 		}
-		else if (client->damage_armor)
-		{
-			client->ps.damageType = 2; //shields and health
+		else if (client->damage_armor) {
+			client->ps.damageType = DamageType_HealthShields;
 		}
-		else
-		{
-			client->ps.damageType = 0; //pure health
+		else {
+			client->ps.damageType = DamageType_Health;
 		}
 	}
 
@@ -125,17 +119,13 @@ Check for lava / slime contents and drowning
 =============
 */
 void P_WorldEffects( gentity_t *ent ) {
-	qboolean	envirosuit;
-	int			waterlevel;
-
 	if ( ent->client->noclip ) {
-		ent->client->airOutTime = level.time + 12000;	// don't need air
+		ent->client->airOutTime = level.time + 12000;
 		return;
 	}
 
-	waterlevel = ent->waterlevel;
-
-	envirosuit = (qboolean)(ent->client->ps.powerups[PW_BATTLESUIT] > level.time);
+	int waterlevel = ent->waterlevel;
+	qboolean envirosuit = (qboolean)(ent->client->ps.powerups[PW_BATTLESUIT] > level.time);
 
 	//
 	// check for drowning
@@ -158,7 +148,7 @@ void P_WorldEffects( gentity_t *ent ) {
 
 				// play a gurp sound instead of a normal pain sound
 				if (ent->health <= ent->damage) {
-					G_Sound(ent, CHAN_VOICE, G_SoundIndex(/*"*drown.wav"*/"sound/player/gurp1.wav"));
+					G_Sound(ent, CHAN_VOICE, G_SoundIndex("sound/player/gurp1.wav"));
 				} else if (rand()&1) {
 					G_Sound(ent, CHAN_VOICE, G_SoundIndex("sound/player/gurp1.wav"));
 				} else {
@@ -219,34 +209,27 @@ void DoImpact( gentity_t *self, gentity_t *other, qboolean damageSelf )
 	if( self->client )
 	{
 		VectorCopy( self->client->ps.velocity, velocity );
-		if( !self->mass )
-		{
-			//RACC - Player Characters normally don't have masses assigned so they default.
-			//to this.
+		if( !self->mass ) {
 			my_mass = 10;
 		}
-		else
-		{
+		else {
 			my_mass = self->mass;
 		}
 	}
 	else 
 	{
 		VectorCopy( self->s.pos.trDelta, velocity );
-		if ( self->s.pos.trType == TR_GRAVITY )
-		{
+		if ( self->s.pos.trType == TR_GRAVITY ) {
 			velocity[2] -= 0.25f * g_gravity.value;
 		}
-		if( !self->mass )
-		{
+
+		if( !self->mass ) {
 			my_mass = 1;
 		}
-		else if ( self->mass <= 10 )
-		{
+		else if ( self->mass <= 10 ) {
 			my_mass = 10;
 		}
-		else
-		{
+		else {
 			my_mass = self->mass;///10;
 		}
 	}
@@ -262,8 +245,7 @@ void DoImpact( gentity_t *self, gentity_t *other, qboolean damageSelf )
 		easyBreakBrush = qtrue;
 	}
 
-	if ( !self->client || self->client->ps.lastOnGround+300<level.time || ( self->client->ps.lastOnGround+100 < level.time && easyBreakBrush ) )
-	{
+	if ( !self->client || self->client->ps.lastOnGround+300<level.time || ( self->client->ps.lastOnGround+100 < level.time && easyBreakBrush ) ) {
 		vec3_t dir1, dir2;
 		float force = 0, dot;
 
@@ -360,16 +342,14 @@ void DoImpact( gentity_t *self, gentity_t *other, qboolean damageSelf )
 	}
 }
 
-void Client_CheckImpactBBrush( gentity_t *self, gentity_t *other )
-{
-	if ( !other || !other->inuse )
-	{
-		return;
-	}
-	if (!self || !self->inuse || !self->client ||
+void Client_CheckImpactBBrush( gentity_t *self, gentity_t *other ){
+	if (!other || 
+		!other->inuse || 
+		!self || 
+		!self->inuse || 
+		!self->client ||
 		self->client->tempSpectate >= level.time ||
-		self->client->sess.sessionTeam == TEAM_SPECTATOR)
-	{ //hmm.. let's not let spectators ram into breakables.
+		self->client->sess.sessionTeam == TEAM_SPECTATOR) {
 		return;
 	}
 
@@ -390,7 +370,7 @@ void Client_CheckImpactBBrush( gentity_t *self, gentity_t *other )
 G_SetClientSound
 ===============
 */
-void G_SetClientSound( gentity_t *ent ) {
+void G_UpdateClientSound( gentity_t *ent ) {
 	if (ent->client && ent->client->isHacking)
 	{ //loop hacking sound
 		ent->client->ps.loopSound = level.snd_hack;
@@ -425,20 +405,22 @@ ClientImpacts
 ==============
 */
 void ClientImpacts( gentity_t *ent, pmove_t *pm ) {
-	int		i, j;
 	trace_t	trace;
 	gentity_t	*other;
 
 	memset( &trace, 0, sizeof( trace ) );
-	for (i=0 ; i<pm->numtouch ; i++) {
-		for (j=0 ; j<i ; j++) {
+	for (int i = 0 ; i < pm->numtouch ; i++) {
+		int j = 0;
+		for (j = 0; j < i; j++) {
 			if (pm->touchents[j] == pm->touchents[i] ) {
 				break;
 			}
 		}
+
 		if (j != i) {
 			continue;	// duplicated
 		}
+
 		other = &g_entities[ pm->touchents[i] ];
 
 		if ( ( ent->r.svFlags & SVF_BOT ) && ( ent->touch ) ) {
@@ -463,10 +445,7 @@ Spectators will only interact with teleporters.
 ============
 */
 void	G_TouchTriggers( gentity_t *ent ) {
-	int			i, num;
 	int			touch[MAX_GENTITIES];
-	gentity_t	*hit;
-	trace_t		trace;
 	vec3_t		mins, maxs;
 	static vec3_t	range = { 40, 40, 52 };
 
@@ -482,18 +461,19 @@ void	G_TouchTriggers( gentity_t *ent ) {
 	VectorSubtract( ent->client->ps.origin, range, mins );
 	VectorAdd( ent->client->ps.origin, range, maxs );
 
-	num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
+	int num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
 
 	// can't use ent->r.absmin, because that has a one unit pad
 	VectorAdd( ent->client->ps.origin, ent->r.mins, mins );
 	VectorAdd( ent->client->ps.origin, ent->r.maxs, maxs );
 
-	for ( i=0 ; i<num ; i++ ) {
-		hit = &g_entities[touch[i]];
+	for (int i = 0; i < num; i++ ) {
+		gentity_t	*hit = &g_entities[touch[i]];
 
 		if ( !hit->touch && !ent->touch ) {
 			continue;
 		}
+
 		if ( !( hit->r.contents & CONTENTS_TRIGGER ) ) {
 			continue;
 		}
@@ -520,6 +500,7 @@ void	G_TouchTriggers( gentity_t *ent ) {
 			}
 		}
 
+		trace_t		trace;
 		memset( &trace, 0, sizeof(trace) );
 
 		if ( hit->touch ) {
@@ -558,15 +539,13 @@ void G_MoverTouchPushTriggers( gentity_t *ent, vec3_t oldOrg )
 	const vec3_t	range = { 40, 40, 52 };
 
 	// non-moving movers don't hit triggers!
-	if ( !VectorLengthSquared( ent->s.pos.trDelta ) ) 
-	{
+	if ( !VectorLengthSquared( ent->s.pos.trDelta ) ) {
 		return;
 	}
 
 	VectorSubtract( ent->r.mins, ent->r.maxs, size );
 	stepSize = VectorLength( size );
-	if ( stepSize < 1 )
-	{
+	if ( stepSize < 1 ) {
 		stepSize = 1;
 	}
 
@@ -679,10 +658,10 @@ void SpectatorThink( gentity_t *ent, usercmd_t *ucmd ) {
 =================
 ClientInactivityTimer
 
-Returns qfalse if the client is dropped
+Returns qtrue if the client is dropped
 =================
 */
-qboolean ClientInactivityTimer( gclient_t *client ) {
+qboolean IsClientInactive( gclient_t *client ) {
 	if ( ! g_inactivity.integer ) {
 		// give everyone some time, so if the operator sets g_inactivity during
 		// gameplay, everyone isn't kicked
@@ -699,7 +678,7 @@ qboolean ClientInactivityTimer( gclient_t *client ) {
 	else if ( !client->pers.localClient ) {
 		if ( level.time > client->inactivityTime ) {
 			trap_DropClient( client - level.clients, "Dropped due to inactivity" );
-			return qfalse;
+			return qtrue;
 		}
 
 		if ( level.time > client->inactivityTime - 10000 && !client->inactivityWarning ) {
@@ -708,7 +687,7 @@ qboolean ClientInactivityTimer( gclient_t *client ) {
 		}
 	}
 
-	return qtrue;
+	return qfalse;
 }
 
 /*
@@ -718,14 +697,13 @@ ClientTimerActions
 Actions that happen once a second
 ==================
 */
-void ClientTimerActions( gentity_t *ent, int msec ) {
+void UpdateClientTimerActions( gentity_t *ent, int msec ) {
 	gclient_t	*client;
 
 	client = ent->client;
 	client->timeResidual += msec;
 
-	while ( client->timeResidual >= 1000 ) 
-	{
+	while ( client->timeResidual >= 1000 ) {
 		client->timeResidual -= 1000;
 
 		// count down health when over max
@@ -2039,6 +2017,515 @@ extern qboolean skippingCutscene;
 extern qboolean inGameCinematic;
 //[ROQFILES]
 
+void UpdateTimedForcePowers(gentity_t *ent) {
+	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+		if(ent->client->forcePowerStart[i] <= level.time && ent->client->forcePowerStart[i] != -1) {
+			ent->client->forcePowerStart[i] = -1;
+			ent->client->ps.fd.forcePowersActive |= ( 1 << i );
+			ent->client->ps.activeForcePass = ent->client->ps.fd.forcePowerLevel[i];
+		}
+	}
+}
+
+qboolean ShouldUpdateGenCommands(gentity_t *ent, pmove_t *pm) {
+	return (qboolean)(pm->cmd.generic_cmd &&
+		(pm->cmd.generic_cmd != ent->client->lastGenCmd || ent->client->lastGenCmdTime < level.time));
+}
+
+extern void ForceLift( gentity_t *self );
+void UpdateGenCommands(gentity_t *ent, pmove_t *pm) {
+	ent->client->lastGenCmd = pm->cmd.generic_cmd;
+	//[SaberSys]
+	if (pm->cmd.generic_cmd == GENCMD_SABERATTACKCYCLE)
+	{//saber style toggling debounces debounces faster than normal debouncable commands.
+		ent->client->lastGenCmdTime = level.time + 100;
+	}
+	else if (pm->cmd.generic_cmd != GENCMD_FORCE_THROW &&
+	//if (pm.cmd.generic_cmd != GENCMD_FORCE_THROW &&
+	//[/SaberSys]
+		//[ForceSys]
+		pm->cmd.generic_cmd != GENCMD_FORCE_PULL &&
+		pm->cmd.generic_cmd != GENCMD_FORCE_SPEED)
+		//pm.cmd.generic_cmd != GENCMD_FORCE_PULL)
+		//[/ForceSys]
+	{ //these are the only two where you wouldn't care about a delay between
+		ent->client->lastGenCmdTime = level.time + 300; //default 100ms debounce between issuing the same command.
+	}
+
+	switch(pm->cmd.generic_cmd)
+	{
+	case 0:
+		break;
+	case GENCMD_SABERSWITCH:
+		Cmd_ToggleSaber_f(ent);
+		break;
+	case GENCMD_ENGAGE_DUEL:
+		if ( g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL )
+		{//already in a duel, made it a taunt command
+		}
+		else
+		{
+			Cmd_EngageDuel_f(ent);
+		}
+		break;
+	case GENCMD_FORCE_HEAL:
+		ForceHeal(ent);
+		break;
+	case GENCMD_FORCE_SPEED:
+		ForceSpeed(ent, 0);
+		break;
+	case GENCMD_FORCE_THROW:
+		ForceThrow(ent, qfalse);
+		break;
+	case GENCMD_FORCE_PULL:
+		ForceThrow(ent, qtrue);
+		break;
+	case GENCMD_FORCE_DISTRACT:
+		ForceTelepathy(ent);
+		break;
+	case GENCMD_FORCE_RAGE:
+		ForceRage(ent);
+		break;
+	case GENCMD_FORCE_MANIPULATE:
+		ForceProtect(ent);
+		break;
+	//[ForceSys]
+	case GENCMD_FORCE_ABSORB:
+		break;
+	//[/ForceSys]
+	case GENCMD_FORCE_HEALOTHER:
+		ForceTeamHeal(ent);
+		break;
+	case GENCMD_FORCE_LIFT:
+		ForceLift(ent);
+		break;
+	case GENCMD_FORCE_SEEING:
+		ForceSeeing(ent);
+		break;
+	case GENCMD_USE_SEEKER:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SEEKER)) &&
+			G_ItemUsable(&ent->client->ps, HI_SEEKER) )
+		{
+			ItemUse_Seeker(ent);
+			G_AddEvent(ent, EV_USE_ITEM0+HI_SEEKER, 0);
+			//[SeekerItemNpc] the seeker is an npc and is commandable by using the item again.  This flag will be removed when the
+			//seeker dies
+			//ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SEEKER);
+			//[/SeekerItemNpc]
+		}
+		break;
+	case GENCMD_USE_FIELD:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SHIELD)) &&
+			G_ItemUsable(&ent->client->ps, HI_SHIELD) )
+		{
+			ItemUse_Shield(ent);
+			G_AddEvent(ent, EV_USE_ITEM0+HI_SHIELD, 0);
+			ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SHIELD);
+		}
+		break;
+	case GENCMD_USE_BACTA:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC)) &&
+			G_ItemUsable(&ent->client->ps, HI_MEDPAC) )
+		{
+			ItemUse_MedPack(ent);
+			G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC, 0);
+			ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC);
+		}
+		break;
+	case GENCMD_USE_BACTABIG:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC_BIG)) &&
+			G_ItemUsable(&ent->client->ps, HI_MEDPAC_BIG) )
+		{
+			ItemUse_MedPack_Big(ent);
+			G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC_BIG, 0);
+			ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC_BIG);
+		}
+		break;
+	case GENCMD_USE_ELECTROBINOCULARS:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_BINOCULARS)) &&
+			G_ItemUsable(&ent->client->ps, HI_BINOCULARS) )
+		{
+			ItemUse_Binoculars(ent);
+			if (ent->client->ps.zoomMode == 0)
+			{
+				G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 1);
+			}
+			else
+			{
+				G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 2);
+			}
+		}
+		break;
+	case GENCMD_ZOOM:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_BINOCULARS)) &&
+			G_ItemUsable(&ent->client->ps, HI_BINOCULARS) )
+		{
+			ItemUse_Binoculars(ent);
+			if (ent->client->ps.zoomMode == 0)
+			{
+				G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 1);
+			}
+			else
+			{
+				G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 2);
+			}
+		}
+		break;
+	case GENCMD_USE_SENTRY:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SENTRY_GUN)) &&
+			G_ItemUsable(&ent->client->ps, HI_SENTRY_GUN) )
+		{
+			ItemUse_Sentry(ent);
+			//G_AddEvent(ent, EV_USE_ITEM0+HI_SENTRY_GUN, 0);
+			//ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SENTRY_GUN);
+		}
+		break;
+	case GENCMD_USE_JETPACK:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_JETPACK)) &&
+			G_ItemUsable(&ent->client->ps, HI_JETPACK) )
+		{
+			ItemUse_Jetpack(ent);
+			G_AddEvent(ent, EV_USE_ITEM0+HI_JETPACK, 0);
+			/*
+			if (ent->client->ps.zoomMode == 0)
+			{
+				G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 1);
+			}
+			else
+			{
+				G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 2);
+			}
+			*/
+		}
+		break;
+	case GENCMD_USE_HEALTHDISP:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_HEALTHDISP)) &&
+			G_ItemUsable(&ent->client->ps, HI_HEALTHDISP) )
+		{
+			//ItemUse_UseDisp(ent, HI_HEALTHDISP);
+			G_AddEvent(ent, EV_USE_ITEM0+HI_HEALTHDISP, 0);
+		}
+		break;
+	case GENCMD_USE_AMMODISP:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_AMMODISP)) &&
+			G_ItemUsable(&ent->client->ps, HI_AMMODISP) )
+		{
+			//ItemUse_UseDisp(ent, HI_AMMODISP);
+			G_AddEvent(ent, EV_USE_ITEM0+HI_AMMODISP, 0);
+		}
+		break;
+	case GENCMD_USE_EWEB:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_EWEB)) &&
+			G_ItemUsable(&ent->client->ps, HI_EWEB) )
+		{
+			ItemUse_UseEWeb(ent);
+			G_AddEvent(ent, EV_USE_ITEM0+HI_EWEB, 0);
+		}
+		break;
+	case GENCMD_USE_CLOAK:
+		if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_CLOAK)) &&
+			G_ItemUsable(&ent->client->ps, HI_CLOAK) )
+		{
+			if ( ent->client->ps.powerups[PW_CLOAKED] )
+			{//decloak
+				Jedi_Decloak( ent );
+			}
+			else
+			{//cloak
+				Jedi_Cloak( ent );
+			}
+		}
+		break;
+	case GENCMD_SABERATTACKCYCLE:
+		Cmd_SaberAttackCycle_f(ent);
+		break;
+	case GENCMD_TAUNT:
+		G_SetTauntAnim( ent, TAUNT_TAUNT );
+		break;
+	case GENCMD_BOW:
+		G_SetTauntAnim( ent, TAUNT_BOW );
+		break;
+	case GENCMD_MEDITATE:
+		G_SetTauntAnim( ent, TAUNT_MEDITATE );
+		break;
+	case GENCMD_FLOURISH:
+		G_SetTauntAnim( ent, TAUNT_FLOURISH );
+		break;
+	case GENCMD_GLOAT:
+		G_SetTauntAnim( ent, TAUNT_GLOAT );
+		break;
+	default:
+		break;
+	}
+}
+
+extern vmCvar_t g_duelTimer;
+extern vmCvar_t	g_playerDuelShield;
+extern vmCvar_t g_duelStats;
+extern vmCvar_t g_logDuelStats;
+
+void UpdateClientDuel(gentity_t *ent, usercmd_t *ucmd) {
+	gentity_t *duelAgainst = &g_entities[ent->client->ps.duelIndex];
+
+	//Keep the time updated, so once this duel ends this player can't engage in a duel for another
+	//10 seconds. This will give other people a chance to engage in duels in case this player wants
+	//to engage again right after he's done fighting and someone else is waiting.
+	//[DuelSys]
+	ent->client->ps.fd.privateDuelTime = level.time + ( g_duelTimer.integer * 1000 );//10000;
+	//ent->client->ps.fd.privateDuelTime = level.time + 10000;
+	//[/DuelSys]
+
+	if (ent->client->ps.duelTime < level.time)
+	{//racc - just started the private duel.
+		//[DuelSys]	
+		//auto holster sabers on private duel start instead of requiring them to be holstered pre-start.			
+		// MJN - Holster those sabers
+		if (ent->client->ps.weapon == WP_SABER  
+			&& ent->client->ps.duelTime )
+		{
+			if(!ent->client->ps.saberHolstered){
+				if (ent->client->saber[0].soundOff){
+					G_Sound(ent, CHAN_AUTO, ent->client->saber[0].soundOff);
+				}	
+				if (ent->client->saber[1].soundOff){
+					G_Sound(ent, CHAN_AUTO, ent->client->saber[1].soundOff);
+				}
+				ent->client->ps.saberHolstered = 2;
+			}
+		//[/DuelSys]
+
+			G_AddEvent(ent, EV_PRIVATE_DUEL, 2);
+
+			ent->client->ps.duelTime = 0;
+
+			//[DuelSys]
+			// MJN - Code to save HP/Shield status and give duel declared HP/Shields:
+			ent->client->savedHP = ent->client->ps.stats[STAT_HEALTH];
+			ent->client->savedArmor = ent->client->ps.stats[STAT_ARMOR];
+
+			// MJN - Update Shields to new values if g_mPlayerDuelShield is anything else but 0.
+			int playerDuelShield = g_playerDuelShield.integer;
+
+			// Make sure we have a valid value:
+			if( playerDuelShield > 100 )
+				playerDuelShield = 100;
+
+			if( playerDuelShield >= 0){
+				ent->client->ps.stats[STAT_HEALTH] = ent->health = 100; // defaults to 100.
+				ent->client->ps.stats[STAT_ARMOR]  = playerDuelShield;
+			}
+			//[/DuelSys]
+		}
+
+		if (duelAgainst 
+			&& duelAgainst->client 
+			&& duelAgainst->inuse 
+			&& duelAgainst->client->ps.weapon == WP_SABER
+			//[DuelSys]
+			//removed the holstered requirement
+			//&& duelAgainst->client->ps.saberHolstered 
+			//[/DuelSys] 
+			&& duelAgainst->client->ps.duelTime)
+		{
+			//[DuelSys]
+
+			//auto holster sabers at start of duel.
+			if( !duelAgainst->client->ps.saberHolstered ){
+					
+				if (duelAgainst->client->saber[0].soundOff){
+					G_Sound(duelAgainst, CHAN_AUTO, duelAgainst->client->saber[0].soundOff);
+				}
+				if (duelAgainst->client->saber[1].soundOff){
+					G_Sound(duelAgainst, CHAN_AUTO, duelAgainst->client->saber[1].soundOff);
+				}
+				duelAgainst->client->ps.saberHolstered = 2;
+			}
+			//[/DuelSys]				
+
+			G_AddEvent(duelAgainst, EV_PRIVATE_DUEL, 2);
+
+			duelAgainst->client->ps.duelTime = 0;
+
+			//[DuelSys]
+			// MJN - Code to save hitpoint status and give duel hitpoints:
+			duelAgainst->client->savedHP = duelAgainst->client->ps.stats[STAT_HEALTH];
+			duelAgainst->client->savedArmor = duelAgainst->client->ps.stats[STAT_ARMOR];
+
+			// MJN - Update Shields to new values if g_mPlayerDuelShield is anything else but 0.
+			int playerDuelShield = g_playerDuelShield.integer;
+
+			// Make sure we have a valid value:
+			if( playerDuelShield > 100 )
+				playerDuelShield = 100;
+
+			if( playerDuelShield >= 0 ){
+				duelAgainst->client->ps.stats[STAT_HEALTH] = duelAgainst->health = 100; // defaults to 100.
+				duelAgainst->client->ps.stats[STAT_ARMOR]  = playerDuelShield;
+			}
+			//[/DuelSys]
+		}
+	}
+	else
+	{
+		ent->client->ps.speed = 0;
+		ent->client->ps.basespeed = 0;
+		ucmd->forwardmove = 0;
+		ucmd->rightmove = 0;
+		ucmd->upmove = 0;
+	}
+
+	if (!duelAgainst || !duelAgainst->client || !duelAgainst->inuse ||
+		duelAgainst->client->ps.duelIndex != ent->s.number)
+	{//racc - bad dueling opponent state.
+		ent->client->ps.duelInProgress = qfalse;
+		G_AddEvent(ent, EV_PRIVATE_DUEL, 0);
+	}
+	else if (duelAgainst->health < 1 || duelAgainst->client->ps.stats[STAT_HEALTH] < 1)
+	{//racc - our opponent died.
+		ent->client->ps.duelInProgress = qfalse;
+		duelAgainst->client->ps.duelInProgress = qfalse;
+
+		G_AddEvent(ent, EV_PRIVATE_DUEL, 0);
+		G_AddEvent(duelAgainst, EV_PRIVATE_DUEL, 0);
+
+		//Winner gets full health.. providing he's still alive
+		if (ent->health > 0 && ent->client->ps.stats[STAT_HEALTH] > 0)
+		{
+			//[DuelSys]
+			int playerDuelShield; // MJN - for Shields.
+
+			// MJN - Lets show those stats!!
+			switch ( g_duelStats.integer ){
+
+				case 1: // Private only
+						trap_SendServerCommand( ent-g_entities, va("print \"%s ^7defeated %s ^7with ^1%i ^7HP ^7and ^2%i ^7Shields Remaining.\n\"", 
+					ent->client->pers.netname, duelAgainst->client->pers.netname, ent->client->ps.stats[STAT_HEALTH], ent->client->ps.stats[STAT_ARMOR] ) );
+						trap_SendServerCommand( duelAgainst-g_entities, va("print \"%s ^7defeated %s ^7with ^1%i ^7HP ^7and ^2%i ^7Shields Remaining.\n\"", 
+					ent->client->pers.netname, duelAgainst->client->pers.netname, ent->client->ps.stats[STAT_HEALTH], ent->client->ps.stats[STAT_ARMOR] ) );
+					break;
+				case 2: // Everyone on server
+						trap_SendServerCommand( -1, va("print \"%s ^7defeated %s ^7with ^1%i ^7HP ^7and ^2%i ^7Shields Remaining.\n\"", 
+					ent->client->pers.netname, duelAgainst->client->pers.netname, ent->client->ps.stats[STAT_HEALTH], ent->client->ps.stats[STAT_ARMOR] ) );
+					break;
+				default:
+					break;
+			}// MJN - End of Duel Stats
+			// MJN - Log duel stats to the games.log for possible parsing.
+			if (g_logDuelStats.integer){
+					G_LogPrintf( "mlog_privateduelstats: %s defeated %s with %i HP and %i Shields Remaining.\n", 
+						ent->client->pers.netname, duelAgainst->client->pers.netname, ent->client->ps.stats[STAT_HEALTH], ent->client->ps.stats[STAT_ARMOR] );
+			}
+			// Give em some shields.
+			playerDuelShield = g_playerDuelShield.integer;
+
+			// Make sure we have a valid value:
+			if( playerDuelShield > 100 )
+				playerDuelShield = 100;
+
+			if( playerDuelShield >= 0 ){ // MJN - New style HP/Shields:
+				ent->client->ps.stats[STAT_HEALTH] = ent->health = ent->client->savedHP;
+				ent->client->ps.stats[STAT_ARMOR] = ent->client->savedArmor;
+			}
+			else if ( playerDuelShield < 0 ) { // MJN - base-jk style
+				if (ent->health < ent->client->ps.stats[STAT_MAX_HEALTH]){
+					ent->client->ps.stats[STAT_HEALTH] = ent->health = ent->client->ps.stats[STAT_MAX_HEALTH];
+				}
+			}
+
+			if (g_spawnInvulnerability.integer) {
+				ent->client->ps.eFlags |= EF_INVULNERABLE;
+				ent->client->invulnerableTimer = level.time + g_spawnInvulnerability.integer;
+			}
+		}
+		else
+		{ //it was a draw, because we both managed to die in the same frame
+			trap_SendServerCommand( -1, va("cp \"%s\n\"", G_GetStringEdString("MP_SVGAME", "PLDUELTIE")) );
+		}
+	}
+	else
+	{
+		vec3_t vSub;
+		float subLen = 0;
+
+		VectorSubtract(ent->client->ps.origin, duelAgainst->client->ps.origin, vSub);
+		subLen = VectorLength(vSub);
+
+		if (subLen >= 1024)
+		{//racc - duelers too far apart.  Terminate duel.
+			ent->client->ps.duelInProgress = qfalse;
+			duelAgainst->client->ps.duelInProgress = qfalse;
+
+			G_AddEvent(ent, EV_PRIVATE_DUEL, 0);
+			G_AddEvent(duelAgainst, EV_PRIVATE_DUEL, 0);
+
+			//[DuelSys]	
+			// MJN - Get Saved HP and Armor Back, but only if g_playerDuelShield is set up for that.
+			if(g_playerDuelShield.integer >= 0)
+			{
+				if (ent->health > 0 && ent->client->ps.stats[STAT_HEALTH] > 0 )
+				{
+					ent->client->ps.stats[STAT_HEALTH] = ent->health = ent->client->savedHP;
+					ent->client->ps.stats[STAT_ARMOR] = ent->client->savedArmor;
+				}
+				if (duelAgainst->health > 0 && duelAgainst->client->ps.stats[STAT_HEALTH] > 0 )
+				{
+					duelAgainst->client->ps.stats[STAT_HEALTH] = duelAgainst->health = duelAgainst->client->savedHP;
+					duelAgainst->client->ps.stats[STAT_ARMOR] = duelAgainst->client->savedArmor;
+				}
+			}
+			//[/DuelSys]	
+
+			trap_SendServerCommand( -1, va("print \"%s\n\"", G_GetStringEdString("MP_SVGAME", "PLDUELSTOP")) );
+		}
+	}
+}
+
+void UpdatePlayerStateFlags(gentity_t *ent) {
+	qboolean killJetFlags = qtrue;
+
+	if (ent->client->pushEffectTime > level.time) {
+		ent->client->ps.eFlags |= EF_BODYPUSH;
+	}
+	else if (ent->client->pushEffectTime) {
+		ent->client->pushEffectTime = 0;
+		ent->client->ps.eFlags &= ~EF_BODYPUSH;
+	}
+
+	if (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_JETPACK)) {
+		ent->client->ps.eFlags |= EF_JETPACK;
+	}
+	else {
+		ent->client->ps.eFlags &= ~EF_JETPACK;
+	}
+
+	if ( ent->client->noclip ) {
+		ent->client->ps.pm_type = PM_NOCLIP;
+	} else if ( ent->client->ps.eFlags & EF_DISINTEGRATION ) {
+		ent->client->ps.pm_type = PM_NOCLIP;
+	} else if ( ent->client->ps.stats[STAT_HEALTH] <= 0 ) {
+		ent->client->ps.pm_type = PM_DEAD;
+	} else {
+		if (ent->client->ps.forceGripChangeMovetype) {
+			ent->client->ps.pm_type = ent->client->ps.forceGripChangeMovetype;
+		}
+		else {
+			if (ent->client->jetPackOn) {
+				ent->client->ps.pm_type = PM_JETPACK;
+				ent->client->ps.eFlags |= EF_JETPACK_ACTIVE;
+				killJetFlags = qfalse;
+			}
+			else {
+				ent->client->ps.pm_type = PM_NORMAL;
+			}
+		}
+	}
+
+	if (killJetFlags) {
+		ent->client->ps.eFlags &= ~EF_JETPACK_ACTIVE;
+		ent->client->ps.eFlags &= ~EF_JETPACK_FLAMING;
+	}
+}
+
 /*
 ==============
 ClientThink
@@ -2050,12 +2537,6 @@ If "g_synchronousClients 1" is set, this will be called exactly
 once for each server frame, which makes for smooth demo recording.
 ==============
 */
-//[DuelSys]
-extern vmCvar_t g_duelTimer; // MJN - Next Duel Timer
-extern vmCvar_t	g_playerDuelShield; // MJN - Duel Shield
-extern vmCvar_t g_duelStats;	// MJN - Duel Stats
-extern vmCvar_t g_logDuelStats;
-//[/DuelSys]
 //[SaberLockSys]
 extern qboolean SabBeh_ButtonforSaberLock(gentity_t* self);
 extern void G_RollBalance(gentity_t *self, gentity_t *inflictor, qboolean forceMishap);
@@ -2064,57 +2545,31 @@ extern void G_RollBalance(gentity_t *self, gentity_t *inflictor, qboolean forceM
 extern qboolean G_ValidSaberStyle(gentity_t *ent, int saberStyle);
 extern qboolean WP_SaberCanTurnOffSomeBlades( saberInfo_t *saber );
 //[/StanceSelection]
-extern void ForceLift( gentity_t *self );
 void G_SoundOnEnt( gentity_t *ent, int channel, const char *soundPath );
 
 void ClientThink_real( gentity_t *ent ) {
-	gclient_t	*client;
 	pmove_t		pm;
 	int			oldEventSequence;
 	int			msec;
 	usercmd_t	*ucmd;
-	qboolean	isNPC = qfalse;
 	qboolean	controlledByPlayer = qfalse;
-	qboolean	killJetFlags = qtrue;
-	int i=0;
-
-	client = ent->client;
+	gclient_t	*client = ent->client;
+	qboolean	isNPC = (qboolean)(ent->s.eType == ET_NPC);
 
 	//[ROQFILES]
-	if(inGameCinematic)
-	{//don't update the game world if an ROQ files is running.
+	if(inGameCinematic || (client->pers.connected != CON_CONNECTED && !isNPC)) {
 		return;
 	}
 	//[/ROQFILES]
-
-	if (ent->s.eType == ET_NPC)
-	{
-		isNPC = qtrue;
-	}
-
-	// don't think if the client is not yet connected (and thus not yet spawned in)
-	if (client->pers.connected != CON_CONNECTED && !isNPC) {
-		return;
-	}
 	
-	if(ent->client->blockTime <= level.time && ent->client->blockTime > 0)
-	{
+	if(ent->client->blockTime <= level.time && ent->client->blockTime > 0) {
 		ent->client->ps.userInt3 &= ~ (1 << FLAG_BLOCKING);
 		ent->client->blockTime = 0;
 	}
 	
-	for(i=0;i<NUM_FORCE_POWERS;i++)
-	{
-		if(ent->client->forcePowerStart[i] <= level.time && ent->client->forcePowerStart[i] != -1)
-		{
-			ent->client->forcePowerStart[i]=-1;
-			ent->client->ps.fd.forcePowersActive |= ( 1 << i );
-			ent->client->ps.activeForcePass = ent->client->ps.fd.forcePowerLevel[i];
-		}
-	}
+	UpdateTimedForcePowers(ent);
 
-	if(ent->client->isHacking == -100 && ent->client->ps.hackingTime <= level.time)
-	{
+	if(ent->client->isHacking == -100 && ent->client->ps.hackingTime <= level.time) {
 		ItemUse_Sentry2(ent);
 		ent->client->isHacking = qfalse;
 	}
@@ -2123,8 +2578,7 @@ void ClientThink_real( gentity_t *ent ) {
 		ent->client->ps.userInt3 &= ~(1 << FLAG_FROZEN);
 	}
 
-	if(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON1)
-	{
+	if(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON1) {
 		if(ent->client->ps.fd.forcePowerLevel[FP_SEE] )
 		{//Jedi
 
@@ -2157,28 +2611,7 @@ void ClientThink_real( gentity_t *ent ) {
 			}
 		}
 	}
-	/*
-	if((ent->client->pers.cmd.buttons & BUTTON_THERMALTHROW) && !ent->client->weaponbuttonNeedRelease)
-	{
-		gentity_t *item = TouchingItem(ent);
-		if(item != NULL && item->item != NULL)
-		{
-			trace_t *trace;
-			memset(&trace, 0, sizeof(trace));
-			Touch_Item(item,ent,trace);
-		}
-		else
-		{
-			vec3_t tossAngle;
-			AngleVectors( ent->client->ps.viewangles, tossAngle, NULL, NULL );
-			TossClientWeapon(ent,tossAngle,500);
-			//TossClientItems(ent);
-		}
-		ent->client->weaponbuttonNeedRelease = qtrue;
-	}
-	else if(!(ent->client->pers.cmd.buttons & BUTTON_THERMALTHROW) && ent->client->weaponbuttonNeedRelease)
-		ent->client->weaponbuttonNeedRelease = qfalse;
-		*/
+
 	// This code was moved here from clientThink to fix a problem with g_synchronousClients 
 	// being set to 1 when in vehicles. 
 	if ( ent->s.number < MAX_CLIENTS && ent->client->ps.m_iVehicleNum )
@@ -2278,8 +2711,7 @@ void ClientThink_real( gentity_t *ent ) {
 	// mark the time, so the connection sprite can be removed
 	ucmd = &ent->client->pers.cmd;
 
-	if ( client && (client->ps.eFlags2&EF2_HELD_BY_MONSTER) )
-	{
+	if ( client && (client->ps.eFlags2 & EF2_HELD_BY_MONSTER) ) {
 		G_HeldByMonster( ent, &ucmd );
 	}
 
@@ -2304,6 +2736,7 @@ void ClientThink_real( gentity_t *ent ) {
 				{//use time accell
 					trap_Cvar_Set("timescale", "100");
 				}
+
 				return;
 			}
 			else if(skippingCutscene && (ojp_skipcutscenes.integer == 0 
@@ -2325,18 +2758,10 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 	//[/CoOp]
 
-	// sanity check the command time to prevent speedup cheating
-	if ( ucmd->serverTime > level.time + 200 ) {
-		ucmd->serverTime = level.time + 200;
-//		G_Printf("serverTime <<<<<\n" );
-	}
-	if ( ucmd->serverTime < level.time - 1000 ) {
-		ucmd->serverTime = level.time - 1000;
-//		G_Printf("serverTime >>>>>\n" );
-	} 
+	// sanity check, check the command time to prevent speedup cheating
+	ucmd->serverTime = max(min(level.time + 200, ucmd->serverTime), level.time - 1000);
 
-	if (isNPC && (ucmd->serverTime - client->ps.commandTime) < 1)
-	{
+	if (isNPC && (ucmd->serverTime - client->ps.commandTime) < 1) {
 		ucmd->serverTime = client->ps.commandTime + 100;
 	}
 
@@ -2360,15 +2785,12 @@ void ClientThink_real( gentity_t *ent ) {
 
 	if ( pmove_fixed.integer || client->pers.pmoveFixed ) {
 		ucmd->serverTime = ((ucmd->serverTime + pmove_msec.integer-1) / pmove_msec.integer) * pmove_msec.integer;
-		//if (ucmd->serverTime - client->ps.commandTime <= 0)
-		//	return;
 	}
 
 	//
 	// check for exiting intermission
 	//
-	if ( level.intermissiontime ) 
-	{
+	if ( level.intermissiontime ) {
 		if ( ent->s.number < MAX_CLIENTS
 			|| client->NPC_class == CLASS_VEHICLE )
 		{//players and vehicles do nothing in intermissions
@@ -2387,32 +2809,29 @@ void ClientThink_real( gentity_t *ent ) {
 		if ( client->sess.spectatorState == SPECTATOR_SCOREBOARD ) {
 			return;
 		}
+
 		SpectatorThink( ent, ucmd );
 		return;
 	}
 
-	if (ent && ent->client && (ent->client->ps.eFlags & EF_INVULNERABLE))
-	{
-		if (ent->client->invulnerableTimer <= level.time)
-		{
+	if (ent && ent->client && (ent->client->ps.eFlags & EF_INVULNERABLE)) {
+		if (ent->client->invulnerableTimer <= level.time) {
 			ent->client->ps.eFlags &= ~EF_INVULNERABLE;
 		}
 	}
 
-	if (ent->s.eType != ET_NPC)
-	{
+	if (ent->s.eType != ET_NPC) {
 		// check for inactivity timer, but never drop the local client of a non-dedicated server
-		if ( !ClientInactivityTimer( client ) ) {
+		if ( IsClientInactive( client ) ) {
 			return;
 		}
 	}
 
 
 	//[ExpSys]
-	//update a player's skill if they haven't had it update in a while.
+	//update a player's skill if they haven't had it updated in a while.
 	//1.3 (DarthDie) -- update as soon as we have had skill changed, so we can do AddText
-	if(!ent->NPC && !(ent->r.svFlags & SVF_BOT) && client->skillUpdated /*&& client->skillDebounce < level.time*/)
-	{
+	if(!ent->NPC && !(ent->r.svFlags & SVF_BOT) && client->skillUpdated /*&& client->skillDebounce < level.time*/) {
 		trap_SendServerCommand(ent->s.number, va("nfr %i %i %i", (int) ent->client->sess.skillPoints, 0, ent->client->sess.sessionTeam));
 		client->skillDebounce = level.time + 5000;
 		client->skillUpdated = qfalse;
@@ -2420,59 +2839,8 @@ void ClientThink_real( gentity_t *ent ) {
 	//[/ExpSys]
 
 
-	//Check if we should have a fullbody push effect around the player
-	if (client->pushEffectTime > level.time)
-	{
-		client->ps.eFlags |= EF_BODYPUSH;
-	}
-	else if (client->pushEffectTime)
-	{
-		client->pushEffectTime = 0;
-		client->ps.eFlags &= ~EF_BODYPUSH;
-	}
+	UpdatePlayerStateFlags(ent);
 
-	if (client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_JETPACK))
-	{
-		client->ps.eFlags |= EF_JETPACK;
-	}
-	else
-	{
-		client->ps.eFlags &= ~EF_JETPACK;
-	}
-
-	if ( client->noclip ) {
-		client->ps.pm_type = PM_NOCLIP;
-	} else if ( client->ps.eFlags & EF_DISINTEGRATION ) {
-		client->ps.pm_type = PM_NOCLIP;
-	} else if ( client->ps.stats[STAT_HEALTH] <= 0 ) {
-		client->ps.pm_type = PM_DEAD;
-	} else {
-		if (client->ps.forceGripChangeMovetype)
-		{
-			client->ps.pm_type = client->ps.forceGripChangeMovetype;
-		}
-		else
-		{
-			if (client->jetPackOn)
-			{
-				client->ps.pm_type = PM_JETPACK;
-				client->ps.eFlags |= EF_JETPACK_ACTIVE;
-				killJetFlags = qfalse;
-			}
-			//else if(client->frozenTime > level.time)
-				//client->ps.pm_type = PM_FREEZE;
-			else
-			{
-				client->ps.pm_type = PM_NORMAL;
-			}
-		}
-	}
-
-	if (killJetFlags)
-	{
-		client->ps.eFlags &= ~EF_JETPACK_ACTIVE;
-		client->ps.eFlags &= ~EF_JETPACK_FLAMING;
-	}
 
 #define	SLOWDOWN_DIST	128.0f
 #define	MIN_NPC_SPEED	16.0f
@@ -2531,124 +2899,103 @@ void ClientThink_real( gentity_t *ent ) {
 	{
 		ent->client->ps.forceHandExtend = HANDEXTEND_WEAPONREADY;
 	}
-
 	
 	if (ent->NPC && ent->s.NPC_class != CLASS_VEHICLE) //vehicles manage their own speed
 	{
 		//FIXME: swoop should keep turning (and moving forward?) for a little bit?
-		if ( ent->NPC->combatMove == qfalse )
-		{
-			//if ( !(ucmd->buttons & BUTTON_USE) )
-			if (1)
-			{//Not leaning
-				qboolean Flying = (qboolean)(ucmd->upmove && (ent->client->ps.eFlags2&EF2_FLYING));//ent->client->moveType == MT_FLYSWIM);
-				qboolean Climbing = (qboolean)(ucmd->upmove && ent->watertype&CONTENTS_LADDER );
+		if ( ent->NPC->combatMove == qfalse ) {
+			qboolean Flying = (qboolean)(ucmd->upmove && (ent->client->ps.eFlags2&EF2_FLYING));//ent->client->moveType == MT_FLYSWIM);
+			qboolean Climbing = (qboolean)(ucmd->upmove && ent->watertype&CONTENTS_LADDER );
 
-				//client->ps.friction = 6;
+			//client->ps.friction = 6;
 
-				if ( ucmd->forwardmove || ucmd->rightmove || Flying )
-				{
-					//if ( ent->NPC->behaviorState != BS_FORMATION )
-					{//In - Formation NPCs set thier desiredSpeed themselves
-						if ( ucmd->buttons & BUTTON_WALKING )
+			if ( ucmd->forwardmove || ucmd->rightmove || Flying )
+			{
+				//if ( ent->NPC->behaviorState != BS_FORMATION )
+				{//In - Formation NPCs set thier desiredSpeed themselves
+					if ( ucmd->buttons & BUTTON_WALKING )
+					{
+						ent->NPC->desiredSpeed = NPC_GetWalkSpeed( ent );//ent->NPC->stats.walkSpeed;
+					}
+					else//running
+					{
+						ent->NPC->desiredSpeed = NPC_GetRunSpeed( ent );//ent->NPC->stats.runSpeed;
+					}
+
+					if ( ent->NPC->currentSpeed >= 80 && !controlledByPlayer )
+					{//At higher speeds, need to slow down close to stuff
+						//Slow down as you approach your goal
+					//	if ( ent->NPC->distToGoal < SLOWDOWN_DIST && client->race != RACE_BORG && !(ent->NPC->aiFlags&NPCAI_NO_SLOWDOWN) )//128
+						if ( ent->NPC->distToGoal < SLOWDOWN_DIST && !(ent->NPC->aiFlags&NPCAI_NO_SLOWDOWN) )//128
 						{
-							ent->NPC->desiredSpeed = NPC_GetWalkSpeed( ent );//ent->NPC->stats.walkSpeed;
-						}
-						else//running
-						{
-							ent->NPC->desiredSpeed = NPC_GetRunSpeed( ent );//ent->NPC->stats.runSpeed;
-						}
-
-						if ( ent->NPC->currentSpeed >= 80 && !controlledByPlayer )
-						{//At higher speeds, need to slow down close to stuff
-							//Slow down as you approach your goal
-						//	if ( ent->NPC->distToGoal < SLOWDOWN_DIST && client->race != RACE_BORG && !(ent->NPC->aiFlags&NPCAI_NO_SLOWDOWN) )//128
-							if ( ent->NPC->distToGoal < SLOWDOWN_DIST && !(ent->NPC->aiFlags&NPCAI_NO_SLOWDOWN) )//128
+							if ( ent->NPC->desiredSpeed > MIN_NPC_SPEED )
 							{
-								if ( ent->NPC->desiredSpeed > MIN_NPC_SPEED )
-								{
-									float slowdownSpeed = ((float)ent->NPC->desiredSpeed) * ent->NPC->distToGoal / SLOWDOWN_DIST;
+								float slowdownSpeed = ((float)ent->NPC->desiredSpeed) * ent->NPC->distToGoal / SLOWDOWN_DIST;
 
-									ent->NPC->desiredSpeed = ceil(slowdownSpeed);
-									if ( ent->NPC->desiredSpeed < MIN_NPC_SPEED )
-									{//don't slow down too much
-										ent->NPC->desiredSpeed = MIN_NPC_SPEED;
-									}
+								ent->NPC->desiredSpeed = ceil(slowdownSpeed);
+								if ( ent->NPC->desiredSpeed < MIN_NPC_SPEED )
+								{//don't slow down too much
+									ent->NPC->desiredSpeed = MIN_NPC_SPEED;
 								}
 							}
 						}
 					}
 				}
-				else if ( Climbing )
-				{
-					ent->NPC->desiredSpeed = ent->NPC->stats.walkSpeed;
+			}
+			else if ( Climbing )
+			{
+				ent->NPC->desiredSpeed = ent->NPC->stats.walkSpeed;
+			}
+			else
+			{//We want to stop
+				ent->NPC->desiredSpeed = 0;
+			}
+
+			NPC_Accelerate( ent, qfalse, qfalse );
+
+			if ( ent->NPC->currentSpeed <= 24 && ent->NPC->desiredSpeed < ent->NPC->currentSpeed )
+			{//No-one walks this slow
+				client->ps.speed = ent->NPC->currentSpeed = 0;//Full stop
+				ucmd->forwardmove = 0;
+				ucmd->rightmove = 0;
+			}
+			else
+			{
+				if ( ent->NPC->currentSpeed <= ent->NPC->stats.walkSpeed )
+				{//Play the walkanim
+					ucmd->buttons |= BUTTON_WALKING;
 				}
 				else
-				{//We want to stop
-					ent->NPC->desiredSpeed = 0;
-				}
-
-				NPC_Accelerate( ent, qfalse, qfalse );
-
-				if ( ent->NPC->currentSpeed <= 24 && ent->NPC->desiredSpeed < ent->NPC->currentSpeed )
-				{//No-one walks this slow
-					client->ps.speed = ent->NPC->currentSpeed = 0;//Full stop
-					ucmd->forwardmove = 0;
-					ucmd->rightmove = 0;
-				}
-				else
 				{
-					if ( ent->NPC->currentSpeed <= ent->NPC->stats.walkSpeed )
-					{//Play the walkanim
-						ucmd->buttons |= BUTTON_WALKING;
-					}
-					else
+					ucmd->buttons &= ~BUTTON_WALKING;
+				}
+
+				if ( ent->NPC->currentSpeed > 0 )
+				{//We should be moving
+					if ( Climbing || Flying )
 					{
-						ucmd->buttons &= ~BUTTON_WALKING;
-					}
-
-					if ( ent->NPC->currentSpeed > 0 )
-					{//We should be moving
-						if ( Climbing || Flying )
-						{
-							if ( !ucmd->upmove )
-							{//We need to force them to take a couple more steps until stopped
-								ucmd->upmove = ent->NPC->last_ucmd.upmove;//was last_upmove;
-							}
-						}
-						else if ( !ucmd->forwardmove && !ucmd->rightmove )
+						if ( !ucmd->upmove )
 						{//We need to force them to take a couple more steps until stopped
-							ucmd->forwardmove = ent->NPC->last_ucmd.forwardmove;//was last_forwardmove;
-							ucmd->rightmove = ent->NPC->last_ucmd.rightmove;//was last_rightmove;
+							ucmd->upmove = ent->NPC->last_ucmd.upmove;//was last_upmove;
 						}
 					}
+					else if ( !ucmd->forwardmove && !ucmd->rightmove )
+					{//We need to force them to take a couple more steps until stopped
+						ucmd->forwardmove = ent->NPC->last_ucmd.forwardmove;//was last_forwardmove;
+						ucmd->rightmove = ent->NPC->last_ucmd.rightmove;//was last_rightmove;
+					}
+				}
 
-					client->ps.speed = ent->NPC->currentSpeed;
-					//rwwFIXMEFIXME: do this and also check for all real client
-					if (1)
-					{
-						//Slow down on turns - don't orbit!!!
-						float turndelta = 0; 
-						// if the NPC is locked into a Yaw, we want to check the lockedDesiredYaw...otherwise the NPC can't walk backwards, because it always thinks it trying to turn according to desiredYaw
-						//if( client->renderInfo.renderFlags & RF_LOCKEDANGLE ) // yeah I know the RF_ flag is a pretty ugly hack...
-						if (0) //rwwFIXMEFIXME: ...
-						{	
-							turndelta = (180 - fabs( AngleDelta( ent->r.currentAngles[YAW], ent->NPC->lockedDesiredYaw ) ))/180;
-						}
-						else
-						{
-							turndelta = (180 - fabs( AngleDelta( ent->r.currentAngles[YAW], ent->NPC->desiredYaw ) ))/180;
-						}
+				client->ps.speed = ent->NPC->currentSpeed;
+				//rwwFIXMEFIXME: do this and also check for all real client
+				float turndelta = (180 - fabs( AngleDelta( ent->r.currentAngles[YAW], ent->NPC->desiredYaw ) ))/180;
 												
-						if ( turndelta < 0.75f )
-						{
-							client->ps.speed = 0;
-						}
-						else if ( ent->NPC->distToGoal < 100 && turndelta < 1.0 )
-						{//Turn is greater than 45 degrees or closer than 100 to goal
-							client->ps.speed = floor(((float)(client->ps.speed))*turndelta);
-						}
-					}
+				if ( turndelta < 0.75f ) {
+					client->ps.speed = 0;
+				}
+				else if ( ent->NPC->distToGoal < 100 && turndelta < 1.0 )
+				{//Turn is greater than 45 degrees or closer than 100 to goal
+					client->ps.speed = floor(((float)(client->ps.speed))*turndelta);
 				}
 			}
 		}
@@ -2666,25 +3013,19 @@ void ClientThink_real( gentity_t *ent ) {
 		//[/CoOp]
 		{ //sort of a hack I guess since MP handles walking differently from SP (has some proxy cheat prevention methods)
 
-			if (ucmd->forwardmove > 64)
-			{
+			if (ucmd->forwardmove > 64) {
 				ucmd->forwardmove = 64;	
 			}
-			else if (ucmd->forwardmove < -64)
-			{
+			else if (ucmd->forwardmove < -64) {
 				ucmd->forwardmove = -64;
 			}
 			
-			if (ucmd->rightmove > 64)
-			{
+			if (ucmd->rightmove > 64) {
 				ucmd->rightmove = 64;
 			}
-			else if ( ucmd->rightmove < -64)
-			{
+			else if ( ucmd->rightmove < -64) {
 				ucmd->rightmove = -64;
 			}
-
-			//ent->client->ps.speed = ent->client->ps.basespeed = NPC_GetRunSpeed( ent );
 		}
 
 		client->ps.basespeed = client->ps.speed;
@@ -2749,225 +3090,8 @@ void ClientThink_real( gentity_t *ent ) {
 		}
 	}
 
-	if (ent->client->ps.duelInProgress)
-	{//racc - we're in a private duel.
-		gentity_t *duelAgainst = &g_entities[ent->client->ps.duelIndex];
-
-		//Keep the time updated, so once this duel ends this player can't engage in a duel for another
-		//10 seconds. This will give other people a chance to engage in duels in case this player wants
-		//to engage again right after he's done fighting and someone else is waiting.
-		//[DuelSys]
-		ent->client->ps.fd.privateDuelTime = level.time + ( g_duelTimer.integer * 1000 );//10000;
-		//ent->client->ps.fd.privateDuelTime = level.time + 10000;
-		//[/DuelSys]
-
-		if (ent->client->ps.duelTime < level.time)
-		{//racc - just started the private duel.
-			//[DuelSys]	
-			int playerDuelShield; // MJN - for Shields.
-
-			//auto holster sabers on private duel start instead of requiring them to be holstered pre-start.			
-			// MJN - Holster those sabers
-			if (ent->client->ps.weapon == WP_SABER  
-				&& ent->client->ps.duelTime )
-			{
-				if(!ent->client->ps.saberHolstered){
-					if (ent->client->saber[0].soundOff){
-						G_Sound(ent, CHAN_AUTO, ent->client->saber[0].soundOff);
-					}	
-					if (ent->client->saber[1].soundOff){
-						G_Sound(ent, CHAN_AUTO, ent->client->saber[1].soundOff);
-					}
-					ent->client->ps.saberHolstered = 2;
-				}
-			//[/DuelSys]
-
-				G_AddEvent(ent, EV_PRIVATE_DUEL, 2);
-
-				ent->client->ps.duelTime = 0;
-
-				//[DuelSys]
-				// MJN - Code to save HP/Shield status and give duel declared HP/Shields:
-				ent->client->savedHP = ent->client->ps.stats[STAT_HEALTH];
-				ent->client->savedArmor = ent->client->ps.stats[STAT_ARMOR];
-
-				// MJN - Update Shields to new values if g_mPlayerDuelShield is anything else but 0.
-				playerDuelShield = g_playerDuelShield.integer;
-
-				// Make sure we have a valid value:
-				if( playerDuelShield > 100 )
-					playerDuelShield = 100;
-
-				if( playerDuelShield >= 0){
-					ent->client->ps.stats[STAT_HEALTH] = ent->health = 100; // defaults to 100.
-					ent->client->ps.stats[STAT_ARMOR]  = playerDuelShield;
-				}
-				//[/DuelSys]
-			}
-
-			if (duelAgainst 
-				&& duelAgainst->client 
-				&& duelAgainst->inuse 
-				&& duelAgainst->client->ps.weapon == WP_SABER
-				//[DuelSys]
-				//removed the holstered requirement
-				//&& duelAgainst->client->ps.saberHolstered 
-				//[/DuelSys] 
-				&& duelAgainst->client->ps.duelTime)
-			{
-				//[DuelSys]
-				int playerDuelShield; // MJN - for Shields.
-
-				//auto holster sabers at start of duel.
-				if( !duelAgainst->client->ps.saberHolstered ){
-					
-					if (duelAgainst->client->saber[0].soundOff){
-						G_Sound(duelAgainst, CHAN_AUTO, duelAgainst->client->saber[0].soundOff);
-					}
-					if (duelAgainst->client->saber[1].soundOff){
-						G_Sound(duelAgainst, CHAN_AUTO, duelAgainst->client->saber[1].soundOff);
-					}
-					duelAgainst->client->ps.saberHolstered = 2;
-				}
-				//[/DuelSys]				
-
-				G_AddEvent(duelAgainst, EV_PRIVATE_DUEL, 2);
-
-				duelAgainst->client->ps.duelTime = 0;
-
-				//[DuelSys]
-				// MJN - Code to save hitpoint status and give duel hitpoints:
-				duelAgainst->client->savedHP = duelAgainst->client->ps.stats[STAT_HEALTH];
-				duelAgainst->client->savedArmor = duelAgainst->client->ps.stats[STAT_ARMOR];
-
-				// MJN - Update Shields to new values if g_mPlayerDuelShield is anything else but 0.
-				playerDuelShield = g_playerDuelShield.integer;
-
-				// Make sure we have a valid value:
-				if( playerDuelShield > 100 )
-					playerDuelShield = 100;
-
-				if( playerDuelShield >= 0 ){
-					duelAgainst->client->ps.stats[STAT_HEALTH] = duelAgainst->health = 100; // defaults to 100.
-					duelAgainst->client->ps.stats[STAT_ARMOR]  = playerDuelShield;
-				}
-				//[/DuelSys]
-			}
-		}
-		else
-		{
-			client->ps.speed = 0;
-			client->ps.basespeed = 0;
-			ucmd->forwardmove = 0;
-			ucmd->rightmove = 0;
-			ucmd->upmove = 0;
-		}
-
-		if (!duelAgainst || !duelAgainst->client || !duelAgainst->inuse ||
-			duelAgainst->client->ps.duelIndex != ent->s.number)
-		{//racc - bad dueling opponent state.
-			ent->client->ps.duelInProgress = qfalse;
-			G_AddEvent(ent, EV_PRIVATE_DUEL, 0);
-		}
-		else if (duelAgainst->health < 1 || duelAgainst->client->ps.stats[STAT_HEALTH] < 1)
-		{//racc - our opponent died.
-			ent->client->ps.duelInProgress = qfalse;
-			duelAgainst->client->ps.duelInProgress = qfalse;
-
-			G_AddEvent(ent, EV_PRIVATE_DUEL, 0);
-			G_AddEvent(duelAgainst, EV_PRIVATE_DUEL, 0);
-
-			//Winner gets full health.. providing he's still alive
-			if (ent->health > 0 && ent->client->ps.stats[STAT_HEALTH] > 0)
-			{
-				//[DuelSys]
-				int playerDuelShield; // MJN - for Shields.
-
-				// MJN - Lets show those stats!!
-				switch ( g_duelStats.integer ){
-
-					case 1: // Private only
-							trap_SendServerCommand( ent-g_entities, va("print \"%s ^7defeated %s ^7with ^1%i ^7HP ^7and ^2%i ^7Shields Remaining.\n\"", 
-						ent->client->pers.netname, duelAgainst->client->pers.netname, ent->client->ps.stats[STAT_HEALTH], ent->client->ps.stats[STAT_ARMOR] ) );
-							trap_SendServerCommand( duelAgainst-g_entities, va("print \"%s ^7defeated %s ^7with ^1%i ^7HP ^7and ^2%i ^7Shields Remaining.\n\"", 
-						ent->client->pers.netname, duelAgainst->client->pers.netname, ent->client->ps.stats[STAT_HEALTH], ent->client->ps.stats[STAT_ARMOR] ) );
-						break;
-					case 2: // Everyone on server
-							trap_SendServerCommand( -1, va("print \"%s ^7defeated %s ^7with ^1%i ^7HP ^7and ^2%i ^7Shields Remaining.\n\"", 
-						ent->client->pers.netname, duelAgainst->client->pers.netname, ent->client->ps.stats[STAT_HEALTH], ent->client->ps.stats[STAT_ARMOR] ) );
-						break;
-					default:
-						break;
-				}// MJN - End of Duel Stats
-				// MJN - Log duel stats to the games.log for possible parsing.
-				if (g_logDuelStats.integer){
-						G_LogPrintf( "mlog_privateduelstats: %s defeated %s with %i HP and %i Shields Remaining.\n", 
-							ent->client->pers.netname, duelAgainst->client->pers.netname, ent->client->ps.stats[STAT_HEALTH], ent->client->ps.stats[STAT_ARMOR] );
-				}
-				// Give em some shields.
-				playerDuelShield = g_playerDuelShield.integer;
-
-				// Make sure we have a valid value:
-				if( playerDuelShield > 100 )
-					playerDuelShield = 100;
-
-				if( playerDuelShield >= 0 ){ // MJN - New style HP/Shields:
-					ent->client->ps.stats[STAT_HEALTH] = ent->health = ent->client->savedHP;
-					ent->client->ps.stats[STAT_ARMOR] = ent->client->savedArmor;
-				}
-				else if ( playerDuelShield < 0 ) { // MJN - base-jk style
-					if (ent->health < ent->client->ps.stats[STAT_MAX_HEALTH]){
-						ent->client->ps.stats[STAT_HEALTH] = ent->health = ent->client->ps.stats[STAT_MAX_HEALTH];
-					}
-				}
-
-				if (g_spawnInvulnerability.integer)
-				{
-					ent->client->ps.eFlags |= EF_INVULNERABLE;
-					ent->client->invulnerableTimer = level.time + g_spawnInvulnerability.integer;
-				}
-			}
-			else
-			{ //it was a draw, because we both managed to die in the same frame
-				trap_SendServerCommand( -1, va("cp \"%s\n\"", G_GetStringEdString("MP_SVGAME", "PLDUELTIE")) );
-			}
-		}
-		else
-		{
-			vec3_t vSub;
-			float subLen = 0;
-
-			VectorSubtract(ent->client->ps.origin, duelAgainst->client->ps.origin, vSub);
-			subLen = VectorLength(vSub);
-
-			if (subLen >= 1024)
-			{//racc - duelers too far apart.  Terminate duel.
-				ent->client->ps.duelInProgress = qfalse;
-				duelAgainst->client->ps.duelInProgress = qfalse;
-
-				G_AddEvent(ent, EV_PRIVATE_DUEL, 0);
-				G_AddEvent(duelAgainst, EV_PRIVATE_DUEL, 0);
-
-				//[DuelSys]	
-				// MJN - Get Saved HP and Armor Back, but only if g_playerDuelShield is set up for that.
-				if(g_playerDuelShield.integer >= 0)
-				{
-					if (ent->health > 0 && ent->client->ps.stats[STAT_HEALTH] > 0 )
-					{
-						ent->client->ps.stats[STAT_HEALTH] = ent->health = ent->client->savedHP;
-						ent->client->ps.stats[STAT_ARMOR] = ent->client->savedArmor;
-					}
-					if (duelAgainst->health > 0 && duelAgainst->client->ps.stats[STAT_HEALTH] > 0 )
-					{
-						duelAgainst->client->ps.stats[STAT_HEALTH] = duelAgainst->health = duelAgainst->client->savedHP;
-						duelAgainst->client->ps.stats[STAT_ARMOR] = duelAgainst->client->savedArmor;
-					}
-				}
-				//[/DuelSys]	
-
-				trap_SendServerCommand( -1, va("print \"%s\n\"", G_GetStringEdString("MP_SVGAME", "PLDUELSTOP")) );
-			}
-		}
+	if (ent->client->ps.duelInProgress) {
+		UpdateClientDuel(ent, ucmd);
 	}
 
 	if (ent->client->doingThrow > level.time)
@@ -3146,10 +3270,6 @@ void ClientThink_real( gentity_t *ent ) {
 		ent->client->ps.heldByClient = 0;
 	}
 
-
-	//rww - moved this stuff into the pmove code so that it's predicted properly
-	//BG_AdjustClientSpeed(&client->ps, &client->pers.cmd, level.time);
-
 	// set up for pmove
 	oldEventSequence = client->ps.eventSequence;
 
@@ -3221,17 +3341,10 @@ void ClientThink_real( gentity_t *ent ) {
 	if ( pm.ps->pm_type == PM_DEAD ) {
 		pm.tracemask = MASK_PLAYERSOLID & ~CONTENTS_BODY;
 	}
-	//[BotTweaks]
-	//We want to allow players to be able to move thru monsterclips.
-	/*
-	else if ( ent->r.svFlags & SVF_BOT ) {
-		pm.tracemask = MASK_PLAYERSOLID | CONTENTS_MONSTERCLIP;
-	}
-	*/
-	//[/BotTweaks]
 	else {
 		pm.tracemask = MASK_PLAYERSOLID;
 	}
+
 	pm.trace = trap_Trace;
 	pm.pointcontents = trap_PointContents;
 	pm.debugLevel = g_debugMove.integer;
@@ -3416,8 +3529,7 @@ void ClientThink_real( gentity_t *ent ) {
 		}
 	}
 	
-	if ( ent->NPC )
-	{
+	if ( ent->NPC ) {
 		VectorCopy( ent->client->ps.viewangles, ent->r.currentAngles );
 	}
 
@@ -3461,240 +3573,16 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 	//[/Asteroids]
 
-	if (pm.cmd.generic_cmd &&
-		(pm.cmd.generic_cmd != ent->client->lastGenCmd || ent->client->lastGenCmdTime < level.time))
-	{
-		ent->client->lastGenCmd = pm.cmd.generic_cmd;
-		//[SaberSys]
-		if (pm.cmd.generic_cmd == GENCMD_SABERATTACKCYCLE)
-		{//saber style toggling debounces debounces faster than normal debouncable commands.
-			ent->client->lastGenCmdTime = level.time + 100;
-		}
-		else if (pm.cmd.generic_cmd != GENCMD_FORCE_THROW &&
-		//if (pm.cmd.generic_cmd != GENCMD_FORCE_THROW &&
-		//[/SaberSys]
-			//[ForceSys]
-			pm.cmd.generic_cmd != GENCMD_FORCE_PULL &&
-			pm.cmd.generic_cmd != GENCMD_FORCE_SPEED)
-			//pm.cmd.generic_cmd != GENCMD_FORCE_PULL)
-			//[/ForceSys]
-		{ //these are the only two where you wouldn't care about a delay between
-			ent->client->lastGenCmdTime = level.time + 300; //default 100ms debounce between issuing the same command.
-		}
-
-		switch(pm.cmd.generic_cmd)
-		{
-		case 0:
-			break;
-		case GENCMD_SABERSWITCH:
-			Cmd_ToggleSaber_f(ent);
-			break;
-		case GENCMD_ENGAGE_DUEL:
-			if ( g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL )
-			{//already in a duel, made it a taunt command
-			}
-			else
-			{
-				Cmd_EngageDuel_f(ent);
-			}
-			break;
-		case GENCMD_FORCE_HEAL:
-			ForceHeal(ent);
-			break;
-		case GENCMD_FORCE_SPEED:
-			ForceSpeed(ent, 0);
-			break;
-		case GENCMD_FORCE_THROW:
-			ForceThrow(ent, qfalse);
-			break;
-		case GENCMD_FORCE_PULL:
-			ForceThrow(ent, qtrue);
-			break;
-		case GENCMD_FORCE_DISTRACT:
-			ForceTelepathy(ent);
-			break;
-		case GENCMD_FORCE_RAGE:
-			ForceRage(ent);
-			break;
-		case GENCMD_FORCE_MANIPULATE:
-			ForceProtect(ent);
-			break;
-		//[ForceSys]
-		case GENCMD_FORCE_ABSORB:
-			break;
-		//[/ForceSys]
-		case GENCMD_FORCE_HEALOTHER:
-			ForceTeamHeal(ent);
-			break;
-		case GENCMD_FORCE_LIFT:
-			ForceLift(ent);
-			break;
-		case GENCMD_FORCE_SEEING:
-			ForceSeeing(ent);
-			break;
-		case GENCMD_USE_SEEKER:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SEEKER)) &&
-				G_ItemUsable(&ent->client->ps, HI_SEEKER) )
-			{
-				ItemUse_Seeker(ent);
-				G_AddEvent(ent, EV_USE_ITEM0+HI_SEEKER, 0);
-				//[SeekerItemNpc] the seeker is an npc and is commandable by using the item again.  This flag will be removed when the
-				//seeker dies
-				//ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SEEKER);
-				//[/SeekerItemNpc]
-			}
-			break;
-		case GENCMD_USE_FIELD:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SHIELD)) &&
-				G_ItemUsable(&ent->client->ps, HI_SHIELD) )
-			{
-				ItemUse_Shield(ent);
-				G_AddEvent(ent, EV_USE_ITEM0+HI_SHIELD, 0);
-				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SHIELD);
-			}
-			break;
-		case GENCMD_USE_BACTA:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC)) &&
-				G_ItemUsable(&ent->client->ps, HI_MEDPAC) )
-			{
-				ItemUse_MedPack(ent);
-				G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC, 0);
-				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC);
-			}
-			break;
-		case GENCMD_USE_BACTABIG:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_MEDPAC_BIG)) &&
-				G_ItemUsable(&ent->client->ps, HI_MEDPAC_BIG) )
-			{
-				ItemUse_MedPack_Big(ent);
-				G_AddEvent(ent, EV_USE_ITEM0+HI_MEDPAC_BIG, 0);
-				ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_MEDPAC_BIG);
-			}
-			break;
-		case GENCMD_USE_ELECTROBINOCULARS:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_BINOCULARS)) &&
-				G_ItemUsable(&ent->client->ps, HI_BINOCULARS) )
-			{
-				ItemUse_Binoculars(ent);
-				if (ent->client->ps.zoomMode == 0)
-				{
-					G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 1);
-				}
-				else
-				{
-					G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 2);
-				}
-			}
-			break;
-		case GENCMD_ZOOM:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_BINOCULARS)) &&
-				G_ItemUsable(&ent->client->ps, HI_BINOCULARS) )
-			{
-				ItemUse_Binoculars(ent);
-				if (ent->client->ps.zoomMode == 0)
-				{
-					G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 1);
-				}
-				else
-				{
-					G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 2);
-				}
-			}
-			break;
-		case GENCMD_USE_SENTRY:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_SENTRY_GUN)) &&
-				G_ItemUsable(&ent->client->ps, HI_SENTRY_GUN) )
-			{
-				ItemUse_Sentry(ent);
-				//G_AddEvent(ent, EV_USE_ITEM0+HI_SENTRY_GUN, 0);
-				//ent->client->ps.stats[STAT_HOLDABLE_ITEMS] &= ~(1 << HI_SENTRY_GUN);
-			}
-			break;
-		case GENCMD_USE_JETPACK:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_JETPACK)) &&
-				G_ItemUsable(&ent->client->ps, HI_JETPACK) )
-			{
-				ItemUse_Jetpack(ent);
-				G_AddEvent(ent, EV_USE_ITEM0+HI_JETPACK, 0);
-				/*
-				if (ent->client->ps.zoomMode == 0)
-				{
-					G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 1);
-				}
-				else
-				{
-					G_AddEvent(ent, EV_USE_ITEM0+HI_BINOCULARS, 2);
-				}
-				*/
-			}
-			break;
-		case GENCMD_USE_HEALTHDISP:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_HEALTHDISP)) &&
-				G_ItemUsable(&ent->client->ps, HI_HEALTHDISP) )
-			{
-				//ItemUse_UseDisp(ent, HI_HEALTHDISP);
-				G_AddEvent(ent, EV_USE_ITEM0+HI_HEALTHDISP, 0);
-			}
-			break;
-		case GENCMD_USE_AMMODISP:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_AMMODISP)) &&
-				G_ItemUsable(&ent->client->ps, HI_AMMODISP) )
-			{
-				//ItemUse_UseDisp(ent, HI_AMMODISP);
-				G_AddEvent(ent, EV_USE_ITEM0+HI_AMMODISP, 0);
-			}
-			break;
-		case GENCMD_USE_EWEB:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_EWEB)) &&
-				G_ItemUsable(&ent->client->ps, HI_EWEB) )
-			{
-				ItemUse_UseEWeb(ent);
-				G_AddEvent(ent, EV_USE_ITEM0+HI_EWEB, 0);
-			}
-			break;
-		case GENCMD_USE_CLOAK:
-			if ( (ent->client->ps.stats[STAT_HOLDABLE_ITEMS] & (1 << HI_CLOAK)) &&
-				G_ItemUsable(&ent->client->ps, HI_CLOAK) )
-			{
-				if ( ent->client->ps.powerups[PW_CLOAKED] )
-				{//decloak
-					Jedi_Decloak( ent );
-				}
-				else
-				{//cloak
-					Jedi_Cloak( ent );
-				}
-			}
-			break;
-		case GENCMD_SABERATTACKCYCLE:
-			Cmd_SaberAttackCycle_f(ent);
-			break;
-		case GENCMD_TAUNT:
-			G_SetTauntAnim( ent, TAUNT_TAUNT );
-			break;
-		case GENCMD_BOW:
-			G_SetTauntAnim( ent, TAUNT_BOW );
-			break;
-		case GENCMD_MEDITATE:
-			G_SetTauntAnim( ent, TAUNT_MEDITATE );
-			break;
-		case GENCMD_FLOURISH:
-			G_SetTauntAnim( ent, TAUNT_FLOURISH );
-			break;
-		case GENCMD_GLOAT:
-			G_SetTauntAnim( ent, TAUNT_GLOAT );
-			break;
-		default:
-			break;
-		}
+	if (ShouldUpdateGenCommands(ent, &pm)) {
+		UpdateGenCommands(ent, &pm);
 	}
 
 	// save results of pmove
 	if ( ent->client->ps.eventSequence != oldEventSequence ) {
 		ent->eventTime = level.time;
 	}
-	if (g_smoothClients.integer)
-	{
+
+	if (g_smoothClients.integer) {
 		BG_PlayerStateToEntityStateExtraPolate( &ent->client->ps, &ent->s, ent->client->ps.commandTime, qfalse );
 		//rww - 12-03-02 - Don't snap the origin of players! It screws prediction all up.
 	}
@@ -3702,8 +3590,7 @@ void ClientThink_real( gentity_t *ent ) {
 		BG_PlayerStateToEntityState( &ent->client->ps, &ent->s, qfalse );
 	}
 
-	if (isNPC)
-	{
+	if (isNPC) {
 		ent->s.eType = ET_NPC;
 	}
 
@@ -3731,13 +3618,7 @@ void ClientThink_real( gentity_t *ent ) {
 	// execute client events
 	ClientEvents( ent, oldEventSequence );
 
-	if ( pm.useEvent )
-	{
-		//TODO: Use
-//		TryUse( ent );
-	}
-	if ((ent->client->pers.cmd.buttons & BUTTON_USE) && ent->client->ps.useDelay < level.time)
-	{
+	if ((ent->client->pers.cmd.buttons & BUTTON_USE) && ent->client->ps.useDelay < level.time) {
 		TryUse(ent);
 		ent->client->ps.useDelay = level.time + 100;
 	}
@@ -3751,9 +3632,6 @@ void ClientThink_real( gentity_t *ent ) {
 	// NOTE: now copy the exact origin over otherwise clients can be snapped into solid
 	VectorCopy( ent->client->ps.origin, ent->r.currentOrigin );
 
-	//test for solid areas in the AAS file
-//	BotTestAAS(ent->r.currentOrigin);
-
 	// touch other objects
 	ClientImpacts( ent, &pm );
 
@@ -3766,8 +3644,6 @@ void ClientThink_real( gentity_t *ent ) {
 	client->oldbuttons = client->buttons;
 	client->buttons = ucmd->buttons;
 	client->latched_buttons |= client->buttons & ~client->oldbuttons;
-
-//	G_VehicleAttachDroidUnit( ent );
 
 	// Did we kick someone in our pmove sequence?
 	if (client->ps.forceKickFlip)
@@ -3797,7 +3673,7 @@ void ClientThink_real( gentity_t *ent ) {
 						faceKicked->client->ps.stats[STAT_HEALTH] > 0 &&
 						faceKicked->client->ps.forceHandExtend != HANDEXTEND_KNOCKDOWN)
 					{
-						if (BG_KnockDownable(&faceKicked->client->ps) && Q_irand(1, 10) <= 3)
+						if (BG_IsKnockDownable(&faceKicked->client->ps) && Q_irand(1, 10) <= 3)
 						{ //only actually knock over sometimes, but always do velocity hit
 							faceKicked->client->ps.forceHandExtend = HANDEXTEND_KNOCKDOWN;
 							faceKicked->client->ps.forceHandExtendTime = level.time + 1100;
@@ -3864,11 +3740,12 @@ void ClientThink_real( gentity_t *ent ) {
 		{
 			client->respawnTime = level.time + 1000;
 		}
+
 		return;
 	}
 
 	// perform once-a-second actions
-	ClientTimerActions( ent, msec );
+	UpdateClientTimerActions( ent, msec );
 
 	G_UpdateClientBroadcasts ( ent );
 
@@ -3925,12 +3802,10 @@ ClientThink
 A new command has arrived from the client
 ==================
 */
-void ClientThink( int clientNum,usercmd_t *ucmd ) {
-	gentity_t *ent;
+void ClientThink( int clientNum, usercmd_t *ucmd ) {
+	gentity_t *ent = g_entities + clientNum;
 
-	ent = g_entities + clientNum;
-	if (clientNum < MAX_CLIENTS)
-	{
+	if (clientNum < MAX_CLIENTS) {
 		trap_GetUsercmd( clientNum, &ent->client->pers.cmd );
 	}
 
@@ -3972,17 +3847,14 @@ SpectatorClientEndFrame
 void SpectatorClientEndFrame( gentity_t *ent ) {
 	gclient_t	*cl;
 
-	if (ent->s.eType == ET_NPC)
-	{
+	if (ent->s.eType == ET_NPC) {
 		assert(0);
 		return;
 	}
 
 	// if we are doing a chase cam or a remote view, grab the latest info
 	if ( ent->client->sess.spectatorState == SPECTATOR_FOLLOW ) {
-		int		clientNum;//, flags;
-
-		clientNum = ent->client->sess.spectatorClient;
+		int		clientNum = ent->client->sess.spectatorClient;
 
 		// team follow1 and team follow2 go to whatever clients are playing
 		if ( clientNum == -1 ) {
@@ -4030,8 +3902,7 @@ void ClientEndFrame( gentity_t *ent ) {
 	clientPersistant_t	*pers;
 	qboolean isNPC = qfalse;
 
-	if (ent->s.eType == ET_NPC)
-	{
+	if (ent->s.eType == ET_NPC) {
 		isNPC = qtrue;
 	}
 
@@ -4076,7 +3947,7 @@ void ClientEndFrame( gentity_t *ent ) {
 
 	ent->client->ps.stats[STAT_HEALTH] = ent->health;	// FIXME: get rid of ent->health...
 
-	G_SetClientSound (ent);
+	G_UpdateClientSound (ent);
 
 	// set the latest infor
 	if (g_smoothClients.integer) {
@@ -4115,6 +3986,7 @@ static qboolean ClientCinematicThink( gclient_t *client, usercmd_t *ucmd ) {
 	if ( client->buttons & ( BUTTON_USE ) & ( client->oldbuttons ^ client->buttons ) ) {
 		return( qtrue );
 	}
+
 	return( qfalse );
 }
 //[/CoOp]

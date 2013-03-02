@@ -7463,163 +7463,6 @@ void WP_SaberStartMissileBlockCheck( gentity_t *self, usercmd_t *ucmd  )
 			continue;
 		}
 		//[/SaberSys]
-
-		//[DodgeSys]
-		/* disabled all this stuff for now, kind of buggy and people think it's unbalanced.
-		//handle Dodging for explosive bad things		
-		if ( ent->splashDamage && ent->splashRadius ) 
-		{//this thingy can explode
-			if(dist < ent->splashRadius //we've in its blast radius
-				&&PreCogDodgeCosts[ent->methodOfDeath] != -1 &&  self->client->ps.stats[STAT_DODGE] > PreCogDodgeCosts[ent->methodOfDeath]) //we can Dodge this thingy
-			{//attempt to Dodge this sucker
-				if(WP_ForcePowerUsable(self, FP_PUSH)  //can use Force Push
-					&& DotProduct( dir, forward ) > SABER_REFLECT_MISSILE_CONE) //in our push field (roughly)
-				{//use force push to knock the thingy away.
-					ForceThrow( self, qfalse );
-					G_DodgeDrain(self, &g_entities[ent->r.ownerNum], PreCogDodgeCosts[ent->methodOfDeath]);
-
-					//re-add the used up FP points since this should count as a DP cost only.
-					self->client->ps.fd.forcePower += forcePowerNeeded[self->client->ps.fd.forcePowerLevel[FP_PUSH]][FP_PUSH];
-				}
-				else if(WP_ForcePowerUsable(self, FP_LEVITATION))
-				{//jump out of the way
-					self->client->ps.fd.forceJumpCharge = 480;
-					G_DodgeDrain(self, &g_entities[ent->r.ownerNum], PreCogDodgeCosts[ent->methodOfDeath]);
-				}
-			}
-		
-			//done everything we can for an explosive
-			continue;
-		}
-		*/
-
-
-		/* old method.  borked and messy.
-		//FIXME: handle detpacks, proximity mines and tripmines
-		if ( ent->s.weapon == WP_THERMAL )
-		{//thermal detonator!
-			//[DodgeSys]
-			//Do Dodge for thermal detonators.
-			if ( dist < ent->splashRadius  && !OnSameTeam(&g_entities[ent->r.ownerNum], self))
-			//if ( self->NPC && dist < ent->splashRadius )
-			{
-				if (self->client->ps.stats[STAT_DODGE] > PreCogDodgeCosts[MOD_THERMAL]) 
-				{
-					if ( dist < ent->splashRadius && 
-						ent->nextthink < level.time + 600 && 
-						ent->count && 
-						self->client->ps.groundEntityNum != ENTITYNUM_NONE && 
-							(ent->s.pos.trType == TR_STATIONARY||
-							ent->s.pos.trType == TR_INTERPOLATE||
-							(dot1 = DotProduct( dir, forward )) < SABER_REFLECT_MISSILE_CONE||
-							//!WP_ForcePowerUsable( self, FP_PUSH )) )
-							//racc - replaced with the below since we're going to override push's debounce
-							!(self->client->ps.fd.forcePowersKnown & ( 1 << FP_PUSH )) ) ) //don't have force push
-					{//TD is close enough to hurt me, I'm on the ground and the thing is at rest or behind me and about to blow up, or I don't have force-push so force-jump!
-						//FIXME: sometimes this might make me just jump into it...?
-						self->client->ps.fd.forceJumpCharge = 480;
-						//[ExpSys]
-						G_DodgeDrain(self, &g_entities[ent->r.ownerNum], PreCogDodgeCosts[MOD_THERMAL]);
-						//self->client->ps.stats[STAT_DODGE] -= PreCogDodgeCosts[MOD_THERMAL];
-						//[/ExpSys]
-					}
-					else if ( self->client->NPC_class != CLASS_BOBAFETT )
-					{//FIXME: check forcePushRadius[NPC->client->ps.forcePowerLevel[FP_PUSH]]
-						//racc - make sure that force push has been disabled
-						WP_ForcePowerStop(self, FP_PUSH);
-						ForceThrow( self, qfalse );
-						//[ExpSys]
-						G_DodgeDrain(self, &g_entities[ent->r.ownerNum], PreCogDodgeCosts[MOD_THERMAL]);
-						//self->client->ps.stats[STAT_DODGE] -= PreCogDodgeCosts[MOD_THERMAL];
-						//[/ExpSys]
-						//re-add the used up FP points since this should count as a DP cost only.
-						self->client->ps.fd.forcePower += forcePowerNeeded[self->client->ps.fd.forcePowerLevel[FP_PUSH]][FP_PUSH];
-					}
-				}
-			}
-			//[/DodgeSys]
-			continue;
-		}
-		else if ( ent->splashDamage && ent->splashRadius )
-		{//exploding missile
-			//[DodgeSys]
-			/*
-			//FIXME: handle tripmines and detpacks somehow... 
-			//			maybe do a force-gesture that makes them explode?  
-			//			But what if we're within it's splashradius?
-			if ( self->s.eType == ET_PLAYER )
-			{//players don't auto-handle these at all
-				continue;
-			}
-			else 
-			{
-			*//*
-			if(PreCogDodgeCosts[ent->methodOfDeath] != -1 &&  self->client->ps.stats[STAT_DODGE] > PreCogDodgeCosts[ent->methodOfDeath])
-			{
-				//if ( ent->s.pos.trType == TR_STATIONARY && (ent->s.eFlags&EF_MISSILE_STICK) 
-				//	&& 	self->client->NPC_class != CLASS_BOBAFETT )
-				if (0) //Maybe handle this later?
-				{//a placed explosive like a tripmine or detpack
-					if ( InFOV3( ent->r.currentOrigin, self->client->renderInfo.eyePoint, self->client->ps.viewangles, 90, 90 ) )
-					{//in front of me
-						if ( G_ClearLOS4( self, ent ) )
-						{//can see it
-							vec3_t throwDir;
-							//make the gesture
-							ForceThrow( self, qfalse );
-							//take it off the wall and toss it
-							ent->s.pos.trType = TR_GRAVITY;
-							ent->s.eType = ET_MISSILE;
-							ent->s.eFlags &= ~EF_MISSILE_STICK;
-							ent->flags |= FL_BOUNCE_HALF;
-							AngleVectors( ent->r.currentAngles, throwDir, NULL, NULL );
-							VectorMA( ent->r.currentOrigin, ent->r.maxs[0]+4, throwDir, ent->r.currentOrigin );
-							VectorCopy( ent->r.currentOrigin, ent->s.pos.trBase );
-							VectorScale( throwDir, 300, ent->s.pos.trDelta );
-							ent->s.pos.trDelta[2] += 150;
-							VectorMA( ent->s.pos.trDelta, 800, dir, ent->s.pos.trDelta );
-							ent->s.pos.trTime = level.time;		// move a bit on the very first frame
-							VectorCopy( ent->r.currentOrigin, ent->s.pos.trBase );
-							ent->r.ownerNum = self->s.number;
-							// make it explode, but with less damage
-							ent->splashDamage /= 3;
-							ent->splashRadius /= 3;
-							//ent->think = WP_Explode;
-							ent->nextthink = level.time + Q_irand( 500, 3000 );
-						}
-					}
-				}
-				else if ( dist < ent->splashRadius && 
-				self->client->ps.groundEntityNum != ENTITYNUM_NONE && 
-					(DotProduct( dir, forward ) < SABER_REFLECT_MISSILE_CONE
-					//|| !WP_ForcePowerUsable( self, FP_PUSH )  //racc - replaced with the below since we're going to override push's debounce
-					|| !(self->client->ps.fd.forcePowersKnown & ( 1 << FP_PUSH )) ) ) //don't have force push
-				{//NPCs try to evade it
-					self->client->ps.fd.forceJumpCharge = 480;
-					//[ExpSys]
-					G_DodgeDrain(self, &g_entities[ent->r.ownerNum], PreCogDodgeCosts[ent->methodOfDeath]);
-					//self->client->ps.stats[STAT_DODGE] -= PreCogDodgeCosts[ent->methodOfDeath];
-					//[/ExpSys]
-				}
-				else if ( self->client->NPC_class != CLASS_BOBAFETT )
-				{//else, try to force-throw it away
-					//FIXME: check forcePushRadius[NPC->client->ps.forcePowerLevel[FP_PUSH]]
-					//racc - make sure that force push has been disabled
-					WP_ForcePowerStop(self, FP_PUSH);
-					ForceThrow( self, qfalse );
-					//[ExpSys]
-					G_DodgeDrain(self, &g_entities[ent->r.ownerNum], PreCogDodgeCosts[ent->methodOfDeath]);
-					//self->client->ps.stats[STAT_DODGE] -= PreCogDodgeCosts[ent->methodOfDeath];
-					//[/ExpSys]
-					//re-add the used up FP points since this should count as a DP cost only.
-					self->client->ps.fd.forcePower += forcePowerNeeded[self->client->ps.fd.forcePowerLevel[FP_PUSH]][FP_PUSH];
-				}
-			}
-			//[/DodgeSys]
-			//otherwise, can't block it, so we're screwed
-			continue;
-		}
-		*/
 		
 		if (!doFullRoutine)
 		{ //don't care about the rest then
@@ -7633,13 +7476,6 @@ void WP_SaberStartMissileBlockCheck( gentity_t *self, usercmd_t *ucmd  )
 				continue;
 		}
 		//[SaberSys]
-		/* racc - don't want this with the swing blocking
-		else if ( self->s.eType == ET_PLAYER )
-		{//player never auto-blocks thrown sabers
-			continue;
-		}//NPCs always try to block sabers coming from behind!
-		*/
-
 		//see if they're heading towards me
 		if(!swingBlock)
 		{
@@ -7648,13 +7484,6 @@ void WP_SaberStartMissileBlockCheck( gentity_t *self, usercmd_t *ucmd  )
 			if ( (dot2 = DotProduct( dir, missile_dir )) > 0 )
 				continue;
 		}
-
-		/* basejka
-		VectorCopy( ent->s.pos.trDelta, missile_dir );
-		VectorNormalize( missile_dir );
-		if ( (dot2 = DotProduct( dir, missile_dir )) > 0 )
-			continue;
-		*/
 		//[/SaberSys]
 
 		//FIXME: must have a clear trace to me, too...
