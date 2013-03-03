@@ -187,7 +187,7 @@ void ShieldGoSolid(gentity_t *self)
 	{ // get hard... huh-huh...
 		self->s.eFlags &= ~EF_NODRAW;
 
-		self->r.contents = CONTENTS_SOLID;
+		self->r.contents = CONTENTS_TRIGGER|CONTENTS_SHOTCLIP|CONTENTS_PLAYERCLIP|CONTENTS_MONSTERCLIP;//CONTENTS_SOLID;
 		self->nextthink = level.time + 1000;
 		self->think = ShieldThink;
 		self->takedamage = qtrue;
@@ -344,6 +344,9 @@ void CreateShield(gentity_t *ent)
 	}
 	ent->r.currentOrigin[2] += (height>>1);
 
+	//VectorCopy(  ent->r.currentOrigin ,ent->s.pos.trBase );
+    //ent->s.pos.trTime = level.time;
+
 	// set entity's mins and maxs to new values, make it solid, and link it
 	if (xaxis)
 	{
@@ -352,8 +355,8 @@ void CreateShield(gentity_t *ent)
 	}
 	else
 	{
-		VectorSet(ent->r.mins, -SHIELD_HALFTHICKNESS, -halfWidth, -(height>>1));
-		VectorSet(ent->r.maxs, SHIELD_HALFTHICKNESS, halfWidth, height);
+		//VectorSet(ent->r.mins, -SHIELD_HALFTHICKNESS, -halfWidth, -(height>>1));
+		//VectorSet(ent->r.maxs, SHIELD_HALFTHICKNESS, halfWidth, height);
 	}
 	ent->clipmask = MASK_SHOT;
 
@@ -397,7 +400,7 @@ void CreateShield(gentity_t *ent)
 	}
 	else
 	{	// Get solid.
-		ent->r.contents = CONTENTS_PLAYERCLIP|CONTENTS_SHOTCLIP;//CONTENTS_SOLID;
+		ent->r.contents = CONTENTS_SOLID;//CONTENTS_MONSTERCLIP|CONTENTS_PLAYERCLIP|CONTENTS_SHOTCLIP|CONTENTS_TERRAIN;//CONTENTS_SOLID;
 
 		ent->nextthink = level.time;
 		ent->think = ShieldThink;
@@ -452,11 +455,11 @@ qboolean PlaceShield(gentity_t *playerent)
 			// Figure out what direction the shield is facing.
 			if (fabs(fwd[0]) > fabs(fwd[1]))
 			{	// shield is north/south, facing east.
-				shield->s.angles[YAW] = 0;
+				shield->s.angles[YAW] = 0;//FINE
 			}
 			else
 			{	// shield is along the east/west axis, facing north
-				shield->s.angles[YAW] = 90;
+				shield->s.angles[YAW] = 90;//JERKY
 			}
 			shield->think = CreateShield;
 			shield->nextthink = level.time + 500;	// power up after .5 seconds
@@ -479,11 +482,13 @@ qboolean PlaceShield(gentity_t *playerent)
 			shield->s.groundEntityNum = tr.entityNum;
 
 			G_SetOrigin( shield, tr.endpos );
+			VectorCopy(  shield->r.currentOrigin , shield->s.pos.trBase );
+			shield->s.pos.trTime = level.time;
 
 			shield->s.eFlags &= ~EF_NODRAW;
 			shield->r.svFlags &= ~SVF_NOCLIENT;
 
-			trap_LinkEntity (shield);
+			//trap_LinkEntity (shield);
 
 			shield->s.owner = playerent->s.number;
 			shield->s.shouldtarget = qtrue;

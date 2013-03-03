@@ -1211,7 +1211,7 @@ qboolean OJP_CounterForce(gentity_t *attacker, gentity_t *defender, int attackPo
 
 	if(IsHybrid(defender))
 	{
-		defender->client->ps.userInt3 |= (1<<FLAG_BLOCKING);
+		defender->client->ps.userInt3 |= (1 << FLAG_BLOCKING);
 		defender->client->blockTime = level.time + 1000;
 	}
 	

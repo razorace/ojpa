@@ -3239,6 +3239,11 @@ static qboolean PM_CheckJump( void )
 //[LedgeGrab]
 qboolean LedgeTrace( trace_t *trace, vec3_t dir, float *lerpup, float *lerpfwd, float *lerpyaw)
 {//scan for for a ledge in the given direction
+
+	if (!(pm->cmd.buttons & BUTTON_USE)) {
+		return qfalse;
+	}
+	
 	vec3_t traceTo, traceFrom, wallangles;
 	VectorMA( pm->ps->origin, LEDGEGRABDISTANCE, dir, traceTo );
 	VectorCopy(pm->ps->origin, traceFrom);
@@ -3247,12 +3252,6 @@ qboolean LedgeTrace( trace_t *trace, vec3_t dir, float *lerpup, float *lerpfwd, 
 	traceTo[2] += LEDGEGRABMINHEIGHT;
 
 	pm->trace( trace, traceFrom, NULL, NULL, traceTo, pm->ps->clientNum, pm->tracemask );
-
-	//Raz - IMPORTANT - must be holding use
-	if (!(pm->cmd.buttons & BUTTON_USE))
-	{
-		return qfalse;
-	}
 
 	if(trace->fraction < 1 && LedgeGrabableEntity(trace->entityNum))
 	{//hit a wall, pop into the wall and fire down to find top of wall
@@ -5073,6 +5072,7 @@ static void PM_GroundTrace( void ) {
 	vec3_t		point;
 	trace_t		trace;
 	float minNormal = (float)MIN_WALK_NORMAL;
+	int iType;
 
 	if ( pm->ps->clientNum >= MAX_CLIENTS)
 	{
@@ -5093,8 +5093,9 @@ static void PM_GroundTrace( void ) {
 
 	// do something corrective if the trace starts in a solid...
 	if ( trace.allsolid ) {
-		if ( !PM_CorrectAllSolid(&trace) )
+		if ( !PM_CorrectAllSolid(&trace)) {
 			return;
+		}
 	}
 
 	//[JetpackSys]
@@ -13022,65 +13023,11 @@ void PmoveSingle (pmove_t *pmove) {
 			pm->ps->velocity[1] += Q_irand(-100, 100);
 		}
 
-		//[JetpackSys]
-		if (pm->cmd.upmove || pm->cmd.rightmove || pm->cmd.forwardmove /*&& pm->ps->velocity[2] < 256*/)
-		//if (pm->cmd.upmove > 0 && pm->ps->velocity[2] < 256)
-		//[/JetpackSys]
-		{ //cap upward velocity off at 256. Seems reasonable.
-			//[JetpackSys]
-			//float addIn = 12.0f;
-
-/*
-			//Add based on our distance to the ground if we're already travelling upward
-			if (pm->ps->velocity[2] > 0)
-			{
-				while (gDist > 64)
-				{ //subtract 1 for every 64 units off the ground we get
-					addIn--;
-
-					gDist -= 64;
-
-					if (addIn <= 0)
-					{ //break out if we're not even going to add anything
-						break;
-					}
-				}
-			}
-*/			
-			/*
-			if (pm->ps->velocity[2] > 0)
-			{
-				addIn = 12.0f - (gDist / 64.0f);
-			}
-
-			if (addIn > 0.0f)
-			{
-				pm->ps->velocity[2] += addIn;
-			}
-			*/
-			//[/JetpackSys]
-
+		if (pm->cmd.upmove || pm->cmd.rightmove || pm->cmd.forwardmove){
 			pm->ps->eFlags |= EF_JETPACK_FLAMING; //going up
 		}
-		else
-		{
+		else {
 			pm->ps->eFlags &= ~EF_JETPACK_FLAMING; //idling
-
-			//[JetpackSys]
-			/*
-			if (pm->ps->velocity[2] < 256)
-			{
-				if (pm->ps->velocity[2] < -100)
-				{
-					pm->ps->velocity[2] = -100;
-				}
-				if (gDist < JETPACK_HOVER_HEIGHT)
-				{ //make sure we're always hovering off the ground somewhat while jetpack is active
-					pm->ps->velocity[2] += 2;
-				}
-			}
-			*/
-			//[/JetpackSys]
 		}
 	}
 
@@ -13961,6 +13908,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 						{
 							anim = BOTH_GETUP1;
 						}
+						anim = PM_irand_timesync( BOTH_FORCE_GETUP_B1, BOTH_FORCE_GETUP_B6 );
 						break;
 					case BOTH_KNOCKDOWN2:
 					case BOTH_PLAYER_PA_3_FLY:
@@ -13979,6 +13927,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 						{
 							anim = BOTH_GETUP2;
 						}
+						anim = PM_irand_timesync( BOTH_FORCE_GETUP_F1, BOTH_FORCE_GETUP_F2 );
 						break;
 					case BOTH_DEATH6:
 					case BOTH_DEATH5:
@@ -13998,6 +13947,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 						{
 							anim = BOTH_GETUP3;
 						}
+						anim = PM_irand_timesync( BOTH_FORCE_GETUP_F1, BOTH_FORCE_GETUP_F2 );
 						break;
 					case BOTH_DEATH8:
 					case BOTH_KNOCKDOWN4:
@@ -14017,6 +13967,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 						{
 							anim = BOTH_GETUP4;
 						}
+						anim = PM_irand_timesync( BOTH_FORCE_GETUP_B1, BOTH_FORCE_GETUP_B6 );
 						break;
 					case BOTH_KNOCKDOWN5:
 					case BOTH_LK_DL_ST_T_SB_1_L:
@@ -14035,10 +13986,11 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 						{
 							anim = BOTH_GETUP5;
 						}
+						anim = PM_irand_timesync( BOTH_FORCE_GETUP_F1, BOTH_FORCE_GETUP_F2 );
 						break;
 					}
 					//Com_Printf( "getupanim = %s\n", animTable[anim].name );
-					if ( forceGetUp )
+					if ( true)
 					{//racc - using the Force to get up.
 #ifdef QAGAME
 						gentity_t *self = &g_entities[pm->ps->clientNum];
