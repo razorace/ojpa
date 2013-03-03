@@ -2458,8 +2458,37 @@ void UpdateClientDuel(gentity_t *ent, usercmd_t *ucmd) {
 	}
 }
 
-void UpdatePlayerStateFlags(gentity_t *ent) {
-	qboolean killJetFlags = qtrue;
+void UpdatePlayerMovementType(gentity_t *ent) {
+	if ( ent->client->noclip ) {
+		ent->client->ps.pm_type = PM_NOCLIP;
+	} else if ( ent->client->ps.eFlags & EF_DISINTEGRATION ) {
+		ent->client->ps.pm_type = PM_NOCLIP;
+	} else if ( ent->client->ps.stats[STAT_HEALTH] <= 0 ) {
+		ent->client->ps.pm_type = PM_DEAD;
+	} else if (ent->client->ps.forceGripChangeMovetype) {
+		ent->client->ps.pm_type = ent->client->ps.forceGripChangeMovetype;
+	} else if (ent->client->jetPackOn) {
+		ent->client->ps.pm_type = PM_JETPACK;
+	} else {
+		ent->client->ps.pm_type = PM_NORMAL;
+	}
+}
+
+void UpdatePlayerTimedFlags(gentity_t *ent) {
+	if(ent->client->frozenTime <= level.time && (ent->client->ps.userInt3 & (1 << FLAG_FROZEN))) {
+		ent->client->ps.userInt3 &= ~(1 << FLAG_FROZEN);
+	}
+
+	if (ent && ent->client && (ent->client->ps.eFlags & EF_INVULNERABLE)) {
+		if (ent->client->invulnerableTimer <= level.time) {
+			ent->client->ps.eFlags &= ~EF_INVULNERABLE;
+		}
+	}
+
+	if(ent->client->blockTime <= level.time && ent->client->blockTime > 0) {
+		ent->client->ps.userInt3 &= ~ (1 << FLAG_BLOCKING);
+		ent->client->blockTime = 0;
+	}
 
 	if (ent->client->pushEffectTime > level.time) {
 		ent->client->ps.eFlags |= EF_BODYPUSH;
@@ -2468,31 +2497,161 @@ void UpdatePlayerStateFlags(gentity_t *ent) {
 		ent->client->pushEffectTime = 0;
 		ent->client->ps.eFlags &= ~EF_BODYPUSH;
 	}
+}
 
-	if ( ent->client->noclip ) {
-		ent->client->ps.pm_type = PM_NOCLIP;
-	} else if ( ent->client->ps.eFlags & EF_DISINTEGRATION ) {
-		ent->client->ps.pm_type = PM_NOCLIP;
-	} else if ( ent->client->ps.stats[STAT_HEALTH] <= 0 ) {
-		ent->client->ps.pm_type = PM_DEAD;
-	} else {
-		if (ent->client->ps.forceGripChangeMovetype) {
-			ent->client->ps.pm_type = ent->client->ps.forceGripChangeMovetype;
-		}
-		else {
-			if (ent->client->jetPackOn) {
-				ent->client->ps.pm_type = PM_JETPACK;
-				killJetFlags = qfalse;
+void UpdateNPCSpeed(gentity_t *ent, usercmd_t *ucmd) {
+	const float SLOWDOWN_DIST = 128.0f;
+	const float	MIN_NPC_SPEED = 16.0f;
+
+	//FIXME: swoop should keep turning (and moving forward?) for a little bit?
+	if ( ent->NPC->combatMove == qfalse ) {
+		qboolean Flying = (qboolean)(ucmd->upmove && (ent->client->ps.eFlags2&EF2_FLYING));//ent->client->moveType == MT_FLYSWIM);
+		qboolean Climbing = (qboolean)(ucmd->upmove && ent->watertype&CONTENTS_LADDER );
+
+		if ( ucmd->forwardmove || ucmd->rightmove || Flying )
+		{
+			if ( ucmd->buttons & BUTTON_WALKING )
+			{
+				ent->NPC->desiredSpeed = NPC_GetWalkSpeed( ent );//ent->NPC->stats.walkSpeed;
 			}
-			else {
-				ent->client->ps.pm_type = PM_NORMAL;
+			else//running
+			{
+				ent->NPC->desiredSpeed = NPC_GetRunSpeed( ent );//ent->NPC->stats.runSpeed;
+			}
+
+			if ( ent->NPC->currentSpeed >= 80)
+			{//At higher speeds, need to slow down close to stuff
+				//Slow down as you approach your goal
+			//	if ( ent->NPC->distToGoal < SLOWDOWN_DIST && client->race != RACE_BORG && !(ent->NPC->aiFlags&NPCAI_NO_SLOWDOWN) )//128
+				if ( ent->NPC->distToGoal < SLOWDOWN_DIST && !(ent->NPC->aiFlags&NPCAI_NO_SLOWDOWN) )//128
+				{
+					if ( ent->NPC->desiredSpeed > MIN_NPC_SPEED )
+					{
+						float slowdownSpeed = ((float)ent->NPC->desiredSpeed) * ent->NPC->distToGoal / SLOWDOWN_DIST;
+
+						ent->NPC->desiredSpeed = ceil(slowdownSpeed);
+						if ( ent->NPC->desiredSpeed < MIN_NPC_SPEED )
+						{//don't slow down too much
+							ent->NPC->desiredSpeed = MIN_NPC_SPEED;
+						}
+					}
+				}
+			}
+		}
+		else if ( Climbing )
+		{
+			ent->NPC->desiredSpeed = ent->NPC->stats.walkSpeed;
+		}
+		else
+		{//We want to stop
+			ent->NPC->desiredSpeed = 0;
+		}
+
+		NPC_Accelerate( ent, qfalse, qfalse );
+
+		if ( ent->NPC->currentSpeed <= 24 && ent->NPC->desiredSpeed < ent->NPC->currentSpeed )
+		{//No-one walks this slow
+			ent->client->ps.speed = ent->NPC->currentSpeed = 0;//Full stop
+			ucmd->forwardmove = 0;
+			ucmd->rightmove = 0;
+		}
+		else
+		{
+			if ( ent->NPC->currentSpeed <= ent->NPC->stats.walkSpeed )
+			{//Play the walkanim
+				ucmd->buttons |= BUTTON_WALKING;
+			}
+			else
+			{
+				ucmd->buttons &= ~BUTTON_WALKING;
+			}
+
+			if ( ent->NPC->currentSpeed > 0 )
+			{//We should be moving
+				if ( Climbing || Flying )
+				{
+					if ( !ucmd->upmove )
+					{//We need to force them to take a couple more steps until stopped
+						ucmd->upmove = ent->NPC->last_ucmd.upmove;//was last_upmove;
+					}
+				}
+				else if ( !ucmd->forwardmove && !ucmd->rightmove )
+				{//We need to force them to take a couple more steps until stopped
+					ucmd->forwardmove = ent->NPC->last_ucmd.forwardmove;//was last_forwardmove;
+					ucmd->rightmove = ent->NPC->last_ucmd.rightmove;//was last_rightmove;
+				}
+			}
+
+			ent->client->ps.speed = ent->NPC->currentSpeed;
+			//rwwFIXMEFIXME: do this and also check for all real client
+			float turndelta = (180 - fabs( AngleDelta( ent->r.currentAngles[YAW], ent->NPC->desiredYaw ) ))/180;
+												
+			if ( turndelta < 0.75f ) {
+				ent->client->ps.speed = 0;
+			}
+			else if ( ent->NPC->distToGoal < 100 && turndelta < 1.0 )
+			{//Turn is greater than 45 degrees or closer than 100 to goal
+				ent->client->ps.speed = floor(((float)(ent->client->ps.speed)) * turndelta);
 			}
 		}
 	}
+	else
+	{	
+		ent->NPC->desiredSpeed = ( ucmd->buttons & BUTTON_WALKING ) ? NPC_GetWalkSpeed( ent ) : NPC_GetRunSpeed( ent );
 
-	if (killJetFlags) {
-		ent->client->ps.eFlags &= ~EF_JETPACK_FLAMING;
+		ent->client->ps.speed = ent->NPC->desiredSpeed;
 	}
+		
+	//[CoOp]
+	//add case to prevent NPCs from getting their ucmds halved
+	if (ucmd->buttons & BUTTON_WALKING && ent->s.eType != ET_NPC)
+	//if (ucmd->buttons & BUTTON_WALKING)
+	//[/CoOp]
+	{ //sort of a hack I guess since MP handles walking differently from SP (has some proxy cheat prevention methods)
+
+		if (ucmd->forwardmove > 64) {
+			ucmd->forwardmove = 64;	
+		}
+		else if (ucmd->forwardmove < -64) {
+			ucmd->forwardmove = -64;
+		}
+			
+		if (ucmd->rightmove > 64) {
+			ucmd->rightmove = 64;
+		}
+		else if ( ucmd->rightmove < -64) {
+			ucmd->rightmove = -64;
+		}
+	}
+
+	ent->client->ps.basespeed = ent->client->ps.speed;
+}
+
+void UpdatePlayerSpeed(gentity_t *ent) {
+		// set speed
+	if(ent->client->ps.userInt3 & (1<<FLAG_FROZEN)) {
+		ent->client->ps.speed = 0;
+	}
+	else if((ent->client->ps.fd.forcePowersActive & (1 << FP_LEVITATION))) {
+		ent->client->ps.speed = g_speed.value /(3);
+	}
+	else if(ent->client->ps.eFlags & EF_WALK ) {
+		ent->client->ps.speed = g_speed.value / (2);
+	}
+	else {
+		ent->client->ps.speed = g_speed.value;
+	}
+
+	if (g_gametype.integer == GT_SIEGE && ent->client->siegeClass != -1) {
+		ent->client->ps.speed *= bgSiegeClasses[ent->client->siegeClass].speed;
+	}
+
+	if (ent->client->bodyGrabIndex != ENTITYNUM_NONE)
+	{ //can't go nearly as fast when dragging a body around
+		ent->client->ps.speed *= 0.2f;
+	}
+
+	ent->client->ps.basespeed = ent->client->ps.speed;
 }
 
 /*
@@ -2521,7 +2680,6 @@ void ClientThink_real( gentity_t *ent ) {
 	int			oldEventSequence;
 	int			msec;
 	usercmd_t	*ucmd;
-	qboolean	controlledByPlayer = qfalse;
 	gclient_t	*client = ent->client;
 	qboolean	isNPC = (qboolean)(ent->s.eType == ET_NPC);
 
@@ -2566,13 +2724,9 @@ void ClientThink_real( gentity_t *ent ) {
 	//
 	// check for exiting intermission
 	//
-	if ( level.intermissiontime ) {
-		if ( ent->s.number < MAX_CLIENTS
-			|| client->NPC_class == CLASS_VEHICLE )
-		{//players and vehicles do nothing in intermissions
-			ClientIntermissionThink( client );
-			return;
-		}
+	if ( level.intermissiontime && (ent->s.number < MAX_CLIENTS || client->NPC_class == CLASS_VEHICLE)) {
+		ClientIntermissionThink( client );
+		return;
 	}
 
 	// spectators don't do much
@@ -2592,21 +2746,12 @@ void ClientThink_real( gentity_t *ent ) {
 	if ( client && (client->ps.eFlags2 & EF2_HELD_BY_MONSTER) ) {
 		G_HeldByMonster( ent, &ucmd );
 	}
-
-	if(ent->client->blockTime <= level.time && ent->client->blockTime > 0) {
-		ent->client->ps.userInt3 &= ~ (1 << FLAG_BLOCKING);
-		ent->client->blockTime = 0;
-	}
 	
 	UpdateTimedForcePowers(ent);
 
 	if(ent->client->isHacking == -100 && ent->client->ps.hackingTime <= level.time) {
 		ItemUse_Sentry2(ent);
 		ent->client->isHacking = qfalse;
-	}
-
-	if(ent->client->frozenTime <= level.time && (ent->client->ps.userInt3 & (1 << FLAG_FROZEN))) {
-		ent->client->ps.userInt3 &= ~(1 << FLAG_FROZEN);
 	}
 
 	if(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON1) {
@@ -2763,12 +2908,6 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 	//[/CoOp]
 
-	if (ent && ent->client && (ent->client->ps.eFlags & EF_INVULNERABLE)) {
-		if (ent->client->invulnerableTimer <= level.time) {
-			ent->client->ps.eFlags &= ~EF_INVULNERABLE;
-		}
-	}
-
 	if (ent->s.eType != ET_NPC) {
 		// check for inactivity timer, but never drop the local client of a non-dedicated server
 		if ( IsClientInactive( client ) ) {
@@ -2788,24 +2927,20 @@ void ClientThink_real( gentity_t *ent ) {
 	//[/ExpSys]
 
 
-	UpdatePlayerStateFlags(ent);
+	UpdatePlayerMovementType(ent);
+	UpdatePlayerTimedFlags(ent);
 
-
-#define	SLOWDOWN_DIST	128.0f
-#define	MIN_NPC_SPEED	16.0f
-
-	if (client->bodyGrabIndex != ENTITYNUM_NONE)
-	{
+	if (client->bodyGrabIndex != ENTITYNUM_NONE) {
 		gentity_t *grabbed = &g_entities[client->bodyGrabIndex];
 
 		if (!grabbed->inuse || grabbed->s.eType != ET_BODY ||
 			(grabbed->s.eFlags & EF_DISINTEGRATION) ||
 			(grabbed->s.eFlags & EF_NODRAW))
 		{
-			if (grabbed->inuse && grabbed->s.eType == ET_BODY)
-			{
+			if (grabbed->inuse && grabbed->s.eType == ET_BODY) {
 				grabbed->s.ragAttach = 0;
 			}
+
 			client->bodyGrabIndex = ENTITYNUM_NONE;
 		}
 		else
@@ -2838,7 +2973,6 @@ void ClientThink_real( gentity_t *ent ) {
 			else if (bodyDist > 24.0f)
 			{
 				bodyDir[2] = 0; //don't want it floating
-				//VectorScale(bodyDir, 0.1f, bodyDir);
 				VectorAdd(grabbed->epVelocity, bodyDir, grabbed->epVelocity);
 				G_Sound(grabbed, CHAN_AUTO, G_SoundIndex("sound/player/roll1.wav"));
 			}
@@ -2851,160 +2985,12 @@ void ClientThink_real( gentity_t *ent ) {
 	
 	if (ent->NPC && ent->s.NPC_class != CLASS_VEHICLE) //vehicles manage their own speed
 	{
-		//FIXME: swoop should keep turning (and moving forward?) for a little bit?
-		if ( ent->NPC->combatMove == qfalse ) {
-			qboolean Flying = (qboolean)(ucmd->upmove && (ent->client->ps.eFlags2&EF2_FLYING));//ent->client->moveType == MT_FLYSWIM);
-			qboolean Climbing = (qboolean)(ucmd->upmove && ent->watertype&CONTENTS_LADDER );
-
-			//client->ps.friction = 6;
-
-			if ( ucmd->forwardmove || ucmd->rightmove || Flying )
-			{
-				//if ( ent->NPC->behaviorState != BS_FORMATION )
-				{//In - Formation NPCs set thier desiredSpeed themselves
-					if ( ucmd->buttons & BUTTON_WALKING )
-					{
-						ent->NPC->desiredSpeed = NPC_GetWalkSpeed( ent );//ent->NPC->stats.walkSpeed;
-					}
-					else//running
-					{
-						ent->NPC->desiredSpeed = NPC_GetRunSpeed( ent );//ent->NPC->stats.runSpeed;
-					}
-
-					if ( ent->NPC->currentSpeed >= 80 && !controlledByPlayer )
-					{//At higher speeds, need to slow down close to stuff
-						//Slow down as you approach your goal
-					//	if ( ent->NPC->distToGoal < SLOWDOWN_DIST && client->race != RACE_BORG && !(ent->NPC->aiFlags&NPCAI_NO_SLOWDOWN) )//128
-						if ( ent->NPC->distToGoal < SLOWDOWN_DIST && !(ent->NPC->aiFlags&NPCAI_NO_SLOWDOWN) )//128
-						{
-							if ( ent->NPC->desiredSpeed > MIN_NPC_SPEED )
-							{
-								float slowdownSpeed = ((float)ent->NPC->desiredSpeed) * ent->NPC->distToGoal / SLOWDOWN_DIST;
-
-								ent->NPC->desiredSpeed = ceil(slowdownSpeed);
-								if ( ent->NPC->desiredSpeed < MIN_NPC_SPEED )
-								{//don't slow down too much
-									ent->NPC->desiredSpeed = MIN_NPC_SPEED;
-								}
-							}
-						}
-					}
-				}
-			}
-			else if ( Climbing )
-			{
-				ent->NPC->desiredSpeed = ent->NPC->stats.walkSpeed;
-			}
-			else
-			{//We want to stop
-				ent->NPC->desiredSpeed = 0;
-			}
-
-			NPC_Accelerate( ent, qfalse, qfalse );
-
-			if ( ent->NPC->currentSpeed <= 24 && ent->NPC->desiredSpeed < ent->NPC->currentSpeed )
-			{//No-one walks this slow
-				client->ps.speed = ent->NPC->currentSpeed = 0;//Full stop
-				ucmd->forwardmove = 0;
-				ucmd->rightmove = 0;
-			}
-			else
-			{
-				if ( ent->NPC->currentSpeed <= ent->NPC->stats.walkSpeed )
-				{//Play the walkanim
-					ucmd->buttons |= BUTTON_WALKING;
-				}
-				else
-				{
-					ucmd->buttons &= ~BUTTON_WALKING;
-				}
-
-				if ( ent->NPC->currentSpeed > 0 )
-				{//We should be moving
-					if ( Climbing || Flying )
-					{
-						if ( !ucmd->upmove )
-						{//We need to force them to take a couple more steps until stopped
-							ucmd->upmove = ent->NPC->last_ucmd.upmove;//was last_upmove;
-						}
-					}
-					else if ( !ucmd->forwardmove && !ucmd->rightmove )
-					{//We need to force them to take a couple more steps until stopped
-						ucmd->forwardmove = ent->NPC->last_ucmd.forwardmove;//was last_forwardmove;
-						ucmd->rightmove = ent->NPC->last_ucmd.rightmove;//was last_rightmove;
-					}
-				}
-
-				client->ps.speed = ent->NPC->currentSpeed;
-				//rwwFIXMEFIXME: do this and also check for all real client
-				float turndelta = (180 - fabs( AngleDelta( ent->r.currentAngles[YAW], ent->NPC->desiredYaw ) ))/180;
-												
-				if ( turndelta < 0.75f ) {
-					client->ps.speed = 0;
-				}
-				else if ( ent->NPC->distToGoal < 100 && turndelta < 1.0 )
-				{//Turn is greater than 45 degrees or closer than 100 to goal
-					client->ps.speed = floor(((float)(client->ps.speed))*turndelta);
-				}
-			}
-		}
-		else
-		{	
-			ent->NPC->desiredSpeed = ( ucmd->buttons & BUTTON_WALKING ) ? NPC_GetWalkSpeed( ent ) : NPC_GetRunSpeed( ent );
-
-			client->ps.speed = ent->NPC->desiredSpeed;
-		}
-		
-		//[CoOp]
-		//add case to prevent NPCs from getting their ucmds halved
-		if (ucmd->buttons & BUTTON_WALKING && ent->s.eType != ET_NPC)
-		//if (ucmd->buttons & BUTTON_WALKING)
-		//[/CoOp]
-		{ //sort of a hack I guess since MP handles walking differently from SP (has some proxy cheat prevention methods)
-
-			if (ucmd->forwardmove > 64) {
-				ucmd->forwardmove = 64;	
-			}
-			else if (ucmd->forwardmove < -64) {
-				ucmd->forwardmove = -64;
-			}
-			
-			if (ucmd->rightmove > 64) {
-				ucmd->rightmove = 64;
-			}
-			else if ( ucmd->rightmove < -64) {
-				ucmd->rightmove = -64;
-			}
-		}
-
-		client->ps.basespeed = client->ps.speed;
+		UpdateNPCSpeed(ent, ucmd);
 	}
 	else if (!client->ps.m_iVehicleNum &&
 		(!ent->NPC || ent->s.NPC_class != CLASS_VEHICLE)) //if riding a vehicle it will manage our speed and such
 	{
-		// set speed
-		if(ent->client->ps.userInt3 & (1<<FLAG_FROZEN))
-			client->ps.speed = 0;
-		else if((ent->client->ps.fd.forcePowersActive & (1 << FP_LEVITATION)))
-			client->ps.speed = g_speed.value /(3);
-		else if(ent->client->ps.eFlags & EF_WALK )
-			client->ps.speed = g_speed.value / (2);
-		else
-			client->ps.speed = g_speed.value;
-
-		//Check for a siege class speed multiplier
-		if (g_gametype.integer == GT_SIEGE &&
-			client->siegeClass != -1)
-		{
-			client->ps.speed *= bgSiegeClasses[client->siegeClass].speed;
-		}
-
-		if (client->bodyGrabIndex != ENTITYNUM_NONE)
-		{ //can't go nearly as fast when dragging a body around
-			client->ps.speed *= 0.2f;
-		}
-
-		client->ps.basespeed = client->ps.speed;
+		UpdatePlayerSpeed(ent);
 	}
 
 	if ( !ent->NPC || !(ent->NPC->aiFlags&NPCAI_CUSTOM_GRAVITY) )
@@ -3043,25 +3029,21 @@ void ClientThink_real( gentity_t *ent ) {
 		UpdateClientDuel(ent, ucmd);
 	}
 
-	if (ent->client->doingThrow > level.time)
-	{
+	if (ent->client->doingThrow > level.time) {
 		gentity_t *throwee = &g_entities[ent->client->throwingIndex];
 
 		if (!throwee->inuse || !throwee->client || throwee->health < 1 ||
 			throwee->client->sess.sessionTeam == TEAM_SPECTATOR ||
 			(throwee->client->ps.pm_flags & PMF_FOLLOW) ||
-			throwee->client->throwingIndex != ent->s.number)
-		{
+			throwee->client->throwingIndex != ent->s.number) {
 			ent->client->doingThrow = 0;
 			ent->client->ps.forceHandExtend = HANDEXTEND_NONE;
 
-			if (throwee->inuse && throwee->client)
-			{
+			if (throwee->inuse && throwee->client) {
 				throwee->client->ps.heldByClient = 0;
 				throwee->client->beingThrown = 0;
 
-				if (throwee->client->ps.forceHandExtend != HANDEXTEND_POSTTHROWN)
-				{
+				if (throwee->client->ps.forceHandExtend != HANDEXTEND_POSTTHROWN) {
 					throwee->client->ps.forceHandExtend = HANDEXTEND_NONE;
 				}
 			}
@@ -3117,7 +3099,6 @@ void ClientThink_real( gentity_t *ent ) {
 				boltOrg[0] = pBoltOrg[0] + fwd[0]*8 + right[0]*pDif;
 				boltOrg[1] = pBoltOrg[1] + fwd[1]*8 + right[1]*pDif;
 				boltOrg[2] = pBoltOrg[2];
-				//G_TestLine(boltOrg, pBoltOrg, 0x0000ff, 50);
 
 				VectorSubtract(ent->client->ps.origin, boltOrg, vDif);
 				if (VectorLength(vDif) > 32.0f && (thrower->client->doingThrow - level.time) < 4500)
@@ -3814,8 +3795,6 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 		if ( clientNum >= 0 ) {
 			cl = &level.clients[ clientNum ];
 			if ( cl->pers.connected == CON_CONNECTED && cl->sess.sessionTeam != TEAM_SPECTATOR ) {
-				//flags = (cl->mGameFlags & ~(PSG_VOTED | PSG_TEAMVOTED)) | (ent->client->mGameFlags & (PSG_VOTED | PSG_TEAMVOTED));
-				//ent->client->mGameFlags = flags;
 				ent->client->ps.eFlags = cl->ps.eFlags;
 				ent->client->ps = cl->ps;
 				ent->client->ps.pm_flags |= PMF_FOLLOW;
@@ -3907,16 +3886,11 @@ void ClientEndFrame( gentity_t *ent ) {
 		BG_PlayerStateToEntityState( &ent->client->ps, &ent->s, qfalse );
 	}
 
-	if (isNPC)
-	{
+	if (isNPC) {
 		ent->s.eType = ET_NPC;
 	}
 
 	SendPendingPredictableEvents( &ent->client->ps );
-
-	// set the bit for the reachability area the client is currently in
-//	i = trap_AAS_PointReachabilityAreaIndex( ent->client->ps.origin );
-//	ent->client->areabits[i >> 3] |= 1 << (i & 7);
 }
 
 
