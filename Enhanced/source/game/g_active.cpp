@@ -1564,7 +1564,7 @@ static int NPC_GetRunSpeed( gentity_t *ent )
 
 //Seems like a slightly less than ideal method for this, could it be done on the client?
 extern qboolean FlyingCreature( gentity_t *ent );
-void G_CheckMovingLoopingSounds( gentity_t *ent, usercmd_t *ucmd )
+void G_UpdateMovingLoopingSounds( gentity_t *ent, usercmd_t *ucmd )
 {
 	if ( ent->client )
 	{
@@ -3200,37 +3200,20 @@ void ClientThink_real( gentity_t *ent ) {
 		ent->client->ps.heldByClient = 0;
 	}
 
-	// set up for pmove
-	oldEventSequence = client->ps.eventSequence;
-
-	memset (&pm, 0, sizeof(pm));
-
-	if ( ent->flags & FL_FORCE_GESTURE ) {
-		ent->flags &= ~FL_FORCE_GESTURE;
-		ent->client->pers.cmd.buttons |= BUTTON_GESTURE;
-	}
-
-	if (ent->client && ent->client->ps.fallingToDeath &&
-		//[CoOp]
-		//[SuperDindon]
-		(level.time - FALL_FADE_TIME) > ent->client->ps.fallingToDeath &&
-		!ent->noFallDamage)
-		//(level.time - FALL_FADE_TIME) > ent->client->ps.fallingToDeath)
-		//[/CoOp]
+	if (ent->client && ent->client->ps.fallingToDeath && !ent->noFallDamage &&
+		(level.time - FALL_FADE_TIME) > ent->client->ps.fallingToDeath)
 	{ //die!
-		if (ent->health > 0)
-		{
+		if (ent->health > 0) {
 			gentity_t *otherKiller = ent;
 			if (ent->client->ps.otherKillerTime > level.time &&
-				ent->client->ps.otherKiller != ENTITYNUM_NONE)
-			{
+				ent->client->ps.otherKiller != ENTITYNUM_NONE) {
 				otherKiller = &g_entities[ent->client->ps.otherKiller];
 
-				if (!otherKiller->inuse)
-				{
+				if (!otherKiller->inuse) {
 					otherKiller = ent;
 				}
 			}
+
 			G_Damage(ent, otherKiller, otherKiller, NULL, ent->client->ps.origin, 9999, DAMAGE_NO_PROTECTION, MOD_FALLING);
 
 			G_MuteSound(ent->s.number, CHAN_VOICE); //stop screaming, because you are dead!
@@ -3260,11 +3243,16 @@ void ClientThink_real( gentity_t *ent ) {
 		ucmd->buttons &= ~BUTTON_USE;
 	}
 
+	// set up for pmove
+	oldEventSequence = client->ps.eventSequence;
+
+	memset (&pm, 0, sizeof(pm));
+
 	//FIXME: need to do this before check to avoid walls and cliffs (or just cliffs?)
 	G_AddPushVecToUcmd( ent, ucmd );
 
 	//play/stop any looping sounds tied to controlled movement
-	G_CheckMovingLoopingSounds( ent, ucmd );
+	G_UpdateMovingLoopingSounds( ent, ucmd );
 
 	pm.ps = &client->ps;
 	pm.cmd = *ucmd;
@@ -3525,10 +3513,6 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 
 	SendPendingPredictableEvents( &ent->client->ps );
-
-	if ( !( ent->client->ps.eFlags & EF_FIRING ) ) {
-		client->fireHeld = qfalse;		// for grapple
-	}
 
 	// use the snapped origin for linking so it matches client predicted versions
 	VectorCopy( ent->s.pos.trBase, ent->r.currentOrigin );
