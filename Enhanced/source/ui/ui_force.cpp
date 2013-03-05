@@ -808,6 +808,7 @@ void UpdateForceUsed()
 
 	//[ExpSys]
 	menu = Menus_FindByName("ingame_playerforce");
+	
 	//Made Force Seeing Level 1 a pre-req to taking any additional force powers, except in the case of free sabers.
 	if(uiRank[FP_SEE].uiForcePowersRank <= FORCE_LEVEL_0)
 	{//can't use the force if we aren't Force sensitive.
