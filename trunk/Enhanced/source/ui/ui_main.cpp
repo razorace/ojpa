@@ -10529,7 +10529,7 @@ void _UI_Init( qboolean inGameLoad ) {
 		UI_LoadMenus("ui/jampingame.txt", qtrue);
 		//[CoOp]
 		//load the SP menu files as well.
-		UI_LoadMenus("ui/menutest.txt", qfalse);
+		UI_LoadMenus("ui/mmenutest.txt", qfalse);
 		//UI_LoadMenus("ui/ingame.txt", qfalse);
 		//[/CoOp]
 	}

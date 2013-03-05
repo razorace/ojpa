@@ -4,10 +4,10 @@
     <LocalDebuggerCommand>C:\Program Files (x86)\LucasArts\Star Wars Jedi Knight Jedi Academy\GameData\jamp.exe</LocalDebuggerCommand>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerCommandArguments>+set fs_cdpath "C:\Program Files (x86)\LucasArts\Star Wars Jedi Knight Jedi Academy\GameData" +set fs_dirbeforepak 1 +set sv_pure 0 +set r_fullscreen 0 +set viewlog 1 +set fs_game jke</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>+set fs_cdpath "C:\Program Files (x86)\LucasArts\Star Wars Jedi Knight Jedi Academy\GameData" +set fs_dirbeforepak 1 +set sv_pure 0 +set r_fullscreen 0 +set viewlog 1 +set fs_game "jke"</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerWorkingDirectory>..\..\jke</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>..\..\</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

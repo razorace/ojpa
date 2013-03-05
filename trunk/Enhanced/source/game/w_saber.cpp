@@ -9785,7 +9785,7 @@ static gentity_t *G_KickTrace( gentity_t *ent, vec3_t kickDir, float kickDist, v
 	VectorSet(kickMins, -4.0f, -4.0f, -4.0f);
 	VectorSet(kickMaxs, 4.0f, 4.0f, 4.0f);
 	//FIXME: variable kick height?
-	if ( kickEnd && !VectorCompare( kickEnd, vec3_origin ) )
+	if ( kickEnd && !VectorCompare( kickEnd, vec3_origin ))
 	{//they passed us the end point of the trace, just use that
 		//this makes the trace flat
 		VectorSet( traceOrg, ent->r.currentOrigin[0], ent->r.currentOrigin[1], kickEnd[2] );
@@ -9809,7 +9809,7 @@ static gentity_t *G_KickTrace( gentity_t *ent, vec3_t kickDir, float kickDist, v
 
 
 
-	//G_TestLine(traceOrg, traceEnd, 0x0000ff, 5000);
+	G_TestLine(traceOrg, traceEnd, 0x0000ff, 5000);
 	//[SaberSys]
 	/* racc - debug message
 	if(trace.startsolid || trace.allsolid)
@@ -10192,7 +10192,7 @@ static void G_KickSomeMofos(gentity_t *ent)
 			break;
 		case BOTH_A7_KICK_F:
 			//FIXME: push forward?
-			if ( elapsedTime >= 250 && remainingTime >= 250 )
+			if ( elapsedTime >= 290 && remainingTime >= 100 )//250,250
 			{//front
 				doKick = qtrue;
 				if ( ri->footRBolt != -1 )

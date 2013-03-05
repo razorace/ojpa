@@ -187,7 +187,8 @@ void ShieldGoSolid(gentity_t *self)
 	{ // get hard... huh-huh...
 		self->s.eFlags &= ~EF_NODRAW;
 
-		self->r.contents = CONTENTS_TRIGGER|CONTENTS_SHOTCLIP|CONTENTS_PLAYERCLIP|CONTENTS_MONSTERCLIP;//CONTENTS_SOLID;
+		//self->r.contents = CONTENTS_TRIGGER|CONTENTS_SHOTCLIP|CONTENTS_PLAYERCLIP|CONTENTS_MONSTERCLIP;//CONTENTS_SOLID;
+		self->r.contents = CONTENTS_SOLID;
 		self->nextthink = level.time + 1000;
 		self->think = ShieldThink;
 		self->takedamage = qtrue;
