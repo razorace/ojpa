@@ -835,114 +835,6 @@ int saberMoveTransitionAngle[Q_NUM_QUADS][Q_NUM_QUADS] =
 	0//Q_B,Q_B,
 };
 
-//[SaberSys]
-//racc - removing the attack chain (kata) stuff.  The OJP saber code now handles it.
-/*
-int PM_SaberAttackChainAngle( int move1, int move2 )
-{
-	if ( move1 == -1 || move2 == -1 )
-	{
-		return -1;
-	}
-	return saberMoveTransitionAngle[saberMoveData[move1].endQuad][saberMoveData[move2].startQuad];
-}
-
-qboolean PM_SaberKataDone(int curmove, int newmove)
-{
-	if (pm->ps->m_iVehicleNum)
-	{ //never continue kata on vehicle
-		if (pm->ps->saberAttackChainCount > 0)
-		{
-			return qtrue;
-		}
-	}
-
-	if ( pm->ps->fd.saberAnimLevel == SS_DESANN || pm->ps->fd.saberAnimLevel == SS_TAVION )
-	{//desann and tavion can link up as many attacks as they want
-		return qfalse;
-	}
-
-	if ( pm->ps->fd.saberAnimLevel == SS_STAFF )
-	{
-		//TEMP: for now, let staff attacks infinitely chain
-		return qfalse;
-	}
-	else if ( pm->ps->fd.saberAnimLevel == SS_DUAL )
-	{
-		//TEMP: for now, let staff attacks infinitely chain
-		return qfalse;
-	}
-	else if ( pm->ps->fd.saberAnimLevel == FORCE_LEVEL_3 )
-	{
-		if ( curmove == LS_NONE || newmove == LS_NONE )
-		{
-			if ( pm->ps->fd.saberAnimLevel >= FORCE_LEVEL_3 && pm->ps->saberAttackChainCount > PM_irand_timesync( 0, 1 ) )
-			{
-				return qtrue;
-			}
-		}
-		else if ( pm->ps->saberAttackChainCount > PM_irand_timesync( 2, 3 ) )
-		{
-			return qtrue;
-		}
-		else if ( pm->ps->saberAttackChainCount > 0 )
-		{
-			int chainAngle = PM_SaberAttackChainAngle( curmove, newmove );
-			if ( chainAngle < 135 || chainAngle > 215 )
-			{//if trying to chain to a move that doesn't continue the momentum
-				return qtrue;
-			}
-			else if ( chainAngle == 180 )
-			{//continues the momentum perfectly, allow it to chain 66% of the time
-				if ( pm->ps->saberAttackChainCount > 1 )
-				{
-					return qtrue;
-				}
-			}
-			else
-			{//would continue the movement somewhat, 50% chance of continuing
-				if ( pm->ps->saberAttackChainCount > 2 )
-				{
-					return qtrue;
-				}
-			}
-		}
-	}
-	else 
-	{//Perhaps have chainAngle influence fast and medium chains as well? For now, just do level 3.
-		if (newmove == LS_A_TL2BR ||
-			newmove == LS_A_L2R ||
-			newmove == LS_A_BL2TR ||
-			newmove == LS_A_BR2TL ||
-			newmove == LS_A_R2L ||
-			newmove == LS_A_TR2BL )
-		{ //lower chaining tolerance for spinning saber anims
-			int chainTolerance;
-
-			if (pm->ps->fd.saberAnimLevel == FORCE_LEVEL_1)
-			{
-				chainTolerance = 5;
-			}
-			else
-			{
-				chainTolerance = 3;
-			}
-
-			if (pm->ps->saberAttackChainCount >= chainTolerance && PM_irand_timesync(1, pm->ps->saberAttackChainCount) > chainTolerance)
-			{
-				return qtrue;
-			}
-		}
-		if ( pm->ps->fd.saberAnimLevel == FORCE_LEVEL_2 && pm->ps->saberAttackChainCount > PM_irand_timesync( 2, 5 ) )
-		{
-			return qtrue;
-		}
-	}
-	return qfalse;
-}
-*/
-//[/SaberSys]
-
 void PM_SetAnimFrame( playerState_t *gent, int frame, qboolean torso, qboolean legs )
 {
 	gent->saberLockFrame = frame;
@@ -954,12 +846,6 @@ int PM_SaberLockWinAnim( qboolean victory, qboolean superBreak )
 	int winAnim = -1;
 	switch ( pm->ps->torsoAnim )
 	{
-/*
-	default:
-#ifndef FINAL_BUILD
-		Com_Printf( S_COLOR_RED"ERROR-PM_SaberLockBreak: %s not in saberlock anim, anim = (%d)%s\n", pm->gent->NPC_type, pm->ps->torsoAnim, animTable[pm->ps->torsoAnim].name );
-#endif
-*/
 	case BOTH_BF2LOCK:
 		if ( superBreak )
 		{
@@ -1032,23 +918,7 @@ int PM_SaberLockWinAnim( qboolean victory, qboolean superBreak )
 		pm->ps->weaponTime = pm->ps->torsoTimer;
 		pm->ps->saberBlocked = BLOCKED_NONE;
 		pm->ps->weaponstate = WEAPON_FIRING;
-		/*
-		if ( superBreak 
-			&& winAnim != BOTH_LK_ST_DL_T_SB_1_W )
-		{//going to attack with saber, do a saber trail
-			pm->ps->SaberActivateTrail( 200 );
-		}
-		*/
 	}
-
-//[SaberLockSys]
-/*
-#ifdef QAGAME
-	G_Printf("%i: %i:  SaberLock Win Animation TorsoTime %i LegsTimer %i\n", level.time, 
-		pm->ps->clientNum, pm->ps->torsoTimer, pm->ps->legsTimer);
-#endif
-*/
-//[/SaberLockSys]
 
 	return winAnim;
 }
@@ -1062,10 +932,6 @@ extern void PM_DoPunch(void);
 
 #ifdef QAGAME //including game headers on cgame is FORBIDDEN ^_^
 
-//[SaberLockSys]
-//moved this up to allow for additional debugger messages.
-//#include "g_local.h"
-//[/SaberLockSys]
 extern void NPC_SetAnim(gentity_t *ent, int setAnimParts, int anim, int setAnimFlags);
 extern gentity_t g_entities[];
 
@@ -1086,12 +952,6 @@ int PM_SaberLockLoseAnim( playerState_t *genemy, qboolean victory, qboolean supe
 	int loseAnim = -1;
 	switch ( genemy->torsoAnim )
 	{
-/*
-	default:
-#ifndef FINAL_BUILD
-		Com_Printf( S_COLOR_RED"ERROR-PM_SaberLockBreak: %s not in saberlock anim, anim = (%d)%s\n", genemy->NPC_type, genemy->client->ps.torsoAnim, animTable[genemy->client->ps.torsoAnim].name );
-#endif
-*/
 	case BOTH_BF2LOCK:
 		if ( superBreak )
 		{
@@ -1158,11 +1018,6 @@ int PM_SaberLockLoseAnim( playerState_t *genemy, qboolean victory, qboolean supe
 				genemy->saberMove = LS_V1_BL;//genemy->saberBounceMove = 
 				genemy->saberBlocked = BLOCKED_PARRY_BROKEN;
 				loseAnim = BOTH_V1_BL_S1;
-				/*
-				genemy->client->ps.saberMove = genemy->client->ps.saberBounceMove = LS_H1_BR;
-				genemy->client->ps.saberBlocked = BLOCKED_PARRY_BROKEN;
-				loseAnim = BOTH_H1_S1_BL;
-				*/
 			}
 		}
 		break;
@@ -1188,11 +1043,6 @@ int PM_SaberLockLoseAnim( playerState_t *genemy, qboolean victory, qboolean supe
 				genemy->saberMove = LS_V1_BR;//genemy->saberBounceMove = 
 				genemy->saberBlocked = BLOCKED_PARRY_BROKEN;
 				loseAnim = BOTH_V1_BR_S1;
-				/*
-				genemy->client->ps.saberMove = genemy->client->ps.saberBounceMove = LS_H1_BL;
-				genemy->client->ps.saberBlocked = BLOCKED_PARRY_BROKEN;
-				loseAnim = BOTH_H1_S1_BR;
-				*/
 			}
 		}
 		break;

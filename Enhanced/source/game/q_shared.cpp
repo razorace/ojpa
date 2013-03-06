@@ -1286,6 +1286,15 @@ char *Info_ValueForKey( const char *s, const char *key ) {
 	return "";
 }
 
+int Info_ColorForKey(const char *s, const char *key) {
+	char *value = Info_ValueForKey (s, key);
+	if (value) {
+		return atoi(value);
+	}
+
+	return 255;
+}
+
 
 /*
 ===================
