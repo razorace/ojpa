@@ -2886,19 +2886,11 @@ void ClientBegin( int clientNum, qboolean allowTeamReset ) {
 	G_ClearClientLog(clientNum);
 }
 
-//[MOREFORCEOPTIONS]
-qboolean AllForceDisabled(int force)
-//static qboolean AllForceDisabled(int force)
-//[/MOREFORCEOPTIONS]
-{
-	int i;
-
-	if (force)
-	{
-		for (i=0;i<NUM_FORCE_POWERS;i++)
-		{
-			if (!(force & (1<<i)))
-			{
+qboolean AllForceDisabled() {
+	int force = g_forcePowerDisable.integer;
+	if (force) {
+		for (int i = 0; i < NUM_FORCE_POWERS; i++) {
+			if (!(force & (1 << i ))) {
 				return qfalse;
 			}
 		}
@@ -3156,6 +3148,25 @@ int TotalAllociatedSkillPoints(gentity_t *ent)
 #define LEVEL_2_DARKSIDE 29
 #define LEVEL_2_LIGHTSABER 24
 #define LEVEL_2_NEUTRAL 30
+
+int GetTotalCostForSkill(int skill) {
+	return bgForcePowerCost[skill][1] + bgForcePowerCost[skill][2] + bgForcePowerCost[skill][3];
+}
+
+int GetPointsSpentInSkill(gclient_t *client,int skill) {
+	if(client->skillLevel[skill] == FORCE_LEVEL_1) {
+		return bgForcePowerCost[skill][1];
+	}
+	else if(client->skillLevel[skill] == FORCE_LEVEL_2) {
+		return bgForcePowerCost[skill][1] + bgForcePowerCost[skill][2];
+	}
+	else if(client->skillLevel[skill] == FORCE_LEVEL_3) {
+		return bgForcePowerCost[skill][1] + bgForcePowerCost[skill][2] + bgForcePowerCost[skill][3];
+	}
+
+	return 0;
+}
+
 int SkillSide(int forcePower)
 {
 	switch(forcePower)
@@ -3185,771 +3196,691 @@ int SkillSide(int forcePower)
 	}
 	return 0;
 }
-OJPRank GetLevelJedi3Rank(gentity_t*ent,int totalSpent)
-{
-	OJPRank rank = ent->client->playerRank;
-	/*
-	if(ent->client->ps.fd.forcePowerLevel[FP_RAGE] == FORCE_LEVEL_3 &&
-		ent->client->ps.fd.forcePowerLevel[FP_GRIP] == FORCE_LEVEL_3 &&
-		ent->client->ps.fd.forcePowerLevel[FP_LIGHTNING] == FORCE_LEVEL_3 &&
-		ent->client->ps.fd.forcePowerLevel[FP_MANIPULATE] == FORCE_LEVEL_3)
-		rank = RANK_SITH_LORD;
-	if(ent->client->ps.fd.forcePowerLevel[FP_LEVITATION] == FORCE_LEVEL_3 &&
-		ent->client->ps.fd.forcePowerLevel[FP_SPEED] == FORCE_LEVEL_3 &&
-		ent->client->ps.fd.forcePowerLevel[FP_PUSH] == FORCE_LEVEL_3 &&
-		ent->client->ps.fd.forcePowerLevel[FP_PULL] == FORCE_LEVEL_3 &&
-		ent->client->ps.fd.forcePowerLevel[FP_SEE] == FORCE_LEVEL_3)
-		rank = RANK_JEDI_COMMANDER;
-	if(ent->client->ps.fd.forcePowerLevel[FP_ABSORB] == FORCE_LEVEL_3 &&
-		ent->client->ps.fd.forcePowerLevel[FP_MINDTRICK] == FORCE_LEVEL_3 &&
-		ent->client->ps.fd.forcePowerLevel[FP_LIFT] == FORCE_LEVEL_3)
-		rank = RANK_JEDI_MASTER;
-	if(ent->client->skillLevel[SK_BLUESTYLE] == FORCE_LEVEL_3 &&
-		ent->client->skillLevel[SK_REDSTYLE] == FORCE_LEVEL_3 &&
-		ent->client->skillLevel[SK_PURPLESTYLE] == FORCE_LEVEL_3 &&
-		ent->client->skillLevel[SK_GREENSTYLE] == FORCE_LEVEL_3 &&
-		ent->client->skillLevel[SK_DUALSTYLE] == FORCE_LEVEL_3 &&
-		ent->client->skillLevel[SK_STAFFSTYLE] == FORCE_LEVEL_3)
-		rank = RANK_JEDI_WEAPON_MASTER;*/
 
-	if(totalSpent >= 100)
+int Client_GetPointsInDarkSide(gclient_t *client) {
+	return 
+		GetPointsSpentInSkill(client, FP_GRIP) +
+		GetPointsSpentInSkill(client, FP_LIGHTNING) +
+		GetPointsSpentInSkill(client, FP_RAGE) +
+		GetPointsSpentInSkill(client, FP_MANIPULATE);
+}
+
+int Client_GetPointsInNeutral(gclient_t *client) {
+	return 
+		GetPointsSpentInSkill(client, FP_LEVITATION) +
+		GetPointsSpentInSkill(client, FP_SPEED) +
+		GetPointsSpentInSkill(client, FP_PUSH) +
+		GetPointsSpentInSkill(client, FP_PULL) +
+		GetPointsSpentInSkill(client, FP_SEE);
+}
+
+int Client_GetPointsInLightSide(gclient_t *client) {
+	return 
+		GetPointsSpentInSkill(client, FP_ABSORB) +
+		GetPointsSpentInSkill(client, FP_MINDTRICK) +
+		GetPointsSpentInSkill(client, FP_LIFT);
+}
+
+int Client_GetPointsInLightsaber(gclient_t *client) {
+	return
+		GetPointsSpentInSkill(client, NUM_FORCE_POWERS+SK_BLUESTYLE) +
+		GetPointsSpentInSkill(client, NUM_FORCE_POWERS+SK_REDSTYLE) +
+		GetPointsSpentInSkill(client, NUM_FORCE_POWERS+SK_PURPLESTYLE) +
+		GetPointsSpentInSkill(client, NUM_FORCE_POWERS+SK_GREENSTYLE) +
+		GetPointsSpentInSkill(client, NUM_FORCE_POWERS+SK_DUALSTYLE) +
+		GetPointsSpentInSkill(client, NUM_FORCE_POWERS+SK_STAFFSTYLE);
+}
+
+int GetPointsSpentInInfantry(gclient_t *client) {
+	return 
+		GetPointsSpentInSkill(client, SK_BLASTER) + 
+		GetPointsSpentInSkill(client, SK_PISTOL) + 
+		GetPointsSpentInSkill(client, SK_GRENADE) +
+		GetPointsSpentInSkill(client, SK_DISRUPTOR);
+}
+
+int GetPointsSpentInTech(gclient_t *client) {
+	return 
+		GetPointsSpentInSkill(client, SK_SHIELD) + 
+		GetPointsSpentInSkill(client, SK_SENTRY) + 
+		GetPointsSpentInSkill(client, SK_FORCEFIELD) + 
+		GetPointsSpentInSkill(client, SK_BACTA) + 
+		GetPointsSpentInSkill(client, SK_CLOAK);
+}
+
+int GetPointsSpentInBounty(gclient_t *client) {
+	return 
+		GetPointsSpentInSkill(client, SK_JETPACK) + 
+		GetPointsSpentInSkill(client, SK_SEEKER) + 
+		GetPointsSpentInSkill(client, SK_FLAMETHROWER) + 
+		GetPointsSpentInSkill(client, SK_THERMAL);
+}
+
+int GetPointsSpentInAssault(gclient_t *client) {
+	return 
+		GetPointsSpentInSkill(client, SK_BOWCASTER) + 
+		GetPointsSpentInSkill(client, SK_REPEATER) + 
+		GetPointsSpentInSkill(client, SK_DETPACK) + 
+		GetPointsSpentInSkill(client, SK_ROCKET);
+}
+
+OJPRank GetLevelJedi3Rank(gclient_t *client) {
+	OJPRank rank = client->playerRank;
+	int totalSpent = 
+		Client_GetPointsInNeutral(client) +
+		Client_GetPointsInLightSide(client) +
+		Client_GetPointsInDarkSide(client) +
+		Client_GetPointsInLightsaber(client);
+
+	if(totalSpent >= 100) {
 		rank = RANK_JEDI_MASTER;
+	}
 
 	return rank;
 }
-OJPRank GetLevelJedi2Rank(gentity_t*ent,int neutral,int light,int dark,int saber)
-{
-	OJPRank rank = ent->client->playerRank;
-	if(dark >= LEVEL_2_DARKSIDE && saber >= LEVEL_1_LIGHTSABER && saber < LEVEL_2_LIGHTSABER)
-		rank = RANK_SITH_KNIGHT;
-	if(dark >= LEVEL_2_DARKSIDE && saber >= LEVEL_1_LIGHTSABER && saber < LEVEL_2_LIGHTSABER && dark > saber)
-		rank = RANK_SITH_LIEUTENANT;
-	if(dark >= LEVEL_2_DARKSIDE && light >= LEVEL_1_LIGHTSIDE && light <= LEVEL_2_LIGHTSIDE)
-		rank = RANK_SCELEQUILIBRI;
-	if(dark >= LEVEL_2_DARKSIDE && light >= LEVEL_1_LIGHTSIDE && light <= LEVEL_2_LIGHTSIDE && dark > light)
-		rank = RANK_EX_LUMINI;
-	if(dark >= LEVEL_2_DARKSIDE && neutral >= LEVEL_1_NEUTRAL && neutral < LEVEL_2_NEUTRAL)
-		rank = RANK_SITH_MANIPULATOR;
-	if(dark >= LEVEL_2_DARKSIDE && neutral >= LEVEL_1_NEUTRAL && neutral < LEVEL_2_NEUTRAL && dark > neutral)
-		rank = RANK_DARK_INFLUENCE;
-	if(dark >= LEVEL_2_DARKSIDE && saber >= LEVEL_2_LIGHTSABER)
-		rank = RANK_SITH_CAPTAIN;
-	if(dark >= LEVEL_2_DARKSIDE && saber >= LEVEL_2_LIGHTSABER && dark > saber)
-		rank = RANK_SITH_COMMANDER;
 
-	if(dark >= LEVEL_2_DARKSIDE && light >= LEVEL_2_LIGHTSIDE)
-		rank = RANK_GREY_MASTER;
+OJPRank GetLevelJedi2Rank(gclient_t *client) {
+	OJPRank rank = client->playerRank;
+	int neutral = Client_GetPointsInNeutral(client);
+	int light = Client_GetPointsInLightSide(client);
+	int dark = Client_GetPointsInDarkSide(client);
+	int saber = Client_GetPointsInLightsaber(client);
 
-	if(dark >= LEVEL_2_DARKSIDE && light >= LEVEL_2_LIGHTSIDE && dark > light)
-		rank = RANK_FALLEN_JEDI;
+	if(dark >= LEVEL_2_DARKSIDE && saber >= LEVEL_1_LIGHTSABER && saber < LEVEL_2_LIGHTSABER) {	
+		if(dark > saber) {
+			rank = RANK_SITH_LIEUTENANT;
+		}
+		else {
+			rank = RANK_SITH_KNIGHT;
+		}
+	}
 
-	if(dark >= LEVEL_2_DARKSIDE && neutral >= LEVEL_2_NEUTRAL)
-		rank = RANK_BALANCE_MANIPULATOR;
+	if(dark >= LEVEL_2_DARKSIDE && light >= LEVEL_1_LIGHTSIDE && light <= LEVEL_2_LIGHTSIDE) {
+		if(dark > light) {
+			rank = RANK_EX_LUMINI;
+		}
+		else {
+			rank = RANK_SCELEQUILIBRI;
+		}
+	}
 
-	if(dark >= LEVEL_2_DARKSIDE && neutral >= LEVEL_2_NEUTRAL && dark > neutral)
-		rank = RANK_SITH_HERO;
 
-	if(saber >= LEVEL_2_LIGHTSABER && light >= LEVEL_1_LIGHTSIDE && light < LEVEL_2_LIGHTSIDE)
-		rank = RANK_JEDI_INSTRUCTOR;
+	if(dark >= LEVEL_2_DARKSIDE && neutral >= LEVEL_1_NEUTRAL && neutral < LEVEL_2_NEUTRAL) {	
+		if(dark > neutral) {
+			rank = RANK_DARK_INFLUENCE;
+		}
+		else {
+			rank = RANK_SITH_MANIPULATOR;
+		}
+	}
 
-	if(saber >= LEVEL_2_LIGHTSABER && light >= LEVEL_1_LIGHTSIDE && light < LEVEL_2_LIGHTSIDE && saber > light)
-		rank = RANK_JEDI_WARRIOR;
+	if(dark >= LEVEL_2_DARKSIDE && saber >= LEVEL_2_LIGHTSABER) {	
+		if(dark > saber) {
+			rank = RANK_SITH_COMMANDER;
+		}
+		else {
+			rank = RANK_SITH_CAPTAIN;
+		}
+	}
 
-	if(saber >= LEVEL_2_LIGHTSABER && neutral >= LEVEL_1_NEUTRAL && neutral < LEVEL_2_NEUTRAL)
-		rank = RANK_JEDI_HERO;
 
-	if(saber >= LEVEL_2_LIGHTSABER && neutral >= LEVEL_1_NEUTRAL && neutral < LEVEL_2_NEUTRAL && saber > neutral)
-		rank = RANK_SABER_VETERAN;
+	if(dark >= LEVEL_2_DARKSIDE && light >= LEVEL_2_LIGHTSIDE) {	
+		if(dark > light) {
+			rank = RANK_FALLEN_JEDI;
+		}
+		else {
+			rank = RANK_GREY_MASTER;
+		}
+	}
 
-	if(saber >= LEVEL_2_LIGHTSABER && dark >= LEVEL_1_DARKSIDE && dark < LEVEL_2_DARKSIDE)
-		rank = RANK_SITH_SABERIST;
+	if(dark >= LEVEL_2_DARKSIDE && neutral >= LEVEL_2_NEUTRAL) {	
+		if(dark > neutral) {
+			rank = RANK_SITH_HERO;
+		}
+		else {
+			rank = RANK_BALANCE_MANIPULATOR;
+		}
+	}
 
-	if(saber >= LEVEL_2_LIGHTSABER && dark >= LEVEL_1_DARKSIDE && dark < LEVEL_2_DARKSIDE && saber > dark)
-		rank = RANK_CRUEL_SABERIST;
+	if(saber >= LEVEL_2_LIGHTSABER && light >= LEVEL_1_LIGHTSIDE && light < LEVEL_2_LIGHTSIDE) {	
+		if(saber > light) {
+			rank = RANK_JEDI_WARRIOR;
+		}
+		else {
+			rank = RANK_JEDI_INSTRUCTOR;
+		}
+	}
 
-	if(saber >= LEVEL_2_LIGHTSABER && light >= LEVEL_2_LIGHTSIDE)
-		rank = RANK_SABER_OF_BALANCE;
+	if(saber >= LEVEL_2_LIGHTSABER && neutral >= LEVEL_1_NEUTRAL && neutral < LEVEL_2_NEUTRAL) {	
+		if(saber > neutral) {
+			rank = RANK_SABER_VETERAN;
+		}
+		else {
+			rank = RANK_JEDI_HERO;
+		}
+	}
 
-	if(saber >= LEVEL_2_LIGHTSABER && light >= LEVEL_2_LIGHTSIDE && saber > light)
-		rank = RANK_JEDI_SABERMASTER;
+	if(saber >= LEVEL_2_LIGHTSABER && dark >= LEVEL_1_DARKSIDE && dark < LEVEL_2_DARKSIDE) {	
+		if(saber > dark) {
+			rank = RANK_CRUEL_SABERIST;
+		}
+		else {
+			rank = RANK_SITH_SABERIST;
+		}
+	}
 
-	if(saber >= LEVEL_2_LIGHTSABER && neutral >= LEVEL_2_NEUTRAL)
-		rank = RANK_FORCE_SOLDIER;
+	if(saber >= LEVEL_2_LIGHTSABER && light >= LEVEL_2_LIGHTSIDE) {
+		if(saber > light) {
+			rank = RANK_JEDI_SABERMASTER;
+		}
+		else {
+			rank = RANK_SABER_OF_BALANCE;
+		}
+	}
 
-	if(saber >= LEVEL_2_LIGHTSABER && neutral >= LEVEL_2_NEUTRAL && saber > neutral)
-		rank = RANK_FORCE_PEACEKEEPER;
+	if(saber >= LEVEL_2_LIGHTSABER && neutral >= LEVEL_2_NEUTRAL) {
+		if(saber > neutral) {
+			rank = RANK_FORCE_PEACEKEEPER;
+		}
+		else {
+			rank = RANK_FORCE_SOLDIER;
+		}
+	}
 
-	if(saber >= LEVEL_2_LIGHTSABER && dark >= LEVEL_2_DARKSIDE && saber > dark)
-		rank = RANK_DARK_FLAYER;
+	if(saber >= LEVEL_2_LIGHTSABER && dark >= LEVEL_2_DARKSIDE && saber > dark) {
+		if(neutral > saber) {
+			rank = RANK_GREY_HAND;
+		}
+		else {
+			rank = RANK_DARK_FLAYER;
+		}
+	}
 
-	if(neutral >= LEVEL_2_NEUTRAL && saber >= LEVEL_1_LIGHTSABER && neutral > saber)
-		rank = RANK_GREY_HAND;
+	if(neutral >= LEVEL_2_NEUTRAL && light >= LEVEL_1_LIGHTSIDE && light < LEVEL_2_LIGHTSIDE) {
+		if(neutral > light) {
+			rank = RANK_GREY_TALON;
+		}
+		else {
+			rank = RANK_JEDI_OF_BALANCE;
+		}
+	}
 
-	if(neutral >= LEVEL_2_NEUTRAL && light >= LEVEL_1_LIGHTSIDE && light < LEVEL_2_LIGHTSIDE)
-		rank = RANK_JEDI_OF_BALANCE;
+	if(neutral >= LEVEL_2_NEUTRAL && light >= LEVEL_2_LIGHTSIDE) {
+		if(neutral > light) {
+			rank = RANK_FORCE_WANDERER;
+		}
+		else {
+			rank = RANK_LIGHT_JEDI;
+		}
+	}
 
-	if(neutral >= LEVEL_2_NEUTRAL && light >= LEVEL_1_LIGHTSIDE && light < LEVEL_2_LIGHTSIDE && neutral > light)
-		rank = RANK_GREY_TALON;
+	if(light >= LEVEL_2_LIGHTSIDE && dark == LEVEL_1_DARKSIDE) {
+		if(light > dark) {
+			rank = RANK_FORCE_USER;
+		}
+		else {
+			rank = RANK_FORCE_DEBUTANTE;
+		}
+	}
 
-	if(neutral >= LEVEL_2_NEUTRAL && dark >= LEVEL_1_DARKSIDE && dark < LEVEL_2_DARKSIDE && neutral > dark)
-		rank = RANK_STRAYING_WARRIOR;
-
-	if(neutral >= LEVEL_2_NEUTRAL && saber >= LEVEL_2_LIGHTSABER && neutral > saber)
+	if(neutral >= LEVEL_2_NEUTRAL && saber >= LEVEL_2_LIGHTSABER && neutral > saber) {
 		rank = RANK_ARBITER;
+	}
 
-	if(neutral >= LEVEL_2_NEUTRAL && light >= LEVEL_2_LIGHTSIDE)
-		rank = RANK_LIGHT_JEDI;
+	if(neutral >= LEVEL_2_NEUTRAL && dark == LEVEL_1_DARKSIDE && neutral > dark) {
+		rank = RANK_STRAYING_WARRIOR;
+	}
 
-	if(neutral >= LEVEL_2_NEUTRAL && light >= LEVEL_2_LIGHTSIDE && neutral > light)
-		rank = RANK_FORCE_WANDERER;
-
-	if(neutral >= LEVEL_2_NEUTRAL && dark >= LEVEL_2_DARKSIDE && neutral > dark)
+	if(neutral >= LEVEL_2_NEUTRAL && dark >= LEVEL_2_DARKSIDE && neutral > dark) {
 		rank = RANK_RENEGADE;
+	}
 
-	if(light >= LEVEL_2_LIGHTSIDE && saber >= LEVEL_1_LIGHTSIDE && saber < LEVEL_2_LIGHTSIDE && light > saber)
-		rank = RANK_ENLIGHTENED_JEDI;
-
-	if(light >= LEVEL_2_LIGHTSIDE && dark >= LEVEL_1_DARKSIDE && dark < LEVEL_2_DARKSIDE)
-		rank = RANK_FORCE_DEBUTANTE;
-
-	if(light >= LEVEL_2_LIGHTSIDE && dark >= LEVEL_1_DARKSIDE && dark < LEVEL_2_DARKSIDE && light > dark)
-		rank = RANK_FORCE_USER;
-
-	if(light >= LEVEL_2_LIGHTSIDE && dark >= LEVEL_2_DARKSIDE && light > dark)
+	if(light >= LEVEL_2_LIGHTSIDE && dark >= LEVEL_2_DARKSIDE && light > dark) {
 		rank = RANK_FORCE_OVERSEER;
+	}
 
-	if(light >= LEVEL_2_LIGHTSIDE && neutral >= LEVEL_2_NEUTRAL && light > neutral)
+	if(light >= LEVEL_2_LIGHTSIDE && saber == LEVEL_1_LIGHTSIDE && light > saber) {
+		rank = RANK_ENLIGHTENED_JEDI;
+	}
+
+	if(light >= LEVEL_2_LIGHTSIDE && neutral >= LEVEL_2_NEUTRAL && light > neutral) {
 		rank = RANK_TRIUMVIRATI;
+	}
 
 	return rank;
 }
 
 
-OJPRank GetLevelJedi1Rank(gentity_t*ent,int neutral,int light,int dark,int saber)
-{
-	OJPRank rank = ent->client->playerRank;
+OJPRank GetLevelJedi1Rank(gclient_t *client) {
+	OJPRank rank = client->playerRank;
+	int neutral = Client_GetPointsInNeutral(client);
+	int light = Client_GetPointsInLightSide(client);
+	int dark = Client_GetPointsInDarkSide(client);
+	int saber = Client_GetPointsInLightsaber(client);
 
-	if(dark >= LEVEL_1_DARKSIDE && saber >= LEVEL_1_LIGHTSABER)
-		rank = RANK_DARK_KNIGHT;
+	if(dark >= LEVEL_1_DARKSIDE && saber >= LEVEL_1_LIGHTSABER) {
+		if(dark > saber) {
+			rank = RANK_DARK_TEMPLAR;
+		}
+		else {
+			rank = RANK_DARK_KNIGHT;
+		}
+	}
 
-	if(dark >= LEVEL_1_DARKSIDE && saber >= LEVEL_1_LIGHTSABER && dark > saber)
-		rank = RANK_DARK_TEMPLAR;
+	if(dark >= LEVEL_1_DARKSIDE && light >= LEVEL_1_LIGHTSIDE) {
+		if(dark > light) {
+			rank = RANK_SHADOW_JEDI;
+		}
+		else {
+			rank = RANK_GREY_JEDI;
+		}
+	}
 
-	if(dark >= LEVEL_1_DARKSIDE && light >= LEVEL_1_LIGHTSIDE)
-		rank = RANK_GREY_JEDI;
+	if(dark >= LEVEL_1_DARKSIDE && neutral >= LEVEL_1_NEUTRAL) {	
+		if(dark > neutral) {
+			rank = RANK_FORCE_MARAUDER;
+		}
+		else {
+			rank = RANK_FORCE_MANIPULATOR;
+		}
+	}
 
-	if(dark >= LEVEL_1_DARKSIDE && light >= LEVEL_1_LIGHTSIDE && dark > light)
-		rank = RANK_SHADOW_JEDI;
+	if(saber >= LEVEL_1_LIGHTSABER && neutral >= LEVEL_1_NEUTRAL) {	
+		if(saber > neutral) {
+			rank = RANK_JEDI_GUARDIAN;
+		}
+		else {
+			rank = RANK_JEDI_KNIGHT;
+		}
+	}
 
-	if(saber >= LEVEL_1_LIGHTSABER && neutral >= LEVEL_1_NEUTRAL)
-		rank = RANK_JEDI_KNIGHT;
+	if(saber >= LEVEL_1_LIGHTSABER && light >= LEVEL_1_LIGHTSIDE) {	
+		if(saber > light) {
+			rank = RANK_JEDI_TEMPLAR;
+		}
+		else {
+			rank = RANK_JEDI_CRUSADER;
+		}
+	}
 
-	if(saber >= LEVEL_1_LIGHTSABER && neutral >= LEVEL_1_NEUTRAL && saber > neutral)
-		rank = RANK_JEDI_GUARDIAN;
-
-	if(dark >= LEVEL_1_DARKSIDE && neutral >= LEVEL_1_NEUTRAL)
-		rank = RANK_FORCE_MANIPULATOR;
-
-	if(dark >= LEVEL_1_DARKSIDE && neutral >= LEVEL_1_NEUTRAL && dark > neutral)
-		rank = RANK_FORCE_MARAUDER;
-
-	if(saber >= LEVEL_1_LIGHTSABER && light >= LEVEL_1_LIGHTSIDE)
-		rank = RANK_JEDI_CRUSADER;
-
-	if(saber >= LEVEL_1_LIGHTSABER && light >= LEVEL_1_LIGHTSIDE && saber > light)
-		rank = RANK_JEDI_TEMPLAR;
-
-	if(neutral >= LEVEL_1_NEUTRAL && light >= LEVEL_1_LIGHTSIDE)
-		rank = RANK_JEDI_HOSPITALIER;
-
-	if(neutral >= LEVEL_1_NEUTRAL && light >= LEVEL_1_LIGHTSIDE && neutral > light)
-		rank = RANK_JEDI_CONSULAR;
+	if(neutral >= LEVEL_1_NEUTRAL && light >= LEVEL_1_LIGHTSIDE) {	
+		if(neutral > light) {
+			rank = RANK_JEDI_CONSULAR;
+		}
+		else {
+			rank = RANK_JEDI_HOSPITALIER;
+		}
+	}
 
 	return rank;
 }
 
-int GetTotalCostForSkill(int skill)
-{
-	return bgForcePowerCost[skill][1] + bgForcePowerCost[skill][2] + bgForcePowerCost[skill][3];
+OJPRank Client_CalculateJediRank(gclient_t *client) {
+	OJPRank rank = RANK_JEDI_PADAWAN;
+
+	int spentInNeutral = Client_GetPointsInNeutral(client);
+	int spentInLight = Client_GetPointsInLightSide(client);
+	int spentInDark = Client_GetPointsInDarkSide(client);
+	int spentInSaber = Client_GetPointsInLightsaber(client);
+
+	rank = GetLevelJedi3Rank(client);
+	if(rank == RANK_JEDI_PADAWAN) {
+		rank = GetLevelJedi2Rank(client);
+	}
+
+	if(rank == RANK_JEDI_PADAWAN) {
+		rank = GetLevelJedi1Rank(client);
+	}
+
+	if(rank == RANK_JEDI_PADAWAN) {
+		if(spentInDark >= LEVEL_2_DARKSIDE) {
+			rank = RANK_SITH;
+		}
+
+		if(spentInLight >= LEVEL_2_LIGHTSIDE) {
+			rank = RANK_JEDI_MEDICI;
+		}
+
+		if(spentInSaber >= LEVEL_2_LIGHTSABER) {
+			rank = RANK_JEDI_DUELIST;
+		}
+
+		if(spentInNeutral >= LEVEL_2_NEUTRAL) {
+			rank = RANK_JEDI_SENTINEL;
+		}
+	}
+
+	return rank;
 }
 
-int GetSpentInSkill(gentity_t*ent,int skill)
-{
-	if(ent->client->skillLevel[skill] == FORCE_LEVEL_1)
-		return bgForcePowerCost[skill][1];
-	else if(ent->client->skillLevel[skill] == FORCE_LEVEL_2)
-		return bgForcePowerCost[skill][1] + bgForcePowerCost[skill][2];
-	else if(ent->client->skillLevel[skill] == FORCE_LEVEL_3)
-		return bgForcePowerCost[skill][1] + bgForcePowerCost[skill][2] + bgForcePowerCost[skill][3];
-
-	return 0;
+int GetLevel3InfantryCost() {
+	return (GetTotalCostForSkill(SK_BLASTER) + GetTotalCostForSkill(SK_PISTOL) + GetTotalCostForSkill(SK_GRENADE) + GetTotalCostForSkill(SK_DISRUPTOR)) / 3;
 }
 
+int GetLevel3TechCost() {
+	return (GetTotalCostForSkill(SK_SHIELD) + GetTotalCostForSkill(SK_FORCEFIELD) + GetTotalCostForSkill(SK_SENTRY) + GetTotalCostForSkill(SK_BACTA) + GetTotalCostForSkill(SK_CLOAK)) / 3;
+}
 
-void CalculateAndSetRank(gentity_t*ent)
-{
-	int spentInNeutral = 0;
-	int spentInLight = 0;
-	int spentInDark = 0;
-	int spentInSaber = 0;
-	int amount = 0;
-	int i = 0;
+int GetLevel3BountyCost() {
+	return (GetTotalCostForSkill(SK_JETPACK) + GetTotalCostForSkill(SK_SEEKER) + GetTotalCostForSkill(SK_FLAMETHROWER) + GetTotalCostForSkill(SK_THERMAL)) / 3;
+}
 
-	ent->client->playerRank = RANK_NEUTRAL_CIVILIAN;
+int GetLevel3AssaultCost() {
+	return (GetTotalCostForSkill(SK_BOWCASTER) + GetTotalCostForSkill(SK_REPEATER) + GetTotalCostForSkill(SK_DETPACK) + GetTotalCostForSkill(SK_ROCKET)) / 3;
+}
 
-	if(ent->client->ps.fd.forcePowerLevel[FP_SEE])
-	{
-		ent->client->playerRank = RANK_JEDI_PADAWAN;
+OJPRank GetLevel1GunnerRank(gclient_t *client) {
+	OJPRank rank = RANK_NEUTRAL_CIVILIAN;
+	const int infantry = GetPointsSpentInInfantry(client);
+	const int tech = GetPointsSpentInTech(client);
+	const int bounty = GetPointsSpentInBounty(client);
+	const int assault = GetPointsSpentInAssault(client);
+	const int Level3Infantry = GetLevel3InfantryCost();
+	const int Level1Infantry = Level3Infantry / 3;
+	const int Level3Tech = GetLevel3TechCost();
+	const int Level1Tech = Level3Tech / 3;
+	const int Level3Bounty = GetLevel3BountyCost();
+	const int Level1Bounty = Level3Bounty / 3;
+	const int Level3Assault = GetLevel3AssaultCost();
+	const int Level1Assault = Level3Assault / 3;
 
-		for(i=0;i<NUM_FORCE_POWERS;i++)
-		{
-			amount = 0;
-			if(ent->client->ps.fd.forcePowerLevel[i] == FORCE_LEVEL_3)
-			{
-				amount += bgForcePowerCost[i][1];
-				amount += bgForcePowerCost[i][2];
-				amount += bgForcePowerCost[i][3];
-			}
-			else if(ent->client->ps.fd.forcePowerLevel[i] == FORCE_LEVEL_2)
-			{
-				amount += bgForcePowerCost[i][1];
-				amount += bgForcePowerCost[i][2];
-			}
-			else if(ent->client->ps.fd.forcePowerLevel[i] == FORCE_LEVEL_1)
-				amount += bgForcePowerCost[i][1];
-
-			switch(SkillSide(i))
-			{
-				case FORCE_LIGHTSIDE:
-					spentInLight += amount;
-					break;
-				case FORCE_DARKSIDE:
-					spentInDark += amount;
-					break;
-				case FORCE_NEUTRAL:
-					spentInNeutral += amount;
-					break;
-				default:
-					spentInSaber += amount;
-					break;
-			}
-		}
-
-		for(i=NUM_FORCE_POWERS+SK_BLUESTYLE;i<NUM_FORCE_POWERS+SK_STAFFSTYLE;i++)
-		{
-			if(ent->client->skillLevel[i] == FORCE_LEVEL_3)
-			{
-				spentInSaber += bgForcePowerCost[i][1];
-				spentInSaber += bgForcePowerCost[i][2];
-				spentInSaber += bgForcePowerCost[i][3];
-			}
-			else if(ent->client->skillLevel[i] == FORCE_LEVEL_2)
-			{
-				spentInSaber += bgForcePowerCost[i][1];
-				spentInSaber += bgForcePowerCost[i][2];
-			}
-			else if(ent->client->skillLevel[i] == FORCE_LEVEL_1)
-				spentInSaber += bgForcePowerCost[i][1];
-		}
-
-		ent->client->playerRank = GetLevelJedi3Rank(ent,spentInDark+spentInLight+spentInNeutral+spentInSaber);
-		if(ent->client->playerRank == RANK_JEDI_PADAWAN)
-			ent->client->playerRank = GetLevelJedi2Rank(ent,spentInNeutral,spentInLight,spentInDark,spentInSaber);
-
-		if(ent->client->playerRank == RANK_JEDI_PADAWAN)
-			ent->client->playerRank = GetLevelJedi1Rank(ent,spentInNeutral,spentInLight,spentInDark,spentInSaber);
-
-		if(ent->client->playerRank == RANK_JEDI_PADAWAN)
-		{
-			if(spentInDark >= LEVEL_2_DARKSIDE)
-				ent->client->playerRank = RANK_SITH;
-			if(spentInLight >= LEVEL_2_LIGHTSIDE)
-				ent->client->playerRank = RANK_JEDI_MEDICI;
-			if(spentInSaber >= LEVEL_2_LIGHTSABER)
-				ent->client->playerRank = RANK_JEDI_DUELIST;
-			if(spentInNeutral >= LEVEL_2_NEUTRAL)
-				ent->client->playerRank = RANK_JEDI_SENTINEL;
-
-		}
+	if(assault >= Level1Assault) {
+		rank = RANK_ASSAULT_ENSIGN;
 	}
-	else
-	{
-		const int Level3Infantry = (GetTotalCostForSkill(SK_BLASTER) + GetTotalCostForSkill(SK_PISTOL) + GetTotalCostForSkill(SK_GRENADE) + GetTotalCostForSkill(SK_DISRUPTOR)) / 3;
-		const int Level2Infantry = Level3Infantry / 2;
-		const int Level1Infantry = Level3Infantry / 3;
-		const int Level3Tech = (GetTotalCostForSkill(SK_SHIELD) + GetTotalCostForSkill(SK_FORCEFIELD) + GetTotalCostForSkill(SK_SENTRY) + GetTotalCostForSkill(SK_BACTA) + GetTotalCostForSkill(SK_CLOAK)) / 3;
-		const int Level2Tech = Level3Tech / 2;
-		const int Level1Tech = Level3Tech / 3;
-		const int Level3Bounty = (GetTotalCostForSkill(SK_JETPACK) + GetTotalCostForSkill(SK_SEEKER) + GetTotalCostForSkill(SK_FLAMETHROWER) + GetTotalCostForSkill(SK_THERMAL)) / 3;
-		const int Level2Bounty = Level3Bounty / 2;
-		const int Level1Bounty = Level3Bounty / 3;
-		const int Level3Assault = (GetTotalCostForSkill(SK_BOWCASTER) + GetTotalCostForSkill(SK_REPEATER) + GetTotalCostForSkill(SK_DETPACK) + GetTotalCostForSkill(SK_ROCKET)) / 3;
-		const int Level2Assault = Level3Assault / 2;
-		const int Level1Assault = Level3Assault / 3;
-		const int infantry = GetSpentInSkill(ent,SK_BLASTER) + GetSpentInSkill(ent,SK_PISTOL) + GetSpentInSkill(ent,SK_GRENADE) + GetSpentInSkill(ent,SK_DISRUPTOR);
-		const int tech = GetSpentInSkill(ent,SK_SHIELD) + GetSpentInSkill(ent,SK_SENTRY) + GetSpentInSkill(ent,SK_FORCEFIELD) + GetSpentInSkill(ent,SK_BACTA) + GetSpentInSkill(ent,SK_CLOAK);
-		const int bounty = GetSpentInSkill(ent,SK_JETPACK) + GetSpentInSkill(ent,SK_SEEKER) + GetSpentInSkill(ent,SK_FLAMETHROWER) + GetSpentInSkill(ent,SK_THERMAL);
-		const int assault = GetSpentInSkill(ent,SK_BOWCASTER) + GetSpentInSkill(ent,SK_REPEATER) + GetSpentInSkill(ent,SK_DETPACK) + GetSpentInSkill(ent,SK_ROCKET);
 
-		if(assault >= Level1Assault)
-			ent->client->playerRank = RANK_ASSAULT_ENSIGN;
+	if(tech >= Level1Tech) {
+		rank = RANK_MECHANIC;
+	}
 
-		if(tech >= Level1Tech)
-			ent->client->playerRank = RANK_MECHANIC;
+	if(infantry >= Level1Infantry) {
+		rank = RANK_PRIVATE;
+	}
 
-		if(infantry >= Level1Infantry)
-			ent->client->playerRank = RANK_PRIVATE;
+	if(bounty >= Level1Bounty) {
+		rank = RANK_OUTLAW;
+	}
 
-		if(bounty >= Level1Bounty)
-			ent->client->playerRank = RANK_OUTLAW;
+	if(assault >= Level1Assault && tech >= Level1Tech) {
+		rank = RANK_MECHENSIGN;
+	}
 
-		if(assault >= Level1Assault && tech >= Level1Tech)
-			ent->client->playerRank = RANK_MECHENSIGN;
+	if(assault >= Level1Assault && infantry >= Level1Infantry) {
+		rank = RANK_DEMOPRIVATE;
+	}
 
-		if(assault >= Level1Assault && infantry >= Level1Infantry)
-			ent->client->playerRank = RANK_DEMOPRIVATE;
+	if(assault >= Level1Assault && bounty >= Level1Bounty) {
+		rank = RANK_ROUGHNECK;
+	}
 
-		if(assault >= Level1Assault && bounty >= Level1Bounty)
-			ent->client->playerRank = RANK_ROUGHNECK;
+	if(assault >= Level1Assault && tech >= Level1Tech && assault > tech) {
+		rank = RANK_MECHENSIGN2;
+	}
 
-		if(assault >= Level1Assault && tech >= Level1Tech && assault > tech)
-			ent->client->playerRank = RANK_MECHENSIGN2;
+	if(assault >= Level1Assault && infantry >= Level1Infantry && assault > infantry) {
+		rank = RANK_SHOCKTROOP;
+	}
 
-		if(assault >= Level1Assault && infantry >= Level1Infantry && assault > infantry)
-			ent->client->playerRank = RANK_SHOCKTROOP;
+	if(assault >= Level1Assault && bounty >= Level1Bounty && assault > bounty) {
+		rank = RANK_MERCTRAINEE;
+	}
 
-		if(assault >= Level1Assault && bounty >= Level1Bounty && assault > bounty)
-			ent->client->playerRank = RANK_MERCTRAINEE;
+	if(tech >= Level1Tech && infantry >= Level1Infantry) {
+		rank = RANK_TECHPRIVATE;
+	}
 
-		if(assault >= Level2Assault && tech >= Level1Tech)
-			ent->client->playerRank = RANK_ARMOREDLT;
+	if(tech >= Level1Tech && bounty >= Level1Bounty) {
+		rank = RANK_TECHTRAINEE;
+	}
 
-		if(assault >= Level2Assault && infantry >= Level1Infantry)
-			ent->client->playerRank = RANK_HEAVYGUNNER;
+	if(tech >= Level1Tech && infantry >= Level1Infantry && tech > infantry) {
+		rank = RANK_FIXER;
+	}
 
-		if(assault >= Level2Assault && bounty >= Level1Bounty)
-			ent->client->playerRank = RANK_MERCENARY;
+	if(tech >= Level1Tech && bounty >= Level1Bounty && tech > bounty) {
+		rank = RANK_HACKER;
+	}
 
-		if(assault >= Level2Assault && tech >= Level1Tech && assault > tech)
-			ent->client->playerRank = RANK_ASSAULTTECH;
+	if(tech >= Level1Tech && assault >= Level1Assault && tech > assault) {
+		rank = RANK_HEAVYTECH;
+	}
 
-		if(assault >= Level2Assault && infantry >= Level1Infantry && assault > infantry)
-			ent->client->playerRank = RANK_HEAVYTROOPER;
+	if(infantry >= Level1Infantry && bounty >= Level1Bounty) {
+		rank = RANK_PRIVATEER;
+	}
 
-		if(assault >= Level2Assault && bounty >= Level1Bounty && assault > bounty)
-			ent->client->playerRank = RANK_HEAVYMERCENARY;
+	if(infantry >= Level1Infantry && bounty >= Level1Bounty && infantry > bounty) {
+		rank = RANK_ARMSDEALER;
+	}
 
-		if(assault >= Level2Assault && tech >= Level2Tech)
-			ent->client->playerRank = RANK_ASSAULTENGINEER;
+	if(bounty >= Level1Bounty && tech >= Level1Tech && bounty > tech) {
+		rank = RANK_PRIVATETECH;
+	}
+	
+	if(bounty >= Level1Bounty && infantry >= Level1Infantry && bounty > infantry) {
+		rank = RANK_RENEGADECOMBATANT;
+	}
 
-		if(assault >= Level2Assault && infantry >= Level2Infantry)
-			ent->client->playerRank = RANK_WEAPONSPECALIST;
+	return rank;
+}
 
-		if(assault >= Level2Assault && bounty >= Level2Bounty)
-			ent->client->playerRank = RANK_LIGHTMANDALORIN;
+OJPRank GetLevel2GunnerRank(gclient_t *client) {
+	OJPRank rank = RANK_NEUTRAL_CIVILIAN;
+	const int infantry = GetPointsSpentInInfantry(client);
+	const int tech = GetPointsSpentInTech(client);
+	const int bounty = GetPointsSpentInBounty(client);
+	const int assault = GetPointsSpentInAssault(client);
+	const int Level3Infantry = GetLevel3InfantryCost();
+	const int Level2Infantry = Level3Infantry / 2;
+	const int Level1Infantry = Level3Infantry / 3;
+	const int Level3Tech = GetLevel3TechCost();
+	const int Level2Tech = Level3Tech / 2;
+	const int Level1Tech = Level3Tech / 3;
+	const int Level3Bounty = GetLevel3BountyCost();
+	const int Level2Bounty = Level3Bounty / 2;
+	const int Level1Bounty = Level3Bounty / 3;
+	const int Level3Assault = GetLevel3AssaultCost();
+	const int Level2Assault = Level3Assault / 2;
+	const int Level1Assault = Level3Assault / 3;
 
-		if(assault >= Level3Assault)
-			ent->client->playerRank = RANK_ASSAULTGENERAL;
+	if(assault >= Level2Assault && tech >= Level1Tech)
+		rank = RANK_ARMOREDLT;
 
-		if(tech >= Level1Tech && infantry >= Level1Infantry)
-			ent->client->playerRank = RANK_TECHPRIVATE;
+	if(assault >= Level2Assault && infantry >= Level1Infantry)
+		rank = RANK_HEAVYGUNNER;
 
-		if(tech >= Level1Tech && bounty >= Level1Bounty)
-			ent->client->playerRank = RANK_TECHTRAINEE;
+	if(assault >= Level2Assault && bounty >= Level1Bounty)
+		rank = RANK_MERCENARY;
 
-		if(tech >= Level1Tech && infantry >= Level1Infantry && tech > infantry)
-			ent->client->playerRank = RANK_FIXER;
+	if(assault >= Level2Assault && tech >= Level1Tech && assault > tech)
+		rank = RANK_ASSAULTTECH;
 
-		if(tech >= Level1Tech && bounty >= Level1Bounty && tech > bounty)
-			ent->client->playerRank = RANK_HACKER;
+	if(assault >= Level2Assault && infantry >= Level1Infantry && assault > infantry)
+		rank = RANK_HEAVYTROOPER;
 
-		if(tech >= Level1Tech && assault >= Level1Assault && tech > assault)
-			ent->client->playerRank = RANK_HEAVYTECH;
+	if(assault >= Level2Assault && bounty >= Level1Bounty && assault > bounty)
+		rank = RANK_HEAVYMERCENARY;
 
-		if(tech >= Level2Tech && infantry >= Level1Infantry)
-			ent->client->playerRank = RANK_INFOSOLDIER;
+	if(assault >= Level2Assault && tech >= Level2Tech)
+		rank = RANK_ASSAULTENGINEER;
 
-		if(tech >= Level2Tech && bounty >= Level1Bounty)
-			ent->client->playerRank = RANK_INFOMERC;
+	if(assault >= Level2Assault && infantry >= Level2Infantry)
+		rank = RANK_WEAPONSPECALIST;
 
-		if(tech >= Level2Tech && infantry >= Level1Infantry && tech > infantry)
-			ent->client->playerRank = RANK_TECHLT;
+	if(assault >= Level2Assault && bounty >= Level2Bounty)
+		rank = RANK_LIGHTMANDALORIN;
 
-		if(tech >= Level2Tech && bounty >= Level1Bounty && tech > bounty)
-			ent->client->playerRank = RANK_TECHSURVIVOR;
+	if(tech >= Level2Tech && infantry >= Level1Infantry)
+		rank = RANK_INFOSOLDIER;
 
-		if(tech >= Level2Tech && assault >= Level1Assault && tech > assault)
-			ent->client->playerRank = RANK_ARMEDTECH;
+	if(tech >= Level2Tech && bounty >= Level1Bounty)
+		rank = RANK_INFOMERC;
 
-		if(tech >= Level2Tech && infantry >= Level2Infantry)
-			ent->client->playerRank = RANK_VANGUARD;
+	if(tech >= Level2Tech && infantry >= Level1Infantry && tech > infantry)
+		rank = RANK_TECHLT;
 
-		if(tech >= Level2Tech && bounty >= Level2Bounty)
-			ent->client->playerRank = RANK_PRIVATEER;
+	if(tech >= Level2Tech && bounty >= Level1Bounty && tech > bounty)
+		rank = RANK_TECHSURVIVOR;
 
-		if(tech >= Level2Tech && infantry >= Level2Infantry && tech > infantry)
-			ent->client->playerRank = RANK_ADVVANGUARD;
+	if(tech >= Level2Tech && assault >= Level1Assault && tech > assault)
+		rank = RANK_ARMEDTECH;
 
-		if(tech >= Level2Tech && bounty >= Level2Bounty && tech > bounty)
-			ent->client->playerRank = RANK_SMUGGLER;
+	if(tech >= Level2Tech && infantry >= Level2Infantry)
+		rank = RANK_VANGUARD;
 
-		if(tech >= Level2Tech && assault >= Level2Assault && tech > assault)
-			ent->client->playerRank = RANK_ADVASSAULTTECH;
+	if(tech >= Level2Tech && bounty >= Level2Bounty)
+		rank = RANK_PRIVATEER;
 
-		if(tech >= Level3Tech)
-			ent->client->playerRank = RANK_ENGINEERGENERAL;
-		
-		if(infantry >= Level1Infantry && bounty >= Level1Bounty)
-			ent->client->playerRank = RANK_PRIVATEER;
+	if(tech >= Level2Tech && infantry >= Level2Infantry && tech > infantry)
+		rank = RANK_ADVVANGUARD;
 
-		if(infantry >= Level1Infantry && bounty >= Level1Bounty && infantry > bounty)
-			ent->client->playerRank = RANK_ARMSDEALER;
+	if(tech >= Level2Tech && bounty >= Level2Bounty && tech > bounty)
+		rank = RANK_SMUGGLER;
 
-		if(infantry >= Level2Infantry && assault >= Level1Assault && infantry > assault)
-			ent->client->playerRank = RANK_DEMOSOLDIER;
+	if(tech >= Level2Tech && assault >= Level2Assault && tech > assault)
+		rank = RANK_ADVASSAULTTECH;
 
-		if(infantry >= Level2Infantry && tech >= Level1Tech && infantry > tech)
-			ent->client->playerRank = RANK_ARCTRAINEE;
+	if(infantry >= Level2Infantry && assault >= Level1Assault && infantry > assault)
+		rank = RANK_DEMOSOLDIER;
 
-		if(infantry >= Level2Infantry && bounty >= Level1Bounty)
-			ent->client->playerRank = RANK_MERCLEADER;
+	if(infantry >= Level2Infantry && tech >= Level1Tech && infantry > tech)
+		rank = RANK_ARCTRAINEE;
 
-		if(infantry >= Level2Infantry && bounty >= Level1Bounty && infantry > bounty)
-			ent->client->playerRank = RANK_MERCOFFICER;
+	if(infantry >= Level2Infantry && bounty >= Level1Bounty)
+		rank = RANK_MERCLEADER;
 
-		if(infantry >= Level2Infantry && assault >= Level2Assault && infantry > assault)
-			ent->client->playerRank = RANK_ASSAULTOFFICER;
+	if(infantry >= Level2Infantry && bounty >= Level1Bounty && infantry > bounty)
+		rank = RANK_MERCOFFICER;
 
-		if(infantry >= Level2Infantry && tech >= Level2Tech && infantry > tech)
-			ent->client->playerRank = RANK_ARCTROOPER;
+	if(infantry >= Level2Infantry && assault >= Level2Assault && infantry > assault)
+		rank = RANK_ASSAULTOFFICER;
 
-		if(infantry >= Level3Infantry)
-			ent->client->playerRank = RANK_INFCOMMANDER;
+	if(infantry >= Level2Infantry && tech >= Level2Tech && infantry > tech)
+		rank = RANK_ARCTROOPER;
 
-		if(bounty >= Level1Bounty && infantry >= Level1Infantry && bounty > infantry)
-			ent->client->playerRank = RANK_RENEGADECOMBATANT;
+	if(bounty >= Level2Bounty && infantry >= Level1Infantry && bounty > infantry)
+		rank = RANK_RENEGADETROOP;
 
-		if(bounty >= Level2Bounty && infantry >= Level1Infantry && bounty > infantry)
-			ent->client->playerRank = RANK_RENEGADETROOP;
+	if(bounty >= Level2Bounty && infantry >= Level2Infantry && bounty > infantry)
+		rank = RANK_RENEGADEOFFICER;
 
-		if(bounty >= Level2Bounty && infantry >= Level2Infantry && bounty > infantry)
-			ent->client->playerRank = RANK_RENEGADEOFFICER;
+	if(bounty >= Level2Bounty && tech >= Level1Tech && bounty > tech)
+		rank = RANK_MERCTECH;
 
-		if(bounty >= Level1Bounty && tech >= Level1Tech && bounty > tech)
-			ent->client->playerRank = RANK_PRIVATETECH;
+	if(bounty >= Level2Bounty && tech >= Level2Tech && bounty > tech)
+		rank = RANK_ELECTRONICSOUTLAW;
 
-		if(bounty >= Level2Bounty && tech >= Level1Tech && bounty > tech)
-			ent->client->playerRank = RANK_MERCTECH;
+	if(bounty >= Level1Bounty && assault >= Level1Assault && bounty > assault)
+		rank = RANK_SPACEMILITIA;
 
-		if(bounty >= Level2Bounty && tech >= Level2Tech && bounty > tech)
-			ent->client->playerRank = RANK_ELECTRONICSOUTLAW;
+	if(bounty >= Level2Bounty && assault >= Level1Assault && bounty > assault)
+		rank = RANK_OUTLAWJUGGERNAUT;
 
-		if(bounty >= Level1Bounty && assault >= Level1Assault && bounty > assault)
-			ent->client->playerRank = RANK_SPACEMILITIA;
+	if(bounty >= Level2Bounty && assault >= Level2Assault && bounty > assault)
+		rank = RANK_OUTLAWDREADNAUGHT;
 
-		if(bounty >= Level2Bounty && assault >= Level1Assault && bounty > assault)
-			ent->client->playerRank = RANK_OUTLAWJUGGERNAUT;
+	return rank;
+}
 
-		if(bounty >= Level2Bounty && assault >= Level2Assault && bounty > assault)
-			ent->client->playerRank = RANK_OUTLAWDREADNAUGHT;
+OJPRank GetLevel3GunnerRank(gclient_t *client) {
+	OJPRank rank = RANK_NEUTRAL_CIVILIAN;
 
-		if(bounty >= Level3Bounty)
-			ent->client->playerRank = RANK_BOUNTYHUNTER;
+	const int Level3Infantry = GetLevel3InfantryCost();
+	const int Level3Tech = GetLevel3TechCost();
+	const int Level3Bounty = GetLevel3BountyCost();
+	const int Level3Assault = GetLevel3AssaultCost();
+	const int infantry = GetPointsSpentInInfantry(client);
+	const int tech = GetPointsSpentInTech(client);
+	const int bounty = GetPointsSpentInBounty(client);
+	const int assault = GetPointsSpentInAssault(client);
+
+	if(assault >= Level3Assault) {
+		rank = RANK_ASSAULTGENERAL;
+	}
+
+	if(tech >= Level3Tech) {
+		rank = RANK_ENGINEERGENERAL;
+	}
+
+	if(infantry >= Level3Infantry) {
+		rank = RANK_INFCOMMANDER;
+	}
+
+	if(bounty >= Level3Bounty) {
+		rank = RANK_BOUNTYHUNTER;
+	}
+
+	return rank;
+}
+
+OJPRank Client_CalculateGunnerRank(gclient_t *client) {
+	OJPRank rank = GetLevel3GunnerRank(client);
+
+	if(rank == RANK_NEUTRAL_CIVILIAN) {
+		rank = GetLevel2GunnerRank(client);
+	}
+
+	if(rank == RANK_NEUTRAL_CIVILIAN) {
+		rank = GetLevel1GunnerRank(client);
+	}
+
+	return rank;
+}
+
+void CalculateAndSetRank(gentity_t *ent) {
+	if(ent->client->ps.fd.forcePowerLevel[FP_SEE]) {
+		ent->client->playerRank = Client_CalculateJediRank(ent->client);
+	}
+	else {
+		ent->client->playerRank = Client_CalculateGunnerRank(ent->client);
 	}
 }
-/*
-===========
-ClientSpawn
 
-Called every time a client is placed fresh in the world:
-after the first ClientBegin, and after each respawn
-Initializes all non-persistant parts of playerState
-============
-*/
-//[CoOp]
-extern void UpdatePlayerScriptTarget(void);
-extern qboolean UseSpawnWeapons;
-extern int SpawnWeapons;
-//[/CoOp]
-//[VisualWeapons]
-//prototype
-qboolean OJP_AllPlayersHaveClientPlugin(void);
-//[/VisualWeapons]
-//[TABBots]
-extern int FindBotType(int clientNum);
-//[/TABBots]
-extern qboolean WP_HasForcePowers( const playerState_t *ps );
-//[StanceSelection]
-extern qboolean G_ValidSaberStyle(gentity_t *ent, int saberStyle);
-extern qboolean WP_SaberCanTurnOffSomeBlades( saberInfo_t *saber );
-//[StanceSelection]
-void ClientSpawn(gentity_t *ent) {
-	int					index;
-	vec3_t				spawn_origin, spawn_angles;
-	gclient_t			*client;
-	int					i;
-	clientPersistant_t	saved;
-	clientSession_t		savedSess;
-	int					persistant[MAX_PERSISTANT];
-	gentity_t			*spawnPoint;
-	int					flags, gameFlags;
-	int					savedPing;
-	int					eventSequence;
-	char				userinfo[MAX_INFO_STRING];
-	forcedata_t			savedForce;
-	int					saveSaberNum = ENTITYNUM_NONE;
-	int					wDisable = 0;
-	int					savedSiegeIndex = 0;
-	//[ExpSys]
-	int					savedSkill[NUM_SKILLS];
-	//[/ExpSys]
-	int					maxHealth;
-	saberInfo_t			saberSaved[MAX_SABERS];
-	int					l = 0;
-	void				*g2WeaponPtrs[MAX_SABERS];
-	char				*value;
-	char				*saber;
-	qboolean			changedSaber = qfalse;
-	qboolean			inSiegeWithClass = qfalse;
+int Client_CalculateStartMaxHealth(gclient_t *client) {
+	int	maxHealth = 100;
 
+	if (g_gametype.integer == GT_SIEGE && client->siegeClass != -1) {
+		siegeClass_t *scl = &bgSiegeClasses[client->siegeClass];
 
-	index = ent - g_entities;
-	client = ent->client;
-
-	//[ExpSys]
-	if(ent->client->sess.skillPoints < g_minForceRank.value)
-	{//the minForceRank was changed to a higher value than the player has
-		ent->client->sess.skillPoints = g_minForceRank.value;
-		ent->client->skillUpdated = qtrue;
-	}
-	//[/ExpSys]]
-
-	//first we want the userinfo so we can see if we should update this client's saber -rww
-	trap_GetUserinfo( index, userinfo, sizeof(userinfo) );
-
-
-	while (l < MAX_SABERS)
-	{
-		switch (l)
-		{
-		case 0:
-			saber = &ent->client->sess.saberType[0];
-			break;
-		case 1:
-			saber = &ent->client->sess.saber2Type[0];
-			break;
-		default:
-			saber = NULL;
-			break;
+		if (scl->maxhealth) {
+			maxHealth = scl->maxhealth;
 		}
 
-		value = Info_ValueForKey (userinfo, va("saber%i", l+1));
-		if (saber &&
-			value &&
-			(Q_stricmp(value, saber) || !saber[0] || !ent->client->saber[0].model[0]))
-		{ //doesn't match up (or our session saber is BS), we want to try setting it
-			if (G_SetSaber(ent, l, value, qfalse))
-			{
-				changedSaber = qtrue;
-			}
-			else if (!saber[0] || !ent->client->saber[0].model[0])
-			{ //Well, we still want to say they changed then (it means this is siege and we have some overrides)
-				changedSaber = qtrue;
-			}
-		}
-		l++;
-	}
-
-	if (changedSaber)
-	{ //make sure our new info is sent out to all the other clients, and give us a valid stance
-		ClientUserinfoChanged( ent->s.number );
-
-		//make sure the saber models are updated
-		G_SaberModelSetup(ent);
-
-		l = 0;
-		while (l < MAX_SABERS)
-		{ //go through and make sure both sabers match the userinfo
-			switch (l)
-			{
-			case 0:
-				saber = &ent->client->sess.saberType[0];
-				break;
-			case 1:
-				saber = &ent->client->sess.saber2Type[0];
-				break;
-			default:
-				saber = NULL;
-				break;
-			}
-
-			value = Info_ValueForKey (userinfo, va("saber%i", l+1));
-
-			if (Q_stricmp(value, saber))
-			{ //they don't match up, force the user info
-				Info_SetValueForKey(userinfo, va("saber%i", l+1), saber);
-				trap_SetUserinfo( ent->s.number, userinfo );
-			}
-			l++;
-		}
-
-		//[StanceSelection]
-		/*
-		if (ent->client->saber[0].model[0] &&
-			ent->client->saber[1].model[0])
-		{ //dual
-			ent->client->ps.fd.saberAnimLevelBase = ent->client->ps.fd.saberAnimLevel = ent->client->ps.fd.saberDrawAnimLevel = SS_DUAL;
-		}
-		else if ((ent->client->saber[0].saberFlags&SFL_TWO_HANDED))
-		{ //staff
-			ent->client->ps.fd.saberAnimLevel = ent->client->ps.fd.saberDrawAnimLevel = SS_STAFF;
-		}
-		else
-		{
-			if (ent->client->sess.saberLevel < SS_FAST)
-			{
-				ent->client->sess.saberLevel = SS_FAST;
-			}
-			//[SaberSys]
-			//Revised to handle the hidden styles.
-			else if (ent->client->sess.saberLevel > SS_TAVION)
-			{
-				ent->client->sess.saberLevel = SS_TAVION;
-			}
-			/*
-			else if (ent->client->sess.saberLevel > SS_STRONG)
-			{
-				ent->client->sess.saberLevel = SS_STRONG;
-			}
-			*//*
-			//[/SaberSys]
-			ent->client->ps.fd.saberAnimLevelBase = ent->client->ps.fd.saberAnimLevel = ent->client->ps.fd.saberDrawAnimLevel = ent->client->sess.saberLevel;
-
-			//[SaberSys]
-			//don't want this anymore since we have more styles than saber offense powers at the moment with the hidden styles.
-			/*
-			if (g_gametype.integer != GT_SIEGE &&
-				ent->client->ps.fd.saberAnimLevel > ent->client->ps.fd.forcePowerLevel[FP_SABER_OFFENSE])
-			{
-				ent->client->ps.fd.saberAnimLevelBase = ent->client->ps.fd.saberAnimLevel = ent->client->ps.fd.saberDrawAnimLevel = ent->client->sess.saberLevel = ent->client->ps.fd.forcePowerLevel[FP_SABER_OFFENSE];
-			}
-			*//*
-			//[/SaberSys]
-		}
-		if ( g_gametype.integer != GT_SIEGE )
-		{
-			//let's just make sure the styles we chose are cool
-			if ( !WP_SaberStyleValidForSaber( &ent->client->saber[0], &ent->client->saber[1], ent->client->ps.saberHolstered, ent->client->ps.fd.saberAnimLevel ) )
-			{
-				WP_UseFirstValidSaberStyle( &ent->client->saber[0], &ent->client->saber[1], ent->client->ps.saberHolstered, &ent->client->ps.fd.saberAnimLevel );
-				ent->client->ps.fd.saberAnimLevelBase = ent->client->saberCycleQueue = ent->client->ps.fd.saberAnimLevel;
-			}
-		}
-		*/
-		//[/StanceSelection]
-	}
-	l = 0;
-
-	//[ExpSys]
-	//always reinit force powers for bots since they're stupid and don't change their skill points when they gain experience.
-	if (client->ps.fd.forceDoInit || ent->r.svFlags & SVF_BOT)
-	//if (client->ps.fd.forceDoInit)
-	//[/ExpSys]
-	{ //force a reread of force powers
-		WP_InitForcePowers( ent );
-		client->ps.fd.forceDoInit = 0;
-	}
-
-	//[TABBots]
-	if ( ent->r.svFlags & SVF_BOT && FindBotType(ent->s.number) == BOT_TAB
-		&& ent->client->ps.fd.saberAnimLevel != SS_STAFF 
-		&& ent->client->ps.fd.saberAnimLevel != SS_DUAL) 
-	{//TABBots randomly switch styles on respawn if not using a staff or dual
-		//[StanceSelection]
-		int newLevel = Q_irand( SS_FAST, SS_STAFF );
-
-		//new validation technique.
-		if ( !G_ValidSaberStyle(ent, newLevel) )
-		{//had an illegal style, revert to a valid one
-			int count;
-			for(count = SS_FAST; count < SS_STAFF; count++)
-			{
-				newLevel++;
-				if(newLevel > SS_STAFF)
-				{
-					newLevel = SS_FAST;
-				}
-
-				if(G_ValidSaberStyle(ent, newLevel))
-				{
-					break;
-				}
-			}
-		}
-
-		ent->client->ps.fd.saberAnimLevel = newLevel;
-		/*
-		ent->client->ps.fd.saberAnimLevel = ent->client->ps.fd.saberDrawAnimLevel 
-			= ent->client->sess.saberLevel = Q_irand(SS_FAST, SS_TAVION);
-		*/
-		//[/StanceSelection]
-	}
-	//[/TABBots]
-
-	//[StanceSelection]
-	/*
-	if (ent->client->ps.fd.saberAnimLevel != SS_STAFF &&
-		ent->client->ps.fd.saberAnimLevel != SS_DUAL &&
-		ent->client->ps.fd.saberAnimLevel == ent->client->ps.fd.saberDrawAnimLevel &&
-		ent->client->ps.fd.saberAnimLevel == ent->client->sess.saberLevel)
-	{
-		if (ent->client->sess.saberLevel < SS_FAST)
-		{
-			ent->client->sess.saberLevel = SS_FAST;
-		}
-		//[SaberSys]
-		//Revised to handle the hidden styles
-		else if (ent->client->sess.saberLevel > SS_TAVION)
-		{
-			ent->client->sess.saberLevel = SS_TAVION;
-		}
-		/*
-		else if (ent->client->sess.saberLevel > SS_STRONG)
-		{
-			ent->client->sess.saberLevel = SS_STRONG;
-		}
-		*//*
-		//[/SaberSys]
-		ent->client->ps.fd.saberAnimLevel = ent->client->ps.fd.saberDrawAnimLevel = ent->client->sess.saberLevel;
-
-		//[SaberSys]
-		//don't want this anymore since we have more styles than saber offense powers at the moment with the hidden styles.
-		/*
-		if (g_gametype.integer != GT_SIEGE &&
-			ent->client->ps.fd.saberAnimLevel > ent->client->ps.fd.forcePowerLevel[FP_SABER_OFFENSE])
-		{
-			ent->client->ps.fd.saberAnimLevel = ent->client->ps.fd.saberDrawAnimLevel = ent->client->sess.saberLevel = ent->client->ps.fd.forcePowerLevel[FP_SABER_OFFENSE];
-		}
-		*//*
-		//[/SaberSys]
-	}
-	*/
-
-	ent->client->ps.fd.saberAnimLevel = ent->client->ps.fd.saberDrawAnimLevel = ent->client->sess.saberLevel;
-	if ( g_gametype.integer != GT_SIEGE )
-	{
-		//let's just make sure the styles we chose are cool
-		if ( !G_ValidSaberStyle(ent, ent->client->ps.fd.saberAnimLevel) )
-		{//had an illegal style, revert to default
-			ent->client->ps.fd.saberAnimLevel = SS_MEDIUM;
-			ent->client->saberCycleQueue = ent->client->ps.fd.saberAnimLevel;
+		if ( maxHealth < 1 ) {
+			maxHealth = 100;
 		}
 	}
-	//[/StanceSelection]
 
-	// find a spawn point
-	// do it before setting health back up, so farthest
-	// ranging doesn't count this client
+	return maxHealth;
+}
+
+int Client_CalculateStartArmor(gclient_t *client) {
+	int armor = 0;
+
+	if (g_gametype.integer == GT_SIEGE && client->siegeClass != -1) {
+		armor = bgSiegeClasses[client->siegeClass].startarmor;
+	}
+	else {
+		if(client->skillLevel[SK_SHIELD] == FORCE_LEVEL_3) {
+			armor = 100;
+		}
+		else if(client->skillLevel[SK_SHIELD] == FORCE_LEVEL_2) {
+			armor = 75;
+		}
+		else if(client->skillLevel[SK_SHIELD] == FORCE_LEVEL_1) {
+			armor = 50;
+		}
+		else {
+			armor = 0;
+		}
+	}
+
+	return armor;
+}
+
+gentity_t *Client_FindSpawnPoint(gentity_t *ent, vec_t *spawn_origin, vec_t *spawn_angles) {
+	gentity_t *spawnPoint;
+	gclient_t *client = ent->client;
+
 	if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
 		spawnPoint = SelectSpectatorSpawnPoint ( 
 						spawn_origin, spawn_angles);
@@ -4012,94 +3943,259 @@ void ClientSpawn(gentity_t *ent) {
 
 		} while ( 1 );
 	}
+
+	return spawnPoint;
+}
+
+int GetWeaponsDisableSetting() { 
+	if (g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL) {
+		return g_duelWeaponDisable.integer;
+	}
+
+	return g_weaponDisable.integer;
+}
+
+qboolean IsWeaponEnabled(int weapon) {
+	int disable = GetWeaponsDisableSetting();
+
+	return (qboolean)(!disable || !(disable & (1 << weapon)));
+}
+
+qboolean AreAllWeaponsEnabled() {
+	for(int i = 0; i < WP_NUM_WEAPONS; i++) {
+		if(!IsWeaponEnabled(i)) {
+			return qfalse;
+		}
+	}
+
+	return qtrue;
+}
+
+void Client_LoadAmmoLevels(gclient_t *client) {
+	client->ps.ammo[AMMO_POWERCELL] = ammoData[AMMO_POWERCELL].max * (float) (client->skillLevel[SK_BOWCASTER] < client->skillLevel[SK_DISRUPTOR] ? client->skillLevel[SK_DISRUPTOR] : client->skillLevel[SK_BOWCASTER])/FORCE_LEVEL_3;
+
+	client->ps.ammo[AMMO_METAL_BOLTS] = ammoData[AMMO_METAL_BOLTS].max * (float) client->skillLevel[SK_REPEATER]/FORCE_LEVEL_3;
+
+	client->ps.ammo[AMMO_BLASTER] = ammoData[AMMO_BLASTER].max * (float) client->skillLevel[SK_BLASTER]/FORCE_LEVEL_3;
+
+
+	client->ps.ammo[AMMO_ROCKETS] = ammoData[AMMO_ROCKETS].max;
+	client->ps.ammo[AMMO_THERMAL] = ammoData[AMMO_THERMAL].max * (float) client->skillLevel[SK_THERMAL]/FORCE_LEVEL_3;
+
+	client->ps.ammo[AMMO_DETPACK] = ammoData[AMMO_DETPACK].max * (float) client->skillLevel[SK_DETPACK]/FORCE_LEVEL_2;
+	client->ps.ammo[AMMO_TUSKEN_RIFLE] = 100;
+}
+
+/*
+===========
+ClientSpawn
+
+Called every time a client is placed fresh in the world:
+after the first ClientBegin, and after each respawn
+Initializes all non-persistant parts of playerState
+============
+*/
+//[CoOp]
+extern void UpdatePlayerScriptTarget(void);
+extern qboolean UseSpawnWeapons;
+extern int SpawnWeapons;
+//[/CoOp]
+//[VisualWeapons]
+//prototype
+qboolean OJP_AllPlayersHaveClientPlugin(void);
+//[/VisualWeapons]
+//[TABBots]
+extern int FindBotType(int clientNum);
+//[/TABBots]
+extern qboolean WP_HasForcePowers( const playerState_t *ps );
+//[StanceSelection]
+extern qboolean G_ValidSaberStyle(gentity_t *ent, int saberStyle);
+extern qboolean WP_SaberCanTurnOffSomeBlades( saberInfo_t *saber );
+//[StanceSelection]
+void ClientSpawn(gentity_t *ent) {
+
+	int					persistant[MAX_PERSISTANT];
+	char				userinfo[MAX_INFO_STRING];
+	qboolean			changedSaber = qfalse;
+
+	char				*value;
+	char				*saber;
+
+	int index = ent - g_entities;
+	gclient_t *client = ent->client;
+
+	//[ExpSys]
+	if(ent->client->sess.skillPoints < g_minForceRank.value)
+	{//the minForceRank was changed to a higher value than the player has
+		ent->client->sess.skillPoints = g_minForceRank.value;
+		ent->client->skillUpdated = qtrue;
+	}
+	//[/ExpSys]]
+
+	//first we want the userinfo so we can see if we should update this client's saber -rww
+	trap_GetUserinfo( index, userinfo, sizeof(userinfo) );
+
+	for(int i = 0; i < MAX_SABERS; i++) {
+		switch (i)
+		{
+		case 0:
+			saber = &ent->client->sess.saberType[0];
+			break;
+		case 1:
+			saber = &ent->client->sess.saber2Type[0];
+			break;
+		default:
+			saber = NULL;
+			break;
+		}
+		
+		value = Info_ValueForKey (userinfo, va("saber%i", i+1));
+		if (saber &&
+			value &&
+			(Q_stricmp(value, saber) || !saber[0] || !ent->client->saber[0].model[0]))
+		{ //doesn't match up (or our session saber is BS), we want to try setting it
+			if (G_SetSaber(ent, i, value, qfalse)) {
+				changedSaber = qtrue;
+			}
+			else if (!saber[0] || !ent->client->saber[0].model[0])
+			{ //Well, we still want to say they changed then (it means this is siege and we have some overrides)
+				changedSaber = qtrue;
+			}
+		}
+	}
+
+	if (changedSaber)
+	{ //make sure our new info is sent out to all the other clients, and give us a valid stance
+		ClientUserinfoChanged( ent->s.number );
+
+		//make sure the saber models are updated
+		G_SaberModelSetup(ent);
+
+		for(int i = 0; i < MAX_SABERS; i++)
+		{ //go through and make sure both sabers match the userinfo
+			switch (i)
+			{
+			case 0:
+				saber = &ent->client->sess.saberType[0];
+				break;
+			case 1:
+				saber = &ent->client->sess.saber2Type[0];
+				break;
+			default:
+				saber = NULL;
+				break;
+			}
+
+			value = Info_ValueForKey (userinfo, va("saber%i", i+1));
+
+			if (Q_stricmp(value, saber))
+			{ //they don't match up, force the user info
+				Info_SetValueForKey(userinfo, va("saber%i", i+1), saber);
+				trap_SetUserinfo( ent->s.number, userinfo );
+			}
+		}	
+	}
+
+	if (client->ps.fd.forceDoInit || ent->r.svFlags & SVF_BOT) {
+		WP_InitForcePowers( ent );
+		client->ps.fd.forceDoInit = 0;
+	}
+
+	//[TABBots]
+	if ( ent->r.svFlags & SVF_BOT && FindBotType(ent->s.number) == BOT_TAB
+		&& ent->client->ps.fd.saberAnimLevel != SS_STAFF 
+		&& ent->client->ps.fd.saberAnimLevel != SS_DUAL) 
+	{//TABBots randomly switch styles on respawn if not using a staff or dual
+		//[StanceSelection]
+		int newLevel = Q_irand( SS_FAST, SS_STAFF );
+
+		//new validation technique.
+		if ( !G_ValidSaberStyle(ent, newLevel) )
+		{//had an illegal style, revert to a valid one
+			for(int count = SS_FAST; count < SS_STAFF; count++) {
+				newLevel++;
+				if(newLevel > SS_STAFF) {
+					newLevel = SS_FAST;
+				}
+
+				if(G_ValidSaberStyle(ent, newLevel)) {
+					break;
+				}
+			}
+		}
+
+		ent->client->ps.fd.saberAnimLevel = newLevel;
+		//[/StanceSelection]
+	}
+	//[/TABBots]
+
+	ent->client->ps.fd.saberAnimLevel = ent->client->ps.fd.saberDrawAnimLevel = ent->client->sess.saberLevel;
+	if ( g_gametype.integer != GT_SIEGE )
+	{
+		//let's just make sure the styles we chose are cool
+		if ( !G_ValidSaberStyle(ent, ent->client->ps.fd.saberAnimLevel) )
+		{//had an illegal style, revert to default
+			ent->client->ps.fd.saberAnimLevel = SS_MEDIUM;
+			ent->client->saberCycleQueue = ent->client->ps.fd.saberAnimLevel;
+		}
+	}
+	//[/StanceSelection]
+
+	vec3_t	spawn_origin, spawn_angles;
+	gentity_t *spawnPoint = Client_FindSpawnPoint(ent, spawn_origin, spawn_angles);
+
 	client->pers.teamState.state = TEAM_ACTIVE;
 
 	// toggle the teleport bit so the client knows to not lerp
 	// and never clear the voted flag
-	flags = ent->client->ps.eFlags & (EF_TELEPORT_BIT );
+	int flags = ent->client->ps.eFlags & (EF_TELEPORT_BIT );
 	flags ^= EF_TELEPORT_BIT;
-	gameFlags = ent->client->mGameFlags & ( PSG_VOTED | PSG_TEAMVOTED);
+	int gameFlags = ent->client->mGameFlags & ( PSG_VOTED | PSG_TEAMVOTED);
 
 	// clear everything but the persistant data
 
-	saved = client->pers;
-	savedSess = client->sess;
-	savedPing = client->ps.ping;
-//	savedAreaBits = client->areabits;
+	clientPersistant_t saved = client->pers;
+	clientSession_t savedSess = client->sess;
+	int savedPing = client->ps.ping;
 
-	for ( i = 0 ; i < MAX_PERSISTANT ; i++ ) {
+	for (int i = 0 ; i < MAX_PERSISTANT ; i++ ) {
 		persistant[i] = client->ps.persistant[i];
 	}
-	eventSequence = client->ps.eventSequence;
 
-	savedForce = client->ps.fd;
+	int eventSequence = client->ps.eventSequence;
+	forcedata_t	savedForce = client->ps.fd;
+	int saveSaberNum = client->ps.saberEntityNum;
+	int savedSiegeIndex = client->siegeClass;
 
-	saveSaberNum = client->ps.saberEntityNum;
-
-	savedSiegeIndex = client->siegeClass;
-
-	//[ExpSys]
-	for(i = 0; i < NUM_SKILLS; i++)
-	{
+	int	savedSkill[NUM_SKILLS];
+	for(int i = 0; i < NUM_SKILLS; i++) {
 		savedSkill[i] = client->skillLevel[i];
 	}
-	//[/ExpSys]
 
-	l = 0;
-	while (l < MAX_SABERS)
-	{
-		saberSaved[l] = client->saber[l];
-		g2WeaponPtrs[l] = client->weaponGhoul2[l];
-		l++;
+	saberInfo_t	saberSaved[MAX_SABERS];
+	void *g2WeaponPtrs[MAX_SABERS];
+	for(int i = 0; i < MAX_SABERS; i++) {
+		saberSaved[i] = client->saber[i];
+		g2WeaponPtrs[i] = client->weaponGhoul2[i];
 	}
 
-	i = 0;
-	while (i < HL_MAX)
-	{
+	for(int i = 0; i < HL_MAX; i++) {
 		ent->locationDamage[i] = 0;
-		i++;
 	}
 
 	memset (client, 0, sizeof(*client)); // bk FIXME: Com_Memset?
 	client->bodyGrabIndex = ENTITYNUM_NONE;
 
 	//Get the skin RGB based on his userinfo
-	value = Info_ValueForKey (userinfo, "char_color_red");
-	if (value)
-	{
-		client->ps.customRGBA[0] = atoi(value);
-	}
-	else
-	{
-		client->ps.customRGBA[0] = 255;
-	}
+	client->ps.customRGBA[0] = Info_ColorForKey(userinfo, "char_color_red");
+	client->ps.customRGBA[1] = Info_ColorForKey(userinfo, "char_color_green");
+	client->ps.customRGBA[2] = Info_ColorForKey(userinfo, "char_color_blue");
+	client->ps.customRGBA[3] = 255;
 
-	value = Info_ValueForKey (userinfo, "char_color_green");
-	if (value)
-	{
-		client->ps.customRGBA[1] = atoi(value);
-	}
-	else
-	{
-		client->ps.customRGBA[1] = 255;
-	}
-
-	value = Info_ValueForKey (userinfo, "char_color_blue");
-	if (value)
-	{
-		client->ps.customRGBA[2] = atoi(value);
-	}
-	else
-	{
-		client->ps.customRGBA[2] = 255;
-	}
-
-	if ((client->ps.customRGBA[0]+client->ps.customRGBA[1]+client->ps.customRGBA[2]) < 100)
+	if ((client->ps.customRGBA[0] + client->ps.customRGBA[1] + client->ps.customRGBA[2]) < 100)
 	{ //hmm, too dark!
 		client->ps.customRGBA[0] = client->ps.customRGBA[1] = client->ps.customRGBA[2] = 255;
 	}
-
-	client->ps.customRGBA[3]=255;
 
 	//[BugFix32]
 	//update our customRGBA for team colors. 
@@ -4126,23 +4222,16 @@ void ClientSpawn(gentity_t *ent) {
 
 	client->siegeClass = savedSiegeIndex;
 
-	//[ExpSys]
-	for(i = 0; i < NUM_SKILLS; i++)
-	{
+	for(int i = 0; i < NUM_SKILLS; i++) {
 		client->skillLevel[i] = savedSkill[i];
 	}
-	//[/ExpSys]
 
-	l = 0;
-	while (l < MAX_SABERS)
-	{
-		client->saber[l] = saberSaved[l];
-		client->weaponGhoul2[l] = g2WeaponPtrs[l];
-		l++;
+	for(int i = 0; i < MAX_SABERS; i++) {
+		client->saber[i] = saberSaved[i];
+		client->weaponGhoul2[i] = g2WeaponPtrs[i];
 	}
 
-	for(i = 0; i < NUM_FORCE_POWERS; i++)
-	{
+	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
 		client->forcePowerStart[i]=-1;
 	}
 	//or the saber ent num
@@ -4162,9 +4251,10 @@ void ClientSpawn(gentity_t *ent) {
 	client->ps.ping = savedPing;
 	client->lastkilled_client = -1;
 
-	for ( i = 0 ; i < MAX_PERSISTANT ; i++ ) {
+	for (int i = 0 ; i < MAX_PERSISTANT ; i++ ) {
 		client->ps.persistant[i] = persistant[i];
 	}
+
 	client->ps.eventSequence = eventSequence;
 	// increment the spawncount so the client will detect the respawn
 	client->ps.persistant[PERS_SPAWN_COUNT]++;
@@ -4172,25 +4262,8 @@ void ClientSpawn(gentity_t *ent) {
 
 	client->airOutTime = level.time + 12000;
 
-	// set max health
-	if (g_gametype.integer == GT_SIEGE && client->siegeClass != -1)
-	{
-		siegeClass_t *scl = &bgSiegeClasses[client->siegeClass];
-		maxHealth = 100;
+	client->pers.maxHealth = Client_CalculateStartMaxHealth(client);
 
-		if (scl->maxhealth)
-		{
-			maxHealth = scl->maxhealth;
-		}
-	}
-	else
-	{
-		maxHealth = 100;
-	}
-	client->pers.maxHealth = maxHealth;//atoi( Info_ValueForKey( userinfo, "handicap" ) );
-	if ( client->pers.maxHealth < 1 || client->pers.maxHealth > maxHealth ) {
-		client->pers.maxHealth = 100;
-	}
 	// clear entity values
 	client->ps.stats[STAT_MAX_HEALTH] = client->pers.maxHealth;
 	client->ps.eFlags = flags;
@@ -4208,7 +4281,6 @@ void ClientSpawn(gentity_t *ent) {
 	ent->waterlevel = 0;
 	ent->watertype = 0;
 	ent->flags = 0;
-	//ent->client->quoteThink = level.time + 1000;
 	
 	VectorCopy (playerMins, ent->r.mins);
 	VectorCopy (playerMaxs, ent->r.maxs);
@@ -4219,72 +4291,27 @@ void ClientSpawn(gentity_t *ent) {
 	//give default weapons
 	client->ps.stats[STAT_WEAPONS] = ( 1 << WP_NONE );
 
-	if (g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL)
-	{
-		wDisable = g_duelWeaponDisable.integer;
-	}
-	else
-	{
-		wDisable = g_weaponDisable.integer;
-	}
-
 	//[MELEE]
 	//Give everyone fists as long as they aren't disabled.
-	if (!wDisable || !(wDisable & (1 << WP_MELEE)))
-	{
+	if (IsWeaponEnabled(WP_MELEE)) {
 		client->ps.stats[STAT_WEAPONS] |= (1 << WP_MELEE);
 	}
 	//[/MELEE]
 
-
-	//racc - set weapons for everything except siege
-	//[CoOp]
-	//[ExpSys]
-	/* spawn weapons screws up the experience system
-	//[/ExpSys]
-	if( UseSpawnWeapons )
-	{//we have ICARUS overrides on the weapons you should spawn with.
-		client->ps.stats[STAT_WEAPONS] = SpawnWeapons;
-
-		//[CoOp]
-		if(g_gametype.integer == GT_SINGLE_PLAYER)
-		{//I want MP to have Melee all the time, so you'll be able to punch/kick your
-		//NPC allies if they get stuck
-			client->ps.stats[STAT_WEAPONS] |= (1 << WP_MELEE);
-		}
-		//[/CoOp]
-
-		//set initial selected weapon
-		if (client->ps.stats[STAT_WEAPONS] & (1 << WP_SABER))
-		{
-			client->ps.weapon = WP_SABER;
-		}
-		else if (client->ps.stats[STAT_WEAPONS] & (1 << WP_BRYAR_PISTOL))
-		{
-			client->ps.weapon = WP_BRYAR_PISTOL;
-		}
-		else
-		{
-			client->ps.weapon = WP_MELEE;
-		}
-	}
-	//[ExpSys]
-	else if ( g_gametype.integer != GT_HOLOCRON 
-	*/
 	if ( g_gametype.integer != GT_HOLOCRON 
 	//[/ExpSys]
 	//[/CoOp]
 		&& g_gametype.integer != GT_JEDIMASTER 
 		&& !HasSetSaberOnly()
-		&& !AllForceDisabled( g_forcePowerDisable.integer )
+		&& !AllForceDisabled()
 		&& g_trueJedi.integer )
 	{
 		if ( g_gametype.integer >= GT_TEAM && (client->sess.sessionTeam == TEAM_BLUE || client->sess.sessionTeam == TEAM_RED) )
 		{//In Team games, force one side to be merc and other to be jedi
 			if ( level.numPlayingClients > 0 )
 			{//already someone in the game
-				int		i, forceTeam = TEAM_SPECTATOR;
-				for ( i = 0 ; i < level.maxclients ; i++ ) 
+				int		forceTeam = TEAM_SPECTATOR;
+				for (int i = 0 ; i < level.maxclients ; i++ ) 
 				{
 					if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
 						continue;
@@ -4331,26 +4358,26 @@ void ClientSpawn(gentity_t *ent) {
 		{//no force powers set
 			client->ps.trueNonJedi = qtrue;
 			client->ps.trueJedi = qfalse;
-			if (!wDisable || !(wDisable & (1 << WP_BRYAR_PISTOL)))
-			{
+			if (IsWeaponEnabled(WP_BRYAR_PISTOL)) {
 				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BRYAR_PISTOL );
 			}
-			if (!wDisable || !(wDisable & (1 << WP_BLASTER)))
-			{
+
+			if (IsWeaponEnabled(WP_BLASTER)) {
 				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BLASTER );
 			}
-			if (!wDisable || !(wDisable & (1 << WP_BOWCASTER)))
-			{
+
+			if (IsWeaponEnabled(WP_BOWCASTER)) {
 				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BOWCASTER );
 			}
-			if (!wDisable || !(wDisable & (1 << WP_REPEATER)))
-			{
+
+			if (IsWeaponEnabled(WP_REPEATER)) {
 				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_REPEATER );
 			}
-			if (!wDisable || !(wDisable & (1 << WP_DISRUPTOR)))//JRHockney
-			{
+
+			if (IsWeaponEnabled(WP_DISRUPTOR)) {
 				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_DISRUPTOR );
 			}
+
 			client->ps.stats[STAT_WEAPONS] &= ~(1 << WP_SABER);
 			client->ps.stats[STAT_WEAPONS] |= (1 << WP_MELEE);
 			client->ps.ammo[AMMO_POWERCELL] = ammoData[AMMO_POWERCELL].max;
@@ -4360,16 +4387,10 @@ void ClientSpawn(gentity_t *ent) {
 	else
 	{//jediVmerc is incompatible with this gametype, turn it off!
 		trap_Cvar_Set( "g_jediVmerc", "0" );
-		if (g_gametype.integer == GT_HOLOCRON)
-		{
-			//[/MOREWEAPOPTIONS]
-			if (!wDisable || !(wDisable & (1 << WP_SABER)))
-			{
+		if (g_gametype.integer == GT_HOLOCRON) {
+			if (IsWeaponEnabled(WP_SABER)) {
 				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SABER );
 			}
-			//always get free saber level 1 in holocron
-			//client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SABER );	//these are precached in g_items, ClearRegisteredItems()
-			//[/MOREWEAPOPTIONS]
 		}
 		//[ExpSys]
 		else if(g_gametype.integer == GT_JEDIMASTER || g_gametype.integer == GT_HOLOCRON)
@@ -4386,237 +4407,117 @@ void ClientSpawn(gentity_t *ent) {
 		//[/ExpSys]
 		else
 		{
-			if (client->ps.fd.forcePowerLevel[FP_SABER_OFFENSE])
-			{
-				//[/MOREWEAPOPTIONS]
-				if (!wDisable || !(wDisable & (1 << WP_SABER)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SABER );	//these are precached in g_items, ClearRegisteredItems()
-				}
-				//client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SABER );	//these are precached in g_items, ClearRegisteredItems()
-				
-			}
-			//[ExpSys]
-			/* NUAM already get melee for free earlier in the function.
-			else
-			{ //if you don't have saber attack rank then you don't get a saber
-				client->ps.stats[STAT_WEAPONS] |= (1 << WP_MELEE);
+			if (client->ps.fd.forcePowerLevel[FP_SABER_OFFENSE] && IsWeaponEnabled(WP_SABER)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_SABER );	
 			}
 
-			//[CoOp]
-			if(g_gametype.integer == GT_SINGLE_PLAYER)
-			{//I want MP to have Melee all the time, so you'll be able to punch/kick your
-			//NPC allies if they get stuck
-				client->ps.stats[STAT_WEAPONS] |= (1 << WP_MELEE);
-			}
-			//[/CoOp]
-			*/
-
-			if(client->skillLevel[SK_PISTOL])
-			{//player has blaster
-				if (!wDisable || !(wDisable & (1 << WP_BRYAR_PISTOL)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BRYAR_PISTOL );
-				}
-			}
-
-			if(client->skillLevel[SK_BLASTER])
-			{//player has blaster
-				if (!wDisable || !(wDisable & (1 << WP_BLASTER)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BLASTER );
-				}
-			}
-
-			if(client->skillLevel[SK_BOWCASTER])
-			{//player has bowcaster skill
-				if (!wDisable || !(wDisable & (1 << WP_BOWCASTER)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BOWCASTER );
-				}
-
-				if(client->skillLevel[SK_BOWCASTER] > FORCE_LEVEL_2)
-					client->ps.eFlags2 |= EF2_BOWCASTERSCOPE;
-
-			}
-
-			if(client->skillLevel[SK_TUSKEN_RIFLE])
-			{
-				if (!wDisable || !(wDisable & (1 << WP_TUSKEN_RIFLE)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_TUSKEN_RIFLE );
-				}
-			}
-
-			if(client->skillLevel[SK_GRENADE])
-			{
-				if (!wDisable || !(wDisable & (1 << WP_GRENADE)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_GRENADE );
-				}
-			}
-
-			if(client->skillLevel[SK_THERMAL])
-			{//player has thermals
-				if (!wDisable || !(wDisable & (1 << WP_THERMAL)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_THERMAL );
-				}
-			}
-
-			if(client->skillLevel[SK_ROCKET])
-			{//player has rocket launcher
-				if (!wDisable || !(wDisable & (1 << WP_ROCKET_LAUNCHER)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_ROCKET_LAUNCHER );
-				}
-			}
-
-			if(client->skillLevel[SK_DETPACK])
-			{//player has blaster
-				if (!wDisable || !(wDisable & (1 << WP_DET_PACK)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_DET_PACK );
-				}
-			}
-			if(client->skillLevel[SK_REPEATER])
-			{//player has repeater
-				if (!wDisable || !(wDisable & (1 << WP_REPEATER)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_REPEATER );
-				}
-			}
-			if(client->skillLevel[SK_DISRUPTOR])
-			{//player has disruptor
-				if (!wDisable || !(wDisable & (1 << WP_DISRUPTOR)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_DISRUPTOR );
-				}
-			}
-			if(client->skillLevel[SK_FLECHETTE])
-			{
-				if (!wDisable || !(wDisable & (1 << WP_FLECHETTE)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_FLECHETTE );
-				}
-			}
-			//[/ExpSys]
-		}
-
-		if (g_gametype.integer != GT_SIEGE)
-		{
-			//[ExpSys]
-			//no free pistol outside of GT_JEDIMASTER and GT_SIEGE
-			/*
-			if (!wDisable || !(wDisable & (1 << WP_BRYAR_PISTOL)))
-			{
+			if(client->skillLevel[SK_PISTOL] && IsWeaponEnabled(WP_BRYAR_PISTOL)) {
 				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BRYAR_PISTOL );
 			}
-			else*/ if (g_gametype.integer == GT_JEDIMASTER)
-			//[/ExpSys]
-			{
-				//[/MOREWEAPOPTIONS]
-				if (!wDisable || !(wDisable & (1 << WP_BRYAR_PISTOL)))
-				{
-					client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BRYAR_PISTOL );
+
+			if(client->skillLevel[SK_BLASTER] && IsWeaponEnabled(WP_BLASTER)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BLASTER );
+			}
+
+			if(client->skillLevel[SK_BOWCASTER] && IsWeaponEnabled(WP_BOWCASTER)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BOWCASTER );
+
+				if(client->skillLevel[SK_BOWCASTER] > FORCE_LEVEL_2) {
+					client->ps.eFlags2 |= EF2_BOWCASTERSCOPE;
 				}
-				//client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BRYAR_PISTOL );
-				//[/MOREWEAPOPTIONS]
+			}
+
+			if(client->skillLevel[SK_TUSKEN_RIFLE] && IsWeaponEnabled(WP_TUSKEN_RIFLE)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_TUSKEN_RIFLE );
+			}
+
+			if(client->skillLevel[SK_GRENADE] && IsWeaponEnabled(WP_GRENADE)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_GRENADE );
+			}
+
+			if(client->skillLevel[SK_THERMAL] && IsWeaponEnabled(WP_THERMAL)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_THERMAL );
+			}
+
+			if(client->skillLevel[SK_ROCKET] && IsWeaponEnabled(WP_ROCKET_LAUNCHER)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_ROCKET_LAUNCHER );
+			}
+
+			if(client->skillLevel[SK_DETPACK] && IsWeaponEnabled(WP_DET_PACK)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_DET_PACK );
+			}
+
+			if(client->skillLevel[SK_REPEATER] && IsWeaponEnabled(WP_REPEATER)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_REPEATER );
+			}
+
+			if(client->skillLevel[SK_DISRUPTOR] && IsWeaponEnabled(WP_DISRUPTOR)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_DISRUPTOR );
+			}
+
+			if(client->skillLevel[SK_FLECHETTE] && IsWeaponEnabled(WP_FLECHETTE)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_FLECHETTE );
 			}
 		}
 
-		//[MOREWEAPOPTIONS]
-		if( wDisable == WP_ALLDISABLED )
-		{//some joker disabled all the weapons.  Give everyone Melee
+		if (g_gametype.integer == GT_JEDIMASTER) {
+			if (IsWeaponEnabled(WP_BRYAR_PISTOL)) {
+				client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_BRYAR_PISTOL );
+			}
+		}
+		
+		if(!AreAllWeaponsEnabled()) {
 			client->ps.stats[STAT_WEAPONS] |= (1 << WP_MELEE);
 			G_Printf( "ERROR:  The game doesn't like it when you disable ALL the weapons.\nReenabling Melee.\n");
-			if (g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL)
-			{
+
+			if (g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL) {
 				trap_Cvar_Set( "g_duelWeaponDisable", va("%i", WP_MELEEONLY) );
 			}
-			else
-			{
+			else {
 				trap_Cvar_Set( "g_weaponDisable", va("%i", WP_MELEEONLY) );
-		//[/MOREWEAPOPTIONS]
 			}
 		}
 	
-		if (g_gametype.integer == GT_JEDIMASTER)
-		{
+		if (g_gametype.integer == GT_JEDIMASTER) {
 			client->ps.stats[STAT_WEAPONS] &= ~(1 << WP_SABER);
-			//[MOREWEAPOPTIONS]
-			if (!wDisable || !(wDisable & (1 << WP_BRYAR_PISTOL)))
-			{
+
+			if (IsWeaponEnabled(WP_BRYAR_PISTOL)) {
 				client->ps.stats[STAT_WEAPONS] |= (1 << WP_MELEE);
 			}
-			//client->ps.stats[STAT_WEAPONS] |= (1 << WP_MELEE);
-			//[/MOREWEAPOPTIONS]
 		}
 
 		//[ExpSys]
 		//racc - set initial weapon selected.
-		if (client->ps.stats[STAT_WEAPONS] & (1 << WP_SABER))
-		{//sabers auto selected if we have them.
+		if (client->ps.stats[STAT_WEAPONS] & (1 << WP_SABER)) {
 			client->ps.weapon = WP_SABER;
 		}
-		else
-		{
-			int i;
-			for ( i = LAST_USEABLE_WEAPON ; i > WP_NONE ; i-- )
-			{
-				if(client->ps.stats[STAT_WEAPONS] & (1 << i) )
-				{//have this one, equip it.
+		else {
+			for (int i = LAST_USEABLE_WEAPON ; i > WP_NONE ; i-- ) {
+				if(client->ps.stats[STAT_WEAPONS] & (1 << i) ) {
 					client->ps.weapon = i;
 					break;
 				}
 			}
 		}
-
-		/* 
-		if (client->ps.stats[STAT_WEAPONS] & (1 << WP_SABER))
-		{
-			client->ps.weapon = WP_SABER;
-		}
-		else if (client->ps.stats[STAT_WEAPONS] & (1 << WP_BRYAR_PISTOL))
-		{
-			client->ps.weapon = WP_BRYAR_PISTOL;
-		}
-		else
-		{
-			client->ps.weapon = WP_MELEE;
-		}
-		*/
 		//[/ExpSys]
 	}
-
-	/*
-	client->ps.stats[STAT_HOLDABLE_ITEMS] |= ( 1 << HI_BINOCULARS );
-	client->ps.stats[STAT_HOLDABLE_ITEM] = BG_GetItemIndexByTag(HI_BINOCULARS, IT_HOLDABLE);
-	*/
 
 	if (g_gametype.integer == GT_SIEGE && client->siegeClass != -1 &&
 		client->sess.sessionTeam != TEAM_SPECTATOR)
 	{ //well then, we will use a custom weaponset for our class
-		int m = 0;
-
 		client->ps.stats[STAT_WEAPONS] = bgSiegeClasses[client->siegeClass].weapons;
 
-		if (client->ps.stats[STAT_WEAPONS] & (1 << WP_SABER))
-		{
+		if (client->ps.stats[STAT_WEAPONS] & (1 << WP_SABER)) {
 			client->ps.weapon = WP_SABER;
 		}
-		else if (client->ps.stats[STAT_WEAPONS] & (1 << WP_BRYAR_PISTOL))
-		{
+		else if (client->ps.stats[STAT_WEAPONS] & (1 << WP_BRYAR_PISTOL)) {
 			client->ps.weapon = WP_BRYAR_PISTOL;
 		}
-		else
-		{
+		else {
 			client->ps.weapon = WP_MELEE;
 		}
-		inSiegeWithClass = qtrue;
 
-		while (m < WP_NUM_WEAPONS)
-		{
+		for(int m = 0; m < WP_NUM_WEAPONS; m++) {
 			if (client->ps.stats[STAT_WEAPONS] & (1 << m))
 			{
 				if (client->ps.weapon != WP_SABER)
@@ -4659,8 +4560,10 @@ void ClientSpawn(gentity_t *ent) {
 					}
 				}
 			}
-			m++;
 		}
+	}
+	else {
+		Client_LoadAmmoLevels(client);
 	}
 
 	if (g_gametype.integer == GT_SIEGE &&
@@ -4687,8 +4590,7 @@ void ClientSpawn(gentity_t *ent) {
 
 		if(client->skillLevel[SK_FORCEFIELD])
 		{//give the player the force field item
-			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SHIELD);
-			
+
 			//If we can't find any available slot it means they're already taken
 			//and so don't allow any more items
 			if(client->itemSlot1 == 0)
@@ -4708,7 +4610,6 @@ void ClientSpawn(gentity_t *ent) {
 
 		if(client->skillLevel[SK_CLOAK])
 		{//give the player the cloaking device
-			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_CLOAK);
 
 			if(client->itemSlot1 == 0)
 			{
@@ -4726,7 +4627,6 @@ void ClientSpawn(gentity_t *ent) {
 
 		if(client->skillLevel[SK_BACTA] == FORCE_LEVEL_2)
 		{
-			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC_BIG);
 			if(client->itemSlot1 == 0)
 			{
 				client->ps.stats[STAT_GADGET_1] = HI_MEDPAC_BIG;
@@ -4742,7 +4642,6 @@ void ClientSpawn(gentity_t *ent) {
 		}
 		else if(client->skillLevel[SK_BACTA])
 		{
-			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_MEDPAC);
 			if(client->itemSlot1 == 0)
 			{
 				client->ps.stats[STAT_GADGET_1] = HI_MEDPAC;
@@ -4760,7 +4659,6 @@ void ClientSpawn(gentity_t *ent) {
 		//gain flamethrower
 		if(client->skillLevel[SK_FLAMETHROWER])
 		{
-			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_FLAMETHROWER);
 			if(client->itemSlot1 == 0)
 			{
 				client->ps.stats[STAT_GADGET_1] = HI_FLAMETHROWER;
@@ -4777,7 +4675,6 @@ void ClientSpawn(gentity_t *ent) {
 
 		if(client->skillLevel[SK_SEEKER])
 		{
-			//client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SEEKER);
 			if(client->itemSlot1 == 0)
 			{
 				client->ps.stats[STAT_GADGET_1] = HI_SEEKER;
@@ -4794,7 +4691,6 @@ void ClientSpawn(gentity_t *ent) {
 
 		if(client->skillLevel[SK_SENTRY])
 		{
-
 			if(client->itemSlot1 == 0)
 			{
 				client->ps.stats[STAT_GADGET_1] = HI_SENTRY_GUN;
@@ -4809,74 +4705,28 @@ void ClientSpawn(gentity_t *ent) {
 			}
 		}
 
-		//client->ps.stats[STAT_HOLDABLE_ITEMS] = 0;
 		//[/ExpSys]
 		client->ps.stats[STAT_HOLDABLE_ITEM] = 0;
-
-		//[DualPistols]
-		if(client->skillLevel[SK_PISTOL] >= FORCE_LEVEL_3 && ent->client->ps.weapon == WP_BRYAR_PISTOL)
-		{
-			//ent->client->ps.eFlags |= EF_DUAL_WEAPONS;
-		}
-		//[/DualPistols]
 	}
 
 	if (g_gametype.integer == GT_SIEGE &&
 		client->siegeClass != -1 &&
 		bgSiegeClasses[client->siegeClass].powerups &&
 		client->sess.sessionTeam != TEAM_SPECTATOR)
-	{ //this class has some start powerups
-		i = 0;
-		while (i < PW_NUM_POWERUPS)
-		{
-			if (bgSiegeClasses[client->siegeClass].powerups & (1 << i))
-			{
+	{ //this class has some start powerups	
+		for(int i = 0; i < PW_NUM_POWERUPS; i++) {
+			if (bgSiegeClasses[client->siegeClass].powerups & (1 << i)) {
 				client->ps.powerups[i] = Q3_INFINITE;
 			}
-			i++;
 		}
 	}
 
-	if ( client->sess.sessionTeam == TEAM_SPECTATOR )
-	{
+	if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
 		client->ps.stats[STAT_WEAPONS] = 0;
 		client->ps.stats[STAT_HOLDABLE_ITEMS] = 0;
 		client->ps.stats[STAT_HOLDABLE_ITEM] = 0;
 	}
 
-	// nmckenzie: DESERT_SIEGE... or well, siege generally.  This was over-writing the max value, which was NOT good for siege.
-	if ( inSiegeWithClass == qfalse )
-	{//racc - not playing siege, assign ammo levels.
-		//[ExpSys]
-		client->ps.ammo[AMMO_POWERCELL] = ammoData[AMMO_POWERCELL].max * (float) (client->skillLevel[SK_BOWCASTER] < client->skillLevel[SK_DISRUPTOR] ? client->skillLevel[SK_DISRUPTOR] : client->skillLevel[SK_BOWCASTER])/FORCE_LEVEL_3;
-
-		client->ps.ammo[AMMO_METAL_BOLTS] = ammoData[AMMO_METAL_BOLTS].max * (float) client->skillLevel[SK_REPEATER]/FORCE_LEVEL_3;
-
-		client->ps.ammo[AMMO_BLASTER] = ammoData[AMMO_BLASTER].max * (float) client->skillLevel[SK_BLASTER]/FORCE_LEVEL_3;
-
-
-		client->ps.ammo[AMMO_ROCKETS] = ammoData[AMMO_ROCKETS].max;
-		client->ps.ammo[AMMO_THERMAL] = ammoData[AMMO_THERMAL].max * (float) client->skillLevel[SK_THERMAL]/FORCE_LEVEL_3;
-
-		client->ps.ammo[AMMO_DETPACK] = ammoData[AMMO_DETPACK].max * (float) client->skillLevel[SK_DETPACK]/FORCE_LEVEL_2;
-		//client->ps.ammo[AMMO_TRIPMINE] = ClipSize(AMMO_TRIPMINE,ent);
-		//client->ps.ammo[AMMO_TUSKEN_RIFLE] = ClipSize(AMMO_TUSKEN_RIFLE,ent);
-		client->ps.ammo[AMMO_TUSKEN_RIFLE] = 100;
-		//client->ps.ammo[AMMO_BLASTER] = 100; //ammoData[AMMO_BLASTER].max; //100 seems fair.
-		//[/ExpSys]
-	}
-//	client->ps.ammo[AMMO_POWERCELL] = ammoData[AMMO_POWERCELL].max;
-//	client->ps.ammo[AMMO_FORCE] = ammoData[AMMO_FORCE].max;
-//	client->ps.ammo[AMMO_METAL_BOLTS] = ammoData[AMMO_METAL_BOLTS].max;
-//	client->ps.ammo[AMMO_ROCKETS] = ammoData[AMMO_ROCKETS].max;
-/*
-	client->ps.stats[STAT_WEAPONS] = ( 1 << WP_BRYAR_PISTOL);
-	if ( g_gametype.integer == GT_TEAM ) {
-		client->ps.ammo[WP_BRYAR_PISTOL] = 50;
-	} else {
-		client->ps.ammo[WP_BRYAR_PISTOL] = 100;
-	}
-*/
 	client->ps.rocketLockIndex = ENTITYNUM_NONE;
 	client->ps.rocketLockTime = 0;
 
@@ -4891,19 +4741,13 @@ void ClientSpawn(gentity_t *ent) {
 	//such)
 	client->ps.genericEnemyIndex = -1;
 
-	//[VisualWeapons]
-	//update the weapon stats for this player since they have changed.
-	if(OJP_AllPlayersHaveClientPlugin())
-	{//don't send the weapon updates if someone isn't able to process this new event type (IE anyone without
-		//the OJP client plugin)
+	if(OJP_AllPlayersHaveClientPlugin()) {
 		G_AddEvent(ent, EV_WEAPINVCHANGE, client->ps.stats[STAT_WEAPONS]);
 	}
-	//[/VisualWeapons]
 
 	client->ps.isJediMaster = qfalse;
 
-	if (client->ps.fallingToDeath)
-	{
+	if (client->ps.fallingToDeath) {
 		client->ps.fallingToDeath = 0;
 		client->noCorpse = qtrue;
 	}
@@ -4913,17 +4757,14 @@ void ClientSpawn(gentity_t *ent) {
 
 	//[StanceSelection]
 	//set saberAnimLevelBase
-	if(ent->client->saber[0].model[0] && ent->client->saber[1].model[0])
-	{
+	if(ent->client->saber[0].model[0] && ent->client->saber[1].model[0]) {
 		ent->client->ps.fd.saberAnimLevelBase = SS_DUAL;
 	}
 	else if (ent->client->saber[0].numBlades > 1
-		&& WP_SaberCanTurnOffSomeBlades( &ent->client->saber[0] ))
-	{
+		&& WP_SaberCanTurnOffSomeBlades( &ent->client->saber[0] )) {
 		ent->client->ps.fd.saberAnimLevelBase = SS_STAFF;
 	}
-	else
-	{
+	else {
 		ent->client->ps.fd.saberAnimLevelBase = SS_MEDIUM;
 	}
 
@@ -4958,8 +4799,7 @@ void ClientSpawn(gentity_t *ent) {
 		if ( g_gametype.integer == GT_POWERDUEL && client->sess.duelTeam == DUELTEAM_LONE )
 		{
 			if ( g_duel_fraglimit.integer )
-			{
-				
+			{			
 				ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] =
 					g_powerDuelStartHealth.integer - ((g_powerDuelStartHealth.integer - g_powerDuelEndHealth.integer) * (float)client->sess.wins / (float)g_duel_fraglimit.integer);
 			}
@@ -4973,53 +4813,12 @@ void ClientSpawn(gentity_t *ent) {
 			ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 100;
 		}
 	}
-	//[ExpSys]
-	/* players should start with their max health rather than slightly over it.
-	else if (client->ps.stats[STAT_MAX_HEALTH] <= 100)
-	{
-		ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] * 1.25;
-	}
-	else if (client->ps.stats[STAT_MAX_HEALTH] < 125)
-	{
-		ent->health = client->ps.stats[STAT_HEALTH] = 125;
-	}
-	*/
-	//[/ExpSys]
 	else
 	{
 		ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH];
 	}
 
-	// Start with a small amount of armor as well.
-	if (g_gametype.integer == GT_SIEGE &&
-		client->siegeClass != -1 /*&&
-		bgSiegeClasses[client->siegeClass].startarmor*/)
-	{ //class specifies a start armor amount, so use it
-		client->ps.stats[STAT_ARMOR] = bgSiegeClasses[client->siegeClass].startarmor;
-	}
-	//[ExpSys]
-	else
-	{//armor in non-siege gametypes
-		//armor is now the number of skill points a player has not allociated. 
-		if(client->skillLevel[SK_SHIELD] == FORCE_LEVEL_3)
-			client->ps.stats[STAT_ARMOR] = 100;//client->sess.skillPoints - TotalAllociatedSkillPoints(ent);
-		else if(client->skillLevel[SK_SHIELD] == FORCE_LEVEL_2)
-			client->ps.stats[STAT_ARMOR] = 75;
-		else if(client->skillLevel[SK_SHIELD] == FORCE_LEVEL_1)
-			client->ps.stats[STAT_ARMOR] = 50;
-		else
-			client->ps.stats[STAT_ARMOR] = 0;
-	}
-	/*
-	else if ( g_gametype.integer == GT_DUEL || g_gametype.integer == GT_POWERDUEL )
-	{//no armor in duel
-		client->ps.stats[STAT_ARMOR] = 0;
-	}
-	else
-	{
-		client->ps.stats[STAT_ARMOR] = client->ps.stats[STAT_MAX_HEALTH] * 0.25;
-	}
-	*/
+	client->ps.stats[STAT_ARMOR] = Client_CalculateStartArmor(client);
 	//[/ExpSys]
 
 	G_SetOrigin( ent, spawn_origin );
@@ -5031,36 +4830,25 @@ void ClientSpawn(gentity_t *ent) {
 	trap_GetUsercmd( client - level.clients, &ent->client->pers.cmd );
 	SetClientViewAngle( ent, spawn_angles );
 
-	if ( ent->client->sess.sessionTeam == TEAM_SPECTATOR ) {
-
-	} else {
+	if ( ent->client->sess.sessionTeam != TEAM_SPECTATOR ) {
 		G_KillBox( ent );
 		trap_LinkEntity (ent);
 
 		// force the base weapon up
-		//client->ps.weapon = WP_BRYAR_PISTOL;
-		//client->ps.weaponstate = FIRST_WEAPON;
-		if (client->ps.weapon <= WP_NONE)
-		{
+		if (client->ps.weapon <= WP_NONE) {
 			client->ps.weapon = WP_BRYAR_PISTOL;
 		}
 
 		client->ps.torsoTimer = client->ps.legsTimer = 0;
 
-		if (client->ps.weapon == WP_SABER)
-		{
+		if (client->ps.weapon == WP_SABER) {
 			G_SetAnim(ent, NULL, SETANIM_BOTH, BOTH_STAND1TO2, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD|SETANIM_FLAG_HOLDLESS, 0);
 		}
-		else
-		{
+		else {
 			G_SetAnim(ent, NULL, SETANIM_TORSO, TORSO_RAISEWEAP1, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD|SETANIM_FLAG_HOLDLESS, 0);
-			//[DualPistols]
-			if (client->ps.eFlags & EF_DUAL_WEAPONS)
-				client->ps.legsAnim = WeaponReadyAnim2[client->ps.weapon];
-			else
-				client->ps.legsAnim = WeaponReadyAnim[client->ps.weapon];
-			//[/DualPistols]
+			client->ps.legsAnim = WeaponReadyAnim[client->ps.weapon];
 		}
+
 		client->ps.weaponstate = WEAPON_RAISING;
 		client->ps.weaponTime = client->ps.torsoTimer;
 	}
@@ -5076,43 +4864,17 @@ void ClientSpawn(gentity_t *ent) {
 	if ( level.intermissiontime ) {
 		MoveClientToIntermission( ent );
 	} else {
-		// fire the targets of the spawn point
-		//[CoOp]
-		//update the player script name so that any scripts run off this spawnpoint are sure
-		//to have a "player" script target to effect.
 		UpdatePlayerScriptTarget();
-		/* moved down so that the player script name can propogate thru ICARUS.
-		G_UseTargets( spawnPoint, ent );
-		if (g_gametype.integer == GT_SINGLE_PLAYER && spawnPoint)
-		{//remove the target of the spawnpoint to prevent multiple target firings
-			spawnPoint->target = NULL;
-		}
-		*/
-		//[/CoOp]
-		
-		// select the highest weapon number available, after any
-		// spawn given items have fired
-		/*
-		client->ps.weapon = 1;
-		for ( i = WP_NUM_WEAPONS - 1 ; i > 0 ; i-- ) {
-			if ( client->ps.stats[STAT_WEAPONS] & ( 1 << i ) ) {
-				client->ps.weapon = i;
-				break;
-			}
-		}
-		*/
 	}
 
 	//set teams for NPCs to recognize
 	if (g_gametype.integer == GT_SIEGE)
 	{ //Imperial (team1) team is allied with "enemy" NPCs in this mode
-		if (client->sess.sessionTeam == SIEGETEAM_TEAM1)
-		{
+		if (client->sess.sessionTeam == SIEGETEAM_TEAM1) {
 			client->playerTeam = ent->s.teamowner = NPCTEAM_ENEMY;
 			client->enemyTeam = NPCTEAM_PLAYER;
 		}
-		else
-		{
+		else {
 			client->playerTeam = ent->s.teamowner = NPCTEAM_PLAYER;
 			client->enemyTeam = NPCTEAM_ENEMY;
 		}
@@ -5122,17 +4884,6 @@ void ClientSpawn(gentity_t *ent) {
 		client->playerTeam = ent->s.teamowner = NPCTEAM_PLAYER;
 		client->enemyTeam = NPCTEAM_ENEMY;
 	}
-
-	/*
-	//scaling for the power duel opponent
-	if (g_gametype.integer == GT_POWERDUEL &&
-		client->sess.duelTeam == DUELTEAM_LONE)
-	{
-		client->ps.iModelScale = 125;
-		VectorSet(ent->modelScale, 1.25f, 1.25f, 1.25f);
-	}
-	*/
-	//Disabled. At least for now. Not sure if I'll want to do it or not eventually.
 
 	// run a client frame to drop exactly to the floor,
 	// initialize animations and other things
@@ -5147,13 +4898,11 @@ void ClientSpawn(gentity_t *ent) {
 		trap_LinkEntity( ent );
 	}
 
-	if (g_spawnInvulnerability.integer)
-	{
+	if (g_spawnInvulnerability.integer) {
 		ent->client->ps.eFlags |= EF_INVULNERABLE;
 		ent->client->invulnerableTimer = level.time + g_spawnInvulnerability.integer;
 	}
 
-	
 	// run the presend to set anything else
 	ClientEndFrame( ent );
 
@@ -5194,62 +4943,31 @@ server system housekeeping.
 extern void G_LeaveVehicle( gentity_t* ent, qboolean ConCheck );
 //[/BugFix38]
 void ClientDisconnect( int clientNum ) {
-	gentity_t	*ent;
-	gentity_t	*tent;
-	int			i;
-
 	// cleanup if we are kicking a bot that
 	// hasn't spawned yet
 	G_RemoveQueuedBotBegin( clientNum );
 
-	ent = g_entities + clientNum;
+	gentity_t	*ent = g_entities + clientNum;
 	if ( !ent->client ) {
 		return;
 	}
 
-	i = 0;
-
-	while (i < NUM_FORCE_POWERS)
-	{
-		if (ent->client->ps.fd.forcePowersActive & (1 << i))
-		{
+	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+		if (ent->client->ps.fd.forcePowersActive & (1 << i)) {
 			WP_ForcePowerStop(ent, i);
 		}
-		i++;
 	}
 
-	i = TRACK_CHANNEL_1;
-
-	while (i < NUM_TRACK_CHANNELS)
-	{
-		if (ent->client->ps.fd.killSoundEntIndex[i-50] && ent->client->ps.fd.killSoundEntIndex[i-50] < MAX_GENTITIES && ent->client->ps.fd.killSoundEntIndex[i-50] > 0)
-		{
+	for(int i = TRACK_CHANNEL_1; i < NUM_TRACK_CHANNELS; i++) {
+		if (ent->client->ps.fd.killSoundEntIndex[i-50] && ent->client->ps.fd.killSoundEntIndex[i-50] < MAX_GENTITIES && ent->client->ps.fd.killSoundEntIndex[i-50] > 0) {
 			G_MuteSound(ent->client->ps.fd.killSoundEntIndex[i-50], CHAN_VOICE);
 		}
-		i++;
 	}
-	i = 0;
 	
-	//[BugFix38]
 	G_LeaveVehicle( ent, qtrue );
 
-	/*if (ent->client->ps.m_iVehicleNum)
-	{ //tell it I'm getting off
-		gentity_t *veh = &g_entities[ent->client->ps.m_iVehicleNum];
-
-		if (veh->inuse && veh->client && veh->m_pVehicle)
-		{
-			int pCon = ent->client->pers.connected;
-
-			ent->client->pers.connected = 0;
-			veh->m_pVehicle->m_pVehicleInfo->Eject(veh->m_pVehicle, (bgEntity_t *)ent, qtrue);
-			ent->client->pers.connected = pCon;
-		}
-	}*/
-	//[/BugFix38]
-
 	// stop any following clients
-	for ( i = 0 ; i < level.maxclients ; i++ ) {
+	for (int i = 0 ; i < level.maxclients ; i++ ) {
 		if ( level.clients[i].sess.sessionTeam == TEAM_SPECTATOR
 			&& level.clients[i].sess.spectatorState == SPECTATOR_FOLLOW
 			&& level.clients[i].sess.spectatorClient == clientNum ) {
@@ -5260,7 +4978,7 @@ void ClientDisconnect( int clientNum ) {
 	// send effect if they were completely connected
 	if ( ent->client->pers.connected == CON_CONNECTED 
 		&& ent->client->sess.sessionTeam != TEAM_SPECTATOR ) {
-		tent = G_TempEntity( ent->client->ps.origin, EV_PLAYER_TELEPORT_OUT );
+		gentity_t	*tent = G_TempEntity( ent->client->ps.origin, EV_PLAYER_TELEPORT_OUT );
 		tent->s.clientNum = ent->s.clientNum;
 
 		// They don't get to take powerups with them!
@@ -5295,14 +5013,11 @@ void ClientDisconnect( int clientNum ) {
 	{
 		trap_G2API_CleanGhoul2Models(&ent->ghoul2);
 	}
-	i = 0;
-	while (i < MAX_SABERS)
-	{
-		if (ent->client->weaponGhoul2[i] && trap_G2_HaveWeGhoul2Models(ent->client->weaponGhoul2[i]))
-		{
+	
+	for(int i = 0; i < MAX_SABERS; i++) {
+		if (ent->client->weaponGhoul2[i] && trap_G2_HaveWeGhoul2Models(ent->client->weaponGhoul2[i])) {
 			trap_G2API_CleanGhoul2Models(&ent->client->weaponGhoul2[i]);
 		}
-		i++;
 	}
 
 	trap_UnlinkEntity (ent);
@@ -5347,14 +5062,11 @@ void ClientDisconnect( int clientNum ) {
 //find the player that has been on the server the least amount of time for this team
 //HumanOnly  = sets a scan for human only bots. False scans for any player but picks
 //bots over humans.
-gentity_t *FindYoungestPlayeronTeam(int team, qboolean HumanOnly)
-{
-	int		i;
+gentity_t *FindYoungestPlayeronTeam(int team, qboolean HumanOnly) {
 	int		YoungestNum = -1;
 	int		Age = -1;
 
-	for ( i = 0 ; i < level.maxclients ; i++ ) 
-	{
+	for (int i = 0 ; i < level.maxclients ; i++ ) {
 		if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
 			continue;
 		}
@@ -5392,8 +5104,7 @@ gentity_t *FindYoungestPlayeronTeam(int team, qboolean HumanOnly)
 		}
 	}
 
-	if(YoungestNum != -1)
-	{
+	if(YoungestNum != -1) {
 		return &g_entities[YoungestNum];
 	}
 
@@ -5610,21 +5321,15 @@ qboolean G_StandardHumanoid( gentity_t *self )
 //[/CoOp]
 
 
-//[ClientPlugInDetect]
-qboolean OJP_AllPlayersHaveClientPlugin(void)
-{//this function checks to see if all players are running OJP on their local systems or not.
-	int i;
-	for(i = 0; i < level.maxclients; i++)
-	{
-		if(g_entities[i].inuse && !g_entities[i].client->pers.ojpClientPlugIn)
-		{//a live player that doesn't have the plugin
+qboolean OJP_AllPlayersHaveClientPlugin(void) {
+	for(int i = 0; i < level.maxclients; i++) {
+		if(g_entities[i].inuse && !g_entities[i].client->pers.ojpClientPlugIn) {
 			return qfalse;
 		}
 	}
 
 	return qtrue;
 }
-//[/ClientPlugInDetect]
 
 
 //[LastManStanding]

@@ -37,9 +37,7 @@
 extern gentity_t *droppedRedFlag;
 extern gentity_t *droppedBlueFlag;
 
-//[MOREFORCEOPTIONS]
-qboolean AllForceDisabled(int force);
-//[/MOREFORCEOPTIONS]
+qboolean AllForceDisabled();
 
 
 //======================================================================
@@ -3313,10 +3311,7 @@ void FinishSpawningItem( gentity_t *ent ) {
 		}
 	}
 
-	//[MOREFORCEOPTIONS]
-	//if (g_forcePowerDisable.integer)
-	if (AllForceDisabled(g_forcePowerDisable.integer))
-	//[/MOREFORCEOPTIONS]
+	if (AllForceDisabled())
 	{ //if force powers disabled, don't add force powerups
 		if (ent->item->giType == IT_POWERUP)
 		{

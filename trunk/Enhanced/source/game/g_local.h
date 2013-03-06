@@ -2404,7 +2404,3 @@ void DisableCoreDumps(void);
 void EnableStackTrace(void);
 void DisableStackTrace(void);
 //[/CrashLog]
-
-
-
-const char* GetRandQuote();

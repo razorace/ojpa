@@ -26,8 +26,14 @@ const float FPBAR_Y		= 425.0f;
 const float MPBAR_Y		= 410.0;
 
 const float HPBAR_X		= 10.0f;
+const float HPBAR_Y		= 425.0f;
+const float HPBAR_W		= 65.0f;
+const float HPBAR_H		= 7.0f + 2.1f;
 
+const float APBAR_X		= 10.0f;
 const float APBAR_Y		= 440.0f;
+const float APBAR_H		= 7.0f + 2.1f;
+const float APBAR_W		= 65.0f;
 
 #define DPBAR_H			65.0f
 #define DPBAR_W			13.0f
@@ -82,6 +88,11 @@ const char *mishapTicName[] =
 "mishap_tic15",
 };
 
+void CG_DrawPercentageBox(float x, float y, float width, float height, float percent, const float *borderColor, const float *filledColor) {
+	CG_DrawRect(x, y, width, height, 1.0f, borderColor);
+	CG_FillRect((x + width), y, -((width)-percent), height, filledColor);
+}
+
 //Health
 void CG_DrawHealthTicMethod(menuDef_t *menuHUD)
 {
@@ -130,6 +141,7 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 	float			percent;
 	int				currValue;
 	
+	
 	calcColor[0] = 0;
 	calcColor[1] = 0;
 	calcColor[2] = 0;
@@ -158,14 +170,14 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 	Vector4Copy(colorTable[CT_BLACK], cColor);
 	cColor[3] = 0.4f;
 
+	//CG_DrawRect(APBAR_X - 1.0f, APBAR_Y - 1.0f, APBAR_W + 2.1f, APBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
+	//CG_FillRect((APBAR_X + APBAR_W), APBAR_Y, -((APBAR_W)-percent), APBAR_H, cColor);
+	
+	CG_DrawRect(APBAR_X, APBAR_Y, APBAR_W, APBAR_H, 1.0f, colorTable[CT_BLACK]);
+	CG_FillRect((APBAR_X + APBAR_W), APBAR_Y, -((APBAR_W)-percent), APBAR_H, cColor);
+	//CG_DrawPercentageBox(APBAR_X, APBAR_Y, APBAR_W, APBAR_H, percent, colorTable[CT_BLACK], cColor);
 
-	CG_DrawRect(HPBAR_X - 1.0f, APBAR_Y - 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
-	CG_FillRect(HPBAR_X, APBAR_Y, percent, FPBAR_H, aColor);
-	CG_FillRect((HPBAR_X + FPBAR_W), APBAR_Y, -((FPBAR_W)-percent), FPBAR_H, cColor);
-
-
-	UI_DrawScaledProportionalString( HPBAR_X+FPBAR_W + 3.0f,APBAR_Y-4.0f, va( "%i", armor ),
-		UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_WHITE] , 0.5f);
+	UI_DrawScaledProportionalString( HPBAR_X+FPBAR_W + 3.0f,APBAR_Y-4.0f, va( "%i", armor ), UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_WHITE] , 0.5f);
 }
 
 void CG_FillRect2( float x, float y, float width, float height, const float *color );
@@ -183,10 +195,16 @@ void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
 
 
 	vec4_t aColor;
-	aColor[0] = 1.0f;
-	aColor[1] = 0.0f;
-	aColor[2] = 1.0f;
-	aColor[3] = 0.5f;
+	//aColor[0] = 1.0f;
+	//aColor[1] = 0.0f;
+	//aColor[2] = 1.0f;
+	//aColor[3] = 0.5f;
+	//173,35,75
+	//99,9,71
+	aColor[0] = 99.0f / 255;
+	aColor[1] = 9.0f / 255;
+	aColor[2] = 71.0f / 255;
+	aColor[3] = 1;
 
 	CG_DrawRect(FPBAR_X - 1.0f, MPBAR_Y- 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
 
@@ -418,10 +436,15 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 
 	//color of the bar -- DD: What are these silly magic numbers??
 	if(cg.snap->ps.fd.forcePowerLevel[FP_SEE] > 0) {
-		aColor[0] = 0.503f;
-		aColor[1] = 0.375f;
-		aColor[2] = 0.996f;
-		aColor[3] = 0.5f;
+		//aColor[0] = 0.503f;
+		//aColor[1] = 0.375f;
+		//aColor[2] = 0.996f;
+		//aColor[3] = 0.5f;
+		//22,147,165
+		aColor[0] = 22.0f / 255;
+		aColor[1] = 147.0f / 255;
+		aColor[2] = 165.0f / 255;
+		aColor[3] = 1;
 	}
 	else {
 		aColor[0] = 1.0f;
@@ -464,8 +487,16 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	CG_FillRect(FPBAR_X + ( FPBAR_W- percent), FPBAR_Y, FPBAR_W-(FPBAR_W-percent), FPBAR_H, aColor);
 
 	if(forceLostAmount != 0) {
+		//199,40,23
+		vec4_t lostColor;
+		lostColor[0] = 231.0f / 255;
+		lostColor[1] = 53.0f / 255;
+		lostColor[2] = 37.0f / 255;
+		lostColor[3] = 1;
+		//128,15,37
+		//231,53,37
 		float lPercent = ((float)forceLostAmount / 100.0f) * FPBAR_W;
-		CG_FillRect(FPBAR_X + ( FPBAR_W- percent)-lPercent, FPBAR_Y, FPBAR_W-(FPBAR_W-lPercent), FPBAR_H, colorTable[CT_RED]);
+		CG_FillRect(FPBAR_X + ( FPBAR_W- percent)-lPercent, FPBAR_Y, FPBAR_W-(FPBAR_W-lPercent), FPBAR_H, lostColor);
 	}
 	
 	vec3_t color;
