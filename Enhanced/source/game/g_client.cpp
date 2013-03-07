@@ -45,14 +45,14 @@ Targets will be fired when someone spawns in on them.
 "nobots" will prevent bots from using this spot.
 "nohumans" will prevent non-bots from using this spot.
 */
-void SP_info_player_duel( gentity_t *ent )
-{
+void SP_info_player_duel( gentity_t *ent ) {
 	int		i;
 
 	G_SpawnInt( "nobots", "0", &i);
 	if ( i ) {
 		ent->flags |= FL_NO_BOTS;
 	}
+
 	G_SpawnInt( "nohumans", "0", &i );
 	if ( i ) {
 		ent->flags |= FL_NO_HUMANS;
@@ -410,33 +410,14 @@ void JMSaberThink(gentity_t *ent)
 }
 
 
-void JMSaberTouch(gentity_t *self, gentity_t *other, trace_t *trace)
-{
-	int i = 0;
-//	gentity_t *te;
-
-	if (!other || !other->client || other->health < 1)
-	{
-		return;
-	}
-
-	if (self->enemy)
-	{
-		return;
-	}
-
-	if (!self->s.modelindex)
-	{
-		return;
-	}
-
-	if (other->client->ps.stats[STAT_WEAPONS] & (1 << WP_SABER))
-	{
-		return;
-	}
-
-	if (other->client->ps.isJediMaster)
-	{
+void JMSaberTouch(gentity_t *self, gentity_t *other, trace_t *trace) {
+	if (!other || 
+		!other->client || 
+		other->health < 1 ||
+		other->client->ps.stats[STAT_WEAPONS] & (1 << WP_SABER) ||
+		other->client->ps.isJediMaster ||
+		self->enemy ||
+		!self->s.modelindex) {
 		return;
 	}
 
@@ -471,12 +452,9 @@ void JMSaberTouch(gentity_t *self, gentity_t *other, trace_t *trace)
 		other->client->ps.fd.forcePower = 100;
 	}
 
-	while (i < NUM_FORCE_POWERS)
-	{
+	for(int i = 0; i < NUM_FORCE_POWERS; i++ ) {
 		other->client->ps.fd.forcePowersKnown |= (1 << i);
 		other->client->ps.fd.forcePowerLevel[i] = FORCE_LEVEL_3;
-
-		i++;
 	}
 
 	self->pos2[0] = 1;
@@ -487,11 +465,6 @@ void JMSaberTouch(gentity_t *self, gentity_t *other, trace_t *trace)
 	self->s.modelGhoul2 = 0;
 	self->s.eType = ET_GENERAL;
 
-	/*
-	te = G_TempEntity( vec3_origin, EV_DESTROY_GHOUL2_INSTANCE );
-	te->r.svFlags |= SVF_BROADCAST;
-	te->s.eventParm = self->s.number;
-	*/
 	G_KillG2Queue(self->s.number);
 
 	return;
@@ -649,27 +622,23 @@ go to a random point that doesn't telefrag
 */
 #define	MAX_SPAWN_POINTS	128
 gentity_t *SelectRandomDeathmatchSpawnPoint( void ) {
-	gentity_t	*spot;
-	int			count;
-	int			selection;
+	gentity_t	*spot = NULL;
+	int			count = 0;
 	gentity_t	*spots[MAX_SPAWN_POINTS];
-
-	count = 0;
-	spot = NULL;
 
 	while ((spot = G_Find (spot, FOFS(classname), "info_player_deathmatch")) != NULL) {
 		if ( SpotWouldTelefrag( spot ) ) {
 			continue;
 		}
-		spots[ count ] = spot;
-		count++;
+
+		spots[count++] = spot;
 	}
 
 	if ( !count ) {	// no spots that won't telefrag
 		return G_Find( NULL, FOFS(classname), "info_player_deathmatch");
 	}
 
-	selection = rand() % count;
+	int selection = rand() % count;
 	return spots[ selection ];
 }
 
@@ -1345,16 +1314,17 @@ Returns number of players on a team
 ================
 */
 team_t TeamCount( int ignoreClientNum, int team ) {
-	int		i;
 	int		count = 0;
 
-	for ( i = 0 ; i < level.maxclients ; i++ ) {
+	for (int i = 0 ; i < level.maxclients ; i++ ) {
 		if ( i == ignoreClientNum ) {
 			continue;
 		}
+
 		if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
 			continue;
 		}
+
 		if ( level.clients[i].sess.sessionTeam == team ) {
 			count++;
 		}
@@ -1376,15 +1346,15 @@ Returns the client number of the team leader
 ================
 */
 int TeamLeader( int team ) {
-	int		i;
-
-	for ( i = 0 ; i < level.maxclients ; i++ ) {
+	for (int i = 0 ; i < level.maxclients ; i++ ) {
 		if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
 			continue;
 		}
+
 		if ( level.clients[i].sess.sessionTeam == team ) {
-			if ( level.clients[i].sess.teamLeader )
+			if ( level.clients[i].sess.teamLeader ) {
 				return i;
+			}
 		}
 	}
 
@@ -1439,26 +1409,6 @@ team_t PickTeam( int ignoreClientNum, qboolean isBot ) {
 	}
 	return TEAM_BLUE;
 }
-
-/*
-===========
-ForceClientSkin
-
-Forces a client's skin (for teamplay)
-===========
-*/
-/*
-static void ForceClientSkin( gclient_t *client, char *model, const char *skin ) {
-	char *p;
-
-	if ((p = Q_strrchr(model, '/')) != 0) {
-		*p = 0;
-	}
-
-	Q_strcat(model, MAX_QPATH, "/");
-	Q_strcat(model, MAX_QPATH, skin);
-}
-*/
 
 /*
 ===========
@@ -2473,15 +2423,9 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 		return "Banned.";
 	}
 
-	//[BugFix11]
-	//thanks to ensiform.  SVF_BOT isn't set until later in this function.
-	if ( !isBot && g_needpass.integer ) 
-	{
-	//if ( !( ent->r.svFlags & SVF_BOT ) && !isBot && g_needpass.integer ) {
-	//[/BugFix11]
-		// check for a password
+	if ( !isBot && g_needpass.integer ) {
 		value = Info_ValueForKey (userinfo, "password");
-		//[PrivatePasswordFix]
+
 		if ( g_password.string[0] && Q_stricmp( g_password.string, "none" ) && strcmp( g_password.string, value) != 0) {
 			if( !sv_privatepassword.string[0] || strcmp( sv_privatepassword.string, value ) ) {
 				static char sTemp[1024];
@@ -2489,7 +2433,6 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 				return sTemp;// return "Invalid password";
 			}
 		}
-		//[PrivatePasswordFix]
 	}
 
 	// they can connect
@@ -2513,12 +2456,9 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 
 	// read or initialize the session data
 	if ( firstTime || level.newSession ) {
-		//[ExpSys]
-		//pass first time so we know if we need to reset skill levels or not.
 		G_InitSessionData( client, userinfo, isBot, firstTime );
-		//G_InitSessionData( client, userinfo, isBot );
-		//[/ExpSys]
 	}
+
 	G_ReadSessionData( client );
 
 	//[AdminSys]
@@ -2530,17 +2470,11 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 		(firstTime || level.newSession))
 	{ //if this is the first time then auto-assign a desired siege team and show briefing for that team
 		client->sess.siegeDesiredTeam = 0;//PickTeam(ent->s.number);
-		/*
-		trap_SendServerCommand(ent->s.number, va("sb %i", client->sess.siegeDesiredTeam));
-		*/
 		//don't just show it - they'll see it if they switch to a team on purpose.
 	}
 
-
-	if (g_gametype.integer == GT_SIEGE && client->sess.sessionTeam != TEAM_SPECTATOR)
-	{
-		if (firstTime || level.newSession)
-		{ //start as spec
+	if (g_gametype.integer == GT_SIEGE && client->sess.sessionTeam != TEAM_SPECTATOR) {
+		if (firstTime || level.newSession) {
 			client->sess.siegeDesiredTeam = client->sess.sessionTeam;
 			client->sess.sessionTeam = TEAM_SPECTATOR;
 		}
@@ -2596,13 +2530,6 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	te = G_TempEntity( vec3_origin, EV_CLIENTJOIN );
 	te->r.svFlags |= SVF_BROADCAST;
 	te->s.eventParm = clientNum;
-
-	// for statistics
-//	client->areabits = areabits;
-//	if ( !client->areabits )
-//		client->areabits = G_Alloc( (trap_AAS_PointReachabilityAreaIndex( NULL ) + 7) / 8 );
-
-
 
 	return NULL;
 }
@@ -2867,14 +2794,6 @@ void ClientBegin( int clientNum, qboolean allowTeamReset ) {
 	else
 	{//send this client the MOTD for clients aren't running OJP or just not the right version.
 		TextWrapCenterPrint(ojp_MOTD.string, motd);
-		/*char	userinfo[MAX_INFO_STRING];
-		char *s ="";
-		trap_GetUserinfo( clientNum, userinfo, sizeof( userinfo ) );
-		s = Info_ValueForKey( userinfo, "ojp_clientplugin" );
-		
-		trap_DropClient(clientNum,va("You have version (%s), server is running version (%s)",s,CURRENT_OJPENHANCED_CLIENTVERSION));
-		//trap_SendConsoleCommand( EXEC_INSERT, va("kick \"%i\"\n", ent->client->pers.netname) );
-		return;*/
 	}
 
 	trap_SendServerCommand( clientNum, va("cp \"%s\n\"", motd ) );
