@@ -157,6 +157,8 @@ const int FLAMETHROWER_FUELCOST = 6;		//fuel cost of flamethrower per hit trace 
 const float JETPACK_MAXFUEL = 550;
 //[/Flamethrower]
 
+const float CLOAK_MAXFUEL = 100;
+
 //[BUGFIX12]
 //as part of this fix I'm giving some defines for the ghoul2 model indexes.
 #define		G2MODEL_PLAYER				0
