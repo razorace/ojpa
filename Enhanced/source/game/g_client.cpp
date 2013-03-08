@@ -3905,6 +3905,68 @@ void Client_LoadAmmoLevels(gclient_t *client) {
 	client->ps.ammo[AMMO_TUSKEN_RIFLE] = 100;
 }
 
+void Client_UpdateSabers(gentity_t *ent) {
+	char userinfo[MAX_INFO_STRING];
+	qboolean changedSaber = qfalse;
+	char *saber;
+	int index = ent - g_entities;
+
+	trap_GetUserinfo( index, userinfo, sizeof(userinfo) );
+
+	for(int i = 0; i < MAX_SABERS; i++) {
+		switch (i) {
+		case 0:
+			saber = &ent->client->sess.saberType[0];
+			break;
+		case 1:
+			saber = &ent->client->sess.saber2Type[0];
+			break;
+		default:
+			saber = NULL;
+			break;
+		}
+		
+		char *value = Info_ValueForKey (userinfo, va("saber%i", i + 1));
+		if (saber &&
+			value &&
+			(Q_stricmp(value, saber) || !saber[0] || !ent->client->saber[0].model[0]))
+		{ //doesn't match up (or our session saber is BS), we want to try setting it
+			if (G_SetSaber(ent, i, value, qfalse)) {
+				changedSaber = qtrue;
+			}
+			else if (!saber[0] || !ent->client->saber[0].model[0]) {
+				changedSaber = qtrue;
+			}
+		}
+	}
+
+	if (changedSaber) {
+		ClientUserinfoChanged( ent->s.number );
+		G_SaberModelSetup(ent);
+
+		for(int i = 0; i < MAX_SABERS; i++) {
+			switch (i) {
+			case 0:
+				saber = &ent->client->sess.saberType[0];
+				break;
+			case 1:
+				saber = &ent->client->sess.saber2Type[0];
+				break;
+			default:
+				saber = NULL;
+				break;
+			}
+
+			char *value = Info_ValueForKey (userinfo, va("saber%i", i+1));
+
+			if (Q_stricmp(value, saber)) {
+				Info_SetValueForKey(userinfo, va("saber%i", i+1), saber);
+				trap_SetUserinfo( ent->s.number, userinfo );
+			}
+		}	
+	}
+}
+
 /*
 ===========
 ClientSpawn
@@ -3932,88 +3994,19 @@ extern qboolean G_ValidSaberStyle(gentity_t *ent, int saberStyle);
 extern qboolean WP_SaberCanTurnOffSomeBlades( saberInfo_t *saber );
 //[StanceSelection]
 void ClientSpawn(gentity_t *ent) {
-
-	int					persistant[MAX_PERSISTANT];
-	char				userinfo[MAX_INFO_STRING];
-	qboolean			changedSaber = qfalse;
-
-	char				*value;
-	char				*saber;
-
-	int index = ent - g_entities;
+	int	persistant[MAX_PERSISTANT];
 	gclient_t *client = ent->client;
+	int index = ent - g_entities;
 
-	//[ExpSys]
-	if(ent->client->sess.skillPoints < g_minForceRank.value)
-	{//the minForceRank was changed to a higher value than the player has
+	char userinfo[MAX_INFO_STRING];
+	trap_GetUserinfo(index, userinfo, sizeof(userinfo));
+
+	if(ent->client->sess.skillPoints < g_minForceRank.value) {//the minForceRank was changed to a higher value than the player has
 		ent->client->sess.skillPoints = g_minForceRank.value;
 		ent->client->skillUpdated = qtrue;
 	}
-	//[/ExpSys]]
 
-	//first we want the userinfo so we can see if we should update this client's saber -rww
-	trap_GetUserinfo( index, userinfo, sizeof(userinfo) );
-
-	for(int i = 0; i < MAX_SABERS; i++) {
-		switch (i)
-		{
-		case 0:
-			saber = &ent->client->sess.saberType[0];
-			break;
-		case 1:
-			saber = &ent->client->sess.saber2Type[0];
-			break;
-		default:
-			saber = NULL;
-			break;
-		}
-		
-		value = Info_ValueForKey (userinfo, va("saber%i", i+1));
-		if (saber &&
-			value &&
-			(Q_stricmp(value, saber) || !saber[0] || !ent->client->saber[0].model[0]))
-		{ //doesn't match up (or our session saber is BS), we want to try setting it
-			if (G_SetSaber(ent, i, value, qfalse)) {
-				changedSaber = qtrue;
-			}
-			else if (!saber[0] || !ent->client->saber[0].model[0])
-			{ //Well, we still want to say they changed then (it means this is siege and we have some overrides)
-				changedSaber = qtrue;
-			}
-		}
-	}
-
-	if (changedSaber)
-	{ //make sure our new info is sent out to all the other clients, and give us a valid stance
-		ClientUserinfoChanged( ent->s.number );
-
-		//make sure the saber models are updated
-		G_SaberModelSetup(ent);
-
-		for(int i = 0; i < MAX_SABERS; i++)
-		{ //go through and make sure both sabers match the userinfo
-			switch (i)
-			{
-			case 0:
-				saber = &ent->client->sess.saberType[0];
-				break;
-			case 1:
-				saber = &ent->client->sess.saber2Type[0];
-				break;
-			default:
-				saber = NULL;
-				break;
-			}
-
-			value = Info_ValueForKey (userinfo, va("saber%i", i+1));
-
-			if (Q_stricmp(value, saber))
-			{ //they don't match up, force the user info
-				Info_SetValueForKey(userinfo, va("saber%i", i+1), saber);
-				trap_SetUserinfo( ent->s.number, userinfo );
-			}
-		}	
-	}
+	Client_UpdateSabers(ent);
 
 	if (client->ps.fd.forceDoInit || ent->r.svFlags & SVF_BOT) {
 		WP_InitForcePowers( ent );
@@ -4161,9 +4154,8 @@ void ClientSpawn(gentity_t *ent) {
 
 	client->ps.duelIndex = ENTITYNUM_NONE;
 
-	//spawn with 100
 	client->ps.stats[STAT_FUEL] = JETPACK_MAXFUEL;
-	client->ps.cloakFuel = 100;
+	client->ps.cloakFuel = CLOAK_MAXFUEL;
 
 	client->pers = saved;
 	client->sess = savedSess;
@@ -4181,10 +4173,8 @@ void ClientSpawn(gentity_t *ent) {
 
 	client->airOutTime = level.time + 12000;
 
-	client->pers.maxHealth = Client_CalculateStartMaxHealth(client);
-
 	// clear entity values
-	client->ps.stats[STAT_MAX_HEALTH] = client->pers.maxHealth;
+	client->ps.stats[STAT_MAX_HEALTH] = client->pers.maxHealth = Client_CalculateStartMaxHealth(client);
 	client->ps.eFlags = flags;
 	client->mGameFlags = gameFlags;
 
@@ -4255,6 +4245,7 @@ void ClientSpawn(gentity_t *ent) {
 						break;
 					}
 				}
+
 				if ( WP_HasForcePowers( &client->ps ) && client->sess.sessionTeam != forceTeam )
 				{//using force but not on right team, switch him over
 					const char *teamName = TeamName( forceTeam );
@@ -4265,8 +4256,7 @@ void ClientSpawn(gentity_t *ent) {
 			}
 		}
 
-		if ( WP_HasForcePowers( &client->ps ) )
-		{
+		if ( WP_HasForcePowers( &client->ps ) ) {
 			client->ps.trueNonJedi = qfalse;
 			client->ps.trueJedi = qtrue;
 			//make sure they only use the saber

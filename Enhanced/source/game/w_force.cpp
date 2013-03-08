@@ -2305,26 +2305,20 @@ void JediMasterUpdate(gentity_t *self)
 	}
 }
 
-qboolean WP_HasForcePowers( const playerState_t *ps )
-{
-	int i;
-	if ( ps )
-	{
-		for ( i = 0; i < NUM_FORCE_POWERS; i++ )
-		{
-			if ( i == FP_LEVITATION )
-			{
-				if ( ps->fd.forcePowerLevel[i] > FORCE_LEVEL_1 )
-				{
+qboolean WP_HasForcePowers( const playerState_t *ps ) {
+	if ( ps ) {
+		for (int i = 0; i < NUM_FORCE_POWERS; i++ ){
+			if ( i == FP_LEVITATION ) {
+				if ( ps->fd.forcePowerLevel[i] > FORCE_LEVEL_1 ) {
 					return qtrue;
 				}
 			}
-			else if ( ps->fd.forcePowerLevel[i] > FORCE_LEVEL_0 )
-			{
+			else if ( ps->fd.forcePowerLevel[i] > FORCE_LEVEL_0 ) {
 				return qtrue;
 			}
 		}
 	}
+
 	return qfalse;
 }
 
