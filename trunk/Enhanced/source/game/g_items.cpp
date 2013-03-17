@@ -2519,9 +2519,6 @@ int Pickup_Powerup( gentity_t *ent, gentity_t *other ) {
 		if ( tr.fraction != 1.0 ) {
 			continue;
 		}
-
-		// anti-reward
-		client->ps.persistant[PERS_PLAYEREVENTS] ^= PLAYEREVENT_DENIEDREWARD;
 	}
 	return RESPAWN_POWERUP;
 }

@@ -1319,11 +1319,9 @@ void G_AddEvent( gentity_t *ent, int event, int eventParm ) {
 G_PlayEffect
 =============
 */
-gentity_t *G_PlayEffect(int fxID, vec3_t org, vec3_t ang)
+gentity_t *G_PlayEffect(int fxID, vec3_t org, const vec3_t ang)
 {
-	gentity_t	*te;
-
-	te = G_TempEntity( org, EV_PLAY_EFFECT );
+	gentity_t	*te = G_TempEntity( org, EV_PLAY_EFFECT );
 	VectorCopy(ang, te->s.angles);
 	VectorCopy(org, te->s.origin);
 	te->s.eventParm = fxID;

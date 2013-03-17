@@ -6,8 +6,6 @@
 #include "ai_main.h"
 #include "../ghoul2/G2.h"
 
-extern int speedLoopSound;
- 
 extern int rageLoopSound;
 
 extern int protectLoopSound;

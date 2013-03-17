@@ -1,7 +1,8 @@
 // Copyright (C) 1999-2000 Id Software, Inc.
 //
 // g_local.h -- local definitions for game module
-
+#ifndef g_local_h
+#define g_local_h
 //testing
 #include "q_shared.h"
 #include "bg_public.h"
@@ -1513,7 +1514,7 @@ void	G_SetAngles( gentity_t *ent, vec3_t angles );
 void	G_InitGentity( gentity_t *e );
 gentity_t	*G_Spawn (void);
 gentity_t *G_TempEntity( vec3_t origin, int event );
-gentity_t	*G_PlayEffect(int fxID, vec3_t org, vec3_t ang);
+gentity_t	*G_PlayEffect(int fxID, vec3_t org, const vec3_t ang);
 //[Bolted effect]
 gentity_t *G_PlayBoltedEffect(int fxID, gentity_t *owner, const char *bolt );
 //[/Bolted effect]
@@ -2404,3 +2405,5 @@ void DisableCoreDumps(void);
 void EnableStackTrace(void);
 void DisableStackTrace(void);
 //[/CrashLog]
+
+#endif

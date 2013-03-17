@@ -13,6 +13,8 @@
 #include "g_roff.h"
 //[/ROFF]
 
+#include "g_seeker.h"
+
 level_locals_t	level;
 
 int		eventClearTime = 0;
@@ -595,7 +597,6 @@ vmCvar_t		d_saberCombat;
 vmCvar_t		d_JediAI;
 vmCvar_t		d_noGroupAI;
 vmCvar_t		d_asynchronousGroupAI;
-vmCvar_t		d_slowmodeath;
 vmCvar_t		d_noIntermissionWait;
 
 vmCvar_t		g_spskill;
@@ -1002,16 +1003,6 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &d_asynchronousGroupAI, "d_asynchronousGroupAI", "1", CVAR_CHEAT },
 	//{ &d_asynchronousGroupAI, "d_asynchronousGroupAI", "0", CVAR_CHEAT },
 	//[/CoOp]
-	
-	//0 = never (BORING)
-	//1 = kyle only
-	//2 = kyle and last enemy jedi
-	//3 = kyle and any enemy jedi
-	//4 = kyle and last enemy in a group
-	//5 = kyle and any enemy
-	//6 = also when kyle takes pain or enemy jedi dodges player saber swing or does an acrobatic evasion
-
-	{ &d_slowmodeath, "d_slowmodeath", "0", CVAR_CHEAT },
 
 	{ &d_saberCombat, "d_saberCombat", "0", CVAR_CHEAT },
 
@@ -3896,7 +3887,6 @@ int BG_GetTime(void)
 	return level.time;
 }
 
-
 /*
 ================
 G_RunFrame
@@ -4418,6 +4408,8 @@ void G_RunFrame( int levelTime ) {
 				WP_ForcePowersUpdate(ent, &ent->client->pers.cmd );
 				WP_SaberPositionUpdate(ent, &ent->client->pers.cmd);
 				WP_SaberStartMissileBlockCheck(ent, &ent->client->pers.cmd);
+
+				SeekerDroneUpdate(ent);
 			}
 
 			if (g_allowNPC.integer)
@@ -4449,6 +4441,8 @@ void G_RunFrame( int levelTime ) {
 			WP_ForcePowersUpdate(ent, &ent->client->pers.cmd );
 			WP_SaberPositionUpdate(ent, &ent->client->pers.cmd);
 			WP_SaberStartMissileBlockCheck(ent, &ent->client->pers.cmd);
+
+			SeekerDroneUpdate(ent);
 		}
 
 		G_RunThink( ent );

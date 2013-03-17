@@ -1425,8 +1425,6 @@ static void PM_SetMovementDir( void ) {
 	}
 }
 
-#define METROID_JUMP 1
-
 qboolean PM_ForceJumpingUp(void)
 {
 	if ( !(pm->ps->fd.forcePowersActive&(1<<FP_LEVITATION)) && pm->ps->fd.forceJumpCharge )
@@ -2457,7 +2455,7 @@ static qboolean PM_CheckJump( void )
 		pm->ps->forceJumpFlip = qfalse;
 		return qtrue;
 	}
-#if METROID_JUMP
+
 	if ( pm->waterlevel < 2 ) 
 	{
 		if ( pm->ps->gravity > 0 )
@@ -2636,8 +2634,6 @@ static qboolean PM_CheckJump( void )
 			//[/JetpackSys]
 		}
 	}
-
-#endif
 
 	//Not jumping
 	if ( pm->cmd.upmove < 10 && pm->ps->groundEntityNum != ENTITYNUM_NONE) {
@@ -3726,20 +3722,11 @@ static void PM_AirMove( void ) {
 		}
 	}
 
-	if (pm->ps->pm_type != PM_SPECTATOR)
-	{
-#if METROID_JUMP
+	if (pm->ps->pm_type != PM_SPECTATOR) {
 		PM_CheckJump();
-#else
-		if (pm->ps->fd.forceJumpZStart &&
-			pm->ps->forceJumpFlip)
-		{
-			PM_CheckJump();
-		}
-#endif
-	//[LedgeGrab]
-	PM_CheckGrab();
-	//[/LedgeGrab]
+		//[LedgeGrab]
+		PM_CheckGrab();
+		//[/LedgeGrab]
 	}
 	PM_Friction();
 
