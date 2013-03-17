@@ -2774,15 +2774,11 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 				//[SaberSys]
 			}
 
-			if( meansOfDeath == MOD_STUN_BATON ) {
-				
+			if( meansOfDeath == MOD_STUN_BATON ) {			
 				// play humiliation on player
 				attacker->client->ps.persistant[PERS_GAUNTLET_FRAG_COUNT]++;
 
 				attacker->client->rewardTime = level.time + REWARD_SPRITE_TIME;
-
-				// also play humiliation on target
-				self->client->ps.persistant[PERS_PLAYEREVENTS] ^= PLAYEREVENT_GAUNTLETREWARD;
 			}
 
 			// check for two kills in a short amount of time
@@ -2793,6 +2789,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 				attacker->client->rewardTime = level.time + REWARD_SPRITE_TIME;
 			}
+
 			attacker->client->lastKillTime = level.time;
 		}
 
@@ -6625,21 +6622,14 @@ qboolean G_RadiusDamage ( vec3_t origin, gentity_t *attacker, float damage, floa
 //[SaberSys]
 #define DODGE_KILLBONUS 20 //the DP bonus you get for killing another player
 #define FATIGUE_KILLBONUS 20 //the FP bonus you get for killing another player
-extern void WP_ForcePowerRegenerate( gentity_t *self, int overrideAmt );
+extern void WP_ForcePowerRegenerate(gclient_t *client, int overrideAmt );
 void AddFatigueKillBonus( gentity_t *attacker, gentity_t *victim )
 {//get a small bonus for killing an enemy
-	if(!attacker || !attacker->client || !victim  || !victim->client)
-	{
+	if(!attacker || !attacker->client || !victim  || !victim->client || victim->NPC) {
 		return;
 	}
 
-	if(victim->NPC)
-	{//don't get kill bonus for axing NPCs
-		return;
-	}
-
-	//add bonus
-	WP_ForcePowerRegenerate(attacker, FATIGUE_KILLBONUS);
+	WP_ForcePowerRegenerate(attacker->client, FATIGUE_KILLBONUS);
 }
 //[/SaberSys]
 

@@ -4,6 +4,13 @@
 #include "anims.h"
 #include "w_saber.h"
 
+float forcePushPullRadius[NUM_FORCE_POWER_LEVELS] =
+{
+	0,//none
+	384,//256,
+	448,//384,
+	512
+};
 
 extern qboolean BG_SabersOff( playerState_t *ps );
 
@@ -12,12 +19,6 @@ extern void CG_DrawAlert( vec3_t origin, float rating );
 extern void G_AddVoiceEvent( gentity_t *self, int event, int speakDebounceTime );
 extern void ForceJump( gentity_t *self, usercmd_t *ucmd );
 extern vmCvar_t	g_saberRealisticCombat;
-extern vmCvar_t	d_slowmodeath;
-
-void G_StartMatrixEffect( gentity_t *ent )
-{ //perhaps write this at some point?
-
-}
 
 #define	MAX_VIEW_DIST		2048
 #define MAX_VIEW_SPEED		100
@@ -4417,10 +4418,6 @@ evasionType_t Jedi_SaberBlockGo( gentity_t *self, usercmd_t *cmd, vec3_t pHitloc
 				}
 				if ( ((evasionType = Jedi_CheckFlipEvasions( self, rightdot, zdiff ))!=EVASION_NONE) )
 				{//racc - if the flip is valid
-					if ( d_slowmodeath.integer > 5 && self->enemy && !self->enemy->s.number )
-					{
-						G_StartMatrixEffect( self );
-					}
 					saberBusy = qtrue;
 					evaded = qtrue;
 				}
@@ -4563,10 +4560,6 @@ evasionType_t Jedi_SaberBlockGo( gentity_t *self, usercmd_t *cmd, vec3_t pHitloc
 		//FIXME: maybe make a sound?  Like a grunt?  EV_JUMP?
 		self->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
 		//dodged, not block
-		if ( d_slowmodeath.integer > 5 && self->enemy && !self->enemy->s.number )
-		{
-			G_StartMatrixEffect( self );
-		}
 	}
 	else
 	{
