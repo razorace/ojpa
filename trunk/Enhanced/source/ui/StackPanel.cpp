@@ -4,8 +4,11 @@ void Item_UpdatePosition(itemDef_t *item);
 void Item_SetScreenCoords(itemDef_t *item, float x, float y);
 void Item_Paint(itemDef_t *item);
 
-StackPanel::StackPanel(void) :
-	orientation(kOrientationVertical), childrenCount(0), oldChildrenCount(0) {
+void StackPanel_Init(StackPanel *panel) {
+	memset(panel, 0, sizeof(StackPanel));
+	panel->orientation = kOrientationVertical;
+	panel->childrenCount = 0;
+	panel->oldChildrenCount = 0;
 }
 
 void StackPanel_Arrange(StackPanel *panel) {

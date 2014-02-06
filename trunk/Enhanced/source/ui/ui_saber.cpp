@@ -12,8 +12,6 @@ USER INTERFACE SABER LOADING & DISPLAY CODE
 //#include "../server/exe_headers.h"
 #include "ui_local.h"
 #include "ui_shared.h"
-#include <vector>
-using namespace std;
 
 
 //[DynamicMemory_Sabers]
@@ -36,12 +34,9 @@ void UI_AllocMem(char **ptr, int sze);
 void UI_FreeMem(void *ptr);
 void UI_ReaAllocMem(char **ptr, int sze, int count);
 int saberSingleHiltCount;
-//char **saberSingleHiltInfo;
-std::vector<char*> saberSingleHiltInfo;
+char **saberSingleHiltInfo;
 int saberStaffHiltCount;
-//char **saberStaffHiltInfo;
-std::vector<char*> saberStaffHiltInfo;
-
+char **saberStaffHiltInfo;
 //[/DynamicMemory_Sabers]
 
 qboolean	ui_saber_parms_parsed = qfalse;
@@ -1457,14 +1452,10 @@ void UI_SaberAttachToChar( itemDef_t *item )
 //[DynamicMemory_Sabers]
 char *UI_GetSaberHiltInfo(qboolean TwoHanded, int index)
 {
-	if(TwoHanded)
-	{
-		if(index >= saberStaffHiltInfo.size()) return NULL;
+	if(TwoHanded) {
 		return saberStaffHiltInfo[index];
 	}
-	else
-	{
-		if(index >= saberSingleHiltInfo.size()) return NULL;
+	else {
 		return saberSingleHiltInfo[index];
 	}
 }
@@ -1559,8 +1550,8 @@ void UI_SaberGetHiltInfo(void){
 				Com_Printf( "WARNING: too many two-handed sabers, ignoring saber '%s'\n", saberName );
 			}
 #else
-			//UI_ReaAllocMem(saberStaffHiltInfo, sizeof(char *), numStaffHilts+1);
-			saberStaffHiltInfo.resize(numSingleHilts+2);
+			UI_ReaAllocMem(saberStaffHiltInfo, sizeof(char *), numStaffHilts+1);
+			//saberStaffHiltInfo.resize(numSingleHilts+2);
 			saberStaffHiltInfo[numStaffHilts++] = (char *) saberName;
 			//saberStaffHiltInfo.insert(saberStaffHiltInfo.begin(),(char*)saberName);
 #endif
@@ -1577,8 +1568,8 @@ void UI_SaberGetHiltInfo(void){
 				Com_Printf( "WARNING: too many one-handed sabers, ignoring saber '%s'\n", saberName );
 			}
 #else
-			//UI_ReaAllocMem(saberSingleHiltInfo, sizeof(char *), numSingleHilts+1);
-			saberSingleHiltInfo.resize(numSingleHilts+1);
+			UI_ReaAllocMem(saberSingleHiltInfo, sizeof(char *), numSingleHilts+1);
+			//saberSingleHiltInfo.resize(numSingleHilts+1);
 			//saberSingleHiltInfo.insert(saberSingleHiltInfo.begin(),(char*)saberName);
 			saberSingleHiltInfo[numSingleHilts++] = (char *) saberName;
 #endif

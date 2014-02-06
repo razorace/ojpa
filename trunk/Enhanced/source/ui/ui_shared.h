@@ -8,7 +8,6 @@
 #include "itemDef_t.h"
 #include "Rectangle.h"
 #include "StackPanel.h"
-#include <list>
 
 //[SVN]
 //rearraigned repository to make it easier to initially compile.
@@ -303,7 +302,6 @@ typedef struct {
 	float		appearanceIncrement;		//
 	StackPanel *stackPanels[MAX_MENUITEMS];
 	int			newItemCount;
-	//std::list<UIElement*> newItems;
 } menuDef_t;
 
 typedef struct {
