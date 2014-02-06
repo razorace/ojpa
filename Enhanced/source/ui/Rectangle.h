@@ -1,7 +1,7 @@
 #ifndef Rectangle_h
 #define Rectangle_h
 
-class Rectangle {
+/*class Rectangle {
 public:
 	float x, y, w, h;
 
@@ -36,6 +36,17 @@ public:
 		w = rect.w;
 		h = rect.h;
 	}
-};
+};*/
+
+typedef struct {
+  float x;    // horiz position
+  float y;    // vert position
+  float w;    // width
+  float h;    // height;
+} rectDef_t;
+
+typedef rectDef_t Rectangle;
+
+//#define RectSetPosition(r, x, y) r.x = x; r.y = y;
 
 #endif

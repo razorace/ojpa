@@ -21,7 +21,10 @@ void StackPanel::Arrange() {
 			margin = child->window.borderSize;
 		}
 
-		child->window.rectClient.SetPosition(x, y);
+		child->window.rectClient.x = x;
+		child->window.rectClient.y = y;
+
+		//child->window.rectClient.SetPosition(x, y);
 		//child->textRect.SetPosition(x + ChildMargin, y + ChildMargin);
 		//child->window.rect.SetPosition(x + ChildMargin, y + ChildMargin);
 		Item_UpdatePosition(child);
@@ -36,14 +39,17 @@ void StackPanel::Arrange() {
 
 	for(std::list<UIElement*>::iterator i = children.begin(); i != children.end(); ++i) {
 		UIElement *child = *i;
+		Rectangle *rect = child->GetRectangle();
+		rect->x = x;
+		rect->y = y;
 
-		child->GetRectangle()->SetPosition(x, y);
+		//child->GetRectangle()->SetPosition(x, y);
 
 		if(orientation == kOrientationVertical) {
-			y += child->GetRectangle()->h;
+			y += rect->h;
 		}
 		else {
-			x += child->GetRectangle()->w;
+			x += rect->w;
 		}
 
 		child->Arrange();
