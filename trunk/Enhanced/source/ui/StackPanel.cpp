@@ -2,19 +2,19 @@
 
 void Item_UpdatePosition(itemDef_t *item);
 void Item_SetScreenCoords(itemDef_t *item, float x, float y);
+void Item_Paint(itemDef_t *item);
 
 StackPanel::StackPanel(void) :
-	orientation(kOrientationVertical) {
-
+	orientation(kOrientationVertical), childrenCount(0), oldChildrenCount(0) {
 }
 
-void StackPanel::Arrange() {
+void StackPanel_Arrange(StackPanel *panel) {
 	const int ChildMargin = 5;
-	int x = rectangle.x;
-	int y = rectangle.y;
-
-	for(std::list<itemDef_t*>::iterator i = oldChildren.begin(); i != oldChildren.end(); ++i) {
-		itemDef_t *child = (*i);
+	int x = panel->rectangle.x;
+	int y = panel->rectangle.y;
+	
+	for(int i = 0; i < panel->oldChildrenCount; i++) {
+		itemDef_t *child = panel->oldChildren[i];
 
 		int margin = 0;
 		if(child->window.border != 0) {
@@ -29,7 +29,7 @@ void StackPanel::Arrange() {
 		//child->window.rect.SetPosition(x + ChildMargin, y + ChildMargin);
 		Item_UpdatePosition(child);
 
-		if(orientation == kOrientationVertical) {
+		if(panel->orientation == kOrientationVertical) {
 			y += child->window.rectClient.h;
 		}
 		else {
@@ -37,21 +37,47 @@ void StackPanel::Arrange() {
 		}
 	}
 
-	for(std::list<UIElement*>::iterator i = children.begin(); i != children.end(); ++i) {
-		UIElement *child = *i;
-		Rectangle *rect = child->GetRectangle();
-		rect->x = x;
-		rect->y = y;
+	for(int i = 0; i < panel->childrenCount; i++) {
+		StackPanel *child = panel->children[i];
+		child->rectangle.x = x;
+		child->rectangle.y = y;
 
 		//child->GetRectangle()->SetPosition(x, y);
 
-		if(orientation == kOrientationVertical) {
-			y += rect->h;
+		if(panel->orientation == kOrientationVertical) {
+			y += child->rectangle.h;
 		}
 		else {
-			x += rect->w;
+			x += child->rectangle.w;
 		}
 
-		child->Arrange();
+		StackPanel_Arrange(child);
+	}
+}
+
+void StackPanel_Draw(StackPanel *panel) {
+	for(int i = 0; i < panel->oldChildrenCount; i++) {
+		itemDef_t *child = panel->oldChildren[i];
+
+		Item_Paint(child);
+	}
+
+	for(int i = 0; i < panel->childrenCount; i++) {
+		StackPanel_DraSubElement(panel->children[i]);
+	}
+}
+
+
+void StackPanel_DraSubElement(StackPanel *element) {
+	if(element != nullptr) {
+		for(int i = 0; i < element->oldChildrenCount; i++) {
+			itemDef_t *child = element->oldChildren[i];
+
+			Item_Paint(child);
+		}
+
+		for(int i = 0; i < element->childrenCount; i++) {
+			StackPanel_DraSubElement(element->children[i]);
+		}
 	}
 }

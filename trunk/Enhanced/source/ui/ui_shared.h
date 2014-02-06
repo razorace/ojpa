@@ -6,7 +6,6 @@
 #include "../cgame/tr_types.h"
 #include "keycodes.h"
 #include "itemDef_t.h"
-#include "UIElement.h"
 #include "Rectangle.h"
 #include "StackPanel.h"
 #include <list>
@@ -302,7 +301,7 @@ typedef struct {
 	float		appearanceTime;				//	when next item should appear
 	int			appearanceCnt;				//	current item displayed
 	float		appearanceIncrement;		//
-	UIElement *newItems[MAX_MENUITEMS];
+	StackPanel *stackPanels[MAX_MENUITEMS];
 	int			newItemCount;
 	//std::list<UIElement*> newItems;
 } menuDef_t;
