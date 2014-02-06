@@ -156,7 +156,7 @@ bool BG_FighterUpdate(Vehicle_t *pVeh, const usercmd_t *pUcmd, vec3_t trMins, ve
 #ifdef QAGAME //ONLY in SP or on server, not cgame
 
 // Like a think or move command, this updates various vehicle properties.
-static bool Update( Vehicle_t *pVeh, const usercmd_t *pUcmd )
+static qboolean Update( Vehicle_t *pVeh, const usercmd_t *pUcmd )
 {
 	assert(pVeh->m_pParentEntity);
 	if (!BG_FighterUpdate(pVeh, pUcmd, ((gentity_t *)pVeh->m_pParentEntity)->mins,
@@ -168,38 +168,38 @@ static bool Update( Vehicle_t *pVeh, const usercmd_t *pUcmd )
 #endif
 		G_VehicleTrace))
 	{
-		return false;
+		return qfalse;
 	}
 
 	if ( !g_vehicleInfo[VEHICLE_BASE].Update( pVeh, pUcmd ) )
 	{
-		return false;
+		return qfalse;
 	}
 
-	return true;
+	return qtrue;
 }
 
 // Board this Vehicle (get on). The first entity to board an empty vehicle becomes the Pilot.
-static bool Board( Vehicle_t *pVeh, bgEntity_t *pEnt )
+static qboolean Board( Vehicle_t *pVeh, bgEntity_t *pEnt )
 {
 	if ( !g_vehicleInfo[VEHICLE_BASE].Board( pVeh, pEnt ) )
-		return false;
+		return qfalse;
 
 	// Set the board wait time (they won't be able to do anything, including getting off, for this amount of time).
 	pVeh->m_iBoarding = level.time + 1500;
 
-	return true;
+	return qtrue;
 }
 
 // Eject an entity from the vehicle.
-static bool Eject( Vehicle_t *pVeh, bgEntity_t *pEnt, qboolean forceEject )
+static qboolean Eject( Vehicle_t *pVeh, bgEntity_t *pEnt, qboolean forceEject )
 {
 	if ( g_vehicleInfo[VEHICLE_BASE].Eject( pVeh, pEnt, forceEject ) )
 	{
-		return true;
+		return qtrue;
 	}
 	
-	return false;
+	return qfalse;
 }
 
 #endif //end game-side only

@@ -5014,38 +5014,38 @@ static void PM_GroundTraceMissed( void ) {
 extern void G_Knockdown( gentity_t *self, gentity_t *attacker, const vec3_t pushDir, float strength, qboolean breakSaberLock );
 #endif
 
-bool BG_InDFA()
+qboolean BG_InDFA()
 {
 	if(pm->ps->saberMove == LS_A_JUMP_T__B_)
-		return true;
+		return qtrue;
 
 	if(pm->ps->torsoAnim == saberMoveData[16].animToUse)
-		return true;
+		return qtrue;
 
 	if(pm->ps->torsoAnim == 1252)
-		return true;
+		return qtrue;
 
-	return false;
+	return qfalse;
 }
 
 #ifdef QAGAME
-bool G_InDFA(gentity_t*ent)
+qboolean G_InDFA(gentity_t*ent)
 {
-	if(!ent || !ent->client) return false;
+	if(!ent || !ent->client) return qfalse;
 
 	if(ent->client->ps.saberMove == LS_A_JUMP_T__B_ 
 		|| ent->client->ps.saberMove == LS_A_FLIP_STAB
 		|| ent->client->ps.saberMove == LS_A_FLIP_SLASH
 		|| ent->client->ps.saberMove == LS_R_BL2TR)
-		return true;
+		return qtrue;
 
 	if(ent->client->ps.torsoAnim == saberMoveData[16].animToUse)
-		return true;
+		return qtrue;
 
 	if(ent->client->ps.torsoAnim == 1252)
-		return true;
+		return qtrue;
 
-	return false;
+	return qfalse;
 }
 
 #endif

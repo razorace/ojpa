@@ -9811,7 +9811,7 @@ qboolean MenuParse_itemDef( itemDef_t *item, int handle ) {
 	}
 }*/
 
-bool ContainerParse_StackPanel(ContainerElement *container, menuDef_t *menu, int handle) {
+qboolean ContainerParse_StackPanel(ContainerElement *container, menuDef_t *menu, int handle) {
 	StackPanel *panel = new StackPanel();
 	container->AddElement(panel);
 
@@ -9868,7 +9868,6 @@ bool ContainerParse_StackPanel(ContainerElement *container, menuDef_t *menu, int
 			ContainerParse_StackPanel(panel, menu, handle);
 		}
 	}
-
 }
 
 qboolean MenuParse_stackPanel(itemDef_t *item, int handle) {
