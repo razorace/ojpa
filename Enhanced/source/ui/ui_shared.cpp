@@ -9790,7 +9790,9 @@ qboolean MenuParse_itemDef( itemDef_t *item, int handle ) {
 }*/
 
 qboolean ContainerParse_StackPanel(StackPanel *container, menuDef_t *menu, int handle) {
-	StackPanel *panel = new StackPanel();
+	StackPanel *panel = (StackPanel*)UI_Alloc(sizeof(StackPanel));
+	StackPanel_Init(panel);
+
 	container->children[container->childrenCount++] = panel;
 
 	pc_token_t token;
@@ -9852,7 +9854,9 @@ qboolean MenuParse_stackPanel(itemDef_t *item, int handle) {
 	menuDef_t *menu = (menuDef_t*)item;
 
 	if(menu->newItemCount < MAX_MENUITEMS) {
-		StackPanel *panel = new StackPanel();
+		StackPanel *panel = (StackPanel*)UI_Alloc(sizeof(StackPanel));
+		StackPanel_Init(panel);
+
 		menu->stackPanels[menu->newItemCount++] = panel;
 
 		pc_token_t token;
