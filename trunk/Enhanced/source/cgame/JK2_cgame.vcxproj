@@ -195,7 +195,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..;./../game;../Squirrel/include;../Squirrel/sqplus;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;./../game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;VS2005;_WINDOWS;MISSIONPACK;CGAME;_JK2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -220,7 +220,7 @@
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\jke\cgamex86.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../Squirrel/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>.\JK2_cgame.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\../Debug/cgamex86.pdb</ProgramDatabaseFile>
@@ -339,7 +339,6 @@
     <ClCompile Include="..\game\SpeederNPC.cpp" />
     <ClCompile Include="..\ui\ui_shared.cpp" />
     <ClCompile Include="..\game\WalkerNPC.cpp" />
-    <ClCompile Include="Squirrel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\game\b_local.h" />
