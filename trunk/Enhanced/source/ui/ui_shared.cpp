@@ -7011,10 +7011,8 @@ menuDef_t *Menus_ActivateByName(const char *p) {
 	return m;
 }
 
-
 void Item_Init(itemDef_t *item) {
-	//memset(item, 0, sizeof(itemDef_t));
-	item = new itemDef_t();
+	memset(item, 0, sizeof(itemDef_t));
 	item->textscale = 0.55f;
 	Window_Init(&item->window);
 }

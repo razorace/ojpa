@@ -66,12 +66,12 @@ void StackPanel_Draw(StackPanel *panel) {
 	}
 
 	for(int i = 0; i < panel->childrenCount; i++) {
-		StackPanel_DraSubElement(panel->children[i]);
+		StackPanel_DrawSubElement(panel->children[i]);
 	}
 }
 
 
-void StackPanel_DraSubElement(StackPanel *element) {
+void StackPanel_DrawSubElement(StackPanel *element) {
 	if(element != nullptr) {
 		for(int i = 0; i < element->oldChildrenCount; i++) {
 			itemDef_t *child = element->oldChildren[i];
@@ -80,7 +80,7 @@ void StackPanel_DraSubElement(StackPanel *element) {
 		}
 
 		for(int i = 0; i < element->childrenCount; i++) {
-			StackPanel_DraSubElement(element->children[i]);
+			StackPanel_DrawSubElement(element->children[i]);
 		}
 	}
 }
