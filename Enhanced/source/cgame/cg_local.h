@@ -10,16 +10,6 @@
 // so there is NO persistant data between levels on the client side.
 // If you absolutely need something stored, it can either be kept
 // by the server in the server stored userinfos, or stashed in a cvar.
-#define SQUIRREL
-
-/*
-#ifdef SQUIRREL  
-    extern void LoadSquirrel(void);  
-    extern void CloseSquirrel(void);  
-    extern void RunScript(const char* file);  
-    extern void RunFunction(const char* func);  
-#endif  
-*/
 
 #ifndef __LCC__
 #define CGAME_INLINE ID_INLINE
