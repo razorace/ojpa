@@ -959,13 +959,11 @@ void Menu_PostParse(menuDef_t *menu) {
 	Menu_UpdatePosition(menu);
 }
 
-itemDef_t *Container_ClearFocus(ContainerElement *container) {
+itemDef_t *Container_ClearFocus(StackPanel *container) {
 	itemDef_t *ret = nullptr;
-	std::list<itemDef_t*> items = container->GetOldChildren();
 
-	std::list<itemDef_t*>::const_iterator it;
-	for(it = items.begin(); it != items.end(); ++it) {
-		itemDef_t *child = *it;
+	for(int i = 0; i < container->oldChildrenCount; i++) {
+		itemDef_t *child = container->oldChildren[i];
 
 		if (child->window.flags & WINDOW_HASFOCUS) {
 			ret = child;
@@ -977,13 +975,11 @@ itemDef_t *Container_ClearFocus(ContainerElement *container) {
 		}
 	}
 
-	std::list<UIElement*> elements = container->GetChildren();
+	for(int i = 0; i < container->childrenCount; i++) {
+		StackPanel *child = container->children[i];
 
-	for(std::list<UIElement*>::iterator i = elements.begin(); i != elements.end(); ++i) {
-		ContainerElement *container = dynamic_cast<ContainerElement*>(*i);
-
-		if(container != nullptr) {
-			itemDef_t *temp = Container_ClearFocus(container);
+		if(child != nullptr) {
+			itemDef_t *temp = Container_ClearFocus(child);
 
 			if(temp != nullptr) {
 				ret = temp;
@@ -1013,7 +1009,7 @@ itemDef_t *Menu_ClearFocus(menuDef_t *menu) {
 	}
 
 	for(int i = 0; i < menu->newItemCount; i++) {
-		ContainerElement *element = dynamic_cast<ContainerElement*>(menu->newItems[i]);
+		StackPanel *element = menu->stackPanels[i];
 
 		if(element != nullptr) {
 			itemDef_t *item = Container_ClearFocus(element);
@@ -1039,13 +1035,11 @@ qboolean Rect_ContainsPoint(Rectangle *rect, float x, float y) {
   return qfalse;
 }
 
-int Container_ItemsMatchingGroup(ContainerElement *container, const char *name) {
+int Container_ItemsMatchingGroup(StackPanel *container, const char *name) {
 	int count = 0;
-	std::list<itemDef_t*> items = container->GetOldChildren();
 
-	std::list<itemDef_t*>::const_iterator it;
-	for(it = items.begin(); it != items.end(); ++it) {
-		itemDef_t *child = *it;
+	for(int i = 0; i < container->oldChildrenCount; i++) {
+		itemDef_t *child = container->oldChildren[i];
 
 		if ((!child->window.name) && (!child->window.group))
 		{
@@ -1060,13 +1054,11 @@ int Container_ItemsMatchingGroup(ContainerElement *container, const char *name) 
 		} 
 	}
 
-	std::list<UIElement*> elements = container->GetChildren();
+	for(int i = 0; i < container->childrenCount; i++) {
+		StackPanel *child = container->children[i];
 
-	for(std::list<UIElement*>::iterator i = elements.begin(); i != elements.end(); ++i) {
-		ContainerElement *container = dynamic_cast<ContainerElement*>(*i);
-
-		if(container != nullptr) {
-			count += Container_ItemsMatchingGroup(container, name);
+		if(child != nullptr) {
+			count += Container_ItemsMatchingGroup(child, name);
 		}
 	}
 
@@ -1093,7 +1085,7 @@ int Menu_ItemsMatchingGroup(menuDef_t *menu, const char *name)
 	}
 
 	for(int i = 0; i < menu->newItemCount; i++) {
-		ContainerElement *element = dynamic_cast<ContainerElement*>(menu->newItems[i]);
+		StackPanel *element = menu->stackPanels[i];
 
 		if(element != nullptr) {
 			count += Container_ItemsMatchingGroup(element, name);
@@ -1103,13 +1095,9 @@ int Menu_ItemsMatchingGroup(menuDef_t *menu, const char *name)
 	return count;
 }
 
-itemDef_t *Container_GetMatchingItemByNumber(ContainerElement *container, int *count, int index, const char *name) {
-
-	std::list<itemDef_t*> items = container->GetOldChildren();
-
-	std::list<itemDef_t*>::const_iterator it;
-	for(it = items.begin(); it != items.end(); ++it) {
-		itemDef_t *child = *it;
+itemDef_t *Container_GetMatchingItemByNumber(StackPanel *container, int *count, int index, const char *name) {
+	for(int i = 0; i < container->oldChildrenCount; i++) {
+		itemDef_t *child = container->oldChildren[i];
 
 		if (Q_stricmp(child->window.name, name) == 0 || (child->window.group && Q_stricmp(child->window.group, name) == 0)) {
 			if (*count == index) {
@@ -1120,10 +1108,8 @@ itemDef_t *Container_GetMatchingItemByNumber(ContainerElement *container, int *c
 		} 
 	}
 
-	std::list<UIElement*> elements = container->GetChildren();
-
-	for(std::list<UIElement*>::iterator i = elements.begin(); i != elements.end(); ++i) {
-		ContainerElement *el = dynamic_cast<ContainerElement*>(*i);
+	for(int i = 0; i < container->childrenCount; i++) {
+		StackPanel *el = container->children[i];
 
 		if(el != nullptr) {
 			itemDef_t *item = Container_GetMatchingItemByNumber(el, count, index, name);
@@ -1149,7 +1135,7 @@ itemDef_t *Menu_GetMatchingItemByNumber(menuDef_t *menu, int index, const char *
 	}
 
 	for(int i = 0; i < menu->newItemCount; i++) {
-		ContainerElement *element = dynamic_cast<ContainerElement*>(menu->newItems[i]);
+		StackPanel *element = menu->stackPanels[i];
 
 		if(element != nullptr) {
 			itemDef_t *item = Container_GetMatchingItemByNumber(element, &count, index, name);
@@ -4435,22 +4421,18 @@ void Menus_HandleOOBClick(menuDef_t *menu, int key, qboolean down) {
 	}
 }
 
-itemDef_t *Container_GetFocusedItem(ContainerElement *element) {
-	std::list<itemDef_t*> children = element->GetOldChildren();
+itemDef_t *Container_GetFocusedItem(StackPanel *element) {
 
-	std::list<itemDef_t*>::const_iterator it;
-	for(it=children.begin(); it!=children.end(); ++it) {
-		itemDef_t *child = *it;
+	for(int i = 0; i < element->oldChildrenCount; i++) {
+		itemDef_t *child = element->oldChildren[i];
 
 		if(child->window.flags & WINDOW_HASFOCUS) {
 			return child;
 		}
 	}
 
-	std::list<UIElement*> elements = element->GetChildren();
-
-	for(std::list<UIElement*>::iterator i = elements.begin(); i != elements.end(); ++i) {
-		ContainerElement *container = dynamic_cast<ContainerElement*>(*i);
+	for(int i = 0; i < element->childrenCount; i++) {
+		StackPanel *container = element->children[i];
 
 		if(container != nullptr) {
 			itemDef_t *item = Container_GetFocusedItem(container);
@@ -4529,7 +4511,7 @@ void Menu_HandleKey(menuDef_t *menu, int key, qboolean down) {
 
 	//if(!item) {
 		for(i = 0; i < menu->newItemCount; i++) {
-			ContainerElement *element = dynamic_cast<ContainerElement*>(menu->newItems[i]);
+			StackPanel *element = menu->stackPanels[i];
 
 			if(element != nullptr) {
 				itemDef_t *temp = Container_GetFocusedItem(element);
@@ -7037,12 +7019,9 @@ void Item_Init(itemDef_t *item) {
 	Window_Init(&item->window);
 }
 
-void Container_FocusItem(ContainerElement *container, int x, int y, qboolean focusSet, int pass) {
-	std::list<itemDef_t*> children = container->GetOldChildren();
-
-	std::list<itemDef_t*>::const_iterator it;
-	for(it=children.begin(); it!=children.end(); ++it) {
-		itemDef_t *child = *it;
+void Container_FocusItem(StackPanel *container, int x, int y, qboolean focusSet, int pass) {
+	for(int i = 0; i < container->oldChildrenCount; i++) {
+		itemDef_t *child = container->oldChildren[i];
 
 		if (!(child->window.flags & (WINDOW_VISIBLE | WINDOW_FORCED))) {
 			continue;
@@ -7089,9 +7068,8 @@ void Container_FocusItem(ContainerElement *container, int x, int y, qboolean foc
 		}
 	}
 
-	std::list<UIElement*> elements = container->GetChildren();
-	for(std::list<UIElement*>::iterator i = elements.begin(); i != elements.end(); ++i) {
-		ContainerElement *el = dynamic_cast<ContainerElement*>(*i);
+	for(int i = 0; i < container->childrenCount; i++) {
+		StackPanel *el = container->children[i];
 
 		if(el != nullptr) {
 			Container_FocusItem(el, x, y, focusSet, pass);
@@ -7173,7 +7151,7 @@ void Menu_HandleMouseMove(menuDef_t *menu, float x, float y) {
 		}
 
 		for(i = 0; i < menu->newItemCount; i++) {
-			ContainerElement *container = dynamic_cast<ContainerElement*>(menu->newItems[i]);
+			StackPanel *container = menu->stackPanels[i];
 
 			if(container != nullptr) {			
 				Container_FocusItem(container, x, y, focusSet, pass);
@@ -7238,10 +7216,10 @@ void Menu_Paint(menuDef_t *menu, qboolean forcePaint) {
 
 	if(menu->newItemCount > 0) {
 		for(int i = 0; i < menu->newItemCount; i++) {
-			UIElement *child = menu->newItems[i];
+			StackPanel *child = menu->stackPanels[i];
 
-			child->Arrange();
-			child->Draw();
+			StackPanel_Arrange(child);
+			StackPanel_Draw(child);
 		}
 	}
 
@@ -9811,9 +9789,9 @@ qboolean MenuParse_itemDef( itemDef_t *item, int handle ) {
 	}
 }*/
 
-qboolean ContainerParse_StackPanel(ContainerElement *container, menuDef_t *menu, int handle) {
+qboolean ContainerParse_StackPanel(StackPanel *container, menuDef_t *menu, int handle) {
 	StackPanel *panel = new StackPanel();
-	container->AddElement(panel);
+	container->children[container->childrenCount++] = panel;
 
 	pc_token_t token;
 	if (!trap_PC_ReadToken(handle, &token)) {
@@ -9838,17 +9816,17 @@ qboolean ContainerParse_StackPanel(ContainerElement *container, menuDef_t *menu,
 			Rectangle rect;
 			if(!PC_Rect_Parse(handle, &rect)) return qfalse;
 
-			panel->SetRectangle(rect);
+			panel->rectangle = rect;
 		}
 		else if(Q_stricmp(token.string, "orientation") == 0) {
 			const char *orientation;
 			if(!PC_String_Parse(handle, &orientation)) return qfalse;
 
 			if(Q_stricmp(orientation, "Horizontal") == 0) {
-				panel->SetOrientation(kOrientationHorizontal);
+				panel->orientation = kOrientationHorizontal;
 			}
 			else {
-				panel->SetOrientation(kOrientationVertical);
+				panel->orientation = kOrientationVertical;
 			}
 		}
 		else if(Q_stricmp(token.string, "itemDef") == 0) {
@@ -9862,7 +9840,7 @@ qboolean ContainerParse_StackPanel(ContainerElement *container, menuDef_t *menu,
 			Item_InitControls(item);
 			item->parent = menu;
 
-			panel->AddOldElement(item);
+			panel->oldChildren[panel->oldChildrenCount++] = item;
 		}
 		else if(Q_stricmp(token.string, "stackPanel") == 0) {
 			ContainerParse_StackPanel(panel, menu, handle);
@@ -9875,7 +9853,7 @@ qboolean MenuParse_stackPanel(itemDef_t *item, int handle) {
 
 	if(menu->newItemCount < MAX_MENUITEMS) {
 		StackPanel *panel = new StackPanel();
-		menu->newItems[menu->newItemCount++] = panel;
+		menu->stackPanels[menu->newItemCount++] = panel;
 
 		pc_token_t token;
 		if (!trap_PC_ReadToken(handle, &token)) {
@@ -9900,17 +9878,17 @@ qboolean MenuParse_stackPanel(itemDef_t *item, int handle) {
 				Rectangle rect;
 				if(!PC_Rect_Parse(handle, &rect)) return qfalse;
 
-				panel->SetRectangle(rect);
+				panel->rectangle = rect;
 			}
 			else if(Q_stricmp(token.string, "orientation") == 0) {
 				const char *orientation;
 				if(!PC_String_Parse(handle, &orientation)) return qfalse;
 
 				if(Q_stricmp(orientation, "Horizontal") == 0) {
-					panel->SetOrientation(kOrientationHorizontal);
+					panel->orientation = kOrientationHorizontal;
 				}
 				else {
-					panel->SetOrientation(kOrientationVertical);
+					panel->orientation = kOrientationVertical;
 				}
 			}
 			else if(Q_stricmp(token.string, "itemDef") == 0) {
@@ -9924,7 +9902,7 @@ qboolean MenuParse_stackPanel(itemDef_t *item, int handle) {
 				Item_InitControls(item);
 				item->parent = menu; //Technically the parent should be the stackpanel, but because we're mixing old code with new we've gotta do this
 
-				panel->AddOldElement(item);
+				panel->oldChildren[panel->oldChildrenCount++] = item;
 
 				/*menuDef_t *menu = (menuDef_t*)item;
 				if (menu->itemCount < MAX_MENUITEMS) {

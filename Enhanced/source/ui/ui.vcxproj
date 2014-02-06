@@ -299,7 +299,6 @@
     <ClInclude Include="..\qcommon\disablewarnings.h" />
     <ClInclude Include="..\qcommon\game_version.h" />
     <ClInclude Include="colorRangeDef_t.h" />
-    <ClInclude Include="ContainerElement.h" />
     <ClInclude Include="itemDef_t.h" />
     <ClInclude Include="keycodes.h" />
     <ClInclude Include="..\..\kotold\ui\jamp\menudef.h" />
@@ -310,7 +309,6 @@
     <ClInclude Include="..\cgame\tr_types.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="StackPanel.h" />
-    <ClInclude Include="UIElement.h" />
     <ClInclude Include="ui_force.h" />
     <ClInclude Include="ui_local.h" />
     <ClInclude Include="ui_public.h" />
