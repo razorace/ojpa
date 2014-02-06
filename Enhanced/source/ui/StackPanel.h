@@ -20,7 +20,7 @@ typedef struct stackPanel_s {
 } StackPanel;
 
 void StackPanel_Draw(StackPanel *panel);
-void StackPanel_DraSubElement(StackPanel *element);
+void StackPanel_DrawSubElement(StackPanel *element);
 void StackPanel_Arrange(StackPanel *panel);
 void StackPanel_Init(StackPanel *panel);
 

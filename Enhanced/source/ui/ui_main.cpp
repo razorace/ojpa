@@ -11440,18 +11440,21 @@ static void UI_StartServerRefresh(qboolean full)
 
 //[DynamicMemory_Sabers]
 void UI_AllocMem(char **ptr, int sze){
-	*ptr = new char[sze];//malloc(sze);
+	//*ptr = new char[sze];//malloc(sze);
+	*ptr = (char*)malloc(sze);
 }
+
 void UI_FreeMem(void *ptr){
 	free(ptr);
 }
+
 void UI_ReaAllocMem(char **ptr, int sze, int count)
 {
-	for(int i = 0;i <count ; i++)
+	/*for(int i = 0;i <count ; i++)
 	{
 		ptr[i] = new char[sze];
-	}
+	}*/
 
-	//*ptr = realloc(*ptr, sze * count);
+	*ptr = (char*)realloc(*ptr, sze * count);
 }
 //[/DynamicMemory_Sabers]
