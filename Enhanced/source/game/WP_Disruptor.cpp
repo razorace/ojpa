@@ -1,13 +1,13 @@
 #include "g_weapons.h"
 
-const int DISRUPTOR_MAIN_DAMAGE = 80;
-const int DISRUPTOR_MAIN_DAMAGE_SIEGE = 80;
-const float DISRUPTOR_NPC_MAIN_DAMAGE_CUT = 0.25f;
-const int DISRUPTOR_ALT_DAMAGE = 80;
-const float DISRUPTOR_NPC_ALT_DAMAGE_CUT = 0.2f;
-const int DISRUPTOR_ALT_TRACES = 3;
-const float DISRUPTOR_CHARGE_UNIT = 50.0f;
-const int DISRUPTOR_SHOT_SIZE = 2;
+#define DISRUPTOR_MAIN_DAMAGE 80
+#define DISRUPTOR_MAIN_DAMAGE_SIEGE 80
+#define DISRUPTOR_NPC_MAIN_DAMAGE_CUT 0.25f
+#define DISRUPTOR_ALT_DAMAGE 80
+#define DISRUPTOR_NPC_ALT_DAMAGE_CUT 0.2f
+#define DISRUPTOR_ALT_TRACES 3
+#define DISRUPTOR_CHARGE_UNIT 50.0f
+#define DISRUPTOR_SHOT_SIZE 2
 
 //[DodgeSys]
 extern qboolean G_DoDodge( gentity_t *self, gentity_t *shooter, vec3_t dmgOrigin, int hitLoc, int * dmg, int mod );

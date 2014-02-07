@@ -2125,14 +2125,14 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	if(self->client->ps.fd.sentryDeployed) {
 		gentity_t *item;
 
-		while((item = G_Find(&g_entities[0], FOFS(classname), "sentryGun"))) {
+		while((item = G_Find(&g_entities[0], FOFS(classname), "sentryGun")) != NULL) {
 			if(item->s.owner == self->s.number) {
 				item->die(item, item, item, 0, MOD_SUICIDE);
 				break;
 			}
 		}
 
-		while((item = G_Find(&g_entities[0], FOFS(classname), "item_shield"))) {
+		while((item = G_Find(&g_entities[0], FOFS(classname), "item_shield")) != NULL) {
 			if(item->s.owner == self->s.number) {
 				item->die(item, item, item, 0, MOD_SUICIDE);
 				break;

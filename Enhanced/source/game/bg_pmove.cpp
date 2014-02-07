@@ -3034,6 +3034,11 @@ static qboolean PM_CheckJump( void )
 			{//run up wall, flip backwards
 				if ( allowWallRuns )
 				{
+					vec3_t fwd, traceto, mins, maxs, fwdAngles;
+					trace_t	trace;
+					vec3_t	idealNormal;
+					bgEntity_t *traceEnt;
+
 					//FIXME: have to be moving... make sure it's opposite the wall... or at least forward?
 					int wallWalkAnim = BOTH_WALL_FLIP_BACK1;
 					int parts = SETANIM_LEGS;
@@ -3052,11 +3057,6 @@ static qboolean PM_CheckJump( void )
 							parts = SETANIM_BOTH;
 						}
 					}
-
-					vec3_t fwd, traceto, mins, maxs, fwdAngles;
-					trace_t	trace;
-					vec3_t	idealNormal;
-					bgEntity_t *traceEnt;
 
 					VectorSet(mins, pm->mins[0], pm->mins[1], 0.0f);
 					VectorSet(maxs, pm->maxs[0], pm->maxs[1], 24.0f);
@@ -3235,12 +3235,12 @@ static qboolean PM_CheckJump( void )
 //[LedgeGrab]
 qboolean LedgeTrace( trace_t *trace, vec3_t dir, float *lerpup, float *lerpfwd, float *lerpyaw)
 {//scan for for a ledge in the given direction
+	vec3_t traceTo, traceFrom, wallangles;
 
 	if (!(pm->cmd.buttons & BUTTON_USE)) {
 		return qfalse;
 	}
 	
-	vec3_t traceTo, traceFrom, wallangles;
 	VectorMA( pm->ps->origin, LEDGEGRABDISTANCE, dir, traceTo );
 	VectorCopy(pm->ps->origin, traceFrom);
 	
@@ -5059,7 +5059,6 @@ static void PM_GroundTrace( void ) {
 	vec3_t		point;
 	trace_t		trace;
 	float minNormal = (float)MIN_WALK_NORMAL;
-	int iType;
 
 	if ( pm->ps->clientNum >= MAX_CLIENTS)
 	{
@@ -13977,7 +13976,7 @@ qboolean PM_GettingUpFromKnockDown( float standheight, float crouchheight )
 						break;
 					}
 					//Com_Printf( "getupanim = %s\n", animTable[anim].name );
-					if ( true)
+					if ( qtrue)
 					{//racc - using the Force to get up.
 #ifdef QAGAME
 						gentity_t *self = &g_entities[pm->ps->clientNum];

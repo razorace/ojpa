@@ -32,13 +32,14 @@ global pain sound events for all clients.
 */
 void P_DamageFeedback( gentity_t *player ) {
 	gclient_t	*client = player->client;
+	float count;
 
 	if ( client->ps.pm_type == PM_DEAD ) {
 		return;
 	}
 
 	// total points of damage shot at the player this frame
-	float count = client->damage_blood + client->damage_armor;
+	count = client->damage_blood + client->damage_armor;
 	if ( count == 0 ) {
 		return;		// didn't take any damage
 	}
@@ -119,13 +120,13 @@ Check for lava / slime contents and drowning
 =============
 */
 void P_WorldEffects( gentity_t *ent ) {
+	int waterlevel = ent->waterlevel;
+	qboolean envirosuit = (qboolean)(ent->client->ps.powerups[PW_BATTLESUIT] > level.time);
+
 	if ( ent->client->noclip ) {
 		ent->client->airOutTime = level.time + 12000;
 		return;
 	}
-
-	int waterlevel = ent->waterlevel;
-	qboolean envirosuit = (qboolean)(ent->client->ps.powerups[PW_BATTLESUIT] > level.time);
 
 	//
 	// check for drowning
@@ -407,9 +408,10 @@ ClientImpacts
 void ClientImpacts( gentity_t *ent, pmove_t *pm ) {
 	trace_t	trace;
 	gentity_t	*other;
+	int i;
 
 	memset( &trace, 0, sizeof( trace ) );
-	for (int i = 0 ; i < pm->numtouch ; i++) {
+	for (i = 0 ; i < pm->numtouch ; i++) {
 		int j = 0;
 		for (j = 0; j < i; j++) {
 			if (pm->touchents[j] == pm->touchents[i] ) {
@@ -448,6 +450,7 @@ void	G_TouchTriggers( gentity_t *ent ) {
 	int			touch[MAX_GENTITIES];
 	vec3_t		mins, maxs;
 	static vec3_t	range = { 40, 40, 52 };
+	int num, i;
 
 	if ( !ent->client ) {
 		return;
@@ -461,13 +464,14 @@ void	G_TouchTriggers( gentity_t *ent ) {
 	VectorSubtract( ent->client->ps.origin, range, mins );
 	VectorAdd( ent->client->ps.origin, range, maxs );
 
-	int num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
+	num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
 
 	// can't use ent->r.absmin, because that has a one unit pad
 	VectorAdd( ent->client->ps.origin, ent->r.mins, mins );
 	VectorAdd( ent->client->ps.origin, ent->r.maxs, maxs );
 
-	for (int i = 0; i < num; i++ ) {
+	for (i = 0; i < num; i++ ) {
+		trace_t		trace;
 		gentity_t	*hit = &g_entities[touch[i]];
 
 		if ( !hit->touch && !ent->touch ) {
@@ -500,7 +504,6 @@ void	G_TouchTriggers( gentity_t *ent ) {
 			}
 		}
 
-		trace_t		trace;
 		memset( &trace, 0, sizeof(trace) );
 
 		if ( hit->touch ) {
@@ -1100,10 +1103,12 @@ void SendPendingPredictableEvents( playerState_t *ps ) {
 		int event = ps->events[ seq ] | ( ( ps->entityEventSequence & 3 ) << 8 );
 		// set external event to zero before calling BG_PlayerStateToEntityState
 		int extEvent = ps->externalEvent;
-		ps->externalEvent = 0;
 		// create temporary entity for event
 		gentity_t *t = G_TempEntity( ps->origin, event );
+
 		int number = t->s.number;
+
+		ps->externalEvent = 0;
 		BG_PlayerStateToEntityState( ps, &t->s, qtrue );
 		t->s.number = number;
 		t->s.eType = ET_EVENTS + event;
@@ -1179,6 +1184,7 @@ static void G_UpdateForceSightBroadcasts ( gentity_t *self )
 
 static void G_UpdateJediMasterBroadcasts ( gentity_t *self )
 {
+	int i;
 	// Not jedi master mode then nothing to do
 	if ( g_gametype.integer != GT_JEDIMASTER ) {
 		return;
@@ -1191,7 +1197,7 @@ static void G_UpdateJediMasterBroadcasts ( gentity_t *self )
 	}
 
 	// Broadcast ourself to all clients within range
-	for (int i = 0; i < level.numConnectedClients; i ++ )
+	for (i = 0; i < level.numConnectedClients; i ++ )
 	{
 		gentity_t *ent = &g_entities[level.sortedClients[i]];
 		float	  dist;
@@ -1957,13 +1963,14 @@ gentity_t *TouchingItem(gentity_t *ent) {
 	int			touch[MAX_GENTITIES];
 	vec3_t		mins, maxs;
 	static vec3_t	range = { 40, 40, 52 };
+	int i, num;
 
 	VectorSubtract( ent->client->ps.origin, range, mins );
 	VectorAdd( ent->client->ps.origin, range, maxs );
 
-	int num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
+	num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
 
-	for (int i = 0; i < num; i++)
+	for (i = 0; i < num; i++)
 	{
 		gentity_t *hit = &g_entities[touch[i]];
 		if ( !hit->touch && !ent->touch ) {
@@ -1996,7 +2003,8 @@ extern qboolean inGameCinematic;
 //[ROQFILES]
 
 void UpdateTimedForcePowers(gentity_t *ent) {
-	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+	int i;
+	for(i = 0; i < NUM_FORCE_POWERS; i++) {
 		if(ent->client->forcePowerStart[i] <= level.time && ent->client->forcePowerStart[i] != -1) {
 			ent->client->forcePowerStart[i] = -1;
 			ent->client->ps.fd.forcePowersActive |= ( 1 << i );
@@ -2261,6 +2269,9 @@ void UpdateClientDuel(gentity_t *ent, usercmd_t *ucmd) {
 		if (ent->client->ps.weapon == WP_SABER  
 			&& ent->client->ps.duelTime )
 		{
+			// MJN - Update Shields to new values if g_mPlayerDuelShield is anything else but 0.
+			int playerDuelShield = g_playerDuelShield.integer;
+
 			if(!ent->client->ps.saberHolstered){
 				if (ent->client->saber[0].soundOff){
 					G_Sound(ent, CHAN_AUTO, ent->client->saber[0].soundOff);
@@ -2280,9 +2291,6 @@ void UpdateClientDuel(gentity_t *ent, usercmd_t *ucmd) {
 			// MJN - Code to save HP/Shield status and give duel declared HP/Shields:
 			ent->client->savedHP = ent->client->ps.stats[STAT_HEALTH];
 			ent->client->savedArmor = ent->client->ps.stats[STAT_ARMOR];
-
-			// MJN - Update Shields to new values if g_mPlayerDuelShield is anything else but 0.
-			int playerDuelShield = g_playerDuelShield.integer;
 
 			// Make sure we have a valid value:
 			if( playerDuelShield > 100 )
@@ -2306,6 +2314,7 @@ void UpdateClientDuel(gentity_t *ent, usercmd_t *ucmd) {
 			&& duelAgainst->client->ps.duelTime)
 		{
 			//[DuelSys]
+			int playerDuelShield = g_playerDuelShield.integer;
 
 			//auto holster sabers at start of duel.
 			if( !duelAgainst->client->ps.saberHolstered ){
@@ -2330,7 +2339,6 @@ void UpdateClientDuel(gentity_t *ent, usercmd_t *ucmd) {
 			duelAgainst->client->savedArmor = duelAgainst->client->ps.stats[STAT_ARMOR];
 
 			// MJN - Update Shields to new values if g_mPlayerDuelShield is anything else but 0.
-			int playerDuelShield = g_playerDuelShield.integer;
 
 			// Make sure we have a valid value:
 			if( playerDuelShield > 100 )
@@ -2557,6 +2565,7 @@ void UpdateNPCSpeed(gentity_t *ent, usercmd_t *ucmd) {
 		}
 		else
 		{
+			float turndelta;
 			if ( ent->NPC->currentSpeed <= ent->NPC->stats.walkSpeed )
 			{//Play the walkanim
 				ucmd->buttons |= BUTTON_WALKING;
@@ -2584,7 +2593,7 @@ void UpdateNPCSpeed(gentity_t *ent, usercmd_t *ucmd) {
 
 			ent->client->ps.speed = ent->NPC->currentSpeed;
 			//rwwFIXMEFIXME: do this and also check for all real client
-			float turndelta = (180 - fabs( AngleDelta( ent->r.currentAngles[YAW], ent->NPC->desiredYaw ) ))/180;
+			turndelta = (180 - fabs( AngleDelta( ent->r.currentAngles[YAW], ent->NPC->desiredYaw ) ))/180;
 												
 			if ( turndelta < 0.75f ) {
 				ent->client->ps.speed = 0;

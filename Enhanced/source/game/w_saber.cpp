@@ -5997,7 +5997,7 @@ qboolean DodgeRollCheck(gentity_t *self, int dodgeAnim, vec3_t forward, vec3_t r
 	return qtrue;
 }
 
-bool G_CanDodge(gentity_t *self, gentity_t *attacker, int dpCost) {
+qboolean G_CanDodge(gentity_t *self, gentity_t *attacker, int dpCost) {
 
 	if(!self || !self->client || !self->inuse || self->health <= 0 ) {		
 		if(g_debugdodge.integer) {
@@ -6005,12 +6005,12 @@ bool G_CanDodge(gentity_t *self, gentity_t *attacker, int dpCost) {
 					level.time, self->s.number);
 		}
 
-		return false;
+		return qfalse;
 	}
 
 	if( !ojp_allowBodyDodge.integer ) {
 		if(!(self->client->pers.cmd.generic_cmd & GENCMD_FORCE_HEALOTHER)) {
-			return false;
+			return qfalse;
 		}
 	}
 
@@ -6018,30 +6018,30 @@ bool G_CanDodge(gentity_t *self, gentity_t *attacker, int dpCost) {
 	if(attacker && attacker->client) 
 	{
 		if(attacker->client->ps.fd.forcePowerLevel[FP_SEE] == FORCE_LEVEL_0)
-			return false; //Can't dodge if gunner
+			return qfalse; //Can't dodge if gunner
 		if(!InFront(attacker->client->ps.origin, self->client->ps.origin, self->client->ps.viewangles, -.7f)) {
-			return false;
+			return qfalse;
 		}
 
 		if(attacker->client->ps.weapon == WP_TUSKEN_RIFLE) {
-			return false;
+			return qfalse;
 		}
 
 		if(attacker->client->ps.duelInProgress && attacker->client->ps.duelIndex != self->s.number) {
-			return false;
+			return qfalse;
 		}
 	
 		if (self->client->ps.duelInProgress && self->client->ps.duelIndex != attacker->s.number) {
-			return false;
+			return qfalse;
 		}
 	}
 
 	if(self->client->ps.fd.forcePowerLevel[FP_SEE] == FORCE_LEVEL_0) {
-		return false;
+		return qfalse;
 	}
 
 	if(self->client->ps.groundEntityNum == ENTITYNUM_NONE) {
-		return false;
+		return qfalse;
 	}
 
 	if(self->NPC)
@@ -6057,7 +6057,7 @@ bool G_CanDodge(gentity_t *self, gentity_t *attacker, int dpCost) {
 			self->client->NPC_class == CLASS_SEEKER ||
 			self->client->NPC_class == CLASS_INTERROGATOR)
 		{
-			return false;
+			return qfalse;
 		}
 	}
 
@@ -6074,7 +6074,7 @@ bool G_CanDodge(gentity_t *self, gentity_t *attacker, int dpCost) {
 		return qfalse;
 	}
 
-	return true;
+	return qtrue;
 }
 
 extern qboolean BG_HopAnim( int anim );
@@ -12305,11 +12305,12 @@ int WP_SaberCanBlock(gentity_t *self, vec3_t point, int dflags, int mod, qboolea
 qboolean IsWeaponEnabled(int weapon);
 
 qboolean HasSetSaberOnly(void) {
+	int i;
 	if (g_gametype.integer == GT_JEDIMASTER) {
 		return qfalse;
 	}
 
-	for(int i = WP_NONE + 1; i < WP_NUM_WEAPONS; i++) {
+	for(i = WP_NONE + 1; i < WP_NUM_WEAPONS; i++) {
 		if (IsWeaponEnabled(i) && i != WP_SABER){
 			return qfalse;
 		}

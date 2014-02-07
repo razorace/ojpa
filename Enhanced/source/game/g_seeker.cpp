@@ -4,15 +4,17 @@ void FindGenericEnemyIndex(gentity_t *self)
 { //Find another client that would be considered a threat.
 	gentity_t *besten = NULL;
 	float blen = 99999999;
+	int i;
 
-	for(int i = 0; i < MAX_CLIENTS; i++) {
+	for(i = 0; i < MAX_CLIENTS; i++) {
 		gentity_t *ent = &g_entities[i];
 
 		if (ent && ent->client && ent->s.number != self->s.number && ent->health > 0 && !OnSameTeam(self, ent) && ent->client->ps.pm_type != PM_INTERMISSION && ent->client->ps.pm_type != PM_SPECTATOR)
 		{
 			vec3_t a;
+			float tlen;
 			VectorSubtract(ent->client->ps.origin, self->client->ps.origin, a);
-			float tlen = VectorLength(a);
+			tlen = VectorLength(a);
 
 			if (tlen < blen &&
 				InFront(ent->client->ps.origin, self->client->ps.origin, self->client->ps.viewangles, 0.8f ) &&

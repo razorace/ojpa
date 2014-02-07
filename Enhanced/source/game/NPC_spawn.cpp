@@ -4685,7 +4685,7 @@ gentity_t *NPC_SpawnType( gentity_t *ent, char *npc_type, char *targetname, qboo
 	return (NPC_Spawn_Do( NPCspawner ));
 }
 
-gentity_t *NPC_SpawnType( vec3_t loc, char *npc_type, char *targetname, qboolean isVehicle ) 
+/*gentity_t *NPC_SpawnType( vec3_t loc, char *npc_type, char *targetname, qboolean isVehicle ) 
 {
 	gentity_t		*NPCspawner = G_Spawn();
 	//vec3_t			forward, end;
@@ -4714,16 +4714,6 @@ gentity_t *NPC_SpawnType( vec3_t loc, char *npc_type, char *targetname, qboolean
 	//rwwFIXMEFIXME: Care about who is issuing this command/other clients besides 0?
 	//Spawn it at spot of first player
 	//FIXME: will gib them!
-	/*
-	AngleVectors(ent->client->ps.viewangles, forward, NULL, NULL);
-	VectorNormalize(forward);
-	VectorMA(ent->r.currentOrigin, 64, forward, end);
-	trap_Trace(&trace, ent->r.currentOrigin, NULL, NULL, end, 0, MASK_SOLID);
-	VectorCopy(trace.endpos, end);
-	end[2] -= 24;
-	trap_Trace(&trace, trace.endpos, NULL, NULL, end, 0, MASK_SOLID);
-	VectorCopy(trace.endpos, end);
-	end[2] += 24;*/
 	G_SetOrigin(NPCspawner, loc);
 	VectorCopy(NPCspawner->r.currentOrigin, NPCspawner->s.origin);
 	//set the yaw so that they face away from player
@@ -4753,7 +4743,7 @@ gentity_t *NPC_SpawnType( vec3_t loc, char *npc_type, char *targetname, qboolean
 	//[/CoOp]
 
 	return (NPC_Spawn_Do( NPCspawner ));
-}
+}*/
 
 void NPC_Spawn_f( gentity_t *ent ) 
 {
