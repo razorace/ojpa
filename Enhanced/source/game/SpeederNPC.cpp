@@ -203,8 +203,9 @@ bool Update( Vehicle_t *pVeh, const usercmd_t *pUcmd )
 		//-------------------------------
 		if (pVeh->m_ucmd.forwardmove && !(pVeh->m_ulFlags&VEH_ACCELERATORON))
 		{
+			int i;
 			pVeh->m_ulFlags |= VEH_ACCELERATORON;
-			for (int i=0; (i<MAX_VEHICLE_EXHAUSTS && pVeh->m_iExhaustTag[i]!=-1); i++)
+			for (i=0; (i<MAX_VEHICLE_EXHAUSTS && pVeh->m_iExhaustTag[i]!=-1); i++)
 			{
 				G_PlayEffect(pVeh->m_pVehicleInfo->iExhaustFX, parent->playerModel, pVeh->m_iExhaustTag[i], parent->s.number, parent->currentOrigin, 1,	qtrue);
 			}
@@ -214,8 +215,9 @@ bool Update( Vehicle_t *pVeh, const usercmd_t *pUcmd )
 		//------------------------------
 		else if (!pVeh->m_ucmd.forwardmove && (pVeh->m_ulFlags&VEH_ACCELERATORON))
 		{
+			int i;
 			pVeh->m_ulFlags &=~VEH_ACCELERATORON;
-			for (int i=0; (i<MAX_VEHICLE_EXHAUSTS && pVeh->m_iExhaustTag[i]!=-1); i++)
+			for (i=0; (i<MAX_VEHICLE_EXHAUSTS && pVeh->m_iExhaustTag[i]!=-1); i++)
 			{
 				G_StopEffect(pVeh->m_pVehicleInfo->iExhaustFX, parent->playerModel, pVeh->m_iExhaustTag[i], parent->s.number);
 			}

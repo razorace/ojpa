@@ -324,7 +324,8 @@ String_Init
 =================
 */
 void String_Init() {
-	for (int i = 0; i < HASH_TABLE_SIZE; i++) {
+	int i;
+	for (i = 0; i < HASH_TABLE_SIZE; i++) {
 		strHandle[i] = 0;
 	}
 
@@ -960,9 +961,10 @@ void Menu_PostParse(menuDef_t *menu) {
 }
 
 itemDef_t *Container_ClearFocus(StackPanel *container) {
-	itemDef_t *ret = nullptr;
+	itemDef_t *ret = NULL;
+	int i;
 
-	for(int i = 0; i < container->oldChildrenCount; i++) {
+	for(i = 0; i < container->oldChildrenCount; i++) {
 		itemDef_t *child = container->oldChildren[i];
 
 		if (child->window.flags & WINDOW_HASFOCUS) {
@@ -975,13 +977,13 @@ itemDef_t *Container_ClearFocus(StackPanel *container) {
 		}
 	}
 
-	for(int i = 0; i < container->childrenCount; i++) {
+	for(i = 0; i < container->childrenCount; i++) {
 		StackPanel *child = container->children[i];
 
-		if(child != nullptr) {
+		if(child != NULL) {
 			itemDef_t *temp = Container_ClearFocus(child);
 
-			if(temp != nullptr) {
+			if(temp != NULL) {
 				ret = temp;
 			}
 		}
@@ -992,12 +994,13 @@ itemDef_t *Container_ClearFocus(StackPanel *container) {
 
 itemDef_t *Menu_ClearFocus(menuDef_t *menu) {
 	itemDef_t *ret = NULL;
+	int i;
 
 	if (menu == NULL) {
 		return NULL;
 	}
 
-	for (int i = 0; i < menu->itemCount; i++) {
+	for (i = 0; i < menu->itemCount; i++) {
 		if (menu->items[i]->window.flags & WINDOW_HASFOCUS) {
 			ret = menu->items[i];
 		} 
@@ -1008,12 +1011,12 @@ itemDef_t *Menu_ClearFocus(menuDef_t *menu) {
 		}
 	}
 
-	for(int i = 0; i < menu->newItemCount; i++) {
+	for(i = 0; i < menu->newItemCount; i++) {
 		StackPanel *element = menu->stackPanels[i];
 
-		if(element != nullptr) {
+		if(element != NULL) {
 			itemDef_t *item = Container_ClearFocus(element);
-			if(item != nullptr) {
+			if(item != NULL) {
 				ret = item;
 			}
 		}
@@ -1037,8 +1040,9 @@ qboolean Rect_ContainsPoint(Rectangle *rect, float x, float y) {
 
 int Container_ItemsMatchingGroup(StackPanel *container, const char *name) {
 	int count = 0;
+	int i;
 
-	for(int i = 0; i < container->oldChildrenCount; i++) {
+	for(i = 0; i < container->oldChildrenCount; i++) {
 		itemDef_t *child = container->oldChildren[i];
 
 		if ((!child->window.name) && (!child->window.group))
@@ -1054,10 +1058,10 @@ int Container_ItemsMatchingGroup(StackPanel *container, const char *name) {
 		} 
 	}
 
-	for(int i = 0; i < container->childrenCount; i++) {
+	for(i = 0; i < container->childrenCount; i++) {
 		StackPanel *child = container->children[i];
 
-		if(child != nullptr) {
+		if(child != NULL) {
 			count += Container_ItemsMatchingGroup(child, name);
 		}
 	}
@@ -1068,8 +1072,9 @@ int Container_ItemsMatchingGroup(StackPanel *container, const char *name) {
 int Menu_ItemsMatchingGroup(menuDef_t *menu, const char *name) 
 {
 	int count = 0;
+	int i;
 
-	for (int i = 0; i < menu->itemCount; i++) 
+	for (i = 0; i < menu->itemCount; i++) 
 	{
 		if ((!menu->items[i]->window.name) && (!menu->items[i]->window.group))
 		{
@@ -1084,10 +1089,10 @@ int Menu_ItemsMatchingGroup(menuDef_t *menu, const char *name)
 		} 
 	}
 
-	for(int i = 0; i < menu->newItemCount; i++) {
+	for(i = 0; i < menu->newItemCount; i++) {
 		StackPanel *element = menu->stackPanels[i];
 
-		if(element != nullptr) {
+		if(element != NULL) {
 			count += Container_ItemsMatchingGroup(element, name);
 		}
 	}
@@ -1096,7 +1101,8 @@ int Menu_ItemsMatchingGroup(menuDef_t *menu, const char *name)
 }
 
 itemDef_t *Container_GetMatchingItemByNumber(StackPanel *container, int *count, int index, const char *name) {
-	for(int i = 0; i < container->oldChildrenCount; i++) {
+	int i;
+	for(i = 0; i < container->oldChildrenCount; i++) {
 		itemDef_t *child = container->oldChildren[i];
 
 		if (Q_stricmp(child->window.name, name) == 0 || (child->window.group && Q_stricmp(child->window.group, name) == 0)) {
@@ -1108,18 +1114,18 @@ itemDef_t *Container_GetMatchingItemByNumber(StackPanel *container, int *count, 
 		} 
 	}
 
-	for(int i = 0; i < container->childrenCount; i++) {
+	for(i = 0; i < container->childrenCount; i++) {
 		StackPanel *el = container->children[i];
 
-		if(el != nullptr) {
+		if(el != NULL) {
 			itemDef_t *item = Container_GetMatchingItemByNumber(el, count, index, name);
-			if(item != nullptr) {
+			if(item != NULL) {
 				return item;
 			}
 		}
 	}
 
-	return nullptr;
+	return NULL;
 }
 
 itemDef_t *Menu_GetMatchingItemByNumber(menuDef_t *menu, int index, const char *name) {
@@ -1134,13 +1140,13 @@ itemDef_t *Menu_GetMatchingItemByNumber(menuDef_t *menu, int index, const char *
 		} 
 	}
 
-	for(int i = 0; i < menu->newItemCount; i++) {
+	for(i = 0; i < menu->newItemCount; i++) {
 		StackPanel *element = menu->stackPanels[i];
 
-		if(element != nullptr) {
+		if(element != NULL) {
 			itemDef_t *item = Container_GetMatchingItemByNumber(element, &count, index, name);
 
-			if(item != nullptr) {
+			if(item != NULL) {
 				return item;
 			}
 		}
@@ -1555,9 +1561,10 @@ void Menu_ShowGroup (menuDef_t *menu, char *groupName, qboolean showFlag)
 
 void Menu_ShowItemByName(menuDef_t *menu, const char *p, qboolean bShow) {
 	itemDef_t *item;
+	int i;
 	int count = Menu_ItemsMatchingGroup(menu, p);
 
-	for (int i = 0; i < count; i++) {
+	for (i = 0; i < count; i++) {
 		item = Menu_GetMatchingItemByNumber(menu, i, p);
 		if (item != NULL) {
 			if (bShow) {
@@ -1594,7 +1601,8 @@ void Menu_FadeItemByName(menuDef_t *menu, const char *p, qboolean fadeOut) {
 }
 
 menuDef_t *Menus_FindByName(const char *p) {
-	for (int i = 0; i < menuCount; i++) {
+	int i;
+	for (i = 0; i < menuCount; i++) {
 		if (Q_stricmp(Menus[i].window.name, p) == 0) {
 			return &Menus[i];
 		} 
@@ -4422,8 +4430,9 @@ void Menus_HandleOOBClick(menuDef_t *menu, int key, qboolean down) {
 }
 
 itemDef_t *Container_GetFocusedItem(StackPanel *element) {
+	int i;
 
-	for(int i = 0; i < element->oldChildrenCount; i++) {
+	for(i = 0; i < element->oldChildrenCount; i++) {
 		itemDef_t *child = element->oldChildren[i];
 
 		if(child->window.flags & WINDOW_HASFOCUS) {
@@ -4431,18 +4440,18 @@ itemDef_t *Container_GetFocusedItem(StackPanel *element) {
 		}
 	}
 
-	for(int i = 0; i < element->childrenCount; i++) {
+	for(i = 0; i < element->childrenCount; i++) {
 		StackPanel *container = element->children[i];
 
-		if(container != nullptr) {
+		if(container != NULL) {
 			itemDef_t *item = Container_GetFocusedItem(container);
-			if(item != nullptr) {
+			if(item != NULL) {
 				return item;
 			}
 		}
 	}
 
-	return nullptr;
+	return NULL;
 }
 
 void Menu_HandleKey(menuDef_t *menu, int key, qboolean down) {
@@ -4509,23 +4518,17 @@ void Menu_HandleKey(menuDef_t *menu, int key, qboolean down) {
 		}
 	}
 
-	//if(!item) {
-		for(i = 0; i < menu->newItemCount; i++) {
-			StackPanel *element = menu->stackPanels[i];
+	for(i = 0; i < menu->newItemCount; i++) {
+		StackPanel *element = menu->stackPanels[i];
 
-			if(element != nullptr) {
-				itemDef_t *temp = Container_GetFocusedItem(element);
+		if(element != NULL) {
+			itemDef_t *temp = Container_GetFocusedItem(element);
 
-				if(temp != nullptr) {
-					item = temp;
-				}
-
-				/*if(item != nullptr) {
-					break;
-				}*/
+			if(temp != NULL) {
+				item = temp;
 			}
 		}
-	//}
+	}
 
 	// Ignore if disabled
 	if (item && item->disabled) 
@@ -7018,7 +7021,8 @@ void Item_Init(itemDef_t *item) {
 }
 
 void Container_FocusItem(StackPanel *container, int x, int y, qboolean focusSet, int pass) {
-	for(int i = 0; i < container->oldChildrenCount; i++) {
+	int i;
+	for(i = 0; i < container->oldChildrenCount; i++) {
 		itemDef_t *child = container->oldChildren[i];
 
 		if (!(child->window.flags & (WINDOW_VISIBLE | WINDOW_FORCED))) {
@@ -7066,10 +7070,10 @@ void Container_FocusItem(StackPanel *container, int x, int y, qboolean focusSet,
 		}
 	}
 
-	for(int i = 0; i < container->childrenCount; i++) {
+	for(i = 0; i < container->childrenCount; i++) {
 		StackPanel *el = container->children[i];
 
-		if(el != nullptr) {
+		if(el != NULL) {
 			Container_FocusItem(el, x, y, focusSet, pass);
 		}
 	}
@@ -7151,7 +7155,7 @@ void Menu_HandleMouseMove(menuDef_t *menu, float x, float y) {
 		for(i = 0; i < menu->newItemCount; i++) {
 			StackPanel *container = menu->stackPanels[i];
 
-			if(container != nullptr) {			
+			if(container != NULL) {			
 				Container_FocusItem(container, x, y, focusSet, pass);
 			}			
 		}
@@ -7213,7 +7217,8 @@ void Menu_Paint(menuDef_t *menu, qboolean forcePaint) {
 	}
 
 	if(menu->newItemCount > 0) {
-		for(int i = 0; i < menu->newItemCount; i++) {
+		int i;
+		for(i = 0; i < menu->newItemCount; i++) {
 			StackPanel *child = menu->stackPanels[i];
 
 			StackPanel_Arrange(child);
@@ -7276,7 +7281,7 @@ void Item_ValidateTypeData(itemDef_t *item)
 	}
 }
 
-const int LAYOUTHASH_SIZE = 512;
+#define LAYOUTHASH_SIZE 512
 
 typedef struct layoutKeywordHash_s {
 	char *keyword;
@@ -7286,8 +7291,9 @@ typedef struct layoutKeywordHash_s {
 
 int LayoutHash_Key(char *keyword) {
 	int register hash = 0;
+	int i;
 
-	for (int i = 0; keyword[i] != '\0'; i++) {
+	for (i = 0; keyword[i] != '\0'; i++) {
 		if (keyword[i] >= 'A' && keyword[i] <= 'Z') {
 			hash += (keyword[i] + ('a' - 'A')) * (119 + i);
 		}
@@ -7310,7 +7316,8 @@ void LayoutHash_Add(layoutKeywordHash_t *table[], layoutKeywordHash_t *key) {
 layoutKeywordHash_t *LayoutHash_Find(layoutKeywordHash_t *table[], char *keyword)
 {
 	int hash = LayoutHash_Key(keyword);
-	for (layoutKeywordHash_t *key = table[hash]; key; key = key->next) {
+	layoutKeywordHash_t *key;
+	for (key = table[hash]; key; key = key->next) {
 		if (!Q_stricmp(key->keyword, keyword)) {
 			return key;
 		}
@@ -9041,17 +9048,19 @@ Item_SetupKeywordHash
 ===============
 */
 void Item_SetupKeywordHash(void) {
+	int i;
 	memset(itemParseKeywordHash, 0, sizeof(itemParseKeywordHash));
 
-	for (int i = 0; itemParseKeywords[i].keyword; i++) {
+	for (i = 0; itemParseKeywords[i].keyword; i++) {
 		KeywordHash_Add(itemParseKeywordHash, &itemParseKeywords[i]);
 	}
 }
 
 void Layout_SetupKeywordHash(void) {
+	int i;
 	memset(layoutParseKeywordHash, 0, sizeof(layoutParseKeywordHash));
 
-	for(int i = 0; layoutParseKeywords[i].keyword; i++) {
+	for(i = 0; layoutParseKeywords[i].keyword; i++) {
 		LayoutHash_Add(layoutParseKeywordHash, &layoutParseKeywords[i]);
 	}
 }
@@ -9073,6 +9082,7 @@ qboolean Item_Parse(int handle, itemDef_t *item) {
 	}
 
 	while ( 1 ) {
+		keywordHash_t *key;
 		if (!trap_PC_ReadToken(handle, &token)) {
 			PC_SourceError(handle, "end of file inside menu item\n");
 			return qfalse;
@@ -9082,7 +9092,7 @@ qboolean Item_Parse(int handle, itemDef_t *item) {
 			return qtrue;
 		}
 
-		keywordHash_t *key = KeywordHash_Find(itemParseKeywordHash, token.string);
+		key = KeywordHash_Find(itemParseKeywordHash, token.string);
 		if(key) {
 			if (!key->func(item, handle)) {
 				PC_SourceError(handle, "couldn't parse menu item keyword %s", token.string);
@@ -9788,12 +9798,13 @@ qboolean MenuParse_itemDef( itemDef_t *item, int handle ) {
 }*/
 
 qboolean ContainerParse_StackPanel(StackPanel *container, menuDef_t *menu, int handle) {
+	pc_token_t token;
+
 	StackPanel *panel = (StackPanel*)UI_Alloc(sizeof(StackPanel));
 	StackPanel_Init(panel);
 
 	container->children[container->childrenCount++] = panel;
-
-	pc_token_t token;
+	
 	if (!trap_PC_ReadToken(handle, &token)) {
 		return qfalse;
 	}
@@ -9802,7 +9813,7 @@ qboolean ContainerParse_StackPanel(StackPanel *container, menuDef_t *menu, int h
 		return qfalse;
 	}
 
-	while(true) {
+	while(qtrue) {
 		if (!trap_PC_ReadToken(handle, &token)) {
 			PC_SourceError(handle, "end of file inside stack panel item\n");
 			return qfalse;
@@ -9852,12 +9863,13 @@ qboolean MenuParse_stackPanel(itemDef_t *item, int handle) {
 	menuDef_t *menu = (menuDef_t*)item;
 
 	if(menu->newItemCount < MAX_MENUITEMS) {
+		pc_token_t token;
+
 		StackPanel *panel = (StackPanel*)UI_Alloc(sizeof(StackPanel));
 		StackPanel_Init(panel);
 
 		menu->stackPanels[menu->newItemCount++] = panel;
-
-		pc_token_t token;
+		
 		if (!trap_PC_ReadToken(handle, &token)) {
 			return qfalse;
 		}
@@ -9866,7 +9878,7 @@ qboolean MenuParse_stackPanel(itemDef_t *item, int handle) {
 			return qfalse;
 		}
 
-		while(true) {
+		while(qtrue) {
 			if (!trap_PC_ReadToken(handle, &token)) {
 				PC_SourceError(handle, "end of file inside stack panel item\n");
 				return qfalse;
@@ -10000,9 +10012,10 @@ Menu_SetupKeywordHash
 ===============
 */
 void Menu_SetupKeywordHash(void) {
+	int i;
 	memset(menuParseKeywordHash, 0, sizeof(menuParseKeywordHash));
 
-	for (int i = 0; menuParseKeywords[i].keyword; i++) {
+	for (i = 0; menuParseKeywords[i].keyword; i++) {
 		KeywordHash_Add(menuParseKeywordHash, &menuParseKeywords[i]);
 	}
 }
@@ -10024,6 +10037,8 @@ qboolean Menu_Parse(int handle, menuDef_t *menu) {
 	}
     
 	while ( 1 ) {
+		keywordHash_t *key;
+
 		if (!trap_PC_ReadToken(handle, &token)) {
 			PC_SourceError(handle, "end of file inside menu\n");
 			return qfalse;
@@ -10033,7 +10048,7 @@ qboolean Menu_Parse(int handle, menuDef_t *menu) {
 			return qtrue;
 		}
 
-		keywordHash_t *key = KeywordHash_Find(menuParseKeywordHash, token.string);
+		key = KeywordHash_Find(menuParseKeywordHash, token.string);
 		if (!key) {
 			PC_SourceError(handle, "unknown menu keyword %s", token.string);
 			continue;

@@ -3918,6 +3918,7 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum )
 	char buf[64];
 	const char	*s;
 	int i = 0;
+	cvar_t *cvar;
 
 	BG_InitAnimsets(); //clear it out
 
@@ -4158,7 +4159,7 @@ Ghoul2 Insert End
 	//now get all the cgame only cents
 	CG_SpawnCGameOnlyEnts();
 
-	cvar_t *cvar = Cvar_FindVar("r_dynamicglowheight");
+	cvar = Cvar_FindVar("r_dynamicglowheight");
 	cvar->flags &= ~CVAR_CHEAT;
 	cvar->flags &= ~CVAR_LATCH;
 	cvar = Cvar_FindVar("r_dynamicglowwidth");

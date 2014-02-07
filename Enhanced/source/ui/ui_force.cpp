@@ -134,10 +134,11 @@ void UI_UpdateClientForcePowers(const char *teamArg)
 {
 	//[ExpSys]
 	char newForceString[MAX_INFO_STRING];
+	int i;
 	//Q_strcat
 	strncpy(newForceString,va("%i-%i-",uiForceRank, uiForceSide),sizeof(newForceString));
 
-	for(int i = 0; i < NUM_TOTAL_SKILLS; i++)
+	for(i = 0; i < NUM_TOTAL_SKILLS; i++)
 	{
 		Q_strcat(newForceString,sizeof(newForceString),va("%i",uiRank[i].uiForcePowersRank));
 	}
@@ -1503,6 +1504,7 @@ qboolean UI_ForceMaxRank_HandleKey(int flags, float *special, int key, int num, 
 qboolean UI_ForcePowerRank_HandleKey(int flags, float *special, int key, int num, int min, int max, int type) 
 {
 	qboolean raising;
+	menuDef_t *menu;
 
 	if (key == A_MOUSE1 || key == A_MOUSE2 || key == A_ENTER || key == A_KP_ENTER || key == A_BACKSPACE) 
 	{
@@ -1638,10 +1640,11 @@ qboolean UI_ForcePowerRank_HandleKey(int flags, float *special, int key, int num
 			uiRank[forcepower].uiForcePowersRank--;
 		}
 
-		menuDef_t *menu = Menus_FindByName("ingame_playergunnery");
+		menu = Menus_FindByName("ingame_playergunnery");
 
 	if(menu)
 	{
+		int i;
 		int lightWp=0;
 		int heavyWP=0;
 		int explosives=0;
@@ -1661,7 +1664,7 @@ qboolean UI_ForcePowerRank_HandleKey(int flags, float *special, int key, int num
 		Menu_ShowItemByName(menu, "gadget1_weapon_icon", qfalse);
 		Menu_ShowItemByName(menu, "gadget2_weapon_icon", qfalse);
 		
-		for (int i = NUM_FORCE_POWERS+SK_JETPACK;i<NUM_TOTAL_SKILLS;i++)
+		for (i = NUM_FORCE_POWERS+SK_JETPACK;i<NUM_TOTAL_SKILLS;i++) {
 			if (typeOfGunnery(uiRank[i].skillNum) == TG_LIGHT_WEAPON && uiRank[i].uiForcePowersRank >= FORCE_LEVEL_1)
 				lightWp++;
 			else if (typeOfGunnery(uiRank[i].skillNum) == TG_HEAVY_WEAPON && uiRank[i].uiForcePowersRank >= FORCE_LEVEL_1)
@@ -1670,8 +1673,9 @@ qboolean UI_ForcePowerRank_HandleKey(int flags, float *special, int key, int num
 				explosives++;
 			else if (typeOfGunnery(uiRank[i].skillNum) == TG_GADGET && uiRank[i].uiForcePowersRank >= FORCE_LEVEL_1)
 				gadgets++;
+		}
 
-		for (int i=NUM_FORCE_POWERS+SK_JETPACK;i<NUM_TOTAL_SKILLS;i++)
+		for (i=NUM_FORCE_POWERS+SK_JETPACK;i<NUM_TOTAL_SKILLS;i++)
 		{
 			if (uiRank[i].uiForcePowersRank >= FORCE_LEVEL_1)
 				switch (typeOfGunnery(uiRank[i].skillNum))
