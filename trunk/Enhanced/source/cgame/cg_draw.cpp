@@ -1296,7 +1296,8 @@ void CG_AddToAddText(char *text)
 
 	if(atCount > 0)
 	{
-		for(int i = 0;i < atCount;i++)
+		int i;
+		for(i = 0;i < atCount;i++)
 		{
 			atYPos[i] += 20;
 		}
@@ -1311,7 +1312,8 @@ void CG_RemoveFromAddText()
 {
 	//atText[0] = "";
 	//atPos[0] = 0;
-	for(int i = 1;i < atCount; i++)
+	int i;
+	for(i = 1;i < atCount; i++)
 	{
 		strcpy(atText[i-1],atText[i]);
 		atYPos[i-1] = atYPos[i];
@@ -7091,6 +7093,7 @@ void CG_DrawJetpackFuel(void)
 	vec4_t aColor;
 	vec4_t bColor;
 	vec4_t cColor;
+	vec4_t dColor;
 	float x = JPFUELBAR_X;
 	float y = JPFUELBAR_Y;
 	float percent = ((float)cg.snap->ps.stats[STAT_FUEL] / JETPACK_MAXFUEL) * JPFUELBAR_H;
@@ -7155,11 +7158,10 @@ void CG_DrawJetpackFuel(void)
 	if(percent2 < 0.1f) return;
 
 	//color of the bar
-	vec4_t dColor = {0.0f, 1.0f, 0.0f, 0.5f};
-
-
-
-	
+	dColor[0] = 0.0f;
+	dColor[1] = 1.0f;
+	dColor[2] = 0.0f;
+	dColor[3] = 0.5f;
 
 	y = 439.0f;
 	x += 6.0f;

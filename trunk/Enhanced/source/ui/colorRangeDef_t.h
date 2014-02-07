@@ -3,7 +3,7 @@
 
 #include "../game/q_shared.h"
 
-const int MAX_COLOR_RANGES	=	10;
+#define MAX_COLOR_RANGES 10
 
 typedef struct {
 	vec4_t	color;

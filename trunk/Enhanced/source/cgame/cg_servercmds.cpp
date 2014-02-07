@@ -1414,13 +1414,14 @@ static void CG_ServerCommand( void ) {
 
 	if(!strcmp(cmd, "addtext"))
 	{
+		char *text ;
 		if (trap_Argc() < 1)
 		{
 			Com_Printf("WARNING: Invalid call to addtext\n");
 			return;
 		}
 
-		const char *text = CG_Argv(1);
+		text = (char*)CG_Argv(1);
 		CG_AddToAddText((char*)text);
 		return;
 	}

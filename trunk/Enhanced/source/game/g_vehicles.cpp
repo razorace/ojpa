@@ -1514,7 +1514,8 @@ static void DeathUpdate( Vehicle_t *pVeh )
 			//--------------------------------------
 			if (pVeh->m_pVehicleInfo->iExhaustFX)
 			{
-				for (int i=0; (i<MAX_VEHICLE_EXHAUSTS && pVeh->m_iExhaustTag[i]!=-1); i++)
+				int i;
+				for (i=0; (i<MAX_VEHICLE_EXHAUSTS && pVeh->m_iExhaustTag[i]!=-1); i++)
 				{
 					G_StopEffect(pVeh->m_pVehicleInfo->iExhaustFX, parent->playerModel, pVeh->m_iExhaustTag[i], parent->s.number);
 				}

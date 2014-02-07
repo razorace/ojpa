@@ -1,8 +1,8 @@
 #include "StackPanel.h"
 
-void Item_UpdatePosition(itemDef_t *item);
-void Item_SetScreenCoords(itemDef_t *item, float x, float y);
-void Item_Paint(itemDef_t *item);
+extern void Item_UpdatePosition(itemDef_t *item);
+extern void Item_SetScreenCoords(itemDef_t *item, float x, float y);
+extern void Item_Paint(itemDef_t *item);
 
 void StackPanel_Init(StackPanel *panel) {
 	memset(panel, 0, sizeof(StackPanel));
@@ -12,11 +12,12 @@ void StackPanel_Init(StackPanel *panel) {
 }
 
 void StackPanel_Arrange(StackPanel *panel) {
+	int i;
 	const int ChildMargin = 5;
 	int x = panel->rectangle.x;
 	int y = panel->rectangle.y;
 	
-	for(int i = 0; i < panel->oldChildrenCount; i++) {
+	for(i = 0; i < panel->oldChildrenCount; i++) {
 		itemDef_t *child = panel->oldChildren[i];
 
 		int margin = 0;
@@ -40,7 +41,7 @@ void StackPanel_Arrange(StackPanel *panel) {
 		}
 	}
 
-	for(int i = 0; i < panel->childrenCount; i++) {
+	for(i = 0; i < panel->childrenCount; i++) {
 		StackPanel *child = panel->children[i];
 		child->rectangle.x = x;
 		child->rectangle.y = y;
@@ -59,27 +60,31 @@ void StackPanel_Arrange(StackPanel *panel) {
 }
 
 void StackPanel_Draw(StackPanel *panel) {
-	for(int i = 0; i < panel->oldChildrenCount; i++) {
+	int i;
+
+	for(i = 0; i < panel->oldChildrenCount; i++) {
 		itemDef_t *child = panel->oldChildren[i];
 
 		Item_Paint(child);
 	}
 
-	for(int i = 0; i < panel->childrenCount; i++) {
+	for(i = 0; i < panel->childrenCount; i++) {
 		StackPanel_DrawSubElement(panel->children[i]);
 	}
 }
 
 
 void StackPanel_DrawSubElement(StackPanel *element) {
-	if(element != nullptr) {
-		for(int i = 0; i < element->oldChildrenCount; i++) {
+	if(element != NULL) {
+		int i;
+
+		for(i = 0; i < element->oldChildrenCount; i++) {
 			itemDef_t *child = element->oldChildren[i];
 
 			Item_Paint(child);
 		}
 
-		for(int i = 0; i < element->childrenCount; i++) {
+		for(i = 0; i < element->childrenCount; i++) {
 			StackPanel_DrawSubElement(element->children[i]);
 		}
 	}

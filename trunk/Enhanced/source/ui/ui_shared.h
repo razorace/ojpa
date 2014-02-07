@@ -269,8 +269,6 @@ typedef struct textScrollDef_s
 	int			xoffset;
 } stackPanelDef_t;*/
 
-class UIElement;
-
 typedef struct {
 	Window window;
 	const char  *font;						// font

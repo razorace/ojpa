@@ -99,6 +99,8 @@ void CG_DrawHealthTicMethod(menuDef_t *menuHUD)
 	playerState_t	*ps;
 	int				healthAmt;
 	float			percent = ((float)cg.snap->ps.stats[STAT_HEALTH] / (float)cg.snap->ps.stats[STAT_MAX_HEALTH]) * FPBAR_W;
+	vec4_t aColor;
+	vec4_t cColor;
 
 	// Can we find the menu?
 	if (!menuHUD)
@@ -114,12 +116,11 @@ void CG_DrawHealthTicMethod(menuDef_t *menuHUD)
 		healthAmt = ps->stats[STAT_MAX_HEALTH];
 	}
 
-	vec4_t aColor;
 	aColor[0] = 1.0f;
 	aColor[1] = 0.0f;
 	aColor[2] = 0.0f;
 	aColor[3] = 0.5f;
-	vec4_t cColor;
+	
 	Vector4Copy(colorTable[CT_BLACK], cColor);
 	cColor[3] = 0.4f;
 
@@ -140,7 +141,8 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 	int				armor, maxArmor;
 	float			percent;
 	int				currValue;
-	
+	vec4_t aColor;
+	vec4_t cColor;
 	
 	calcColor[0] = 0;
 	calcColor[1] = 0;
@@ -161,12 +163,11 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 
 	percent = ((float)armor / (float)maxArmor )* FPBAR_W;
 
-	vec4_t aColor;
 	aColor[0] = 0.0f;
 	aColor[1] = 1.0f;
 	aColor[2] = 0.0f;
 	aColor[3] = 0.5f;
-	vec4_t cColor;
+	
 	Vector4Copy(colorTable[CT_BLACK], cColor);
 	cColor[3] = 0.4f;
 
@@ -186,15 +187,18 @@ void CG_FillRect2( float x, float y, float width, float height, const float *col
 void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
 {
 	float			percent;
+	vec4_t aColor;
+	vec3_t color;
+
 
 	int amt = cg.snap->ps.saberAttackChainCount;
 	if(amt > BALANCE_MAX) amt = BALANCE_MAX;
 	
 	// What's the health?
-	percent = (float(amt) / float(BALANCE_MAX))  * float(FPBAR_W);
+	percent = ((float)amt / (float)BALANCE_MAX)  * (float)FPBAR_W;
 
 
-	vec4_t aColor;
+	
 	//aColor[0] = 1.0f;
 	//aColor[1] = 0.0f;
 	//aColor[2] = 1.0f;
@@ -209,9 +213,7 @@ void CG_DrawBalanceTicMethod(centity_t *cent, menuDef_t *menuHUD)
 	CG_DrawRect(FPBAR_X - 1.0f, MPBAR_Y- 1.0f, FPBAR_W + 2.1f, FPBAR_H + 2.1f, 1.0f, colorTable[CT_BLACK]);
 
 	CG_FillRect(FPBAR_X, MPBAR_Y, percent, FPBAR_H, aColor);
-
-
-	vec3_t color;
+	
 	color[0] = aColor[0];
 	color[1] = aColor[1];
 	color[2] = aColor[2];
@@ -225,6 +227,10 @@ void CG_DrawAmmoTicMethod(centity_t *cent, menuDef_t *menuHUD)
 {
 	playerState_t	*ps;
 	float			value,percent;
+	vec4_t aColor;
+	vec4_t cColor;
+	float max;
+	vec3_t color;
 
 	ps = &cg.snap->ps;
 
@@ -245,16 +251,15 @@ void CG_DrawAmmoTicMethod(centity_t *cent, menuDef_t *menuHUD)
 	}
 	//ammoData[AMMO_BLASTER].max;
 	
-	float max = ammoData[weaponData[cent->currentState.weapon].ammoIndex].max;
+	max = ammoData[weaponData[cent->currentState.weapon].ammoIndex].max;
 	percent = ((float)ps->ammo[weaponData[cent->currentState.weapon].ammoIndex] / max )* FPBAR_W;
 
-	vec4_t aColor;
 	aColor[0] = 0.23f;
 	aColor[1] = 0.3f;
 	aColor[2] = 0.31f;
 	aColor[3] = 0.5f;
 
-	vec4_t cColor;
+	
 	Vector4Copy(colorTable[CT_BLACK], cColor);
 	cColor[3] = 0.4f;
 
@@ -264,8 +269,6 @@ void CG_DrawAmmoTicMethod(centity_t *cent, menuDef_t *menuHUD)
 		CG_FillRect((FPBAR_X), APBAR_Y, (FPBAR_W)-percent, FPBAR_H, cColor);
 
 
-	
-	vec3_t color;
 	color[0] = aColor[0];
 	color[1] = aColor[1];
 	color[2] = aColor[2];
@@ -419,6 +422,7 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	int				currentForceAmount = cg.snap->ps.fd.forcePower;
 	float			percent = ((float)currentForceAmount / 100.0f) * FPBAR_W;
 	int	forceAmountDifference = currentForceAmount - (lastForceAmount == -1 ? currentForceAmount : lastForceAmount);
+	vec3_t color;
 
 	forceLostAmount -= forceAmountDifference;
 	
@@ -489,17 +493,17 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 	if(forceLostAmount != 0) {
 		//199,40,23
 		vec4_t lostColor;
+		float lPercent;
 		lostColor[0] = 231.0f / 255;
 		lostColor[1] = 53.0f / 255;
 		lostColor[2] = 37.0f / 255;
 		lostColor[3] = 1;
 		//128,15,37
 		//231,53,37
-		float lPercent = ((float)forceLostAmount / 100.0f) * FPBAR_W;
+		lPercent = ((float)forceLostAmount / 100.0f) * FPBAR_W;
 		CG_FillRect(FPBAR_X + ( FPBAR_W- percent)-lPercent, FPBAR_Y, FPBAR_W-(FPBAR_W-lPercent), FPBAR_H, lostColor);
 	}
 	
-	vec3_t color;
 	color[0] = aColor[0];
 	color[1] = aColor[1];
 	color[2] = aColor[2];

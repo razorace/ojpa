@@ -2342,7 +2342,8 @@ void CG_InitG2Weapons(void)
 // clean out any g2 models we instanciated for copying purposes
 void CG_ShutDownG2Weapons(void)
 {
-	for (int i = 0; i < MAX_WEAPONS; i++)
+	int i;
+	for (i = 0; i < MAX_WEAPONS; i++)
 	{
 		trap_G2API_CleanGhoul2Models(&g2WeaponInstances[i]);
 		//[VisualWeapons]

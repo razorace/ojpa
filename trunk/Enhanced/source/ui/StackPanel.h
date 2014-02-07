@@ -3,13 +3,10 @@
 
 #include "itemDef_t.h"
 
-enum Orientation {
-	kOrientationVertical,
-	kOrientationHorizontal
-};
+typedef struct stackPanel_s stackPanel_s;
 
 typedef struct stackPanel_s {
-	Orientation orientation;
+	enum Orientation {kOrientationVertical, kOrientationHorizontal} orientation;
 	Rectangle	rectangle;
 
 	stackPanel_s *children[256];
