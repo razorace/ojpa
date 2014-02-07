@@ -448,6 +448,8 @@ qboolean PlaceShield(gentity_t *playerent)
 		trap_Trace( &tr, pos, mins, maxs, dest, playerent->s.number, MASK_SOLID );
 		if ( !tr.startsolid && !tr.allsolid )
 		{
+			gentity_t *ent;
+			int i;
 			// got enough room so place the portable shield
 			shield = G_Spawn();
 
@@ -504,8 +506,8 @@ qboolean PlaceShield(gentity_t *playerent)
 			G_AddEvent(shield, EV_GENERAL_SOUND, shieldAttachSound);
 
 
-			gentity_t *ent = &g_entities[0];
-			for (int i=0 ; i<level.num_entities ; i++, ent++) 
+			ent = &g_entities[0];
+			for (i=0 ; i<level.num_entities ; i++, ent++) 
 			{
 				if ( !ent->inuse) 
 				{
@@ -2229,6 +2231,7 @@ extern int BG_EmplacedView(vec3_t baseAngles, vec3_t angles, float *newYaw, floa
 
 void EWebThink(gentity_t *self)
 {
+	gentity_t *owner;
 	const float gravity = 3.0f;
 	const float mass = 0.09f;
 	const float bounce = 1.1f;
@@ -2239,7 +2242,7 @@ void EWebThink(gentity_t *self)
 		return;
 	}
 
-	gentity_t *owner = &g_entities[self->r.ownerNum];
+	owner = &g_entities[self->r.ownerNum];
 
 	if (owner)
 	{

@@ -4209,8 +4209,10 @@ void ClientCommand( int clientNum ) {
 
 		if(tr.fraction < 1.0f)
 		{
-			G_Printf("%i", tr.entityNum);
 			gentity_t*ent = &g_entities[tr.entityNum];
+
+			G_Printf("%i", tr.entityNum);
+			
 			if(!ent)
 			{
 				ent->healingclass;

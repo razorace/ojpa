@@ -1,6 +1,7 @@
 #include "w_force.h"
 
 void ForceSpeed( gentity_t *self, int forceDuration ) {
+	vec3_t dir;
 	if ( self->health <= 0 
 		|| !WP_ForcePowerUsable( self, FP_SPEED )) {
 		return;
@@ -18,7 +19,6 @@ void ForceSpeed( gentity_t *self, int forceDuration ) {
 	}
 	//[/ForceSys]
 
-	vec3_t dir;
 	self->client->ps.forceAllowDeactivateTime = level.time + 5000;
 	AngleVectors(self->client->ps.viewangles, dir, NULL, NULL);
 	self->client->ps.velocity[0] = self->client->ps.velocity[0]*15;

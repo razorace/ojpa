@@ -3203,8 +3203,8 @@ char* OJPRankString[];
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #endif
 
-const int DamageType_Health = 0;
-const int DamageType_Shields = 1;
-const int DamageType_HealthShields = 2;
+#define DamageType_Health 0
+#define DamageType_Shields  1
+#define DamageType_HealthShields 2
 
 #endif	// __Q_SHARED_H

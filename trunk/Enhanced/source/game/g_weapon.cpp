@@ -231,7 +231,8 @@ into a wall.
 ======================
 */
 void SnapVectorTowards( vec3_t v, vec3_t to ) {
-	for (int i = 0 ; i < 3 ; i++ ) {
+	int i;
+	for (i = 0 ; i < 3 ; i++ ) {
 		if ( to[i] <= v[i] ) {
 			v[i] = (int)v[i];
 		} else {

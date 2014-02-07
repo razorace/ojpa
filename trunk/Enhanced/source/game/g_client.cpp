@@ -411,6 +411,7 @@ void JMSaberThink(gentity_t *ent)
 
 
 void JMSaberTouch(gentity_t *self, gentity_t *other, trace_t *trace) {
+	int i;
 	if (!other || 
 		!other->client || 
 		other->health < 1 ||
@@ -452,7 +453,7 @@ void JMSaberTouch(gentity_t *self, gentity_t *other, trace_t *trace) {
 		other->client->ps.fd.forcePower = 100;
 	}
 
-	for(int i = 0; i < NUM_FORCE_POWERS; i++ ) {
+	for(i = 0; i < NUM_FORCE_POWERS; i++ ) {
 		other->client->ps.fd.forcePowersKnown |= (1 << i);
 		other->client->ps.fd.forcePowerLevel[i] = FORCE_LEVEL_3;
 	}
@@ -638,8 +639,7 @@ gentity_t *SelectRandomDeathmatchSpawnPoint( void ) {
 		return G_Find( NULL, FOFS(classname), "info_player_deathmatch");
 	}
 
-	int selection = rand() % count;
-	return spots[ selection ];
+	return spots[ rand() % count ];
 }
 
 /*
@@ -1315,8 +1315,9 @@ Returns number of players on a team
 */
 team_t TeamCount( int ignoreClientNum, int team ) {
 	int		count = 0;
+	int i;
 
-	for (int i = 0 ; i < level.maxclients ; i++ ) {
+	for (i = 0 ; i < level.maxclients ; i++ ) {
 		if ( i == ignoreClientNum ) {
 			continue;
 		}
@@ -1346,7 +1347,8 @@ Returns the client number of the team leader
 ================
 */
 int TeamLeader( int team ) {
-	for (int i = 0 ; i < level.maxclients ; i++ ) {
+	int i;
+	for (i = 0 ; i < level.maxclients ; i++ ) {
 		if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
 			continue;
 		}
@@ -2808,7 +2810,8 @@ void ClientBegin( int clientNum, qboolean allowTeamReset ) {
 qboolean AllForceDisabled() {
 	int force = g_forcePowerDisable.integer;
 	if (force) {
-		for (int i = 0; i < NUM_FORCE_POWERS; i++) {
+		int i;
+		for (i = 0; i < NUM_FORCE_POWERS; i++) {
 			if (!(force & (1 << i ))) {
 				return qfalse;
 			}
@@ -3881,7 +3884,8 @@ qboolean IsWeaponEnabled(int weapon) {
 }
 
 qboolean AreAllWeaponsEnabled() {
-	for(int i = 0; i < WP_NUM_WEAPONS; i++) {
+	int i;
+	for(i = 0; i < WP_NUM_WEAPONS; i++) {
 		if(!IsWeaponEnabled(i)) {
 			return qfalse;
 		}
@@ -3910,10 +3914,12 @@ void Client_UpdateSabers(gentity_t *ent) {
 	qboolean changedSaber = qfalse;
 	char *saber;
 	int index = ent - g_entities;
+	int i;
 
 	trap_GetUserinfo( index, userinfo, sizeof(userinfo) );
 
-	for(int i = 0; i < MAX_SABERS; i++) {
+	for(i = 0; i < MAX_SABERS; i++) {
+		char *value;
 		switch (i) {
 		case 0:
 			saber = &ent->client->sess.saberType[0];
@@ -3926,7 +3932,7 @@ void Client_UpdateSabers(gentity_t *ent) {
 			break;
 		}
 		
-		char *value = Info_ValueForKey (userinfo, va("saber%i", i + 1));
+		value = Info_ValueForKey (userinfo, va("saber%i", i + 1));
 		if (saber &&
 			value &&
 			(Q_stricmp(value, saber) || !saber[0] || !ent->client->saber[0].model[0]))
@@ -3941,10 +3947,13 @@ void Client_UpdateSabers(gentity_t *ent) {
 	}
 
 	if (changedSaber) {
+		int i;
+		
 		ClientUserinfoChanged( ent->s.number );
 		G_SaberModelSetup(ent);
 
-		for(int i = 0; i < MAX_SABERS; i++) {
+		for(i = 0; i < MAX_SABERS; i++) {
+			char *value;
 			switch (i) {
 			case 0:
 				saber = &ent->client->sess.saberType[0];
@@ -3957,7 +3966,7 @@ void Client_UpdateSabers(gentity_t *ent) {
 				break;
 			}
 
-			char *value = Info_ValueForKey (userinfo, va("saber%i", i+1));
+			value = Info_ValueForKey (userinfo, va("saber%i", i+1));
 
 			if (Q_stricmp(value, saber)) {
 				Info_SetValueForKey(userinfo, va("saber%i", i+1), saber);
@@ -3997,6 +4006,22 @@ void ClientSpawn(gentity_t *ent) {
 	int	persistant[MAX_PERSISTANT];
 	gclient_t *client = ent->client;
 	int index = ent - g_entities;
+	int i;
+	vec3_t	spawn_origin, spawn_angles;
+	gentity_t *spawnPoint;
+	clientPersistant_t saved;
+	clientSession_t savedSess;
+	int eventSequence;
+	forcedata_t	savedForce;
+	int saveSaberNum;
+	int savedSiegeIndex;
+	int	savedSkill[NUM_SKILLS];
+	saberInfo_t	saberSaved[MAX_SABERS];
+	void *g2WeaponPtrs[MAX_SABERS];
+
+	int flags;
+	int gameFlags;
+	int savedPing;
 
 	char userinfo[MAX_INFO_STRING];
 	trap_GetUserinfo(index, userinfo, sizeof(userinfo));
@@ -4024,7 +4049,8 @@ void ClientSpawn(gentity_t *ent) {
 		//new validation technique.
 		if ( !G_ValidSaberStyle(ent, newLevel) )
 		{//had an illegal style, revert to a valid one
-			for(int count = SS_FAST; count < SS_STAFF; count++) {
+			int count;
+			for(count = SS_FAST; count < SS_STAFF; count++) {
 				newLevel++;
 				if(newLevel > SS_STAFF) {
 					newLevel = SS_FAST;
@@ -4053,45 +4079,42 @@ void ClientSpawn(gentity_t *ent) {
 	}
 	//[/StanceSelection]
 
-	vec3_t	spawn_origin, spawn_angles;
-	gentity_t *spawnPoint = Client_FindSpawnPoint(ent, spawn_origin, spawn_angles);
+	spawnPoint = Client_FindSpawnPoint(ent, spawn_origin, spawn_angles);
 
 	client->pers.teamState.state = TEAM_ACTIVE;
 
 	// toggle the teleport bit so the client knows to not lerp
 	// and never clear the voted flag
-	int flags = ent->client->ps.eFlags & (EF_TELEPORT_BIT );
+	flags = ent->client->ps.eFlags & (EF_TELEPORT_BIT );
 	flags ^= EF_TELEPORT_BIT;
-	int gameFlags = ent->client->mGameFlags & ( PSG_VOTED | PSG_TEAMVOTED);
+	gameFlags = ent->client->mGameFlags & ( PSG_VOTED | PSG_TEAMVOTED);
 
 	// clear everything but the persistant data
 
-	clientPersistant_t saved = client->pers;
-	clientSession_t savedSess = client->sess;
-	int savedPing = client->ps.ping;
+	saved = client->pers;
+	savedSess = client->sess;
 
-	for (int i = 0 ; i < MAX_PERSISTANT ; i++ ) {
+	savedPing = client->ps.ping;
+
+	for (i = 0 ; i < MAX_PERSISTANT ; i++ ) {
 		persistant[i] = client->ps.persistant[i];
 	}
 
-	int eventSequence = client->ps.eventSequence;
-	forcedata_t	savedForce = client->ps.fd;
-	int saveSaberNum = client->ps.saberEntityNum;
-	int savedSiegeIndex = client->siegeClass;
+	eventSequence = client->ps.eventSequence;
+	savedForce = client->ps.fd;
+	saveSaberNum = client->ps.saberEntityNum;
+	savedSiegeIndex = client->siegeClass;
 
-	int	savedSkill[NUM_SKILLS];
-	for(int i = 0; i < NUM_SKILLS; i++) {
+	for(i = 0; i < NUM_SKILLS; i++) {
 		savedSkill[i] = client->skillLevel[i];
 	}
 
-	saberInfo_t	saberSaved[MAX_SABERS];
-	void *g2WeaponPtrs[MAX_SABERS];
-	for(int i = 0; i < MAX_SABERS; i++) {
+	for(i = 0; i < MAX_SABERS; i++) {
 		saberSaved[i] = client->saber[i];
 		g2WeaponPtrs[i] = client->weaponGhoul2[i];
 	}
 
-	for(int i = 0; i < HL_MAX; i++) {
+	for(i = 0; i < HL_MAX; i++) {
 		ent->locationDamage[i] = 0;
 	}
 
@@ -4134,16 +4157,16 @@ void ClientSpawn(gentity_t *ent) {
 
 	client->siegeClass = savedSiegeIndex;
 
-	for(int i = 0; i < NUM_SKILLS; i++) {
+	for(i = 0; i < NUM_SKILLS; i++) {
 		client->skillLevel[i] = savedSkill[i];
 	}
 
-	for(int i = 0; i < MAX_SABERS; i++) {
+	for(i = 0; i < MAX_SABERS; i++) {
 		client->saber[i] = saberSaved[i];
 		client->weaponGhoul2[i] = g2WeaponPtrs[i];
 	}
 
-	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+	for(i = 0; i < NUM_FORCE_POWERS; i++) {
 		client->forcePowerStart[i]=-1;
 	}
 	//or the saber ent num
@@ -4162,7 +4185,7 @@ void ClientSpawn(gentity_t *ent) {
 	client->ps.ping = savedPing;
 	client->lastkilled_client = -1;
 
-	for (int i = 0 ; i < MAX_PERSISTANT ; i++ ) {
+	for (i = 0 ; i < MAX_PERSISTANT ; i++ ) {
 		client->ps.persistant[i] = persistant[i];
 	}
 
@@ -4219,8 +4242,8 @@ void ClientSpawn(gentity_t *ent) {
 		{//In Team games, force one side to be merc and other to be jedi
 			if ( level.numPlayingClients > 0 )
 			{//already someone in the game
-				int		forceTeam = TEAM_SPECTATOR;
-				for (int i = 0 ; i < level.maxclients ; i++ ) 
+				int		forceTeam = TEAM_SPECTATOR, i;
+				for (i = 0 ; i < level.maxclients ; i++ ) 
 				{
 					if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
 						continue;
@@ -4401,7 +4424,7 @@ void ClientSpawn(gentity_t *ent) {
 			client->ps.weapon = WP_SABER;
 		}
 		else {
-			for (int i = LAST_USEABLE_WEAPON ; i > WP_NONE ; i-- ) {
+			for (i = LAST_USEABLE_WEAPON ; i > WP_NONE ; i-- ) {
 				if(client->ps.stats[STAT_WEAPONS] & (1 << i) ) {
 					client->ps.weapon = i;
 					break;
@@ -4414,6 +4437,7 @@ void ClientSpawn(gentity_t *ent) {
 	if (g_gametype.integer == GT_SIEGE && client->siegeClass != -1 &&
 		client->sess.sessionTeam != TEAM_SPECTATOR)
 	{ //well then, we will use a custom weaponset for our class
+		int m;
 		client->ps.stats[STAT_WEAPONS] = bgSiegeClasses[client->siegeClass].weapons;
 
 		if (client->ps.stats[STAT_WEAPONS] & (1 << WP_SABER)) {
@@ -4426,7 +4450,7 @@ void ClientSpawn(gentity_t *ent) {
 			client->ps.weapon = WP_MELEE;
 		}
 
-		for(int m = 0; m < WP_NUM_WEAPONS; m++) {
+		for(m = 0; m < WP_NUM_WEAPONS; m++) {
 			if (client->ps.stats[STAT_WEAPONS] & (1 << m))
 			{
 				if (client->ps.weapon != WP_SABER)
@@ -4623,7 +4647,7 @@ void ClientSpawn(gentity_t *ent) {
 		bgSiegeClasses[client->siegeClass].powerups &&
 		client->sess.sessionTeam != TEAM_SPECTATOR)
 	{ //this class has some start powerups	
-		for(int i = 0; i < PW_NUM_POWERUPS; i++) {
+		for(i = 0; i < PW_NUM_POWERUPS; i++) {
 			if (bgSiegeClasses[client->siegeClass].powerups & (1 << i)) {
 				client->ps.powerups[i] = Q3_INFINITE;
 			}
@@ -4854,20 +4878,22 @@ extern void G_LeaveVehicle( gentity_t* ent, qboolean ConCheck );
 void ClientDisconnect( int clientNum ) {
 	// cleanup if we are kicking a bot that
 	// hasn't spawned yet
+	int i;
+	gentity_t	*ent;
 	G_RemoveQueuedBotBegin( clientNum );
 
-	gentity_t	*ent = g_entities + clientNum;
+	ent = g_entities + clientNum;
 	if ( !ent->client ) {
 		return;
 	}
 
-	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+	for(i = 0; i < NUM_FORCE_POWERS; i++) {
 		if (ent->client->ps.fd.forcePowersActive & (1 << i)) {
 			WP_ForcePowerStop(ent, i);
 		}
 	}
 
-	for(int i = TRACK_CHANNEL_1; i < NUM_TRACK_CHANNELS; i++) {
+	for(i = TRACK_CHANNEL_1; i < NUM_TRACK_CHANNELS; i++) {
 		if (ent->client->ps.fd.killSoundEntIndex[i-50] && ent->client->ps.fd.killSoundEntIndex[i-50] < MAX_GENTITIES && ent->client->ps.fd.killSoundEntIndex[i-50] > 0) {
 			G_MuteSound(ent->client->ps.fd.killSoundEntIndex[i-50], CHAN_VOICE);
 		}
@@ -4876,7 +4902,7 @@ void ClientDisconnect( int clientNum ) {
 	G_LeaveVehicle( ent, qtrue );
 
 	// stop any following clients
-	for (int i = 0 ; i < level.maxclients ; i++ ) {
+	for (i = 0 ; i < level.maxclients ; i++ ) {
 		if ( level.clients[i].sess.sessionTeam == TEAM_SPECTATOR
 			&& level.clients[i].sess.spectatorState == SPECTATOR_FOLLOW
 			&& level.clients[i].sess.spectatorClient == clientNum ) {
@@ -4923,7 +4949,7 @@ void ClientDisconnect( int clientNum ) {
 		trap_G2API_CleanGhoul2Models(&ent->ghoul2);
 	}
 	
-	for(int i = 0; i < MAX_SABERS; i++) {
+	for(i = 0; i < MAX_SABERS; i++) {
 		if (ent->client->weaponGhoul2[i] && trap_G2_HaveWeGhoul2Models(ent->client->weaponGhoul2[i])) {
 			trap_G2API_CleanGhoul2Models(&ent->client->weaponGhoul2[i]);
 		}
@@ -4974,8 +5000,9 @@ void ClientDisconnect( int clientNum ) {
 gentity_t *FindYoungestPlayeronTeam(int team, qboolean HumanOnly) {
 	int		YoungestNum = -1;
 	int		Age = -1;
+	int i;
 
-	for (int i = 0 ; i < level.maxclients ; i++ ) {
+	for (i = 0 ; i < level.maxclients ; i++ ) {
 		if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
 			continue;
 		}
@@ -5231,7 +5258,8 @@ qboolean G_StandardHumanoid( gentity_t *self )
 
 
 qboolean OJP_AllPlayersHaveClientPlugin(void) {
-	for(int i = 0; i < level.maxclients; i++) {
+	int i;
+	for(i = 0; i < level.maxclients; i++) {
 		if(g_entities[i].inuse && !g_entities[i].client->pers.ojpClientPlugIn) {
 			return qfalse;
 		}

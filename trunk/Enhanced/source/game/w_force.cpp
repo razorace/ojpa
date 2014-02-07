@@ -438,12 +438,13 @@ void WP_InitForcePowers( gentity_t *ent ) {
 }
 
 void WP_SpawnInitForcePowers( gentity_t *ent ) {
+	int i;
 	//[SaberSys]
 	//new balancing system uses 7 as the default.
 	//ent->client->ps.saberAttackChainCount = 7;
 	ent->client->ps.saberAttackChainCount = BALANCE_MAX;
 	//[/SaberSys]
-	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+	for(i = 0; i < NUM_FORCE_POWERS; i++) {
 		if (WP_ForcePowerInUse(ent, i)) {
 			WP_ForcePowerStop(ent, i);
 		}
@@ -460,12 +461,12 @@ void WP_SpawnInitForcePowers( gentity_t *ent ) {
 	ent->client->ps.fd.forceMindtrickTargetIndex4 = 0;
 
 	ent->client->ps.holocronBits = 0;
-	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+	for(i = 0; i < NUM_FORCE_POWERS; i++) {
 		ent->client->ps.holocronsCarried[i] = 0;
 	}
 
 	if (g_gametype.integer == GT_HOLOCRON) {
-		for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+		for(i = 0; i < NUM_FORCE_POWERS; i++) {
 			ent->client->ps.fd.forcePowerLevel[i] = FORCE_LEVEL_0;
 		}
 
@@ -480,7 +481,7 @@ void WP_SpawnInitForcePowers( gentity_t *ent ) {
 		}
 	}
 
-	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+	for(i = 0; i < NUM_FORCE_POWERS; i++) {
 		ent->client->ps.fd.forcePowerDebounce[i] = 0;
 		ent->client->ps.fd.forcePowerDuration[i] = 0;
 	}
@@ -501,7 +502,7 @@ void WP_SpawnInitForcePowers( gentity_t *ent ) {
 	ent->client->ps.fd.forceDrainEntNum = ENTITYNUM_NONE;
 	ent->client->ps.fd.forceDrainTime = 0;
 
-	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+	for(i = 0; i < NUM_FORCE_POWERS; i++) {
 		if ((ent->client->ps.fd.forcePowersKnown & (1 << i)) &&
 			!ent->client->ps.fd.forcePowerLevel[i])
 		{ //make sure all known powers are cleared if we have level 0 in them
@@ -512,7 +513,7 @@ void WP_SpawnInitForcePowers( gentity_t *ent ) {
 	if (g_gametype.integer == GT_SIEGE &&
 		ent->client->siegeClass != -1)
 	{ //Then use the powers for this class.
-		for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+		for(i = 0; i < NUM_FORCE_POWERS; i++) {
 			ent->client->ps.fd.forcePowerLevel[i] = bgSiegeClasses[ent->client->siegeClass].forcePowerLevels[i];
 
 			if (!ent->client->ps.fd.forcePowerLevel[i]) {
@@ -541,7 +542,8 @@ qboolean IsGunSkill(int skill) {
 }
 
 qboolean IsMerc(gclient_t *client) {
-	for(int i = 0;i < NUM_SKILLS; i++) {
+	int i;
+	for(i = 0;i < NUM_SKILLS; i++) {
 		if(IsGunSkill(i) && client->skillLevel[i])
 			return qtrue;
 	}
@@ -999,6 +1001,8 @@ qboolean IsHybrid(gentity_t *ent) {
 
 qboolean OJP_CounterForce(gentity_t *attacker, gentity_t *defender, int attackPower)
 {//generically checks to see if the defender is able to block an attack from this attacker 
+	int abilityDef;
+
 	if(BG_IsUsingHeavyWeap(&defender->client->ps)) {
 		return qfalse;
 	}
@@ -1013,7 +1017,7 @@ qboolean OJP_CounterForce(gentity_t *attacker, gentity_t *defender, int attackPo
 	}
 
 	//determine ability difference
-	int abilityDef = attacker->client->ps.fd.forcePowerLevel[attackPower] - defender->client->ps.fd.forcePowerLevel[attackPower];
+	abilityDef = attacker->client->ps.fd.forcePowerLevel[attackPower] - defender->client->ps.fd.forcePowerLevel[attackPower];
 
 	if(abilityDef > attacker->client->ps.fd.forcePowerLevel[attackPower] - defender->client->ps.fd.forcePowerLevel[FP_ABSORB]) {
 		//defender's absorb ability is stronger than their attackPower ability, use that instead.
@@ -1655,7 +1659,7 @@ void WP_DoSpecificPower( gentity_t *self, usercmd_t *ucmd, forcePowers_t forcepo
 
 void HolocronUpdate(gentity_t *self)
 { //keep holocron status updated in holocron mode
-	int noHRank = 0;
+	int noHRank = 0, i;
 
 	if (noHRank < FORCE_LEVEL_0) {
 		noHRank = FORCE_LEVEL_0;
@@ -1666,7 +1670,7 @@ void HolocronUpdate(gentity_t *self)
 	}
 
 	trap_Cvar_Update(&g_MaxHolocronCarry);
-	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+	for(i = 0; i < NUM_FORCE_POWERS; i++) {
 		if (self->client->ps.holocronsCarried[i])
 		{ //carrying it, make sure we have the power
 			self->client->ps.holocronBits |= (1 << i);
@@ -1743,9 +1747,10 @@ void HolocronUpdate(gentity_t *self)
 
 void JediMasterUpdate(gentity_t *self)
 { //keep jedi master status updated for JM gametype
+	int i;
 	trap_Cvar_Update(&g_MaxHolocronCarry);
 
-	for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+	for(i = 0; i < NUM_FORCE_POWERS; i++) {
 		if (self->client->ps.isJediMaster) {
 			self->client->ps.fd.forcePowersKnown |= (1 << i);
 			self->client->ps.fd.forcePowerLevel[i] = FORCE_LEVEL_3;
@@ -1787,7 +1792,8 @@ void JediMasterUpdate(gentity_t *self)
 
 qboolean WP_HasForcePowers( const playerState_t *ps ) {
 	if ( ps ) {
-		for (int i = 0; i < NUM_FORCE_POWERS; i++ ){
+		int i;
+		for (i = 0; i < NUM_FORCE_POWERS; i++ ){
 			if ( i == FP_LEVITATION ) {
 				if ( ps->fd.forcePowerLevel[i] > FORCE_LEVEL_1 ) {
 					return qtrue;
@@ -1909,7 +1915,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 {
 	qboolean	usingForce = qfalse;
 	int			prepower = 0;
-
+	int i;
 	//[FatigueSys]
 	int			FatigueTime;
 	//[/FatigueSys]
@@ -2034,7 +2040,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 	if (self && self->client && (BG_HasYsalamiri(g_gametype.integer, &self->client->ps) ||
 		self->client->ps.fd.forceDeactivateAll || self->client->tempSpectate >= level.time))
 	{ //has ysalamiri.. or we want to forcefully stop all his active powers
-		for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+		for(i = 0; i < NUM_FORCE_POWERS; i++) {
 			if (WP_ForcePowerInUse(self, i) && i != FP_LEVITATION) {
 				WP_ForcePowerStop(self, i);
 			}
@@ -2056,7 +2062,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 	}
 	else
 	{ //otherwise just do a check through them all to see if they need to be stopped for any reason.
-		for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+		for(i = 0; i < NUM_FORCE_POWERS; i++) {
 			if (WP_ForcePowerInUse(self, i) && i != FP_LEVITATION &&
 				!BG_CanUseFPNow(g_gametype.integer, &self->client->ps, level.time, i))
 			{
@@ -2068,7 +2074,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 	if (self->client->ps.powerups[PW_FORCE_ENLIGHTENED_LIGHT] || self->client->ps.powerups[PW_FORCE_ENLIGHTENED_DARK])
 	{ //enlightenment
 		if (!self->client->ps.fd.forceUsingAdded) {
-			for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+			for(i = 0; i < NUM_FORCE_POWERS; i++) {
 				self->client->ps.fd.forcePowerBaseLevel[i] = self->client->ps.fd.forcePowerLevel[i];
 				
 				//[ExpSys]
@@ -2098,7 +2104,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 	}
 	else if (self->client->ps.fd.forceUsingAdded)
 	{ //we don't have enlightenment but we're still using enlightened powers, so clear them back to how they should be.
-		for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+		for(i = 0; i < NUM_FORCE_POWERS; i++) {
 			self->client->ps.fd.forcePowerLevel[i] = self->client->ps.fd.forcePowerBaseLevel[i];
 			if (!self->client->ps.fd.forcePowerLevel[i]) {
 				if (WP_ForcePowerInUse(self, i)) {
@@ -2155,7 +2161,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 
 	if ( self->health <= 0 )
 	{//if dead, deactivate any active force powers
-		for (int i = 0; i < NUM_FORCE_POWERS; i++ ) {
+		for (i = 0; i < NUM_FORCE_POWERS; i++ ) {
 			if ( self->client->ps.fd.forcePowerDuration[i] || WP_ForcePowerInUse(self, i) ) {
 				WP_ForcePowerStop( self, (forcePowers_t)i );
 				self->client->ps.fd.forcePowerDuration[i] = 0;
@@ -2293,7 +2299,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 		self->client->ps.fd.forceButtonNeedRelease = 0;
 	}
 
-	for (int i = 0; i < NUM_FORCE_POWERS; i++ ) {
+	for (i = 0; i < NUM_FORCE_POWERS; i++ ) {
 		if ( self->client->ps.fd.forcePowerDuration[i] ) {
 			if ( self->client->ps.fd.forcePowerDuration[i] < level.time ) {
 				if (WP_ForcePowerInUse(self, i)) {
@@ -2352,7 +2358,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 			}
 			else { //regenerate based on the number of holocrons carried
 				int holoregen = 0;
-				for(int i = 0; i < NUM_FORCE_POWERS; i++) {
+				for(i = 0; i < NUM_FORCE_POWERS; i++) {
 					if (self->client->ps.holocronsCarried[i]) {
 						holoregen++;
 					}
@@ -2516,6 +2522,8 @@ int Jedi_DodgeAnimForLoc(int hitLoc) {
 }
 
 qboolean Jedi_DodgeEvasion( gentity_t *self, gentity_t *shooter, trace_t *tr, int hitLoc ) {
+	int	dodgeAnim;
+
 	if ( !self || 
 		!self->client || 
 		self->health <= 0 ||
@@ -2540,7 +2548,7 @@ qboolean Jedi_DodgeEvasion( gentity_t *self, gentity_t *shooter, trace_t *tr, in
 		return qfalse;
 	}
 
-	int	dodgeAnim = Jedi_DodgeAnimForLoc(hitLoc);
+	dodgeAnim = Jedi_DodgeAnimForLoc(hitLoc);
 
 	if ( dodgeAnim != -1 ) {
 		//Our own happy way of forcing an anim:
