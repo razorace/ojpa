@@ -254,7 +254,7 @@ static qboolean UI_CheckPassword( void );
 static void UI_JoinServer( void );
 
 //[DynamicMemory_Sabers]
-void UI_AllocMem(char **ptr, int sze);
+void UI_AllocMem(void **ptr, int sze);
 void UI_FreeMem(void *ptr);
 void UI_ReaAllocMem(void **ptr, int sze, int count);
 char *UI_GetSaberHiltInfo(qboolean TwoHanded, int index);
@@ -11439,7 +11439,7 @@ static void UI_StartServerRefresh(qboolean full)
 }
 
 //[DynamicMemory_Sabers]
-void UI_AllocMem(char **ptr, int sze){
+void UI_AllocMem(void **ptr, int sze){
 	//*ptr = new char[sze];//malloc(sze);
 	*ptr = (char*)malloc(sze);
 }
@@ -11448,7 +11448,7 @@ void UI_FreeMem(void *ptr){
 	free(ptr);
 }
 
-void UI_ReaAllocMem(char **ptr, int sze, int count)
+void UI_ReaAllocMem(void **ptr, int sze, int count)
 {
 	*ptr = (char*)realloc(*ptr, sze * count);
 }
@@ -11474,9 +11474,9 @@ void UI_ReaAllocMem(char **ptr, int sze, int count)
 char *SaberParms;
 //void trap_TrueMalloc(void **ptr, int size);
 //void trap_TrueFree(void **ptr);
-void UI_AllocMem(char **ptr, int sze);
+void UI_AllocMem(void **ptr, int sze);
 void UI_FreeMem(void *ptr);
-void UI_ReaAllocMem(char **ptr, int sze, int count);
+void UI_ReaAllocMem(void **ptr, int sze, int count);
 int saberSingleHiltCount;
 char **saberSingleHiltInfo;
 int saberStaffHiltCount;
@@ -12993,7 +12993,7 @@ void UI_SaberGetHiltInfo(void){
 				Com_Printf( "WARNING: too many two-handed sabers, ignoring saber '%s'\n", saberName );
 			}
 #else
-			UI_ReaAllocMem(saberStaffHiltInfo, sizeof(char *), numStaffHilts+1);
+			UI_ReaAllocMem((void*)&saberStaffHiltInfo, sizeof(char *), numStaffHilts+1);
 			//saberStaffHiltInfo.resize(numSingleHilts+2);
 			saberStaffHiltInfo[numStaffHilts++] = (char *) saberName;
 			//saberStaffHiltInfo.insert(saberStaffHiltInfo.begin(),(char*)saberName);
@@ -13011,7 +13011,7 @@ void UI_SaberGetHiltInfo(void){
 				Com_Printf( "WARNING: too many one-handed sabers, ignoring saber '%s'\n", saberName );
 			}
 #else
-			UI_ReaAllocMem(saberSingleHiltInfo, sizeof(char *), numSingleHilts+1);
+			UI_ReaAllocMem((void*)&saberSingleHiltInfo, sizeof(char *), numSingleHilts+1);
 			//saberSingleHiltInfo.resize(numSingleHilts+1);
 			//saberSingleHiltInfo.insert(saberSingleHiltInfo.begin(),(char*)saberName);
 			saberSingleHiltInfo[numSingleHilts++] = (char *) saberName;
