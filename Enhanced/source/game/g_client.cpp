@@ -4029,6 +4029,8 @@ void ClientSpawn(gentity_t *ent) {
 	if(ent->client->sess.skillPoints < g_minForceRank.value) {//the minForceRank was changed to a higher value than the player has
 		ent->client->sess.skillPoints = g_minForceRank.value;
 		ent->client->skillUpdated = qtrue;
+
+		trap_SendServerCommand(ent->s.number, va("nsp %i %s", (int) ent->client->sess.skillPoints, "Cvar Changed"));
 	}
 
 	Client_UpdateSabers(ent);

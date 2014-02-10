@@ -792,7 +792,7 @@ int Team_TouchOurFlag( gentity_t *ent, gentity_t *other, int team ) {
 
 	//[ExpSys]
 	//give player a exp boost for capturing the flag.
-	AddSkill(other, 10);
+	AddSkill(other, 10, "Flag Capture");
 	//[/ExpSys]
 
 	Team_CaptureFlagSound( ent, team );

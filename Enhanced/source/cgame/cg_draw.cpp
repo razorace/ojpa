@@ -1294,11 +1294,9 @@ void CG_AddToAddText(char *text)
 
 	strcpy(atText[atCount], text);
 
-	if(atCount > 0)
-	{
+	if(atCount > 0) {
 		int i;
-		for(i = 0;i < atCount;i++)
-		{
+		for(i = 0;i < atCount;i++) {
 			atYPos[i] += 20;
 		}
 	}
@@ -1325,8 +1323,9 @@ void CG_RemoveFromAddText()
 
 void CG_UpdateAddText()
 {
-	if(atCount > 0 && atTime[0] <= cg.time)
+	if(atCount > 0 && atTime[0] <= cg.time) {
 		CG_RemoveFromAddText();
+	}
 }
 
 float CG_DrawAddText(float y)
@@ -1337,11 +1336,9 @@ float CG_DrawAddText(float y)
 
 	y += 10;
 
-	for(i = 0;i < 20; i++)
-	{
-		if(atText[i] != NULL && Q_stricmp(atText[i],""))
-		{
-			CG_Text_Paint(700 - CG_Text_Width(atText[i],1.0f,FONT_SMALL), y + atYPos[i], 1.0f, colorWhite, atText[i], 0, 0, 0, FONT_SMALL2);
+	for(i = 0; i < atCount; i++) {
+		if(atText[i] != NULL && Q_stricmp(atText[i],"")) {
+			CG_Text_Paint(635 - CG_Text_Width(atText[i],1.0f,FONT_SMALL2), y + atYPos[i], 1.0f, colorWhite, atText[i], 0, 0, 0, FONT_SMALL2);
 		}
 	}
 	

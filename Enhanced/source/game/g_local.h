@@ -1658,7 +1658,7 @@ void ExplodeDeath( gentity_t *self );
 void G_CheckForDismemberment(gentity_t *ent, gentity_t *enemy, vec3_t point, int damage, int deathAnim, qboolean postDeath);
 extern int gGAvoidDismember;
 //[ExpSys]
-void AddSkill(gentity_t *self, float amount);
+void AddSkill(gentity_t *self, float amount, const char* reason);
 void G_DodgeDrain(gentity_t *victim, gentity_t *attacker, int amount);
 //[/ExpSys]
 

@@ -1341,6 +1341,33 @@ static void CG_BodyQueueCopy(centity_t *cent, int clientNum, int knownWeapon)
 	}
 }
 
+char	*ConcatArgs( int start ) {
+	int		i, c, tlen;
+	static char	line[MAX_STRING_CHARS];
+	int		len;
+	char	arg[MAX_STRING_CHARS];
+
+	len = 0;
+	c = trap_Argc();
+	for ( i = start ; i < c ; i++ ) {
+		trap_Argv( i, arg, sizeof( arg ) );
+		tlen = strlen( arg );
+		if ( len + tlen >= MAX_STRING_CHARS - 1 ) {
+			break;
+		}
+		memcpy( line + len, arg, tlen );
+		len += tlen;
+		if ( i != c - 1 ) {
+			line[len] = ' ';
+			len++;
+		}
+	}
+
+	line[len] = 0;
+
+	return line;
+}
+
 /*
 =================
 CG_ServerCommand
@@ -1426,6 +1453,43 @@ static void CG_ServerCommand( void ) {
 		return;
 	}
 
+	if(!stricmp(cmd, "nsp")) {
+		int newRank = 0;
+		int oldRank = 0;
+		char buffer[256];
+
+		if (trap_Argc() < 2)
+		{
+#ifdef _DEBUG
+			Com_Printf("WARNING: Invalid newSkillPoints string\n");
+#endif
+			return;
+		}
+
+		newRank = atof(CG_Argv(1));
+
+		trap_Cvar_VariableStringBuffer("ui_rankChange", buffer, 256);
+		oldRank = atof(buffer);
+
+		if(oldRank > 0) {
+			oldRank = newRank - oldRank;
+
+			if(oldRank != 0) {
+				char *reason;
+				reason = ConcatArgs(2);
+
+				if(oldRank > 0) {
+					CG_AddToAddText(va("+%i skill point (%s)", oldRank, reason));
+				}
+				else {
+					CG_AddToAddText(va("%i skill point (%s)", oldRank, reason));
+				}
+			}
+		}
+
+		return;
+	}
+
 	if ( !strcmp( cmd, "nfr" ) )
 	{ //"nfr" == "new force rank" (want a short string)
 		int doMenu = 0;
@@ -1446,22 +1510,22 @@ static void CG_ServerCommand( void ) {
 		doMenu = atoi(CG_Argv(2));
 		setTeam = atoi(CG_Argv(3));
 
-		trap_Cvar_VariableStringBuffer("ui_rankChange",buffer,256);
+		trap_Cvar_VariableStringBuffer("ui_rankChange", buffer, 256);
 		oldRank = atoi(buffer);
 		trap_Cvar_Set("ui_rankChange", va("%i", newRank));
 
-		if(oldRank > 0)
-		{
+		/*if(oldRank > 0) {
 			oldRank = newRank - oldRank;
 
-			if(oldRank != 0)
-			{
-				if(oldRank > 0)
-					CG_AddToAddText(va("+%i skill point",oldRank));
-				else
-					CG_AddToAddText(va("%i skill point",oldRank));
+			if(oldRank != 0) {
+				if(oldRank > 0) {
+					CG_AddToAddText(va("+%i skill point", oldRank));
+				}
+				else {
+					CG_AddToAddText(va("%i skill point", oldRank));
+				}
 			}
-		}
+		}*/
 
 		trap_Cvar_Set("ui_myteam", va("%i", setTeam));
 

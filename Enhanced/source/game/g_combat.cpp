@@ -2168,8 +2168,12 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	//[ExpSys]
 	if(!self->NPC && !(self->r.svFlags & SVF_BOT) )
 	{//NPCs and bots don't care about skill point updates
-		if(self->client->sess.skillPoints >= 1 && self->client->ps.otherKiller == self->client->ps.clientNum)
+		if(self->client->sess.skillPoints >= 1 && self->client->ps.otherKiller == self->client->ps.clientNum) {
 			self->client->sess.skillPoints--;
+
+			trap_SendServerCommand(self->s.number, va("nsp %i %s", (int)self->client->sess.skillPoints, "Suicide"));
+		}
+
 		trap_SendServerCommand(self->s.number, va("nfr %i %i %i", (int) self->client->sess.skillPoints, 0, self->client->sess.sessionTeam));
 	}
 	//[/ExpSys]
@@ -6177,15 +6181,17 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 			{//damage is greated than target's health, only give experience for damage used to kill victim
 				float skill = (float) targ->health / SKILL_HP_PER_SKILL * (targ->client->sess.skillPoints / attacker->client->sess.skillPoints);
 				skill/=2;
-				if(skill != attacker->client->sess.skillPoints)
-					AddSkill(attacker,skill );
+				if(skill != attacker->client->sess.skillPoints) {
+					AddSkill(attacker,skill, "Damaging" );
+				}
 			}
 			else
 			{
 				float skill =(float) take / SKILL_HP_PER_SKILL * (targ->client->sess.skillPoints / attacker->client->sess.skillPoints);
 				skill/=2;
-				if(skill != attacker->client->sess.skillPoints)
-					AddSkill(attacker, skill );
+				if(skill != attacker->client->sess.skillPoints) {
+					AddSkill(attacker, skill, "Damaging" );
+				}
 			}
 			//[/SkillChange]
 		}
@@ -6635,7 +6641,7 @@ void AddFatigueKillBonus( gentity_t *attacker, gentity_t *victim )
 
 
 //[ExpSys]
-void AddSkill(gentity_t *self, float amount)
+void AddSkill(gentity_t *self, float amount, const char *reason)
 {//add skill points to self
 	if(amount < 0)
 	{
@@ -6654,10 +6660,11 @@ void AddSkill(gentity_t *self, float amount)
 		trap_Cvar_Set("g_maxForceRank", g_minForceRank.string);
 	}
 
-	if(self->client->sess.skillPoints > g_maxForceRank.value)
-	{
+	if(self->client->sess.skillPoints > g_maxForceRank.value) {
 		self->client->sess.skillPoints = g_maxForceRank.value;
 	}
+
+	trap_SendServerCommand(self->s.number, va("nsp %i %s", (int)self->client->sess.skillPoints, reason));
 }
 
 
@@ -6699,8 +6706,7 @@ void G_DodgeDrain(gentity_t *victim, gentity_t *attacker, int amount)
 		assert(attacker->client->sess.skillPoints);
 
 		//scale skill points based on the ratio between skills
-		AddSkill(attacker, 
-			(float) amount / SKILL_DP_PER_SKILL * (victim->client->sess.skillPoints / attacker->client->sess.skillPoints)); 
+		AddSkill(attacker, (float) amount / SKILL_DP_PER_SKILL * (victim->client->sess.skillPoints / attacker->client->sess.skillPoints), "Kill"); 
 	}
 
 	//G_Printf("%i: %i: %i Points of Dodge Drained\n", level.time, victim->s.number, amount);
