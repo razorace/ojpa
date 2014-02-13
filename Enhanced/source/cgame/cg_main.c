@@ -4159,7 +4159,7 @@ Ghoul2 Insert End
 	//now get all the cgame only cents
 	CG_SpawnCGameOnlyEnts();
 
-	cvar = Cvar_FindVar("r_dynamicglowheight");
+	/*cvar = Cvar_FindVar("r_dynamicglowheight");
 	cvar->flags &= ~CVAR_CHEAT;
 	cvar->flags &= ~CVAR_LATCH;
 	cvar = Cvar_FindVar("r_dynamicglowwidth");
@@ -4173,7 +4173,7 @@ Ghoul2 Insert End
 	cvar->flags &= ~CVAR_LATCH;
 	cvar = Cvar_FindVar("r_dynamicglowintensity");
 	cvar->flags &= ~CVAR_CHEAT;
-	cvar->flags &= ~CVAR_LATCH;
+	cvar->flags &= ~CVAR_LATCH;*/
 }
 
 //makes sure returned string is in localized format
