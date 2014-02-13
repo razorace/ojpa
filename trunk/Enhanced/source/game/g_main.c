@@ -3931,12 +3931,9 @@ void G_RunFrame( int levelTime ) {
 	gentity_t	*ent;
 	int			msec;
 
-	//[ROQFILES]
-	if(inGameCinematic)
-	{//don't update the game world if an ROQ files is running.
+	if(inGameCinematic) {
 		return;
 	}
-	//[/ROQFILES]
 
 	if (g_gametype.integer == GT_SIEGE &&
 		g_siegeRespawn.integer &&
@@ -3944,8 +3941,7 @@ void G_RunFrame( int levelTime ) {
 	{ //check for a respawn wave
 		int i = 0;
 		gentity_t *clEnt;
-		while (i < MAX_CLIENTS)
-		{
+		for(i = 0; i < MAX_CLIENTS; i++) {
 			clEnt = &g_entities[i];
 
 			if (clEnt->inuse && clEnt->client &&
@@ -3955,7 +3951,6 @@ void G_RunFrame( int levelTime ) {
 				respawn(clEnt);
 				clEnt->client->tempSpectate = 0;
 			}
-			i++;
 		}
 
 		g_siegeRespawnCheck = level.time + g_siegeRespawn.integer * 1000;
@@ -3968,10 +3963,8 @@ void G_RunFrame( int levelTime ) {
 		ojp_ffaRespawnTimerCheck < level.time)
 	{
 		int i = 0;
-		gentity_t *clEnt;
-		while (i < MAX_CLIENTS)
-		{
-			clEnt = &g_entities[i];
+		for(i = 0; i < MAX_CLIENTS; i++) {
+			gentity_t *clEnt = &g_entities[i];
 
 			if (clEnt->inuse && clEnt->client &&
 				clEnt->client->tempSpectate > level.time &&
@@ -3980,17 +3973,14 @@ void G_RunFrame( int levelTime ) {
 				respawn(clEnt);
 				clEnt->client->tempSpectate = 0;
 			}
-			i++;
 		}
 
 		ojp_ffaRespawnTimerCheck = level.time + 30000;
 	}
 	//[/FFARespawnTimer]
 
-	if (gDoSlowMoDuel)
-	{
-		if (level.restarted)
-		{
+	if (gDoSlowMoDuel) {
+		if (level.restarted) {
 			char buf[128];
 			float tFVal = 0;
 
@@ -3999,35 +3989,23 @@ void G_RunFrame( int levelTime ) {
 			tFVal = atof(buf);
 
 			trap_Cvar_Set("timescale", "1");
-			if (tFVal == 1.0f)
-			{
+			if (tFVal == 1.0f) {
 				gDoSlowMoDuel = qfalse;
 			}
 		}
 		else
 		{
 			float timeDif = (level.time - gSlowMoDuelTime); //difference in time between when the slow motion was initiated and now
-			float useDif = 0; //the difference to use when actually setting the timescale
-
-			if (timeDif < 150)
-			{
+			
+			if (timeDif < 150) {
 				trap_Cvar_Set("timescale", "0.1f");
 			}
-			else if (timeDif < 1150)
-			{
-				useDif = (timeDif/1000); //scale from 0.1 up to 1
-				if (useDif < 0.1)
-				{
-					useDif = 0.1;
-				}
-				if (useDif > 1.0)
-				{
-					useDif = 1.0;
-				}
+			else if (timeDif < 1150) {
+				//the difference to use when actually setting the timescale
+				float useDif = max(0.1, min(1, (timeDif/1000)));
 				trap_Cvar_Set("timescale", va("%f", useDif));
 			}
-			else
-			{
+			else {
 				char buf[128];
 				float tFVal = 0;
 
@@ -4036,8 +4014,7 @@ void G_RunFrame( int levelTime ) {
 				tFVal = atof(buf);
 
 				trap_Cvar_Set("timescale", "1");
-				if (timeDif > 1500 && tFVal == 1.0f)
-				{
+				if (timeDif > 1500 && tFVal == 1.0f) {
 					gDoSlowMoDuel = qfalse;
 				}
 			}
@@ -4054,17 +4031,14 @@ void G_RunFrame( int levelTime ) {
 	level.time = levelTime;
 	msec = level.time - level.previousTime;
 
-	if (g_allowNPC.integer)
-	{
+	if (g_allowNPC.integer) {
 		NAV_CheckCalcPaths();
 	}
 
 	AI_UpdateGroups();
 
-	if (g_allowNPC.integer)
-	{
-		if ( d_altRoutes.integer )
-		{
+	if (g_allowNPC.integer) {
+		if ( d_altRoutes.integer ) {
 			trap_Nav_CheckAllFailedEdges();
 		}
 		trap_Nav_ClearCheckedNodes();
@@ -4078,13 +4052,12 @@ void G_RunFrame( int levelTime ) {
 				continue;
 
 			if ( ent->waypoint != WAYPOINT_NONE 
-				&& ent->noWaypointTime < level.time )
-			{
+				&& ent->noWaypointTime < level.time ) {
 				ent->lastWaypoint = ent->waypoint;
 				ent->waypoint = WAYPOINT_NONE;
 			}
-			if ( d_altRoutes.integer )
-			{
+
+			if ( d_altRoutes.integer ) {
 				trap_Nav_CheckFailedNodes( ent );
 			}
 		}
@@ -4110,14 +4083,13 @@ void G_RunFrame( int levelTime ) {
 		// clear events that are too old
 		if ( level.time - ent->eventTime > EVENT_VALID_MSEC ) {
 			if ( ent->s.event ) {
-				ent->s.event = 0;	// &= EV_EVENT_BITS;
+				ent->s.event = 0;
+
 				if ( ent->client ) {
 					ent->client->ps.externalEvent = 0;
-					// predicted events should never be set to zero
-					//ent->client->ps.events[0] = 0;
-					//ent->client->ps.events[1] = 0;
 				}
 			}
+
 			if ( ent->freeAfterEvent ) {
 				// tempEntities or dropped items completely go away after their event
 				if (ent->s.eFlags & EF_SOUNDTRACKER)
@@ -4143,9 +4115,8 @@ void G_RunFrame( int levelTime ) {
 		if ( ent->freeAfterEvent ) {
 			continue;
 		}
-		//[ROFF]
+
 		G_Roff(ent);
-		//[/ROFF]
 
 		//[CoOp]
 		if( !ent->client )
@@ -4154,12 +4125,10 @@ void G_RunFrame( int levelTime ) {
 			//if ( !(ent->svFlags & SVF_SELF_ANIMATING) )
 			{//FIXME: make sure this is done only for models with frames?
 				//Or just flag as animating?
-				if ( ent->s.eFlags & EF_ANIM_ONCE )
-				{
+				if ( ent->s.eFlags & EF_ANIM_ONCE ) {
 					ent->s.frame++;
 				}
-				else if ( !(ent->s.eFlags & EF_ANIM_ALLFAST) )
-				{
+				else if ( !(ent->s.eFlags & EF_ANIM_ALLFAST) ) {
 					G_Animate( ent );
 				}
 			}
@@ -4256,73 +4225,52 @@ void G_RunFrame( int levelTime ) {
 				}
 			}
 
-
-
-			//[SentryHack]
-			if(ent->client->isHacking == -100)
-			{//Sentry hack time, pretty much a copy and paste of the below
-				//gentity_t *hacked = &g_entities[ent->client->isHacking];
-				vec3_t angDif;
-
-				VectorSubtract(ent->client->ps.viewangles, ent->client->hackingAngles, angDif);
-
-				//keep him in the "use" anim
-				if (ent->client->ps.torsoAnim != BOTH_CONSOLE1)
-				{
-					G_SetAnim( ent, NULL, SETANIM_TORSO, BOTH_CONSOLE1, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD, 0 );
-				}
-				else
-				{
-					ent->client->ps.torsoTimer = 500;
-				}
-				ent->client->ps.weaponTime = ent->client->ps.torsoTimer;
-
-				if (!(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON1)//(ent->client->pers.cmd.buttons & BUTTON_USE_HOLDABLE)
-					&&!(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON2))
-				{ //have to keep holding use
-					ent->client->isHacking = 0;
-					ent->client->ps.hackingTime = 0;
-					ent->client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SENTRY_GUN);
-				}
-			}
-			//[/SentryHack]
-			else if (ent->client->isHacking)
-			{ //hacking checks
+			if(ent->client->isHacking || ent->client->isHacking == -100) {
 				gentity_t *hacked = &g_entities[ent->client->isHacking];
 				vec3_t angDif;
 
 				VectorSubtract(ent->client->ps.viewangles, ent->client->hackingAngles, angDif);
 
 				//keep him in the "use" anim
-				if (ent->client->ps.torsoAnim != BOTH_CONSOLE1)
-				{
+				if (ent->client->ps.torsoAnim != BOTH_CONSOLE1) {
 					G_SetAnim( ent, NULL, SETANIM_TORSO, BOTH_CONSOLE1, SETANIM_FLAG_OVERRIDE|SETANIM_FLAG_HOLD, 0 );
 				}
-				else
-				{
+				else {
 					ent->client->ps.torsoTimer = 500;
 				}
+
 				ent->client->ps.weaponTime = ent->client->ps.torsoTimer;
 
-				if (!(ent->client->pers.cmd.buttons & BUTTON_USE))
-				{ //have to keep holding use
-					ent->client->isHacking = 0;
-					ent->client->ps.hackingTime = 0;
+				if(ent->client->isHacking == -100) {
+					if (!(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON1)//(ent->client->pers.cmd.buttons & BUTTON_USE_HOLDABLE)
+						&&!(ent->client->pers.cmd.buttons & BUTTON_SPECIALBUTTON2))
+					{ //have to keep holding use
+						ent->client->isHacking = 0;
+						ent->client->ps.hackingTime = 0;
+						ent->client->ps.stats[STAT_HOLDABLE_ITEMS] |= (1 << HI_SENTRY_GUN);
+					}
 				}
-				else if (!hacked || !hacked->inuse)
-				{ //shouldn't happen, but safety first
-					ent->client->isHacking = 0;
-					ent->client->ps.hackingTime = 0;
-				}
-				else if (!G_PointInBounds( ent->client->ps.origin, hacked->r.absmin, hacked->r.absmax ))
-				{ //they stepped outside the thing they're hacking, so reset hacking time
-					ent->client->isHacking = 0;
-					ent->client->ps.hackingTime = 0;
-				}
-				else if (VectorLength(angDif) > 10.0f)
-				{ //must remain facing generally the same angle as when we start
-					ent->client->isHacking = 0;
-					ent->client->ps.hackingTime = 0;
+				else {
+					if (!(ent->client->pers.cmd.buttons & BUTTON_USE))
+					{ //have to keep holding use
+						ent->client->isHacking = 0;
+						ent->client->ps.hackingTime = 0;
+					}
+					else if (!hacked || !hacked->inuse)
+					{ //shouldn't happen, but safety first
+						ent->client->isHacking = 0;
+						ent->client->ps.hackingTime = 0;
+					}
+					else if (!G_PointInBounds( ent->client->ps.origin, hacked->r.absmin, hacked->r.absmax ))
+					{ //they stepped outside the thing they're hacking, so reset hacking time
+						ent->client->isHacking = 0;
+						ent->client->ps.hackingTime = 0;
+					}
+					else if (VectorLength(angDif) > 10.0f)
+					{ //must remain facing generally the same angle as when we start
+						ent->client->isHacking = 0;
+						ent->client->ps.hackingTime = 0;
+					}
 				}
 			}
 
