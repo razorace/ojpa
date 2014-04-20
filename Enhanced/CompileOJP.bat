@@ -23,10 +23,10 @@ set TOOLDIR=%VS80COMNTOOLS%
 GOTO COMPILE
 
 
+:COMPILE
 ECHO ================
 ECHO Starting Compile
 ECHO ================
-:COMPILE
 chdir /d "%TOOLDIR%"
 cd ../IDE
 IF EXIST VCExpress.exe GOTO VSEXPRESS
