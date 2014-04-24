@@ -33,7 +33,7 @@ saber_droid_training
 
 saber_droid
 {
-	playerModel	luke
+	playerModel	shadowtrooper
 	saber		droid
 	weapon	WP_SABER
 	saberStyle	1
