@@ -40,7 +40,7 @@ ECHO ==================================================
 
 
 rem Compile dlls
-rem call CompileOJP.bat
+call CompileOJP.bat
 IF %ERRORLEVEL% NEQ 0 GOTO COMPILEERROR
 
 
@@ -49,7 +49,7 @@ ECHO.
 ECHO ==================================================
 ECHO Creating Build Pk3s...
 ECHO ================================================== 
-rem call MakePK3.bat
+call MakePK3.bat
 IF %ERRORLEVEL% NEQ 0 GOTO PK3ERROR
 
 
