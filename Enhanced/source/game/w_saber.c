@@ -6928,7 +6928,7 @@ static GAME_INLINE qboolean CheckSaberDamage(gentity_t *self, int rSaberNum, int
 	if(didHit && (!OnSameTeam(self, &g_entities[tr.entityNum]) || g_friendlySaber.integer))
 	{//deal damage
 		//damage the thing we hit
-		int dflags;
+		int dflags = 0;
 		gentity_t *victim = &g_entities[tr.entityNum];
 
 		if(G_DoDodge( victim, self, tr.endpos, -1, & dmg, MOD_SABER ))
