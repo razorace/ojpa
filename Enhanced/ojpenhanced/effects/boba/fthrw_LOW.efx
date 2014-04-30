@@ -1,0 +1,99 @@
+Particle
+{
+	name				Lasting
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				5 3
+
+	life				600
+
+	origin				-1 -2 -2 1 2 2
+
+	rotation			-125 1
+
+	rotationDelta		-20 20
+
+	velocity			475 -25 -25 475 25 25
+
+	acceleration		-10 -10 -10 -40 10 10
+
+	rgb
+	{
+		parm			50 60
+		flags			nonlinear
+	}
+
+	alpha
+	{
+		start			0.6 0.5
+		end				0
+		parm			10 1
+		flags			linear nonlinear
+	}
+
+	size
+	{
+		start			5 2
+		end				25
+		parm			25 15
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/effects/fire2
+		gfx/effects/fire3
+		gfx/effects/fire4
+	]
+}
+
+Particle
+{
+	name				LastingSmoke
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				5 3
+
+	life				600
+
+	origin				-1 -2 -2 1 2 2
+
+	rotation			-125 1
+
+	rotationDelta		-20 20
+
+	velocity			350 -25 -25 400 25 25
+
+	acceleration		-10 -10 -10 -40 10 10
+
+	rgb
+	{
+		parm			50 60
+		flags			nonlinear
+	}
+
+	alpha
+	{
+		start			0.6 0.5
+		end				0
+		parm			10 1
+		flags			linear nonlinear
+	}
+
+	size
+	{
+		start			5 2
+		end				25
+		parm			25 15
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/effects/fire2
+		gfx/effects/fire3
+		gfx/effects/fire4
+	]
+}
