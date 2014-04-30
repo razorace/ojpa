@@ -1,0 +1,233 @@
+repeatDelay				250
+
+Tail
+{
+	name				DirectionalFountainspark
+
+	count				16
+
+	life				300 100
+
+	intensity			0.25 0.4
+
+	velocity			235 -250 -251 350 250 250
+
+	gravity				-450 -550
+
+	size
+	{
+		start			0.3
+		end				0
+		flags			linear
+	}
+
+	length
+	{
+		start			4 7
+		end				0.1 1
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/misc/spark
+	]
+}
+
+Tail
+{
+	name				Copy of Unnamed Tail 1
+
+	count				16 12
+
+	life				200
+
+	intensity			0.25 0.4
+
+	velocity			250 -140 -135 390 140 135
+
+	gravity				-450 -550
+
+	size
+	{
+		start			0.42 0.4
+		end				0.1
+		flags			linear
+	}
+
+	length
+	{
+		start			4 1
+		end				1 2
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/misc/spark
+	]
+}
+
+Tail
+{
+	name				sparks
+
+	flags				useAlpha
+
+	spawnFlags			orgOnCylinder rgbComponentInterpolation
+
+	count				16 21
+
+	life				100
+
+	delay				35 0
+
+	intensity			0.22 0.21
+
+	radius				3
+
+	height				2
+
+	velocity			335 250 250 335 -250 -249
+
+	gravity				-700 -250
+
+	rgb
+	{
+		end				1 1 1 0.7529 0.7529 0.7529
+		parm			2 1
+		flags			linear
+	}
+
+	alpha
+	{
+		end				0.5 0.6
+		flags			linear
+	}
+
+	size
+	{
+		start			0.7 0.28
+		end				0.08 0.07
+		flags			linear
+	}
+
+	length
+	{
+		start			6
+		parm			5
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/misc/spark
+	]
+}
+
+Tail
+{
+	name				Copy of sparks
+
+	flags				useAlpha
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				12 9
+
+	life				80
+
+	intensity			0.22 0.21
+
+	velocity			165 185 165 175 -185 -165
+
+	gravity				-700 -250
+
+	rgb
+	{
+		start			1 0.9843 0.9412
+		end				0.6275 0.6275 0.6431
+		parm			2 1
+		flags			linear
+	}
+
+	alpha
+	{
+		end				0.6
+		flags			linear
+	}
+
+	size
+	{
+		start			0.18
+		end				0.09 0.08
+		flags			nonlinear
+	}
+
+	length
+	{
+		start			3
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/misc/spark
+	]
+}
+
+Tail
+{
+	name				ftails?
+
+	flags				useAlpha
+
+	spawnFlags			rgbComponentInterpolation
+
+	count				12 17
+
+	life				400 300
+
+	delay				25 0
+
+	intensity			0.22 0.21
+
+	radius				4 3
+
+	height				3 4
+
+	velocity			200 250 250 250 -250 -250
+
+	gravity				-700 -250
+
+	rgb
+	{
+		start			1 1 1 1 0.9843 0.9412
+		end				0.6275 0.6275 0.6431
+		parm			2 1
+		flags			nonlinear
+	}
+
+	alpha
+	{
+		end				0.7
+		flags			linear
+	}
+
+	size
+	{
+		end				0.2 0.18
+		flags			linear
+	}
+
+	length
+	{
+		start			2 3
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/misc/flaretailup
+	]
+}

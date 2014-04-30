@@ -1,0 +1,52 @@
+repeatDelay				300
+
+Tail
+{
+	name				sparks
+
+	spawnFlags			orgOnCylinder rgbComponentInterpolation
+
+	count				16 10
+
+	life				400 300
+
+	delay				120 45
+
+	intensity			0.22 0.21
+
+	radius				2
+
+	height				2
+
+	velocity			250 75 75 250 -75 -75
+
+	gravity				-800
+
+	rgb
+	{
+		start			1 0.9843 0.9412
+		end				0.651 0.7922 0.9412
+		parm			2 1
+	}
+
+	alpha
+	{
+		flags			nonlinear
+	}
+
+	length
+	{
+		start			8 9
+		end				6 7
+		flags			linear
+	}
+
+	shaders
+	[
+		gfx/exp/explosion1
+		gfx/exp/explosion1_a
+		gfx/exp/explosion3
+		gfx/misc/flaretail
+		gfx/misc/spark
+	]
+}

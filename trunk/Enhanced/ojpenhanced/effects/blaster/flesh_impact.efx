@@ -1,0 +1,39 @@
+repeatDelay				1078
+
+FxRunner
+{
+	name				fxhit
+
+	count				0 1
+
+	playfx
+	[
+		explosions/e-11hitfleshchunk
+	]
+}
+
+FxRunner
+{
+	name				smoke
+
+	count				2 1
+
+	delay				100 203
+
+	playfx
+	[
+		smoke/fleshhitsmoke
+	]
+}
+
+FxRunner
+{
+	name				sparks
+
+	count				2 1
+
+	playfx
+	[
+		sparks/hit_sparkviolent
+	]
+}
