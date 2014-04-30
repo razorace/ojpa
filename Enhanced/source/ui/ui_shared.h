@@ -11,7 +11,7 @@
 
 //[SVN]
 //rearraigned repository to make it easier to initially compile.
-#include "../../jke/ui/jamp/menudef.h"
+#include "../../ojpenhanced/ui/jamp/menudef.h"
 //[/SVN]
 
 #define MAX_MENUNAME				32
