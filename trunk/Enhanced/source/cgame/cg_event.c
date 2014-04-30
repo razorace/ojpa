@@ -10,7 +10,7 @@
 // for the voice chats
 //[SVN]
 //rearraigned repository to make it easier to initially compile.
-#include "../../jke/ui/jamp/menudef.h"
+#include "../../ojpenhanced/ui/jamp/menudef.h"
 //[/SVN]
 
 #include "../ghoul2/G2.h"

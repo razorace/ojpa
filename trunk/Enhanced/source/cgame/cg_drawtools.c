@@ -201,7 +201,7 @@ Coordinates are at 640 by 480 virtual resolution
 */
 //[SVN]
 //rearraigned repository to make it easier to initially compile.
-#include "../../jke/ui/jamp/menudef.h"
+#include "../../ojpenhanced/ui/jamp/menudef.h"
 //[/SVN]
 void CG_DrawStringExt( int x, int y, const char *string, const float *setColor, 
 		qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars )
