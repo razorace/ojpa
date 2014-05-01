@@ -10,17 +10,21 @@ rem ****************
 set OLDDIR=%CD%
 
 rem Determine which version of Visual Studios we have installed.
-IF "%VS100COMNTOOLS%" == "" GOTO VS2008SETTINGS
-
-:VS2010SETTINGS
-set OJPSLN=source\OJP Enhanced_VS2010.sln
-set TOOLDIR=%VS100COMNTOOLS%
-GOTO COMPILE
-
-:VS2008SETTINGS
-set OJPSLN=source\OJP Enhanced.sln
-set TOOLDIR=%VS80COMNTOOLS%
-GOTO COMPILE
+IF "%VS110COMNTOOLS%" NEQ "" (
+	rem Visual Studios 2012
+	set OJPSLN=source\OJP Enhanced_VS2012.sln
+ 	set TOOLDIR="%VS110COMNTOOLS%"
+) ELSE (
+IF "%VS100COMNTOOLS%" NEQ "" (
+	rem Visual Studios 2010
+ 	set OJPSLN=source\OJP Enhanced_VS2010.sln
+ 	set TOOLDIR="%VS100COMNTOOLS%"
+) ELSE (
+IF "%VS80COMNTOOLS%" NEQ "" (
+	rem Visual Studios 2008
+ 	set OJPSLN=source\OJP Enhanced.sln
+ 	set TOOLDIR="%VS80COMNTOOLS%"
+) ) )
 
 
 :COMPILE
