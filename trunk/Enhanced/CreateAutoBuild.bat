@@ -15,9 +15,9 @@ rem VARIABLE DEFINES
 rem ****************
 set ERRORLEVEL=0
 set OLDDIR=%CD%
-set PK3DLL=jkedlls
-set PK3ASSETS=jkestuff
-set ASSETSFOLDER=jke
+set PK3DLL=ojp_enhanceddlls
+set PK3ASSETS=ojp_enhancedstuff
+set ASSETSFOLDER=ojpenhanced
 
 
 rem ***************
@@ -71,7 +71,7 @@ ECHO ==================================================
 ECHO Creating Zip File...
 ECHO ================================================== 
 cd temp
-..\..\Utilities\zip\7za.exe a -tzip ..\jke_build_r%CHANGELIST%.zip .\%ASSETSFOLDER% -xr!.svn\ -mx9
+..\..\Utilities\zip\7za.exe a -tzip ..\ojpenhanced_build_r%CHANGELIST%.zip .\%ASSETSFOLDER% -xr!.svn\ -mx9
 rem move %OUTPUTFILENAME% ..
 chdir /d "%OLDDIR%"
 

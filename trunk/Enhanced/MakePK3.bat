@@ -4,9 +4,9 @@ rem ****************
 rem VARIABLE DEFINES
 rem ****************
 
-set PK3DLL=jkedlls
-set PK3ASSETS=jkestuff
-set ASSETSFOLDER=jke
+set PK3DLL=ojp_enhanceddlls
+set PK3ASSETS=ojp_enhancedstuff
+set ASSETSFOLDER=ojpenhanced
 
 rem ***************
 rem START OF SCRIPT 
