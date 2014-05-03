@@ -9805,7 +9805,7 @@ static gentity_t *G_KickTrace( gentity_t *ent, vec3_t kickDir, float kickDist, v
 
 
 
-	G_TestLine(traceOrg, traceEnd, 0x0000ff, 5000);
+	//G_TestLine(traceOrg, traceEnd, 0x0000ff, 5000);
 	//[SaberSys]
 	/* racc - debug message
 	if(trace.startsolid || trace.allsolid)
