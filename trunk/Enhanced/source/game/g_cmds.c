@@ -3095,7 +3095,21 @@ qboolean G_ValidSaberStyle(gentity_t *ent, int saberStyle)
 	{//SS_YELLOW is the default and always valid
 		return qtrue;
 	}
-	
+
+	//[StanceSelection]
+	if(saberStyle == SS_STAFF && ent->client->saber[0].numBlades <= 1)
+	{//you're not allowed to use the staff style with a single bladed lightsaber.
+		return qfalse;
+	}
+
+	/*
+	if(saberStyle == SS_DUAL && !ent->client->saber[1].model[0])
+	{//you're not allowed to use the dual style without two lightsabers.
+		return qfalse;
+	}
+	*/
+	//[/StanceSelection]
+
 	//otherwise, check to see if the player has the skill to use this style
 	switch (saberStyle)
 	{
