@@ -4016,10 +4016,6 @@ int OJP_SaberCanBlock(gentity_t *self, gentity_t *atk, qboolean checkBBoxBlock, 
 		return 0;
 	}
 
-	if(self->client->ps.fd.forcePowerLevel[FP_SABER_DEFENSE] == FORCE_LEVEL_0) {
-		return 0;
-	}
-
 	if(BG_KickMove(self->client->ps.saberMove))
 	{
 		return 0;
