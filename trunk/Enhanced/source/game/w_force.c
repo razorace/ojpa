@@ -277,6 +277,7 @@ void WP_InitForcePowers( gentity_t *ent ) {
 	ent->client->ps.fd.forceSide = atoi(readBuf);
 	i++;
 
+	//racc - Apply force powers.
 	i_r = 0;
 	while (forcePowers[i] && forcePowers[i] != '\n' &&
 		i_r < NUM_FORCE_POWERS)
@@ -299,7 +300,7 @@ void WP_InitForcePowers( gentity_t *ent ) {
 	//THE POWERS
 
 	//[ExpSys]
-	//apply our additional force powers
+	//apply skill levels
 	for(i_r=0; forcePowers[i] && forcePowers[i] != '\n' && i_r < NUM_SKILLS; i_r++, i++)
 	{
 		readBuf[0] = forcePowers[i];
