@@ -4,6 +4,10 @@ Open Jedi Project Change Log (Enhanced Distribution)
 
 This file stores all the information about what has changed from release version to release version for OJP Enhanced.  OJP Enhanced contains all the changes of OJP Basic plus a library of gameplay alterations made by OJP's contributors.
 
+Version 1.0.0
+	Improvements/Fixes:
+		Stance Selection:
+			- Players can no longer use the staff style with a single-bladed lightsaber.
 Version 0.1.2
 	Improvements/Fixes:
 		Cooperative Play:
