@@ -137,7 +137,7 @@
 			textaligny			-3         
 			font				2     
 			textscale			0.7     
-			forecolor			0.8 0.8 0.8 0 1     
+			forecolor			0.8 0.8 0.8 1     
 			visible				1     
 			decoration     
 		}     
