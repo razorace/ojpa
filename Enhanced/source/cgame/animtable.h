@@ -1739,6 +1739,11 @@ stringID_table_t animTable [MAX_ANIMATIONS+1] =
 	//dedicated stance animations for the hidden styles
 	ENUM2STRING(BOTH_SABERTAVION_STANCE),
 	ENUM2STRING(BOTH_SABERDESANN_STANCE),
+
+	//Saber system prototype animations
+	ENUM2STRING(BOTH_MELEE_BACKHAND),
+	ENUM2STRING(BOTH_MELEE_PARRYTEST),
+	ENUM2STRING(BLOCKTEST),
 	//[/SaberSys]
 	
 

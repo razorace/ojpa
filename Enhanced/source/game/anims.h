@@ -1742,6 +1742,11 @@ typedef enum //# animNumber_e
 	//dedicated stance animations for the hidden styles
 	BOTH_SABERTAVION_STANCE,
 	BOTH_SABERDESANN_STANCE,
+
+	//Saber system prototype animations
+	BOTH_MELEE_BACKHAND,
+	BOTH_MELEE_PARRYTEST,
+	BLOCKTEST,
 	//[/SaberSys]
 
 	//======================================================
