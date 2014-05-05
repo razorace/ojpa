@@ -474,6 +474,14 @@ void CG_DrawForcePower( menuDef_t *menuHUD )
 		cg.forceHUDNextFlashTime = 0;
 	}
 
+	//[SaberSys]
+	if (cg.snap->ps.saberAttackChainCount <= BALANCE_LOW)
+	{//Shake the camera if we're running low on balance.
+		//shake more the closer we get to a mishap.
+		float shakeFactor = .6f * ((BALANCE_LOW - (float)cg.snap->ps.saberAttackChainCount) / BALANCE_LOW);
+		CGCam_Shake(shakeFactor, 350);
+	}
+	//[/SaberSys]
 
 	if (percent > FPBAR_W) {
 		return;

@@ -6,6 +6,10 @@ This file stores all the information about what has changed from release version
 
 Version 1.0.0
 	Improvements/Fixes:
+		Saber Combat System:
+			Mishaps:
+				- Camera now shakes when the player's mishap meter is low.  The intensity of shaking increases as the meter empties.
+.
 		Stance Selection:
 			- Players can no longer use the staff style with a single-bladed lightsaber.
 Version 0.1.2
