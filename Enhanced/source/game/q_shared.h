@@ -2259,7 +2259,7 @@ typedef struct playerState_s {
 	int			duelTime;
 	qboolean	duelInProgress;
 
-	//racc - this isn't used anymore in Enhanced thanks to the new saber system.
+	//[SaberSys] racc - saberAttackChainCount is now used to track a player's balance level.  Mishaps occur when a player is low on balance.
 	int			saberAttackChainCount;
 
 	int			saberHolstered;
