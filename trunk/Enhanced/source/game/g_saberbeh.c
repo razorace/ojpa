@@ -289,7 +289,7 @@ void SabBeh_AttackVsBlock( gentity_t *attacker, sabmech_t *mechAttacker,
 			mechAttacker->behaveMode = SABBEHAVE_ATTACKPARRIED;
 #endif
 
-		SabBeh_AddBalance(blocker, mechBlocker, MPCOST_BLOCKING, qfalse);
+		SabBeh_AddBalance(blocker, mechBlocker, MPCOST_BLOCKING_SUPERBREAK, qfalse);
 #ifdef _DEBUG
 			mechBlocker->behaveMode = SABBEHAVE_BLOCK;
 #endif
