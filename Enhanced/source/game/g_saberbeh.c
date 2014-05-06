@@ -191,7 +191,7 @@ void SabBeh_AttackVsAttack( gentity_t *self, sabmech_t *mechSelf,
 	if(atkfake && !otherfake)
 	{//self is sololy faking
 		//set self
-		SabBeh_AddBalance(self, mechSelf, 1, qtrue);
+		SabBeh_AddBalance(self, mechSelf, MPCOST_ATTACK_FAKE_ATTACKED, qtrue);
 #ifdef _DEBUG
 		mechSelf->behaveMode = SABBEHAVE_BLOCKFAKED;
 #endif
@@ -203,7 +203,7 @@ void SabBeh_AttackVsAttack( gentity_t *self, sabmech_t *mechSelf,
 			self->client->ps.saberBlocked = BLOCKED_NONE;
 			otherOwner->client->ps.saberBlocked = BLOCKED_NONE;
 		}
-		SabBeh_AddBalance(otherOwner, mechOther, -1, qtrue);
+		SabBeh_AddBalance(otherOwner, mechOther, MPCOST_ATTACKING_ATTACK_FAKE, qtrue);
 #ifdef _DEBUG
 		mechOther->behaveMode = SABBEHAVE_ATTACK;
 #endif
@@ -217,13 +217,13 @@ void SabBeh_AttackVsAttack( gentity_t *self, sabmech_t *mechSelf,
 			otherOwner->client->ps.userInt3 |= ( 1 << FLAG_LOCKWINNER );
 			otherOwner->client->ps.saberBlocked = BLOCKED_NONE;
 		}
-		SabBeh_AddBalance(self, mechSelf, -1, qtrue);
+		SabBeh_AddBalance(self, mechSelf, MPCOST_ATTACKING_ATTACK_FAKE, qtrue);
 #ifdef _DEBUG
 		mechSelf->behaveMode = SABBEHAVE_ATTACK;
 #endif
 
 		//set otherOwner
-		SabBeh_AddBalance(otherOwner, mechOther, 1, qtrue);
+		SabBeh_AddBalance(otherOwner, mechOther, MPCOST_ATTACK_FAKE_ATTACKED, qtrue);
 #ifdef _DEBUG
 		mechOther->behaveMode = SABBEHAVE_BLOCKFAKED;
 #endif
@@ -231,13 +231,13 @@ void SabBeh_AttackVsAttack( gentity_t *self, sabmech_t *mechSelf,
 	else
 	{//either both are faking or neither is faking.  Either way, it's cancelled out
 		//set self
-		SabBeh_AddBalance(self, mechSelf, 1, qtrue);
+		SabBeh_AddBalance(self, mechSelf, MPCOST_ATTACK_ATTACK, qtrue);
 #ifdef _DEBUG
 		mechSelf->behaveMode = SABBEHAVE_ATTACK;
 #endif
 
 		//set otherOwner
-		SabBeh_AddBalance(otherOwner, mechOther, 1, qtrue);
+		SabBeh_AddBalance(otherOwner, mechOther, MPCOST_ATTACK_ATTACK, qtrue);
 #ifdef _DEBUG
 		mechOther->behaveMode = SABBEHAVE_ATTACK;
 #endif
@@ -284,12 +284,12 @@ void SabBeh_AttackVsBlock( gentity_t *attacker, sabmech_t *mechAttacker,
 	if(BG_SuperBreakWinAnim(attacker->client->ps.torsoAnim))
 	{//attacker was attempting a superbreak and he hit someone who could block the move, rail him for screwing up.
 		*attackerMishap = SabBeh_RollBalance(attacker, mechAttacker, qtrue,qfalse);
-		SabBeh_AddBalance(attacker, mechAttacker, 2, qtrue);
+		SabBeh_AddBalance(attacker, mechAttacker, MPCOST_BLOCKED_SUPERBREAK, qtrue);
 #ifdef _DEBUG
 			mechAttacker->behaveMode = SABBEHAVE_ATTACKPARRIED;
 #endif
 
-		SabBeh_AddBalance(blocker, mechBlocker, -1, qfalse);
+		SabBeh_AddBalance(blocker, mechBlocker, MPCOST_BLOCKING, qfalse);
 #ifdef _DEBUG
 			mechBlocker->behaveMode = SABBEHAVE_BLOCK;
 #endif
@@ -325,10 +325,16 @@ void SabBeh_AttackVsBlock( gentity_t *attacker, sabmech_t *mechAttacker,
 		}
 		else
 		{//otherwise, the defender stands a good chance of having his defensives broken.	
-			SabBeh_AddBalance(attacker, mechAttacker, -1, qtrue);
+			SabBeh_AddBalance(attacker, mechAttacker, MPCOST_BLOCKED_ATTACK_FAKE, qtrue);
 
 			if(attacker->client->ps.fd.saberAnimLevel == SS_DESANN)
-				SabBeh_AddBalance(blocker, mechBlocker, 2, qfalse);
+			{
+				SabBeh_AddBalance(blocker, mechBlocker, MPCOST_BLOCKING_DESANN_ATTACK_FAKE, qfalse);
+			}
+			else
+			{//standard attacker
+				SabBeh_AddBalance(blocker, mechBlocker, MPCOST_BLOCKING_ATTACK_FAKE, qfalse);
+			}
 
 #ifdef _DEBUG
 			mechAttacker->behaveMode = SABBEHAVE_ATTACK;
@@ -358,7 +364,7 @@ void SabBeh_AttackVsBlock( gentity_t *attacker, sabmech_t *mechAttacker,
 #endif
 
 		//set attacker
-		SabBeh_AddBalance(attacker, mechAttacker, -3, qtrue);
+		SabBeh_AddBalance(attacker, mechAttacker, MPCOST_TAVION_ATTACK_SLOW_BOUNCE, qtrue);
 #ifdef _DEBUG
 		mechAttacker->behaveMode = SABBEHAVE_ATTACK;
 #endif
@@ -406,27 +412,31 @@ void SabBeh_AttackVsBlock( gentity_t *attacker, sabmech_t *mechAttacker,
 		}
 		else
 		{//blocked values
-			SabBeh_AddBalance(attacker, mechAttacker, -1, qtrue);
+			SabBeh_AddBalance(attacker, mechAttacker, MPCOST_BLOCKED_ATTACK, qtrue);
 			if(attacker->client->ps.fd.saberAnimLevel == SS_TAVION)
 			{//aqua styles deals MP to players that don't parry it.
-				SabBeh_AddBalance(blocker, mechBlocker, 2, qfalse);
+				SabBeh_AddBalance(blocker, mechBlocker, MPCOST_BLOCKING_TAVION_ATTACK, qfalse);
 			}
 			else if(attacker->client->ps.fd.saberAnimLevel == SS_STRONG)
 			{
-				blocker->client->ps.fd.forcePower -= 2;
+				blocker->client->ps.fd.forcePower -= FPCOST_BLOCKING_STRONG_ATTACK;
+				SabBeh_AddBalance(blocker, mechBlocker, MPCOST_BLOCKING_ATTACK, qfalse);
 			}
+			//racc - This doesn't actually ever happen. :S
 			else if(attacker->client->ps.fd.saberAnimLevel==SS_TAVION
 				&& attacker->client->skillLevel[SK_GREENSTYLE] == FORCE_LEVEL_3
 				&& (attacker->client->ps.userInt3 & FLAG_QUICKPARRY))
 			{
-				SabBeh_AddBalance(blocker, mechBlocker, 2, qfalse);
+				SabBeh_AddBalance(blocker, mechBlocker, MPCOST_QUICKPARRY_TAVION_ATTACK, qfalse);
+			}
+			else
+			{//standard blocker cost
+				SabBeh_AddBalance(blocker, mechBlocker, MPCOST_BLOCKING_ATTACK, qfalse);
 			}
 			
 #ifdef _DEBUG
 			mechAttacker->behaveMode = SABBEHAVE_ATTACKBLOCKED;
 #endif
-
-			//SabBeh_AddBalance(blocker, 1, qfalse);
 		}
 	}
 
