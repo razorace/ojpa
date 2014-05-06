@@ -3998,11 +3998,6 @@ int OJP_SaberCanBlock(gentity_t *self, gentity_t *atk, qboolean checkBBoxBlock, 
 		return 0;
 	}
 
-	//Can only block with alt click held down, and bots just block by default
-	//(Makes it easier for testing )
-	if(!(self->client->pers.cmd.buttons & BUTTON_ALT_ATTACK) && !(self->r.svFlags & SVF_BOT))
-		return 0;
-
 	if(BG_InGrappleMove(self->client->ps.torsoAnim))
 	{//you can't block while doing a melee move.
 		return 0;
