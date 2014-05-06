@@ -12,8 +12,8 @@
 
 //////////////////////////////////////////////////////////////////////////
 //Mishap Costs (negative values mean the player recovers points)
-#define MPCOST_BLOCKING											-1	//saber blocking an attack
 #define MPCOST_BLOCKED_SUPERBREAK						2		//superbreak was blocked
+#define MPCOST_BLOCKING_SUPERBREAK					-1	//saber blocking an attack
 #define MPCOST_BLOCKED_ATTACK								-1	//standard attack blocked
 #define MPCOST_BLOCKING_ATTACK							0		//blocking standard attack
 #define MPCOST_BLOCKING_TAVION_ATTACK				2		//blocking tavion standard attacks causes MP damage
