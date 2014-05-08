@@ -538,24 +538,12 @@ void UpdateForceUsed()
 			if (menu)
 			{
 				Menu_ShowItemByName(menu, "setfp_saberdefend", qtrue);
-				if(uiForceRank >= 10)
-					Menu_ShowItemByName(menu, "setfp_bluestyle", qtrue); // soresu
-
-				if(uiForceRank >= 30)
-					Menu_ShowItemByName(menu, "setfp_redstyle", qtrue);//djem so
-
-				if(uiForceRank >= 20)
-					Menu_ShowItemByName(menu, "setfp_greenstyle", qtrue);//makashi
-
-				if(uiForceRank >= 60)
-					Menu_ShowItemByName(menu, "setfp_purplestyle", qtrue);//juyo
-				
-				if(uiForceRank >= 40)
-					Menu_ShowItemByName(menu, "setfp_dualstyle", qtrue);//Dual
-
-				if(uiForceRank >= 50)
-					Menu_ShowItemByName(menu, "setfp_staffstyle", qtrue);//Staff
-
+				Menu_ShowItemByName(menu, "setfp_bluestyle", qtrue); // soresu
+				Menu_ShowItemByName(menu, "setfp_redstyle", qtrue);//djem so
+				Menu_ShowItemByName(menu, "setfp_greenstyle", qtrue);//makashi
+				Menu_ShowItemByName(menu, "setfp_purplestyle", qtrue);//juyo
+				Menu_ShowItemByName(menu, "setfp_dualstyle", qtrue);//Dual
+				Menu_ShowItemByName(menu, "setfp_staffstyle", qtrue);//Staff
 
 				Menu_ShowItemByName(menu, "setfp_saberthrow", qtrue);
 				Menu_ShowItemByName(menu, "effectentry", qtrue);
