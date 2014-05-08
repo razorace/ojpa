@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>OJP Bots</title>
+
+
+</head>
+<body>
+
+<h1 style="text-align: center;">Open Jedi Project Bots<br>
+
+</h1>
+
+$Revision$<br>
+
+<br>
+
+<strong> Table of Contents:<br>
+</strong>
+<ul id="mozToc">
+<!--mozToc h2 2 h3 3 h4 4 h5 5 h6 6--><li><a href="#mozTocId445842">General
+Information</a>
+    <ul>
+      <li>
+        &nbsp;
+        <ul>
+          <li>
+            &nbsp;
+            <ul>
+              <li><a href="#mozTocId166436">Bot File (.jkb) Keywords</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="#mozTocId660536">TABBots</a>
+        <ul>
+          <li><a href="#tb_botfiles">Configuring Bot Files</a>
+          </li>
+          <li><a href="#mozTocId339893">Orders</a>
+            <ul>
+              <li><a href="#mozTocId730444">Bot Order Keywords</a></li>
+            </ul>
+          </li>
+          <li><a href="#mozTocId43115">Waypoint
+Routing Maps</a>
+            <ul>
+              <li><a href="#mozTocId550106">New TABBot Waypoint Flags</a></li>
+              <li><a href="#mozTocId256950">Siege
+Objectives</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<strong><br>
+
+</strong>
+
+<h2 style="text-align: center;"><a class="mozTocH2" name="mozTocId445842"></a><strong>General
+Information</strong></h2>
+<h4 style="text-align: center;"><a class="mozTocH4" name="mozTocId166436"></a>Bot File (.jkb) Keywords</h4>
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 903px; height: 517px;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="text-align: center;"><span style="font-weight: bold;">Keyword</span></td>
+      <td style="text-align: center;"><span style="font-weight: bold;">Purpose</span></td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">accuracy</td>
+      <td>Sets the number of
+degrees bot can aim off by. Lower value == better aim.&nbsp; In addition, it
+is used for determining if the bot will lead the target or not.&nbsp; Less
+than 8 == never not lead.</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; text-align: left;">EmotionalAttachment</td>
+      <td><span style="font-weight: bold;">Attachment (Loved Ones) Levels:</span><br>
+1 = Gets upset when loved one dies.<br>
+2 = Can't attack loved one in non-team gametypes.</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">hatelevel</td>
+      <td>Determines the maximum
+revenge/hate level this bot can have when its loved ones die multiple
+times.&nbsp; The higher the revenge level, the better accuracy this bot has
+against their revenge target.&nbsp; However, this also sets the level at
+which the&nbsp;<span style="font-weight: bold;">Hatred</span> message is played for the death of loved ones.&nbsp; IE, the higher the <span style="font-weight: bold;">hatelevel</span>, the angrier the&nbsp;bot gets when a player kills their loved ones.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center;"><span style="font-weight: bold;">Chat Messages</span></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">Died</td>
+      <td>Chat message&nbsp;when the bot is killed by a non-loved one.</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">Hatred<br>
+      </td>
+      <td>Chat message when someone maxed out this bot's hatelevel by killing one of its loved ones.</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">Killed</td>
+      <td>Chat message when the bot killed a player.</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">KilledHatedOne</td>
+      <td>Chat message when the bot killed an enemy that you were seeking revenge on.</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">KilledOnPurposeByLove</td>
+      <td>Chat message when the bot is killed by a loved one that doesn't love the bot enough to not attack the bot.</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">LovedOneKilledLovedOne&nbsp;</td>
+      <td>Chat message when one of the bot's loved ones was killed by another one of its loved ones.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 style="text-align: center;"><a class="mozTocH2" name="mozTocId660536"></a>TABBots</h2>
+The TABBots system puts the &quot;I&quot; back into your bots' &quot;AI&quot;
+(or lack thereof).&nbsp; It is a completely new set of scripts designed to make
+your bots act more intelligently and enables them to play siege
+games.&nbsp;&nbsp;&nbsp; TABBots are designed to be portable and modulated. You can even have the TAB Bots in the same game as the original JKA bots.
+<h3><a class="mozTocH3" name="tb_botfiles"></a><b>Configuring Bot Files (.jkb)</b></h3>
+<p>TABBots use your existing bot files (.jkb), so there is no special
+configuration needed, just set up your bots as you would any others.&nbsp;
+TABBots will spend skill points based on the force powers and weapons
+preferences you indicate in the bot file.&nbsp; They will only spawn
+weapons/powers if they have enough skill points.&nbsp;&nbsp;</p>
+<h3><a class="mozTocH3" name="mozTocId339893"></a>Orders</h3>
+To give a TABBots an order, chat the command's keywords to the bot. &nbsp;This can be in any chat channel that the bot can hear.<br>
+<h4 style="text-align: center;"><a class="mozTocH4" name="mozTocId730444"></a>Bot Order Keywords</h4>
+<table style="width: 524px; height: 117px; text-align: left; margin-left: auto; margin-right: auto;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="text-align: center;"><span style="font-weight: bold;">Keywords</span></td>
+      <td style="text-align: center;"><span style="font-weight: bold;">Order Description</span></td>
+    </tr>
+    <tr>
+      <td><span style="font-style: italic;">&lt;BotName&gt;</span> <span style="font-weight: bold;">attack</span> </td>
+      <td style="text-align: left;">Switch to Search/Destroy mode.</td>
+    </tr>
+    <tr>
+      <td><span style="font-style: italic;">&lt;BotName&gt;</span> <span style="font-weight: bold;">attack</span> <span style="font-style: italic;">&lt;PlayerName&gt;</span></td>
+      <td style="text-align: left;">Attack specific player.</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="mozTocH3" name="mozTocId43115"></a>Waypoint
+Routing Maps</h3>
+
+To route a map so that TABBots can use them, use the in-game waypoint
+editor like normal (with some exceptions). &nbsp;TABBots will
+shortest route (or something close to that) to their desired
+destination.&nbsp; As such, they don't simply follow the loops
+sequencially like the normal bots.&nbsp; You can create multiple
+path branches that the TABBots will actually use.&nbsp; <br>
+
+<br>
+
+However to have the TABBots recognize that a sequencial number isn't on
+the same route as it's sequencial neighors, the waypoints must be a
+decent distance apart.&nbsp; I beleive the current setting is that
+they have to be 100 ingame feet away from each other.&nbsp; For
+example, let's say that waypoint 50 is the end of a path leading to the
+flag and waypoint 51 (the next one placed) starts a completely seperate
+route from a teleporter to a piece of ammo.&nbsp; Waypoine 50 and
+waypoint 51 must be at least 100 feet away from each other for this to
+work right.<br>
+
+<br>
+
+Finally, due to the code used to determine routing, it's very important
+that all waypoints can be reached&nbsp; from the rest of waypoint
+grid.&nbsp; Having unconnected waypoints/routes will result in
+pretty massive game slowdowns whenever the bot's target destination is
+closest to one of those points.<br>
+<h4 style="text-align: center;"><a class="mozTocH4" name="mozTocId550106"></a>New TABBot Waypoint Flags</h4>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="text-align: center; font-weight: bold;">Flag Name</td>
+      <td style="text-align: center; font-weight: bold;">Flag Key</td>
+      <td style="text-align: center; font-weight: bold;">Description</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">WPFLAG_BLUEONLY</td>
+      <td style="text-align: center; font-weight: bold;">(b)</td>
+      <td>Only bots on the blue team will be able to use this waypoint</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">WPFLAG_DESTROY_FUNCBREAK </td>
+      <td style="text-align: center; font-weight: bold;">(q)</td>
+      <td>Before moving to this waypoint, destroy any local breakable objects.</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">WPFLAG_FORCEPULL </td>
+      <td style="text-align: center; font-weight: bold;">(o)</td>
+      <td>Before moving to this waypoint, Force Pull any local func_doors (buttons).</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">WPFLAG_FORCEPUSH</td>
+      <td style="text-align: center; font-weight: bold;">(p)</td>
+      <td>Before moving to this waypoint, Force Push any local func_doors (buttons). &nbsp;This&nbsp;also makes bots attempt to press nearby buttons or hack
+doors.&nbsp; If there's a hackable door but the bot can't hack it, he'll try
+to destroy the control panel if that's an option.</td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold;">WPFLAG_REDONLY</td>
+      <td style="text-align: center; font-weight: bold;">(r)</td>
+      <td>Only bots on the red team will be able to use this waypoint.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4><a class="mozTocH4" name="mozTocId256950"></a><a class="mozTocH4" name="TABBotsSiegeObjectives"></a>Siege
+Objectives</h4>
+
+TABbots will complete objectives in random order. &nbsp;However,
+when certain objectives
+have to be completed in order (like destroying the valley door before
+capturing the crystals on Korriban), you will need to mark them as such
+in
+the .siege for that map. &nbsp;Simply add the "DependsOn1
+&lt;whatever objective number must be completed first&gt;"
+varible to
+those objectives.&nbsp; <span style="font-weight: bold;"><br>
+
+<br>
+
+NOTE:</span> You only have to mark this on the objectives
+of the attacking team.&nbsp; The objective pre-reqs for the
+defenders are
+assumed from the attacker information. &nbsp;If there are more than
+one
+prereq for an objective, you can also use DependsOn2 thru DependsOn6. <br>
+
+<br>
+
+</body>
+</html>

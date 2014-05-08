@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+
+
+
+
+  
+  
+  
+  
+  
+  <title>OJP Documentation Index</title></head>
+<body>
+
+
+
+
+
+
+<h1 style="text-align: center;">OJP Vehicles</h1>
+
+
+
+
+
+
+<p>New Vehicle Implentation - RenegadeOfPhunk<br>
+------------------------<br>
+<br>
+At this time (28/12/2003), the following is only supported for the VH_WALKER class of vehicles. Some entires will work for other vehicle classes, but most probably won't. I will be working on other vehicle classes shortly.<br>
+These new vehicle parameters need to be added to the appropiate .veh files for your vehicle to use them.<br>
+<br>
+Some of the new options depend on vehicle operational modes. THe currently supported modes are listed below, along with their values.<br>
+<br>
+typedef enum<br>
+{<br>
+VEHICLE_MODE_RUNNING = 1,<br>
+VEHICLE_MODE_WALKING = 2,<br>
+VEHICLE_MODE_BACKWARDS = 4,<br>
+VEHICLE_MODE_STILL = 8,<br>
+VEHICLE_MODE_TURNING = 16<br>
+}<br>
+<br>
+These values can be combined.<br>
+e.g. Running and Walking = 1 + 2 = 3<br>
+<br>
+<br>
+MBFstopprimaryfiring (default 0)<br>
+--------------------<br>
+This allows you to disable the vehicles primary weapons from firing depending on what operational mode the vehicle is in. The value for this entry is a combination of Vehicle Mode Values.<br>
+e.g. to stop the vehicle primary firing while going backwards and standing still:<br>
+MBFstopprimaryfiring 12<br>
+<br>
+MBFstopaltfiring (default 0)<br>
+----------------<br>
+Same as MBFstopprimaryfiring, except disables alt firing in certain modes<br>
+<br>
+MBFdisableshields (default 0)<br>
+-----------------<br>
+This allows you to disable shields in certain operational modes. Use the vehicle mode values in the same manner as the stop firing options. Shields will recharge as normal while de-activated.<br>
+<br>
+CantKnockoutShields (default 0)<br>
+-------------------<br>
+Setting this value to 1 will mean that the shields can still charge back up even if they have been reduced to 0.<br>
+<br>
+AllWeaponsDoDamageToArmor (default 0)<br>
+-------------------------<br>
+Setting this to 1 means that no weapons will 'bounce off' the hull of the vehicle. If the vehicle has an active shield, then this may cause the weapon shot to be repeled, depending on the AllWeaponsDoDamageToShields setting (see below)<br>
+<br>
+AllWeaponsDoDamageToShields (default 0)<br>
+--------------------------<br>
+Setting this to 1 means that no weapons will 'bounce off' the shields of the vehicle. If shields are not present (knocked out, below 0 etc.), this parameter doesn't affect anything.<br>
+<br>
+ResistsMarking (default 0)<br>
+--------------<br>
+Setting this to 1 will make the vehicle immune to marking - from sabers or weapons...<br>
+<br>
+SpeedMultiplierForRamDamage (default 10.0f)<br>
+-------------------------------------------<br>
+This setting determines what damage is inflicted upon players who are rammed by walker-class vehicles. The damage inflicted is the factor of the above setting and the velocity of the vehicle at the time of impact.<br>
+<br>
+NOTE: The default has been set especially high, because before this fix was introduced, all walker class killed instantly when ramming - no matter what the speed. So this default reflects this...<br>
+<br>
+FIX: shieldRechargeMS (default 1)<br>
+---------------------------------<br>
+This parameter doesn't work in the base game imp., but is now fixed. (In the base game, the shields recharged at their fastest possible rate all the time - hence the default of 1)<br>
+<br>
+<br>
+TRANSITION ANIMS<br>
+----------------<br>
+The following anims are transition anims. Each transition anim is linked between two different vehicle movement modes.<br>
+If the player has just switched from one movement mode to another, and the appropiate transition anim exists for the vehicle, the anim will play. During the animation, no movement or firing is possible. ONce the animation has played out, the vehicle will carry on moving as normal.<br>
+<br>
+Here is a list of the possible transtions and their associated anims:<br>
+<br>
+Run -> Walk:		BOTH_RUN1STOP<br>
+Walk -> Run:		BOTH_RUN1START<br>
+Stand -> Walk:		BOTH_STAND1TO2<br>
+Walk -> Stand:		BOTH_STAND2TO1<br>
+Stand -> Backwards:	BOTH_STAND2TO4<br>
+Backwards -> Stand:	BOTH_STAND4TO2<br>
+<br>
+NOTE: The turnWhenStopped option needs to be set to 1 for the next two transitions to possibly occur - since otherwise you would not be able to turn on the spot at all.<br>
+Stand -> Turn (on spot):	BOTH_STAND5SHIFTWEIGHTSTART<br>
+Turn (on spot) -> Stand:	BOTH_STAND5SHIFTWEIGHTSTART<br>
+<br>
+<br>
+UPDATED ANIM SUPPORT<br>
+--------------------<br>
+As well as the mode transition anims described above, there are more basic animations that are now supported. Here's a full list, both base game and OJP-added:<br>
+<br>
+Walk BOTH_WALK1<br>
+Run BOTH_RUN1<br>
+Back BOTH_WALKBACK1<br>
+Turn left BOTH_TURN_LEFT1<br>
+Turn right BOTH_TURN_RIGHT1<br>
+Still BOTH_STAND1<br>
+Vacant BOTH_STAND2<br>
+Still &amp; attack BOTH_ATTACK1<br>
+Still &amp; alt attack BOTH_ATTACK2<br>
+In-air BOTH_INAIR1<br>
+Running in air BOTH_FORCEINAIR1<br>
+<br>
+<br>
+Base game .veh parameters:<br>
+--------------------------<br>
+<br>
+VH_WALKER<br>
+<br>
+lookYaw		//Affects the Yaw angles at which you can shoot.  Doesn't effect the crosshair/look yaw limits.<br>
+<br>
+turnWhenStopped	//Doesn't do anything.&nbsp;<br>
+<br>
+pitchLimit	//Seems to affect the angle at which the walker's head is angled at when it's sitting empty. 2 = Head straight up.<br>
+<br>
+<br>
+Vehicle NPC Notes:<br>
+------------------<br>
+<br>
+Don't set the vehicle NPC file's weapon to WP_NONE.  It causes problems for people running the game in debug mode.<br>
+<br>
+<br>
+============================<br>
+Cloaking Device for Vehicles<br>
+============================<br>
+<br>
+CloakingDevice (default 0)<br>
+--------------------------<br>
+Allows the vehicle to cloak with the Use Forcepower button.  This ability works for all vehicle types and has an unlimited time limit.<br>
+<br>
+CloakingDeviceOnSound<br>
+---------------------<br>
+Sound played when the cloaking device is activated.<br>
+<br>
+CloakingDeviceOffSound<br>
+----------------------<br>
+Sound played when the cloaking device is deactivated.<br>
+</p>
+
+
+
+
+
+
+</body></html>

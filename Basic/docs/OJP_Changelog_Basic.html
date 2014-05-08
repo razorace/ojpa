@@ -1,0 +1,5151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+
+
+  
+  
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type" />
+
+
+
+  
+  
+  
+  <title>OJP Basic Changelog</title></head>
+<body>
+
+
+
+
+<h1 style="text-align: center;"><a class="mozTocH1" name="mozTocId912030"></a>OJP
+Basic Changelog</h1>
+
+
+
+
+This file stores all the information about what has changed from
+release version to release version for OJP Basic.&nbsp; OJP Basic
+contains all non-gameplay altering aspects of OJP that don't involve
+vehicles or skins (which are seperate packages due to harddrive size).<br />
+
+
+
+
+<br />
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId743232"></a>Table
+of Contents</h2>
+
+
+
+
+<ul id="mozToc">
+<!--mozToc h2 1 h3 2 h4 3 h5 4 h6 5--><li><a href="#mozTocId743232">Table
+of Contents</a></li>
+  <li><a href="#mozTocId258899">Version
+0.1.3</a>
+    <ul>
+      <li><a href="#mozTocId722097">New
+Features</a></li>
+      <li><a href="#mozTocId132595">
+Improvements/Fixes</a></li>
+      <li><a href="#mozTocId277440">New
+Cvars/Commands</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId535143">Version
+0.1.2</a>
+    <ul>
+      <li><a href="#mozTocId556973">New
+Features</a></li>
+      <li><a href="#mozTocId169604">Improvements/Fixes</a></li>
+      <li><a href="#mozTocId854859">New
+Cvars</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId818482">Version
+0.1.1</a>
+    <ul>
+      <li><a href="#mozTocId295905">New
+Features</a></li>
+      <li><a href="#mozTocId262526">Improvements/Fixes</a></li>
+      <li><a href="#mozTocId727379">New
+Cvars</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId201446">Version
+0.1.0</a>
+    <ul>
+      <li><a href="#mozTocId57041">New
+Features</a></li>
+      <li><a href="#mozTocId983596">Improvements/Fixes</a></li>
+      <li><a href="#mozTocId131463">New
+Cvars</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId475338">Version 0.0.9</a>
+    <ul>
+      <li><a href="#mozTocId985593">New Features</a></li>
+      <li><a href="#mozTocId142200">Improvements/Fixes</a></li>
+      <li><a href="#mozTocId94618">New Cvars</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId585909">Version 0.0.8</a>
+    <ul>
+      <li><a href="#mozTocId641516">Improvements/Fixes</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId766941">Version 0.0.7b9</a>
+    <ul>
+      <li><a href="#mozTocId273787">Improvements/Fixes</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId192273">Version 0.0.7b8:</a>
+    <ul>
+      <li><a href="#mozTocId213088">New Features</a></li>
+      <li><a href="#mozTocId479186">Improvements/Fixes</a></li>
+      <li><a href="#mozTocId145252">New Cvars</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId950491">Version 0.0.7b7</a>
+    <ul>
+      <li><a href="#mozTocId939005">New Features</a></li>
+      <li><a href="#mozTocId572244">Improvements</a></li>
+      <li><a href="#mozTocId694212">New Cvars</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId425397">Version 0.0.7b6</a>
+    <ul>
+      <li><a href="#mozTocId819601">New Features</a></li>
+      <li><a href="#mozTocId586972">Improvements</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId91366">Version 0.0.7b5</a>
+    <ul>
+      <li><a href="#mozTocId379000">Improvements</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId894059">Version 0.0.7</a>
+    <ul>
+      <li><a href="#mozTocId284959">New Features</a></li>
+      <li><a href="#mozTocId930759">Improvements</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId809754">Version 0.0.6</a>
+    <ul>
+      <li><a href="#mozTocId588065">New Features</a></li>
+      <li><a href="#mozTocId312062">Improvements</a></li>
+      <li><a href="#mozTocId221297">New Cvars</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId524230">Version 0.0.5</a>
+    <ul>
+      <li><a href="#mozTocId895087">New Features</a></li>
+      <li><a href="#mozTocId517875">Improvements</a></li>
+      <li><a href="#mozTocId473754">New Cvars/Commands</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId242789">Version
+0.0.4</a>
+    <ul>
+      <li><a href="#mozTocId934188">New
+mod configuration</a></li>
+      <li><a href="#mozTocId862139">New
+Features </a></li>
+      <li><a href="#mozTocId100357">Improvements</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId650848">Version
+0.0.3</a>
+    <ul>
+      <li><a href="#mozTocId226733">New
+Features</a></li>
+      <li><a href="#mozTocId806197">Improvements</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId735776">Version
+0.0.2</a>
+    <ul>
+      <li><a href="#mozTocId861113">New
+Features</a></li>
+      <li><a href="#mozTocId895257">Improvements</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId468032">Version 0.0.1</a>
+    <ul>
+      <li><a href="#mozTocId904626">New
+Features</a></li>
+    </ul>
+  </li>
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId258899"></a>Version
+0.1.3</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId722097"></a>New
+Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">SpeedLagFix - <span style="font-weight: normal;">Fixed bug where when spectating someone on vehicle camera would lag and shake.</span></li>
+  <li style="font-weight: bold;">Ammo System (AmmoSys)</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Fixed EF_DOUBLE_AMMO flag with adding ammo (mostly with
+ammo floor units).</li>
+
+
+
+
+    <li>Fixed floor units all together.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Area Portal
+Fix (AREAPORTALFIX)</span> - Fixed the glitch in siege where
+areaportals would remain stuck in last state on round changes. (From
+Cerburus of MB2)<span style="font-weight: bold;"></span></li>
+
+
+
+
+  <li><span style="font-weight: bold;">Bolted
+Effects (Bolted effect)</span> - OJP now supports effects that
+are
+bolted to player models thru the EV_PLAY_EFFECT_BOLTED game
+event.&nbsp; We
+used this to add the SP visual effect for Force Heal.</li><li><span style="font-weight: bold;">BugFix48</span>
+- The player's selected weapon no longer switches mysteriously on
+initial spawn. &nbsp;This was more of an issue in OJP Enhanced.
+&nbsp;The cause of this was an issue with <span style="font-style: italic;">PERS_SPAWN_COUNT</span> not incrementing correctly in some situations like the initial player join. </li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix47</span>
+- Fixed issue with entity spawn keys containing a backslash (\)
+skipping the next letter after it.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix46</span>
+- Fixes problem where players could illegally keep their saber
+style selection after dropping the saber offensive holocron.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix45</span>
+- Fixed issue from MasterHex of xMod dealing with the saber collision
+when you die and saber was knocked away.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix44</span>
+- Fixed issue where arena files on the server would not load
+when bot_enable was set to 0 and yet G_RefreshNextMap and
+G_DoesMapSupportGametype still uses it and has nothing to do with bots.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix43</span>
+- Merged fix from MasterHex of xMod that fixes the allowing of +button2
+to hold weapon charges forever.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix42</span>
+- Fixed issue while in speeder and trying to fire the guns; it
+was allowing you to fire still when you had 1 of 2 sabers off.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix41</span>
+- Some siege-related fixed including allowing /kill while in
+temp spectate, and using /team &lt;current team&gt; as a
+self-kill
+method.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix40</span>
+- Fixed issue where players could use holdable items while dead prior
+to going into temp spectate mode.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix39</span>
+- Fixed issue where if you reconnect (and/or are in a vehicle)
+the siege item you were holding would disappear. Edit: whoops fixed the
+follow/followcycle pb.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix38</span>
+- Fixed some issues with StopFollowing, going to intermission, and
+leaving a vehicle (Added Function G_LeaveVehicle).</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix37</span>
+- Fixed critical buffer overflow issue in cgame dealing with CS_ITEMS
+configstring.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix36</span>
+- Fixed issue with game crashes whenever a bad forcepowers
+configuration string is given.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix35</span>
+- Mindtrick users now decloak when they attempt to grapple someone.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix34</span>
+- Team overlay data is now only transmitted to players when
+they're using the overlay.&nbsp; In addition, the transmission
+method has
+been optimized to only broadcast when there's a change in the data.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix33</span>
+- Fixed problem where the bottom-left and bottom-right
+animations for parries, broken parries, and knockaways were switched.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix32</span>
+- Fixed problem where a player's dead body wouldn't match their team
+color after respawning in team games.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix31</span>
+- The "where" command now works for non-spectators.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix30</span>
+- Fixed an issue with demo playback lagging for demos recorded in local
+mode.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix29</span>
+- This fix prevents players from kicking private duelers.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix28</span>
+- Fixed a problem where players with who maxed out their ammo
+with an ammo dispensor couldn't pick up the thrown weapons (thermal,
+det pack, etc).</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix27</span>
+- Fixed issue with force lighting doing damage based on the
+server's frames per second.&nbsp; IE, higher sv_fps settings were
+causing
+lightning to do damage very, very fast.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix26</span>
+- Fixed issue with saber collision detection where deactivated blades
+where still counted as hittable areas.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix25</span>
+- This fixes a problem with locked doors unlocking when blocked by an
+object.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix24</span>
+- Players can no longer become invisible by reconnecting to the server
+while inside a vehicle without a visible rider.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix23</span>
+- This bugfix fixes an issue with dropped sabers spawning
+inside objects and then freaking out.&nbsp; This is more of an
+issue in
+Enhanced where dropped sabers occur much more often.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix22</span>
+- This bugfix fixes a problem with players not being properly
+removed/added from a game of powerduel for the next round.&nbsp;
+This
+problem may or maybe not be the result of some TABBots related changes
+or it may be a basejka bug.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Client
+Number Fix (ClientNumFix)</span> - Fixes various ps.clientNum
+errors with
+printing and such.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Crash Log
+(CrashLog)</span> - Run stack traces and such on init and
+shutdown
+so that the game can better give information in the log and shut down
+properly on a crash from server.</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>(Note: MSVC 2003, and newer you must tell MSVC to
+generate a program
+database and must be put in ojp directory for it to work). See ensiform
+for more help on this.</li>
+
+
+
+
+    <li>This can be
+set in the jk2game project under linker debugging (must set for final
+and debug compiles and any other) Generate Debug Info: Yes; Generate
+Program Database File: filename.pdb</li>
+
+
+
+
+    <li>MinGW/gcc and Linux: Do not need to have this pdb file,
+and there is no
+support for mac yet for this at all. &nbsp;Make sure you have your
+windows headers in the correct place for this to work also.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">CoOp</span></li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Finished porting all camera scripting for all the SP
+basejka maps to work with CoOp mode.</li>
+
+
+
+
+    <li>Team overlays now work in CoOp.</li>
+
+
+
+
+    <li>Fixed problem with many SP related messages not
+displaying their messages properly.</li>
+
+
+
+
+    <li>Fixed problem with fraglimit and timelimit drawing @ load
+screen.</li>
+
+
+
+
+    <li>Truely fixed problem with key pickup messages not
+displaying properly.</li>
+
+
+
+
+    <li>Scoreboard now works in CoOp.</li>
+
+
+
+
+    <li><span style="font-style: italic;">give force</span>
+and <span style="font-style: italic;">give inventory</span>
+commands added. &nbsp;Their behavior matches that of their behavior
+in SP.</li>
+
+
+
+
+    <li>Tweaked color codes for secret and autosave touching.</li>
+
+
+
+
+    <li>Fixed problem autosave teleportations resulting in
+players merged into each other.</li>
+
+
+
+
+    <li>Spectators don't get screwed up by cutscenes anymore.</li>
+
+
+
+
+    <li>Exiting a cutscene doesn't cause a visible "camera
+whoosh" back to their player's position.</li>
+
+
+
+
+    <li>Players no longer get merged together after cutscenes.</li>
+
+
+
+
+    <li>Fix a instance of instant death at a certain point in
+t1_sour.</li>
+
+
+
+
+    <li>Players' sabers no longer invisibly clash during
+cutscenes.</li>
+
+
+
+
+    <li>Added t2_rogue, taspir1 as selectable CoOp maps.</li>
+
+
+
+
+    <li>Fixed crash bug on map load for taspir2.</li>
+
+
+
+
+    <li>Fixed some problems with NPC corpses not disappearing
+when they were supposed to.</li>
+
+
+
+
+    <li>Attempted to fix issue with autosave points randomly
+crashing the server with entity overflows.</li>
+
+
+
+
+    <li>Added additional sanity checks to NPC_BSST_Attack to
+prevent a crash bug.</li>
+
+
+
+
+    <li>Fixed crash bug in Q3_SetBState where it was calling into
+NPC functions without setting the NPCGlobals.</li>
+
+
+
+
+    <li>The profile menu no longer displays team color models
+after the player joins a CoOp game.</li>
+
+
+
+
+    <li>The profile menu no longer shows the team join buttons in
+a CoOp game.</li>
+
+
+
+
+    <li>Fixed problem with SET_WEAPON calls with undefined
+weapons causing the
+game to error out.&nbsp; This fixes the problem with the game
+dropping when
+players reach the boss room in vjun3.</li>
+
+
+
+
+    <li>Death scripts now work properly for characters with the
+undying flag
+set.&nbsp; This allows the boss battle with Rosh to be completable.</li>
+
+
+
+
+    <li>Ported SP ICARUS code for the SET_ORIGIN command.</li>
+
+
+
+
+    <li>Players now properly end up on the other side of the
+blocked door at the end of the rocket attack cutscene in t1_sour.</li>
+
+
+
+
+    <li>Ported SP ICARUS code for the SET_ANGLES command.</li>
+
+
+
+
+    <li>Increased POOLSIZE for G_Alloc() to attempt to prevent
+the game from running out of memory on t2_wedge.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Dynamic
+memory allocation for vehicles (DynamicMemory_Vehicles)</span> -
+no
+vehicle limit based on file size, and greatly increased memory
+efficiency for vehicle parsing system. &nbsp;You can use as many
+vehicle as your computer has memory to hold.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Dynamic
+memory for sabers&nbsp;</span><span style="font-weight: bold;">(DynamicMemory_Sabers)</span>
+- No more saber limit, you can use as many sabers as your computer has
+memory to hold. The saber list ui will now display all sabers properly.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Game Tweaks (GameTweaks) </span>- Misc code tweaks to the game side of the code.</li><li><span style="font-weight: bold;">Integer
+Sliders (INTSLIDERS)</span> - A integer based slider has been
+implimented for the menu system under the new type
+ITEM_TYPE_INTSLIDER.&nbsp; To assign only integer values to a
+slider with
+this new type, use cvarint instead of cvarfloat.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Missing
+File Close (MissingFileClose)</span> - Fixes various missing
+trap_FS_FCloseFile calls when they should have been there.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Overflow
+Protection (OverflowProtection)</span> - Adds a variety of tweaks
+to prevent buffer overflows.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Private
+Password Fix (PrivatePasswordFix)</span> - If server is password
+protected,
+and there is a private password, and you attempt to connect using that
+password instead of the one in g_password, you may still connect now.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">RGB Sabers</span>
+- (MP Only) All RGB Saber menu items now use only integer values on the
+color sliders.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Raw Map
+Name (RawMapName)</span> - Adds level.rawmapname for simple use
+of getting the
+mapname without the .bsp on the end and thus not having to make a bunch
+of cvar calls all over the place.</li>
+  <li><span style="font-weight: bold;">SFX Sabers</span> - Added SFX's fancy new movie-like saber blades and trails.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Siege Cvar
+Fix (SIEGECVARFIX)</span> - Retooled the siege code to reduce the
+number of cvars used for internal purposes.&nbsp; This dramatically
+reduces
+the likelyhood of MAX_CVAR recursive errors in Siege.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Taunt Fix
+(TAUNTFIX)</span> - Fixes several issues where saberOff sounds
+would be played
+when attempting to use some of the duel taunts and weapon was not
+really saber, also some extra checks for when to use taunts,
+togglesaber, and saberattackcycle</li>
+
+
+
+
+  <li><span style="font-weight: bold;">VS 2005
+Source Code Port (VS2005)</span> - The OJP source code now
+compiles in
+VS2005.&nbsp;</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId132595"></a>
+Improvements/Fixes</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Admin
+System</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>CenterSay now also duplicates the
+message in the chat buffer and in the game log (so the admin can follow
+admin&lt;-&gt;player conversations).</li>
+
+
+
+
+    <li>Fixed problem with the bot_minplayers
+system making stupid bot removal decisions when the teams are close to
+being even.&nbsp;&nbsp; &nbsp;</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">Ambient
+Player Sounds <span style="font-weight: normal;">-&nbsp;Added
+animevents.cfg for VaderVM model
+so Vader will have his signature breath.</span></li><li style="font-weight: bold;"><span style="font-weight: normal;"><span style="font-weight: bold;">Asteroids</span> - Tweaked method of death code so that it will be more compatible for players without the client plugin.<br /></span></li>
+
+
+
+
+  <li style="font-weight: bold;">Auto Team
+Balancer<span style="font-weight: normal;">&nbsp;-&nbsp;Added
+point spread to the team score
+balancer.&nbsp; CTF/CTY Spread = 2 Captures&nbsp; Team FFA
+Spread = 5&nbsp; All other gametypes don't have team scores so they
+aren't balanced.</span></li>
+
+
+
+
+  <li style="font-weight: bold;">Bot
+Tweak</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Added human player check to the bot
+chat code to make the bots not talk unless human players are on the
+server.&nbsp; This tweak was done to fix the problem of server logs
+getting filled up with bot chat junk.</li>
+
+
+
+
+    <li>Bots now attack other players in the
+JediMaster gametype if the JM saber has been dropped.</li>
+
+
+
+
+    <li>Bots no longer cheat by getting extra
+force powers.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+  <li style="font-weight: bold;">BugFix2</li>
+  <ul>
+    <li>Fixed issue with the timer calculations for single frame animations.</li>
+    <li> Fixed issue where BG_GetTorsoAnimPoint() was basically just a copy of BG_GetTorsoAnimPoint().</li>
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">BugFix10</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Dead NPCs now disappear
+instead of blocking elevators and other moving map objects.</li>
+
+
+
+
+    <li>Fixed a bug where movers
+could move a partially spawned NPC before it has completely
+spawned.&nbsp; This was causing a read memory error in the AI
+Grouping code.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix17</span>
+- Fixed a problem with the fix causing bots to just continuously join
+into a duel/powerduel game when bot_minplayer is non-zero.</li>
+
+
+
+
+  <li style="font-weight: bold;">CoOp</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Fixed problem with scripted voices not
+running for the proper length of time.</li>
+
+
+
+
+    <li>NPCs now scream and fall to their
+deaths when dropped from great heights like in SP.</li>
+
+
+
+
+    <li>Fixed issue where vehicles and droids
+weren't appearing in CoOp mode.&nbsp;</li>
+
+
+
+
+    <li>Implimented SET_FORCE_PROTECT,
+SET_IGNOREPAIN, and SET_INVINCIBLE.</li>
+
+
+
+
+    <li>Fixed problem where some parts of the
+game was acting like all NPCs were enemies to players.&nbsp; This
+was causing a problem where bots were attacking our NPC allies!</li>
+
+
+
+
+    <li>Increased G_Alloc() memory pool to
+prevent crashes on vjun1.</li>
+
+
+
+
+    <li>Added additional autosave points to
+hoth2, hoth3, t1_fatal, t1_rail, t1_sour, t2_rogue, t3_byss, t3_hevil,
+t3_rift, taspir1, taspir2, vjun1, vjun3, and yavin2.</li>
+
+
+
+
+    <li>Fixed problem where NPCs that lost
+their weapon would continue to visibly hold said lost weapon.</li>
+
+
+
+
+    <li>Removed fraglimit voice countdown.</li>
+
+
+
+
+    <li>Fixed problem where seekers were
+scanning for enemies in a small static piece of the map rather than
+immediately around themselves.</li>
+
+
+
+
+    <li>Fixed crash problem involving the
+Seeker NPC.&nbsp; Also fixed issue where it was trying to hover
+around enemy players instead of allied players.</li>
+
+
+
+
+    <li>Crosshair names no longer appear
+during cutscenes.</li>
+
+
+
+
+    <li>Added basic return for
+SET_OBJECTIVE_LIGHTSIDE so that it does not spam that it does not exist.</li>
+
+
+
+
+    <li>The following SET_'s properly work
+now: SET_SHADER_ANIM, SET_DISABLE_SHADER_ANIMS,
+SET_ADJUST_AERA_PORTALS, SET_DMG_BY_HEAVY_WEAP_ONLY, SET_SHIELDED, and
+SET_NO_GROUPS.</li>
+
+
+
+
+    <li>Weapons may only be picked up by
+players if they do not already have the weapon or need ammo for it.</li>
+
+
+
+
+    <li>Added EF_FORCE_VISIBLE and
+EF_DISABLE_SHADER_ANIM eFlags.</li>
+
+
+
+
+    <li>Made it so team, kill, and noclip cmds
+are not able to work while in_camera is qtrue.</li>
+
+
+
+
+    <li>Tweaked BroadcastTeamChange and
+Cmd_Team_f (with no args) to act like you are either free team or
+spectator when sending print/cp.</li>
+
+
+
+
+    <li>Added "misc_model_bomb_planted" and
+"misc_model_beacon" entities.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">CoOp Editor</span>
+-&nbsp;Rewrote the .autosp phrasing to make
+it simplier and more stable.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">CrashLog</span>
+- Added Build Date and Time to the log
+output.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Duel
+Taunts in all Gametypes</span> - Fixed problem where the standard
+taunt wasn't
+playing the full selection of taunt sounds outside of duel/powerduel.</li>
+
+
+
+
+  <li style="font-weight: bold;">Holstered
+Weapons</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Added holster.cfg for VaderVM.</li>
+
+
+
+
+    <li>Tweaked holster.cfg for clonebacara.</li>
+
+
+
+
+    <li>Tweaked holster.cfg for clonebeehive.</li>
+
+
+
+
+    <li>Tweaked holster.cfg for clonebly.</li>
+
+
+
+
+    <li>Tweaked holster.cfg for cloneclassic.</li>
+
+
+
+
+    <li>Tweaked holster.cfg for clonecommander.</li>
+
+
+
+
+    <li>Added holster.cfgs for clonedelta and
+clonemando.</li>
+
+
+
+
+    <li>Fixed bug where a dropped saber was
+rendered as being holstered when using a non-saber weapon.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;"> ICARUS</span>&nbsp;-
+Massive re-write of our
+DeclaredVariables system.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Improved
+Obituaries</span> - Added Obituary messages for all the NPC
+classes.</li>
+
+
+
+
+  <li style="font-weight: bold;">OJP
+Client Plugin Detection</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Changed the way the plugin flag for
+the player is stored.&nbsp; Hopefully this will fix issues with
+players dropping from the game on map restarts or reconnects due to
+poor plugin detection.</li>
+
+
+
+
+    <li>The version detection is now
+associated with the general GAMEVERSION rather than a seperate client
+plugin version.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">Old
+JK2 Gametypes</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Fixed bug where the siege team switch
+option was appearing in the create server menu while making a Team FFA
+game rather than a Siege game.</li>
+
+
+
+
+    <li>Fixed bug where CTF maps were not
+added in the internal lists for CTY to use (callvote, auto map
+rotation, etc) and for the create server/vote menus.</li>
+
+
+
+
+    <li>Fixed problem with the menus loading
+CTF when attempting to start a CTY game.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">RGBSabers</span>
+- Fixed a buffer overflow error that was
+causing crashes with the OJP client when it was compiled with
+gcc.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">SPWAYPOINTS</span>
+- Feature removed because it didn't work correctly.</li>
+
+
+
+
+  <li>TABBots</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Increased the minimum attack range for
+the saber to prevent TABBots from dancing on top of their enemy's heads.</li>
+
+
+
+
+    <li>Bots no longer get in situations where
+they don't click-in at the end of a round.</li>
+
+
+
+
+    <li>TABBots now switch saber styles on
+respawn if they're using a single saber.</li>
+
+
+
+
+    <li>Players can no longer give orders to
+bots on the other team.</li>
+
+
+
+
+    <li>Bots can no longer give orders to each
+other accidentally.</li>
+
+
+
+
+    <li>TABBots no longer stare at navels when
+their current enemy disconnects or switches to spectate.</li>
+
+
+
+
+    <li>TABBots now act properly in CoOp based
+on their team.</li>
+
+
+
+
+    <li>Cleaned up the TABBot enemy selection
+code.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">True View</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Fixed problem with the trueview.cfg
+settings not being loaded.</li>
+
+
+
+
+    <li>Added new option to cg_trueinvertsaber
+(2) to be able to force the third person view while using melee or
+sabers.&nbsp; This new option is the basejka view behavior.</li>
+
+
+
+
+    <li>Added menu option in
+Setup-&gt;Advanced for cg_trueinvertsaber (determines how the
+weapons handle the current 1st/3rd person setting).</li>
+
+
+
+
+    <li>Fixed problem with some models
+(rebel_pilot) not working with True View.</li>
+
+
+
+
+    <li>Fixed problem with the camera freaking
+out whenever the true view using player uses the dual saber special
+flip attack.</li>
+
+
+
+
+    <li>Fixed problem with the primary fire
+disruptor beam not looking like it was coming out of the player's gun
+barrel while using True View.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">UI Tweaks</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Added some missing colons to the
+Setup-&gt;Advanced menu items to make them more consistant with the
+default menus.</li>
+
+
+
+
+    <li>Fixed blank option bug for "Display
+Holstered Weapons" in the ingame menu.</li>
+
+
+
+
+    <li>Fixed bug where the Defaults button
+was highlighting instead of the Advanced button while in the
+Setup-&gt;Advanced menu.</li>
+
+
+
+
+    <li>Cleaned up the Setup-&gt;Advanced
+menu so that it's order of menu options are consistant.</li>
+
+
+
+
+    <li>Cleaned out the FPMessageTime and
+parsedFPMessage code which was active but unused.</li>
+
+
+
+
+    <li>Until we get a full french
+translation, french players will at least see the english version of
+the text messages.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">Vote
+System</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Cleaned up some trap commands in vote
+drawing and have them point to CG_GetStringEdString with Q_strncpyz
+instead.</li>
+
+
+
+
+    <li>Added fraglimit, capturelimit, and
+timelimit to the vote display.</li>
+
+
+
+
+    <li>Added a generic else statement to
+display whatever is in the voteCmd as a whole.</li>
+
+
+
+
+    <li>Added JM and CoOp to list of valid
+displaying Gametypes.</li>
+
+
+
+
+    <li>Added the generic N/A gametype just in
+case...</li>
+
+
+
+
+    <li>Cleared all the char's so that we
+don't get any goofy characters or, non showing up vote data.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId277440"></a>New
+Cvars/Commands</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">/siegeCvarList</span>
+- lists the data and values that were originally stored
+as cvars. (Siege Cvar Fix)</li>
+  <li><span style="font-weight: bold;">sfx_sabers</span> - Turns SFX sabers on/off.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId535143"></a>Version
+0.1.2</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId556973"></a>New
+Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix20</span>
+- Fixed problem with the Bot AI's force power selection not being
+properly handled by the game.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix21</span>
+- Fixed issue with players occasionally moving as if in a saber style
+when using weapons other than the lightsaber.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Expanded MOTD</span>
+- This new feature allows server admins to send a message of the day to
+each client as they join the game.&nbsp; These MOTDs are displayed
+in the
+center of the player's screen when they first join the
+server.&nbsp; This
+MOTD is in addition to the MOTD displayed during map load.&nbsp;
+The MOTD
+that is displayed can be based on weither or not the client is running
+the correct client.&nbsp; See the descriptions for ojp_clientMOTD
+and
+ojp_MOTD.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId169604"></a>Improvements/Fixes</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Admin System</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Added some fancy text wrap to centersay to prevent it
+from cutting off
+words mid-word when wrapping the text to fit on the screen.</li>
+
+
+
+
+    <li>Fixed problem with g_teamForceBalance = 2 not working
+properly.</li>
+
+
+
+
+    <li>Bots removed by bot_minplayers are now removed in a way
+so that they don't conflict with the g_teamForceBalance setting.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">CenterSay</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Tweaked text wrap behavior to be better about not text
+wrapping when not nessicary.</li>
+
+
+
+
+    <li>Fixed text wrapping so it will work without the client
+plugin.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">CoOp</span>&nbsp;-
+Ported Sand Creature's AI from the SP code. (NPCSandCreature)</li>
+
+
+
+
+  <li style="font-weight: bold;">Holstered Weapons</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Added holster.cfg for atst_pilot.</li>
+
+
+
+
+    <li>Added holster.cfgs for the Clones Ultima package by Marz.</li>
+
+
+
+
+    <li>Added holster.cfg for reborn.</li>
+
+
+
+
+    <li>Added holster.cfg for reelo.</li>
+
+
+
+
+    <li>Added holster.cfg for snowtrooper.</li>
+
+
+
+
+    <li>Added holster.cfg for the magnaguard VM player model.</li>
+
+
+
+
+    <li>Added holster.cfg for jetclone playermodel.</li>
+
+
+
+
+    <li>Added menu item for ojp_holsteredweapons to
+Setup-&gt;Advanced menu.</li>
+
+
+
+
+    <li>Fixed bug with holstered weapons appearing on players
+that are invisible due to mindtrick.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">RGBSabers</span>&nbsp;-
+Added menu item for ojp_teamrgbsabers to Setup-&gt;Advanced menu.</li>
+
+
+
+
+  <li style="font-weight: bold;">Server Filters</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Made OJP Basic filter the default server filter to
+encourage OJP Basic usage on servers.</li>
+
+
+
+
+    <li>Removed the OJP Enhanced filter since the OJP Basic
+client doesn't work with it.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">TABBots</span>&nbsp;-
+Fixed the problem with the TABbots crapping out in siege after
+changing the way objectives are checked for validity by the bots.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId854859"></a>New
+Cvars</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">ojp_clientMOTD</span>
+- This is the MOTD that is displayed to players are running the proper
+client plugin.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">ojp_MOTD</span>
+- This is the MOTD that is displayed to players that aren't
+running the proper client plugin.&nbsp; This defaults to a message
+that
+recommends that the player runs the client
+plugin.&nbsp;&nbsp;&nbsp;</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId818482"></a>Version
+0.1.1</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId295905"></a>New
+Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">AdminSys</span>
+- Added /centersay command to enable admins to print messages in the
+center of player's screens in nice big text.&nbsp; Just treat this
+command like /say.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix18</span>
+- Fixed a problem with certain bolted items (holstered
+weapons, flags, and siege items) not updating properly while the player
+is riding a vehicle.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix19</span>
+- Fixed problem with game not properly displaying any message over 50
+characters long with center print.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Map URLs
+(MapURLs)</span> -&nbsp;This feature allows server
+admins to display an URL to download a map if a client doesn't have the
+map.&nbsp; Simply add the map's download URL to "mapURL" (a
+cvar).&nbsp; This
+feature requires that OJP to be running on their machine.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId262526"></a>Improvements/Fixes</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">AdminSys</span>
+-&nbsp;Auto team balancing restrictions now apply to players
+joining teams.&nbsp;
+If you wish to switch teams when the balancer is in full effect, you're
+going to have to talk someone into spectating before moving to the
+other team.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">CoOp</span>
+- Objective related messages are no longer cut off after 50
+characters.&nbsp; See BugFix19.</li>
+
+
+
+
+  <li style="font-weight: bold;">Holstered Weapons</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Fixed problem with the "disabled" holster option throwing
+a bunch of
+error messages ingame.&nbsp; Also tweaked the holster.cfg
+documentation a
+bit on that subject.</li>
+
+
+
+
+    <li>Fixed problem with holstered weapons not sticking to
+player properly while riding vehicles.&nbsp; See BugFix18.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">RGB Sabers</span>
+- Black saber now has white core in saber blur trail.</li>
+
+
+
+
+  <li style="font-weight: bold;">True View</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Fixed problem with True View screwing up the sniper view
+if cg_trueguns is active.</li>
+
+
+
+
+    <li>Changed default cg_truefov to 80 to make the visuals look
+more like the normal view.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId727379"></a>New
+Cvars</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">mapURL</span>
+- Setting this cvar to a map's download URL will display this URL to
+players that don't have the map.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId201446"></a>Version
+0.1.0</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId57041"></a>New
+Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix16</span>
+- Fixed a problem with turrets' splash damage missing a "method of
+death".&nbsp; This was screwing up the death messages for people
+that died from getting hit by turret splash damage.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix17</span>
+- Fixed a problem where bots were getting bumped from the game
+incorrectly whenever a human player tried to spectate a bot.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId983596"></a>Improvements/Fixes</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">AdminSys</span>
+- Altered team balancing behavior so that the bot/human
+balance is only checked when the teams are completely
+balanced.&nbsp; This
+was done to fix a problem with the bot/human balancer doing conflicting
+switches when the team balancer was attempting to even the teams.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Asteroids</span>
+- Fixed bug where the enhanced kill messages for players getting killed
+by vehicles weren't displaying properly.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">CoOp</span>
+- Fixed backwards compatibility issue with the way JKO sets the
+enemy to "the player" by using the keyword "kyle" instead of "player".</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Chat Spam
+Protection</span> - Fixed problem with chat spam protection
+blocking all messagemode3 and messagemode4 messages.</li>
+
+
+
+
+  <li style="font-weight: bold;">Holstered Weapons</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>The position of the holstered weapons can now be
+configured on a
+per-skin basis using holster.cfgs.&nbsp; This operates very similar
+to the
+sounds.cfg files.&nbsp; IE, the holster.cfg for a red team skin
+would be
+holster_red.cfg and the default holster.cfg for a model is simply
+holster.cfg.&nbsp; See the premade holster.cfgs for the file format
+information.</li>
+
+
+
+
+    <li>Added holstered weapon debugging cvars so that players
+can tweak their
+holstered weapons in real-time during the game. (ojp_holsteredweapons,
+ojp_holsterdebug, ojp_holsterdebug_boneindex,
+ojp_holsterdebug_posoffset, ojp_holsterdebug_angoffset)</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">RGB Sabers</span>
+- Added cvar (ojp_teamrgbsabers) to allow players to see RGB sabers
+instead of team-based colors during team games.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">True View</span>
+- Fixed possible memory leak involving True View's config file parser
+not closing the file after reading it.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId131463"></a>New
+Cvars</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Holstered Weapons</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: bold;">ojp_holsteredweapons
+2</span> - controls how holstered weapons are rendered.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">ojp_holsterdebug
+0</span> - Controls the debugging of the holster
+system.&nbsp; Value sets which type of holstered weapon is being
+debugged.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">ojp_holsterdebug_boneindex
+0</span> - Controls which bone that the current debug holsterType
+is based off of.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">ojp_holsterdebug_posoffset
+"0.0 0.0 0.0"</span> - Controls the positional offset for the
+current debug holsterType.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">ojp_holsterdebug_angoffset
+"0.0 0.0 0.0"</span> - Controls the angular offset for the
+current debug holsterType.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">RGB Sabers</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: bold;">ojp_teamrgbsabers
+0</span> - Controls the saber blade colors during team games.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId475338"></a>Version 0.0.9</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId985593"></a>New Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">OJP Client
+Plugin Detection</span> - OJP can now detect when a player is
+running the mod on their computer.&nbsp; This is useful for
+tweaking content based on weither or not the client is running the mod.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId142200"></a>Improvements/Fixes</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">True View</span>
+- Fixed bug with other players' model loads changing the player's True
+View eye position.</li>
+
+
+
+
+  <li style="font-weight: bold;">Holstered Weapons</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Added cvar (ojp_holsteredweapons) to control this feature.</li>
+
+
+
+
+    <li>Not running OJP while on a OJP server no longer makes the
+game crash.&nbsp; (Added client plugin detection)</li>
+
+
+
+
+    <li>Players can now see their own holstered weapons even if
+they are
+running on a server with players that aren't running the mod on their
+systems.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">RGB Sabers</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Renamed the RGB saber blade shader file to prevent weird
+conflicts with certain hilt/blade mods.</li>
+
+
+
+
+    <li>Cleaned up some of the menu descriptions.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId94618"></a>New Cvars</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Holstered Weapons</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: bold;">ojp_holsteredweapons
+2</span> - Controls how holstered weapons are rendered.</li>
+
+
+
+
+    
+    
+    
+    <ul>
+
+
+
+
+      <li>0 = Off</li>
+
+
+
+
+      <li>1 = Only show on your player</li>
+
+
+
+
+      <li>2 = Show on all players</li>
+
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId585909"></a>Version 0.0.8</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId641516"></a>Improvements/Fixes</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Auto Team Balancer</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Team Balancer now correctly moves bots to balance teams
+instead of human players (if possible).</li>
+
+
+
+
+    <li>Auto team balance switches are now logged in the server
+log.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix15</span>
+- Fixed bug with saber styles being switchable when the lightsaber is
+not currently being used.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Holstered
+Weapons (VisualWeapons)</span> - This feature has been reenabled
+and
+now compatible with all player models.&nbsp; (This feature only
+works if the
+player is playing with the OJP mod running on the client side).</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Private Duel
+Enhancements (DuelSys)</span>&nbsp;- You can no longer use
+medpacks while in private duels.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Red Green
+Blue Sabers</span> - Fixed problem with the shader file
+conflicting
+with some saber/blade mods, which resulted in missing textures for the
+RGB blade effects.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId766941"></a>Version 0.0.7b9</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId273787"></a>Improvements/Fixes</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">TABBots</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Bots now go after ammo/weapons when they want/need them
+and while they're hunting around the map for their kill targets.</li>
+
+
+
+
+    <li>Fixed bug with bots not properly aimming ahead of their
+targets.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId192273"></a>Version 0.0.7b8:</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId213088"></a>New Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Admin System</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: bold;">Kick Ally
+Menu</span> - Added a Kick Ally menu to the Call Vote menu make
+it much easier to use the teamkick vote option.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix12</span>
+- Fixed a problem with the g2LastSurfaceHit stuff not
+accounting for ghoul2 hits on models other than the player model (like
+the player's jetpack, weapon, saber, etc).</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix13</span>
+- Detpacks and other player objects can no longer be used to
+block movers (bridges, elevators, etc).&nbsp; This was a major
+exploit on
+siege_hoth.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix14</span>
+- Fixed problem with bots appearing to be on the wrong team in team
+games.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">CoOp</span>&nbsp;-
+Players now automatically have the melee ability in CoOp.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">CoOp Editor
+(CoOpEditor)</span> - Fancy little editor for adding additional
+spawnpoints and autosaves points to make CoOp work better.</li>
+
+
+
+
+  <li style="font-weight: bold;">Private Duel Enhancements
+(DuelSys)</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Private duels are now allowed in team games.</li>
+
+
+
+
+    <li>Players can now do private duels with teammates in team
+games where
+friendly fire is turned on.&nbsp; Now you can take revenge against
+those
+terrible Team Killers!</li>
+
+
+
+
+    <li>You can now allow simultanious private duels by using
+g_multiDuel.</li>
+
+
+
+
+    <li>You can now display the duel stats (shields and
+hitpoints) with g_duelStats.</li>
+
+
+
+
+    <li>You can log duel stats to the game.log with
+g_logDuelStats.</li>
+
+
+
+
+    <li>Added cvar for the amount of time a player must wait
+between private duel invites.</li>
+
+
+
+
+    <li>g_playerDuelShield now determines private duel
+hitpoint/shield settings.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId479186"></a>Improvements/Fixes</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Bot Tweaks</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Added the ability to switch which player can edit
+waypoints with the
+waypoint editor with bot_wp_editornumber.&nbsp; Only the player
+that has
+been designated can see the waypoint data or use the edit commands.</li>
+
+
+
+
+    <li>Added cvars (g_allowBotLimit, g_maxBots, g_minHumans)
+that allow you to
+set a range of minimum players to bots per team instead of the hard
+limit of bot_minplayers.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">BotFPSScaler</span>&nbsp;-
+Removed this feature because it didn't work as intended.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">CoOp</span>
+- Fixed issue with sabers and force powers restrictions not working
+right on yavin1b.</li>
+
+
+
+
+  <li style="font-weight: bold;">RGB Sabers</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Redid the RGB saber textures to make the RGB sabers look
+more like the basejkas sabers.</li>
+
+
+
+
+    <li>Changed the RGB saber icon to make it easier to
+understand what it does.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Old JK2
+Gametypes</span> - The Pull Holocron in Holocron FFA now have the
+correct skin.</li>
+
+
+
+
+  <li style="font-weight: bold;">TABBots</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Bots in JediMaster now always know where the jedimaster
+is.</li>
+
+
+
+
+    <li>Bots now vary saber attack directions.</li>
+
+
+
+
+    <li>Attack distances for the saber tweaked.</li>
+
+
+
+
+    <li>Bots are now better at getting around obsticles and other
+players.</li>
+
+
+
+
+    <li>Bots now accept challenges for private saber duels.</li>
+
+
+
+
+    <li>Added bot routes for all the basejka and bonus maps.</li>
+
+
+
+
+    <li>Fixed problem with the bots using the elevators to
+suicide a lot on Hoth Siege.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">TrueView</span>
+- Updated the trueview.cfg file with True View configs for some popular
+Episode 3 models.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Various UI
+Tweaks</span>&nbsp;- The additional menu options now have
+german and spanish translations.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId145252"></a>New Cvars</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Bot Tweaks</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: bold;">bot_wp_editornumber
+0</span> - This cvar sets which client (by client number)
+is the editing person.&nbsp; Only this person recieves the waypoint
+info or
+can issue waypoint commands.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">g_allowBotLimit
+0</span> - enables the bots to remain on the server when players
+exist.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">g_maxBots</span>
+- Maximum amount of bots (per team) allowed on the server at a given
+time.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">g_minHumans</span>
+- minimum amount of players (per team) allowed on the server before the
+bots leave.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">Private Duel Enhancements</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: bold;">g_multiDuel
+1</span> - Toggles weither or not multiple private duels are
+permitted at the same time.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">g_duelStats
+1</span> - Sets who recieves private duel stat information.</li>
+
+
+
+
+    
+    
+    
+    <ul>
+
+
+
+
+      <li>0 = noone</li>
+
+
+
+
+      <li>1 = duelers</li>
+
+
+
+
+      <li>2 = everyone on server</li>
+
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+    <li><span style="font-weight: bold;">g_logDuelStats
+0</span> - Toggles the recording of private duel stats to
+game.log.&nbsp; Great for tracking stats!!</li>
+
+
+
+
+    <li><span style="font-weight: bold;">g_duelTimer
+10</span> - how long you have to wait until your next duel in
+seconds, default is 10.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">g_playerDuelShield
+50</span> - the shield value you start with in a private
+duel.&nbsp; Set this to -1 to not restore pre-duel health/shields
+to duel
+winners and not give full health to starting duelers.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId950491"></a>Version 0.0.7b7</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId939005"></a>New Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Admin System</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: bold;">Auto
+Suicider kick/ban System (forgot to document)</span> - New system
+that
+automatically kicks and/or bans players that abuse the (/kill) command
+too much.&nbsp; See New Cvars.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">Chat Spam
+Protection (ChatSpamProtection)</span> - The chat channels are
+now
+protected against people spamming the channels, use ojp_chatProtectTime
+to set how often you can send chat messages.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix10</span>
+- Elevators are no longer blocked by dead body limbs or dropped weapons.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix11</span>
+- Fix for problem with bots being blocked from getting into password
+protected servers.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">weapons.dat
+(WEAPONSDAT)</span> - CoOp now uses the /ext_data/weapons.dat (sp
+weapon data file) to override the weapon/ammo data.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId572244"></a>Improvements</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Auto Team
+Balancer</span> - New option (g_teamForceBalance) to balance the
+humans/bots on the teams in addition to the standard team balancing.</li>
+
+
+
+
+  <li style="font-weight: bold;">CoOp</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Made turrets work.&nbsp; They now use and regen ammo.</li>
+
+
+
+
+    <li>Disabled warm up for CoOp to prevent problems.</li>
+
+
+
+
+    <li>Fixed problem with players being visible when they spawn
+in during camera scripting.</li>
+
+
+
+
+    <li>Fixed bug where NPCs weren't firing at players that had
+been in a cutscene.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId694212"></a>New Cvars</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">g_autoBanKillSpammers</span>
+- Auto ban a player after this many suicides (/kill). 0 = no limit.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">g_autoKickKillSpammers</span>
+- Auto kick a player after this many suicides (/kill). 0 = no limit.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">ojp_chatProtectTime</span>
+- Sets how often a player can send text messages.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId425397"></a>Version 0.0.7b6</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId819601"></a>New Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix9</span>
+- Fixed a problem with spectators getting kicked when following bot
+players.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId586972"></a>Improvements</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">BotTweaks</span>
+- Human specators don't count towards the bot_minplayer checks unless
+it's powerduel/duel.</li>
+
+
+
+
+  <li style="font-weight: bold;">TABBots</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Bots can actually play JediMaster mode now.</li>
+
+
+
+
+    <li>Bots now use contour tracing to navigate around obsticles
+if they can.&nbsp; This improves their ability to get around things.</li>
+
+
+
+
+    <li>Bots now correctly join siege games instead of sometimes
+getting stuck in spectator mode.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId91366"></a>Version 0.0.7b5</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId379000"></a>Improvements</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">AdminSys</span>
+- kick votes automatically try to do a teamkick vote if normal kicking
+is disabled.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Old JK2
+Gametypes</span> - OJP now automagically creates the jedimaster
+spawn point
+on maps that don't have jedimaster support.&nbsp; Meaning that all
+maps now
+support JediMaster mode by defualt.&nbsp; Menus now reflect this.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">ROQFiles</span>
+- g_allowROQ (0):&nbsp; cvar to enable/disable ROQ
+playing.&nbsp; ROQ playing doesn't currently work with multiple
+players.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">TABBots</span>
+- TABBots can now play JediMaster mode.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId894059"></a>Version 0.0.7</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId284959"></a>New Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">AOTCAI</span>
+- Added AotC TC bot ai code as a new bot type.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BotFPSScaler</span>
+- added system to dynamically scale the bot AI to prevent
+the bot AI from slowing the server fps down too much.&nbsp; Use
+ojp_BotCPUUsage to set the percentage of the sv_fps the bot ai is
+allowed to use.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Extra Vehicle
+Implementation</span> - New cloaking ability option for
+vehicles.&nbsp; Vehicles with cloak can be cloaked by pressing the
+Use
+Forcepower button.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">ImprovedObituary</span>
+- NPCs now have names in the Obituary messages.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Mac Port </span>-
+Code now ready for Mac Port compiling.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">RandomBotNames</span>
+- Bots that are randomly added to the game now have randomly created
+names.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">ROQFiles</span>
+- scripting supported added to MP.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">SP Waypoints
+Used by MP Bots (SPWAYPOINTS)</span> - Ability to let the MP bots
+use the SP waypoints for
+navigation in addition to the MP bot waypoints.&nbsp; This should
+in theory
+give bots limited support on SP maps.&nbsp; Use ojp_spwaypoints to
+toggle.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Water Jump
+Fix (WATERJUMPFIX)</span> - Fixed problem with players not being
+able jump up onto ledges from in water.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">VehicleTweaks</span>
+- Player's in fighters now have their views follow the rolling of the
+vehicle.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3 style="font-weight: bold;"><a class="mozTocH3" name="mozTocId930759"></a>Improvements</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Auto Team
+Balancer</span> - Bots are now switched before humans by the
+balancer.<span style="font-weight: bold;"></span></li>
+
+
+
+
+  <li><span style="font-weight: bold;">Cooperative</span>
+- Massive updates.<span style="font-weight: bold;"></span></li>
+
+
+
+
+  <li><span style="font-weight: bold;">Holstered
+Weapons</span> - This feature has been disabled to enable OJP
+Basic
+to work in server-only mode.&nbsp; Please let us know if you want
+this
+feature reenabled and/or improved.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId809754"></a>Version 0.0.6</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId588065"></a>New Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Admin System</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: bold;">Auto Team
+Balancer</span> - This admin feature allows the server to
+automatically scan for team&nbsp;imbalance every 30
+seconds.&nbsp; If an imbalance is found, the newest player on the
+larger team will be switched to the other team.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">Vote Control</span>
+      <span style="font-weight: bold;">(VoteSys) </span>-
+Admins can now select which vote items they want players to be able to
+vote on.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">CoOp (CoOp)</span>
+- New gametype allows players to cooperatively take on the singleplayer
+missions.&nbsp; This is a work in progress. <a href="OJP_coop.txt">See OJP_coop.txt.</a></li>
+
+
+
+
+  <li><span style="font-weight: bold;">Linux Compile
+(Linux)</span> -&nbsp;The OJP code will now compile on the
+gcc compiler for Linux.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Misc</span>
+-&nbsp;Completely rewrote bot_minplayers so that it will function
+as intended.<br />
+
+
+
+
+  </li>
+
+
+
+
+  <li><span style="font-weight: bold;">TAB Bots
+(TABBots)</span> - Totally redesigned AI bots for
+multiplayer.&nbsp; WIP. Currently works on all the default Siege
+maps and all FFA gametypes.&nbsp; <a href="OJP_bots.txt">See
+OJP_bots.txt.</a></li>
+
+
+
+
+  <li><span style="font-weight: bold;">Various Menu
+Tweaks</span> - Doubled the number of skins icons that will be
+displayed in the player selection menu.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId312062"></a>Improvements</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Admin System</span>
+- The vote command ("/vote") and the
+yes/no menu options now apply to both team votes and general
+votes.&nbsp; In terms of priority, team votes are voted on before
+general votes.</li>
+
+
+
+
+  <li style="font-weight: bold;">Bug Fixes</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Fixed serious issue with siege capture items
+(misc_siege_item) getting stuck in walls and then floating out of the
+map.</li>
+
+
+
+
+    <li>Fixed stack overflow in CalculateRanks().</li>
+
+
+
+
+    <li>Placed #ifndef FINAL_BUILD in places that were missed,
+causing compile errors.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Various UI
+Tweaks (UITweaks)</span> - You can now use the bot selection menu
+in the server/game creation menus to add specific bots in Siege.&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId221297"></a>New Cvars</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li>ojp_skipcutscenes - Controls how the server handles the
+skipping of cutscenes during CoOp missions.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId524230"></a>Version 0.0.5</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId895087"></a>New Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li style="font-weight: bold;">Admin System</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Auto TK (team killers) kick/ban admin cvars
+(g_autoKickTKSpammers/g_autoBanTKSpammers) with auto warning system.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">Expanded IP
+Banlist</span> - The IP banlist now uses an externally stored
+file
+(banip.txt) to ban certain IP addresses from the server.&nbsp; You
+can use
+incomplete IPs (IE 192.246.40) to ban entire subnets.&nbsp; Use the
+standard
+commands <span style="font-weight: bold;">addip</span>,
+      <span style="font-weight: bold;">removeip</span>,
+and <span style="font-weight: bold;">listip</span>
+to use this feature.</li>
+
+
+
+
+    <li>Client IPs are now recorded to the game log whenever a
+client
+connects.&nbsp; This is so admins can easily ban troublemakers
+after the
+fact.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">Team Kicking</span>
+- You can now kick members of your own team using the
+voting menu while in team gametypes.&nbsp; Use g_allowTeamVote to
+toggle.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Asteroids
+Code (ASTEROIDS) </span>- All the Asteroids Mod code has been
+ported to OJP.&nbsp; You can now use Asteroids' maps without
+problems.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix6</span>
+- Twi'lek "skirts" 3 and 4 are now twosided (added z_newstuff.shader)</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix5</span>
+- Fixed minor bug with saber clash effect logic.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix4</span>
+- Fixes an issue with Linux servers and RandFloat.&nbsp; It was
+causing all sorts of weird issues.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix3</span>
+- Fixes bug in the fall damage code that causes client number
+0 to always take Jedi style fall damage even when not meeting any of
+the Jedi style requirements.<span style="font-weight: bold;"></span></li>
+
+
+
+
+  <li><span style="font-weight: bold;">BugFix2 </span>-
+Fixes a major issue with the animation timer calculation in
+MP.&nbsp; The animation timers are now calculated correctly and
+this should
+help with animations that play in Force Rage, Force Speed, or at odd
+saber animation speeds.</li>
+
+
+
+
+  <li style="font-weight: bold;">Bot Tweaks (BotTweaks)</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Bots in honorable duel acceptance mode
+(bot_honorableduelacceptance 1)
+now require you to fully holster your saber before accepting a saber
+challenge.</li>
+
+
+
+
+    <li>Add Bot menu commands added to vchat menu, so the addbot
+menu is now availible in all team gamemodes.</li>
+
+
+
+
+    <li><span style="font-weight: bold;">Bot AI FPS
+Cvar</span> - You can now control how often (in
+fps) the Bot AI is processed by using the bot_fps cvar.&nbsp;
+NOTE:&nbsp; The Bot
+AI can't be done faster than the current server fps (sv_fps).</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Bots can now move thru all areas that players can.</li>
+
+
+
+
+    <li>Cleared up the strafe code a bit to reduce CPU useage.</li>
+
+
+
+
+    <li>Changed the default settings for both
+"bot_wp_distconnect" and "bot_wp_visconnect to off.</li>
+
+
+
+
+    <li>Removed some redundent code.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Dismemberment
+Enhancements</span> - Players can now have more than one limb
+lopped off at a time and explosive attacks now blow players to
+pieces.&nbsp;
+Note:&nbsp; This doesn't work for bodies after the player has
+respawned.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Extra Vehicle
+Implementation</span> - specifically for VH_WALKER vehicles.
+Allows Droideka vehicles.&nbsp; See OJP_vehicles.txt for more
+details.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Holstered
+Weapons (VisualWeapons)</span> - You can now see the weapons
+you're carrying (but
+not using) holstered on your player's body.&nbsp; Note:&nbsp;
+This feature
+currently requires that you to specially prepare your model for this
+feature.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">More Vehicles</span>
+- The game code has been changed to up the vehicle limit
+from 16 to 64 different vehicle files.&nbsp; This means you can
+have 64
+different types of vehicle models (You can spawn up to 128 vehicles
+total.)&nbsp;&nbsp;</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: bold;">Note:</span>&nbsp;
+Different vehicle skins count against the vehicle model
+total. &nbsp;In addition, the vehicle weapon limit has been raised
+from 16 to 64.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Match Warm Ups</span>
+- You can now set a warm up period before the beginning
+of all non-duel gametypes.&nbsp; You can find options for this in
+the create
+server menu under the advanced tab.&nbsp; Also see OJP_cvars.txt
+for details
+on the cvars that control the warm ups.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">More Weapon
+Disable Options</span> - You can now disable any weapon in the
+game in any combination except for having all weapons (including melee)
+disabled. This is controled by the weapondisable cvars (g_weaponDisable
+and g_duelWeaponDisable).&nbsp; Ammo now correctly disappears when
+the
+weapons for that ammo type are disabled.&nbsp; You now have menu
+options for
+Melee Only, Sabers &amp; Melee Only, and No Explosives.</li>
+
+
+
+
+  <li style="font-weight: bold;">Old JK2 Gametypes</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li style="font-weight: bold;">Holocron FFA</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    
+    
+    
+    <ul>
+
+
+
+
+      <li>Added holocron points for all JKA FFA maps in the form
+of an external file.</li>
+
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+    
+    
+    
+    <ul>
+
+
+
+
+      <li>Added holocron commands "!addholocron",
+"!saveholocrons" and "!spawnholocron" while in bot_wp_edit mode.</li>
+
+
+
+
+      <li>Added holocron point hpf files from AOTCTC for
+compatability.</li>
+
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">RGB Sabers
+(RGBSabers)</span> - The creator of the very well known RGB
+sabers for JK2,
+Tchouky, has exclusively given OJP his RGB sabers code for
+JKA.&nbsp; It's
+been greatly improved over his JK2 version and now supports a black
+cored saber, RGB sabers, "Pimp" sabers (a saber that randomly shifts
+colors), a powerful RGB saber scripting system (so you can have your
+saber shift colors to your liking), full bot support for the system,
+and easy to use menus.</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>For those that don't know what RGB Sabers are, it simply
+means that you
+can choose your saber color from over 16 million unique colors (by
+using a 24 bit RGB scale).</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li><span style="font-weight: bold;">True View
+(TrueView) </span>- True View is a realistic first person view
+for all weapons
+(including melee mode) that allows you to play the game from inside
+your character.&nbsp; Roll and you'll see your body roll.&nbsp;
+Look down and
+you'll see your feet.&nbsp; True View adds multiple options to the
+game so
+be sure to check the cvar list and readme for details on how to get the
+most from True View.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Various Code
+Tweaks (MiscCodeTweaks)</span> -&nbsp;Fixed a bug with debug
+compiles that caused the animation parsing
+function to display a minor error whenever it processed the ROOT
+animation.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Various Map
+Tweaks&nbsp;</span>- All basejka Duel Maps are now availible
+as FFA maps.&nbsp; Duel maps are great for a low number of players
+or against bots.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Various
+Server Tweaks</span>&nbsp;- g_saberdamagescale is now a
+server info cvar.&nbsp; This means you can now
+use third party server browsers, like the All Seeing Eye, to create
+filters useing this cvar.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId517875"></a>Improvements</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Old
+JK2 Gametypes (OLDGAMETYPES)</span> - The create server menus now
+only show maps that
+support the selected gametype.&nbsp; In addition, the various
+gametype
+options now display for the correct gametypes.&nbsp; Added "team"
+(team ffa)
+map type to .arena file options.&nbsp; I've added a fix to the map
+selector
+function to prevent the asteroid maps from being used in FFA mode.</li>
+
+
+
+
+  <li style="font-weight: bold;">More Force Disable Options</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Force Powerup items are no longer disabled for partial
+force setups.</li>
+
+
+
+
+    <li>Fixed menu overlapping problem in the advanced options of
+the create a server menu.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+  <li style="font-weight: bold;">TABBots</li>
+
+  
+  <ul>
+
+    <li>Added support for Hoth and Desert.</li>
+
+    <li>Added three tiered AI structure.</li>
+
+    <li>Improved waypoint routing for Seige Korriban.</li>
+
+    <li>Bots now set ready at game intermission.</li>
+
+    <li><span style="font-weight: bold;">New waypoint flags (these only apply to the TAB Bots)</span> - WPFLAG_BLUEONLY,&nbsp;WPFLAG_DESTROY_FUNCBREAK,&nbsp;WPFLAG_FORCEPULL,&nbsp;WPFLAG_FORCEPUSH,&nbsp;WPFLAG_REDONLY</li>
+
+    <li>New WPFLAG_JUMP behavior. &nbsp;Bots will now jump to jump
+waypoints even if the startpoint is higher than the the waypoint.&nbsp;
+This is so you can jump across level-grounded gaps.</li>
+
+    <li><span style="font-weight: bold;">WPFLAG_FORCEPUSH Changes</span>
+- This now also makes bots attempt to press nearby buttons or hack
+doors.&nbsp; If there's a hackable door but the bot can't hack it,
+he'll try to destroy the control panel if that's an option.</li>
+
+    <li><span style="font-weight: bold;">Siege Class auto switching</span>
+- Bots automatically pick the classes nessicary for a job if noone else
+can currently do it.&nbsp; In addition, bots will attempt to keep the
+siege classes balanced when they join the game.</li>
+
+    <li>TABBots are now able to get to attack to final objective of Korriban.&nbsp; Able to defend all.</li>
+
+    <li>TABBots can now actually join into siege games already in progress instead of just staying in spectator mode.</li>
+
+    <li><a href="OJP_Bots.html#TABBotsSiegeObjectives">TABBots now defend/attack siege objectives in random order.</a></li>
+
+    <li>TABBots use Katas.</li>
+
+    <li>Text based bot ordering system</li>
+
+    <li>Using computer science's best known real time pathfinding
+system, the A* Algorethm, TAB Bots now take the shortest possible
+waypoint route to get to where they want to go.</li>
+
+    <li>Various behavioral upgrades.</li>
+
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">Various UI Tweaks</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>Server filter names for OJP Basic and OJP Enhanced now
+display correctly.</li>
+
+
+
+
+    <li>Siege is now a selectable gametype in the Solo
+(quickgame) game setup menus.</li>
+
+
+
+
+    <li style="font-weight: bold;">Additional SP Menu
+Options</li>
+
+
+
+
+    
+    
+    
+    <ul>
+
+
+
+
+      <li style="font-weight: bold;">Setup<span style="font-weight: bold;">-&gt;</span>Advanced
+Menu</li>
+
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+    
+    
+    
+    <ul>
+
+
+
+
+      
+      
+      
+      <ul>
+
+
+
+
+        <li><span style="font-weight: bold;">Game
+speed</span> - timescale (5 presets--very slow, slow, normal,
+fast, very fast)</li>
+
+
+
+
+        <li><span style="font-weight: bold;">"Hovering"
+health bars (bars above each character)</span> -
+cg_debughealthbars</li>
+
+
+
+
+        <li><span style="font-weight: bold;">Kung-Fu
+Style Melee</span> - g_debugmelee</li>
+
+
+
+
+        <li><span style="font-weight: bold;">Pick Up
+Sabers</span> - g_saberPickuppableDroppedSabers</li>
+
+
+
+
+        <li><span style="font-weight: bold;">Saber
+Anim Speed</span> - g_saberanimspeed (5 presets--very slow, slow,
+normal, fast, very fast)</li>
+
+
+
+
+        <li><span style="font-weight: bold;">Saber
+Realism</span> - g_sabermorerealistic</li>
+
+
+
+
+        <li><span style="font-weight: bold;">Wireframe</span>
+- r_showtris</li>
+
+
+
+
+      
+      
+      
+      </ul>
+
+
+
+
+      <li style="font-weight: bold;">Setup-&gt;Options
+Menu</li>
+
+
+
+
+      
+      
+      
+      <ul>
+
+
+
+
+        <li><span style="font-weight: bold;">Crosshair
+Size</span> - small/med/large</li>
+
+
+
+
+        <li><span style="font-weight: bold;">Crosshair
+Type</span> - crosshairs 1-8</li>
+
+
+
+
+      
+      
+      
+      </ul>
+
+
+
+
+      <li style="font-weight: bold;">Controls-&gt;Other</li>
+
+
+
+
+      
+      
+      
+      <ul>
+
+
+
+
+        <li><span style="font-weight: bold;">Zoom</span>&nbsp;- zoom goggles (primary fire zooms in,
+secondary zooms out, cannot fire)</li>
+
+
+
+
+      
+      
+      
+      </ul>
+
+
+
+
+      <li style="font-weight: bold;">Misc</li>
+
+
+
+
+      
+      
+      
+      <ul>
+
+
+
+
+        <li>Update to missionfailed.menu (now has Quit Game as an
+option)</li>
+
+
+
+
+        <li>Melee added to ingameweaponselect.menu (no icon --
+just automatically loads for new missions)</li>
+
+
+
+
+      
+      
+      
+      </ul>
+
+
+
+
+      <li><span style="font-weight: bold;">Note:&nbsp;</span>
+Players can have the advanced SP settings stay the way they want if
+they copy/paste the following lines to the bottom of their
+jaconfig.cfg...</li>
+
+
+
+
+      
+      
+      
+      <ul>
+
+
+
+
+        <li>seta r_showtris "0"</li>
+
+
+
+
+        <li>seta g_saberanimspeed "1"</li>
+
+
+
+
+        <li>seta g_saberPickuppableDroppedSabers "0"</li>
+
+
+
+
+        <li>seta cg_debugHealthBars "0"</li>
+
+
+
+
+        <li>seta g_sabermorerealistic "0"</li>
+
+
+
+
+        <li>seta g_debugmelee "0"</li>
+
+
+
+
+        <li>bind z "zoom"</li>
+
+
+
+
+      
+      
+      
+      </ul>
+
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+
+    <li style="font-weight: bold;">Additional MP Menu Options</li>
+
+
+
+    
+    
+    
+    <ul>
+
+
+
+      <li style="font-weight: bold;">Setup<span style="font-weight: bold;">-&gt;</span>Advanced
+Menu</li>
+
+
+
+      
+      
+      
+      <ul>
+
+
+
+        <li><span style="font-weight: bold;">Framerate</span> - cg_drawFPS</li>
+
+
+
+        <li><span style="font-weight: bold;">Lagometer</span> - cg_lagometer</li>
+
+
+
+      
+      
+      
+      </ul>
+
+
+
+      <li style="font-weight: bold;">Setup-&gt;Options
+Menu</li>
+
+
+
+      
+      
+      
+      <ul>
+
+
+
+        <li><span style="font-weight: bold;">Crosshair
+Size</span> - small/med/large</li>
+
+
+
+        <li><span style="font-weight: bold;">Crosshair
+Type</span> - crosshairs 1-8</li>
+
+
+
+      
+      
+      
+      </ul>
+
+
+
+      <li><span style="font-weight: bold;">Note:
+&nbsp;</span>Players can have the Lagometer ADVANCED MP cvar stay the way they want
+if they copy/paste the following to the bottom of their jampconfig.cfg.</li>
+
+
+
+      
+      
+      
+      <ul>
+
+
+
+        <li>seta
+cg_lagometer "0"<br />
+
+
+
+        </li>
+
+
+
+      
+      
+      
+      </ul>
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+</ul>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId473754"></a>New Cvars/Commands</h3>
+
+
+
+
+<ul>
+
+
+
+  <li><span style="font-weight: bold;">g_autoBanTKSpammers 0</span>&nbsp; - Auto
+IP bans TKs after this many team kills. 0 = no limit.</li>
+
+
+
+  <li><span style="font-weight: bold;">g_autoKickTKSpammers 0</span> - Kicks a player
+after this many team kills. 0 = no limit.</li>
+
+
+
+  <li><span style="font-weight: bold;">g_allowGametypeVote</span> - Allow Gametype
+voting</li>
+
+
+
+  <li><span style="font-weight: bold;"> g_AllowKickVote</span> - Allow kick
+votes.&nbsp; Note: This does not apply to the Team Kicking
+mentioned above.&nbsp;&nbsp;&nbsp;</li>
+
+
+
+  <li><span style="font-weight: bold;">g_AllowMapVote</span> - Allow map change votes</li>
+
+
+
+</ul>
+
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId242789"></a>Version
+0.0.4</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId934188"></a>New
+mod configuration</h3>
+
+
+
+
+OJP Basic now operates as a /GameData style mod.&nbsp; This means
+that
+you'll now have to load the mod using the Setup-&gt;Mods
+menu.&nbsp; Be
+sure to delete your old OJP Basic files.<br />
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId862139"></a>New
+Features </h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Ambient
+Player Sounds</span> -
+Players now have the ability to setup two fully customizable ambient
+sounds (Vader's resporator breathing, sensor ping, breathing, whatever
+you want) See ojp_readme.txt and ojp_animevents.txt for details.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Animevents
+System Overhaul</span> - animevent.cfg files are now fully
+functional.&nbsp; In addition, all players can use per-model
+animevent.cfg
+files to customize their character's animation linked
+sounds/effects.&nbsp;
+See OJP_readme.txt and OJP_animevents.txt for details.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Duel Taunts
+in all Gametypes</span> - You can now use all the duel emotes in
+all gametypes.&nbsp; </li>
+
+
+
+
+  <li><span style="font-weight: bold;">Old JK2
+Gametypes</span> - Reintroduces the old JK2 gametypes Holocron
+FFA, Jedi Master, and Capture the Ysalimari.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">More Force
+Disable Options</span> - You can now set "Jump Only" and
+"Neutrals
+Only" for the Force Disable (now called "Force Powers") option.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Realistic
+Saber Menu Settings</span> - Added menu option to SP to allow you
+to turn on different levels of saber damage realism. </li>
+
+
+
+
+  <li><span style="font-weight: bold;">Various UI
+Tweaks:</span></li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li>The map loading screen is now less vague about the
+server's disabled
+Force Powers setting.&nbsp; It also now has support for the More
+Force
+Disable Options feature.</li>
+
+
+
+
+    <li>Server filters for OJP Basic and OJP Enhanced.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId100357"></a><span style="font-weight: bold;"></span>Improvements</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">RGB Character
+Color Menu Options</span> - Added the option to use float values
+to set the player color.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Improved Bot
+Routing</span> - Improved bot routing added for mp/duel6.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId650848"></a>Version
+0.0.3</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId226733"></a>New
+Features</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">RGB Character
+Color Menu Options</span> - Added a submenu that allows you to
+pick any color for your character's color with simple slide bars.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Hidden Lannik
+Racto Skin</span> - Made the Lannik Racto skin selectable in the
+MP skins menu.&nbsp; Also created icon for said skin.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId806197"></a>Improvements</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Improved Bot
+Routing</span> - Improved bot routing added for mp/duel8.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Various Bot
+Tweaks</span> - The Lannik Racto bot now uses the correct model
+and icon.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId735776"></a>Version
+0.0.2</h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId861113"></a>New
+Features</h3>
+
+
+
+
+<ul style="font-weight: bold;">
+
+
+
+
+  <li><span style="font-weight: bold;">Improved Bot
+Routing</span> - <span style="font-weight: normal;">The
+bot routing for the mp/duel3 and mp/ffa5 maps has been redone and
+improved.</span></li>
+
+
+
+
+  <li><span style="font-weight: bold;">SP Dual/Staff
+Menu </span>- <span style="font-weight: normal;">The
+starting SP saber selection menu has been altered to allow you to
+select the dual sabers or the saber staff from the beginning of the
+game. In addition, you can now select a red blade in SP.</span></li>
+
+
+
+
+  <li>Various Bot Tweaks:</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li><span style="font-weight: normal;">The Luke
+bot now uses the skywalker saber (single_skywalker) that is included in
+the game.</span></li>
+
+
+
+
+    <li style="font-weight: normal;">Chewie now speaks in
+Wookie.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+  <li style="font-weight: bold;">Various Menu Tweaks:</li>
+
+
+
+
+  
+  
+  
+  <ul>
+
+
+
+
+    <li style="font-weight: normal;">Shadow options are
+now in both SP and MP.&nbsp; Projected shadows are now an option.</li>
+
+
+
+
+    <li style="font-weight: normal;">Light Flare option in
+the MP ingame More video Options menu.</li>
+
+
+
+
+    <li style="font-weight: normal;">Dynamic Glow option
+in the MP ingame More video Options menu.</li>
+
+
+
+
+  
+  
+  
+  </ul>
+
+
+
+
+</ul>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId895257"></a>Improvements</h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Hidden JKA
+Saber Hilts</span> - The hilts now show up in the SP saber menu.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Hidden Hoth
+Skins</span> - Moved to the Skins Pack to cut down on Basic's
+file size.</li>
+
+
+
+
+</ul>
+
+
+
+
+<h2><a class="mozTocH2" name="mozTocId468032"></a><span style="font-weight: bold;">Version 0.0.1</span></h2>
+
+
+
+
+<h3><a class="mozTocH3" name="mozTocId904626"></a>New
+Features<span style="font-weight: bold;"></span></h3>
+
+
+
+
+<ul>
+
+
+
+
+  <li><span style="font-weight: bold;">Bug Fix 001</span>
+-
+Animation.cfg fix for BOTH_WALKBACK2. &nbsp;Fixes an animation bug
+seen
+when walking backwards with an ignited single saber in single player by
+correcting the number of frames.</li>
+
+
+
+
+  <li><span style="font-weight: bold;">Hidden JKA
+Saber Hilts</span> - Adds
+to multiplayer the Retribution (Desann's), the Skywalker (Luke
+Skywalker's Saber), and the Stinger (default Reborn's) saber
+hilts.&nbsp;
+These hilts come with the game but are by default hidden from use.<span style="font-weight: bold;"></span></li>
+
+
+
+
+  <li><span style="font-weight: bold;">Hoth Custom
+Player Clothing</span> -
+Added the ability to select the Hoth clothes for all the built-in
+player classes.&nbsp; You can also now select the color of Hoth
+outfit.<span style="font-weight: bold;"><br />
+
+
+
+
+    </span></li>
+
+
+
+
+</ul>
+
+
+
+
+</body></html>
