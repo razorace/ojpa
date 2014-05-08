@@ -1,0 +1,4449 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+  
+  
+  <title>OJP Cvars and Commands</title></head>
+
+<body>
+
+
+
+<h1 style="text-align: center;">Open Jedi Project Cvars
+&amp; Commands</h1>
+
+
+
+$revision$<br>
+
+
+
+<h2><a class="mozTocH2" name="mozTocId838714"></a>Table of Contents</h2>
+
+
+<ul id="mozToc"><!--mozToc h2 1 h3 2 h4 3 h5 4 h5 5 h6 6--><li><a href="#mozTocId838714">Table of Contents</a></li><li><a href="#mozTocId475506">Introduction</a></li><li><a href="#mozTocId638941">Keywords</a></li><li><a href="#mozTocId578431">Cvars &amp; Commands</a><ul><li><a href="#mozTocId556992">/addip</a></li><li><a href="#mozTocId35968">bot_attachments 1</a></li><li><a href="#mozTocId136079">bot_forgimmick 0</a></li><li><a href="#mozTocId307832">bot_fps 20</a></li><li><a href="#mozTocId765668">bot_getinthecarrr 0</a></li><li><a href="#mozTocId675983">bot_honorableduelacceptance 0</a></li><li><a href="#mozTocId730521">bot_nogoals 0</a></li><li><a href="#mozTocId126788">bot_pvstype 1</a></li><li><a href="#mozTocId455497">bot_wp_editornumber 0</a></li><li><a href="#mozTocId536287">/centersay</a></li><li><a href="#mozTocId898825">cg_centertime 3&nbsp; (OJP 7)</a></li><li><a href="#mozTocId619062">cg_chatbox 10000</a></li><li><a href="#mozTocId778058">cg_chatboxheight 350</a></li><li><a href="#mozTocId575770">cg_dynamicCrosshair 1</a></li><li><a href="#mozTocId75752">cg_fov 80</a></li><li><a href="#mozTocId292894">cg_RenderToTextureFX</a></li><li><a href="#mozTocId51386">cg_thirdPersonCameraDamp 0.3</a></li><li><a href="#mozTocId272577">cl_timenudge 0</a></li><li><a href="#mozTocId283168">cg_trueeyeposition 0</a></li><li><a href="#mozTocId303104">cg_trueflip 0</a></li><li><a href="#mozTocId344738">cg_truefov 80</a></li><li><a href="#mozTocId714747">cg_trueinvertsaber 1</a></li><li><a href="#mozTocId869597">cg_trueguns 0</a></li><li><a href="#mozTocId35278">cg_trueroll 0</a></li><li><a href="#mozTocId518260">cg_truemoveroll 0</a></li><li><a href="#mozTocId988620">cg_truesaberonly 0</a></li><li><a href="#mozTocId803065">cg_truespin 0</a></li><li><a href="#mozTocId234195">cg_turnAnims 0</a></li><li><a href="#mozTocId672405">com_maxfps 85</a></li><li><a href="#mozTocId578911">/cvarlist</a></li><li><a href="#mozTocId54636">d_saberInterpolate 2</a></li><li><a href="#mozTocId210722">/DebugKnockMeDown</a></li><li><a href="#mozTocId804948">dmflags 0</a></li><li><a href="#mozTocId322335">/forceteam &lt;player&gt;
+&lt;team&gt;</a></li><li><a href="#mozTocId831262">fs_game " Default:"</a></li><li><a href="#mozTocId485987">fx_freeze 0</a></li><li><a href="#mozTocId892744">g_allowGametypeVote 1</a></li><li><a href="#mozTocId254116">g_AllowMapVote 1</a></li><li><a href="#mozTocId396247">g_AllowKickVote
+1&nbsp;&nbsp;&nbsp; </a></li><li><a href="#mozTocId311615">g_allowTeamVote 1</a></li><li><a href="#mozTocId356164">g_autoBanKillSpammers 0</a></li><li><a href="#mozTocId942371">g_autoBanTKSpammers 0</a></li><li><a href="#mozTocId973220">g_autoKickKillSpammers 0</a></li><li><a href="#mozTocId644746">g_autoKickTKSpammers 0</a></li><li><a href="#mozTocId288686">g_corpseRemovalTime</a></li><li><a href="#mozTocId613176">g_duelWeaponDisable 0</a></li><li><a href="#mozTocId603064">g_doWarmup 0</a></li><li><a href="#mozTocId855718">g_forcePowerDisable</a></li><li><a href="#mozTocId814600">g_maxExpLevel&nbsp;200</a></li><li><a href="#mozTocId521306">g_minExpLevel 3</a></li><li><a href="#mozTocId220805">g_minForceRank 16</a></li><li><a href="#mozTocId472628">g_mishapRegenTime 3000</a></li><li><a href="#mozTocId987925">g_saberanimspeed 1</a></li><li><a href="#mozTocId777561">g_saberAutoAim 1</a></li><li><a href="#mozTocId172219">g_saberBladeFaces 1</a></li><li><a href="#mozTocId136220">g_saberRestrictForce 0</a></li><li><a href="#mozTocId256798">g_spSkill 2</a></li><li><a href="#mozTocId109753">g_teamForceBalance 0</a></li><li><a href="#mozTocId922988">g_useWhileThrowing 1</a></li><li><a href="#mozTocId684485">g_vehAutoAimLead 0</a></li><li><a href="#mozTocId620775">g_warmup 20</a></li><li><a href="#mozTocId270020">g_weaponDisable 0</a></li><li><a href="#mozTocId244611">mapURL ""</a></li><li><a href="#mozTocId787182">/listip</a></li><li><a href="#mozTocId304823">ojp_allowBodyDodge 1</a></li><li><a href="#mozTocId411506">ojp_chatProtectTime 1000</a></li><li><a href="#mozTocId748188">ojp_holsterdebug 0</a></li><li><a href="#mozTocId676439">ojp_holsterdebug_angoffset "0.0 0.0 0.0"</a></li><li><a href="#mozTocId501300">ojp_holsterdebug_boneindex 0 </a></li><li><a href="#mozTocId649026">ojp_holsterdebug_posoffset "0.0 0.0 0.0"</a></li><li><a href="#mozTocId755378">ojp_holsteredweapons 2</a></li><li><a href="#mozTocId426838">ojp_clientMOTD</a></li><li><a href="#mozTocId490009">ojp_MOTD</a></li><li><a href="#mozTocId191215">ojp_teamrgbsabers 0</a></li><li><a href="#mozTocId145216">ojp_sabermelee 0</a></li><li><a href="#mozTocId132319">ojp_skipcutscenes 0</a></li><li><a href="#mozTocId236458">ojp_lastmanstanding 0</a></li><li><a href="#mozTocId885720">r_fastsky 0</a></li><li><a href="#mozTocId996180">/removeip</a></li><li><a href="#mozTocId153325">sabercolor</a></li><li><a href="#mozTocId389735">sfx_sabers 0</a></li><li><a href="#mozTocId754394">sv_fps 20</a></li><li><a href="#mozTocId554759">/togglesaber</a></li><li><a href="#mozTocId611296">/voice_cmd</a></li></ul></li><li><a href="#mozTocId453968">Glossary</a></li><li><a href="#mozTocId112012">Map Names</a></li><li><a href="#mozTocId834433">Bind Key Aliases</a></li><li><a href="#mozTocId791100">Cvar Attributes</a></li></ul>
+
+
+
+<h2><a class="mozTocH2" name="mozTocId475506"></a>Introduction</h2>
+
+
+
+As part of the OJP (Open Jedi Project) we are compiling a masterlist of
+commands, cvars, mapnames, and npcs for Jedi Knight: Jedi Academy
+(JKA).&nbsp; We include cvar/commands that come with the game and
+those that have been added as part of the OJP.<br>
+
+
+
+<br>
+
+
+
+The default valve is listed with each cvar/command is if is known.
+<h2 style="text-align: center;"><a class="mozTocH2" name="mozTocId638941"></a>Keywords</h2>
+
+
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+  <tbody>
+
+
+
+    <tr>
+
+
+
+      <td style="font-weight: bold;">Keyword</td>
+
+
+
+      <td style="font-weight: bold;">Name</td>
+
+
+
+      <td style="font-weight: bold;">Description</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Archived</td>
+
+
+
+      <td>Archived Cvar</td>
+
+
+
+      <td>This cvar is saved in the player's .cfg file whenever
+it is changed.&nbsp; The new value will be saved between games.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Cheat</td>
+
+
+
+      <td>Cheat Code</td>
+
+
+
+      <td>This can't be used unless you activate cheat
+mode.&nbsp; See HelpUsObi and devmap to learn how to toggle cheat
+mode.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Client</td>
+
+
+
+      <td>Client Side</td>
+
+
+
+      <td>This is relivent to the client side of the game
+engine.&nbsp; You always have control of these cvars/commands.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Command</td>
+
+
+
+      <td>Command</td>
+
+
+
+      <td>Commands do something when you type them in but do not
+store values.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Cvar</td>
+
+
+
+      <td>Command Variable</td>
+
+
+
+      <td>Controls various things by storing a value.&nbsp;
+These are entered into the console by simply typing the name of the
+cvar (HelpUsObi) and a value (1).&nbsp; Example:&nbsp;
+HelpUsObi 1.&nbsp; cvars are not case sensitive.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+      <td>Debug</td>
+      <td>Debug Mode</td>
+      <td>This cvar/command only works when the game has been compiled in debug mode.</td>
+    </tr>
+    <tr>
+
+
+
+      <td>Force Power</td>
+
+
+
+      <td>Force Power</td>
+
+
+
+      <td>This cvar/command is related to the Force Powers.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Holster</td>
+
+
+
+      <td>Holstered Weapons</td>
+
+
+
+      <td>This cvar is related to the holstered weapons
+(VisualWeapons) feature of OJP.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Latched</td>
+
+
+
+      <td>Latched Cvar</td>
+
+
+
+      <td>This cvar doesn't actually change/take effect until the
+map is restarted by changings maps or by using /map_restart.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>MP</td>
+
+
+
+      <td>MultiPlayer</td>
+
+
+
+      <td>For use in the multiplayer aspect of JKA.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>OJP</td>
+
+
+
+      <td>Open Jedi Project&nbsp;</td>
+
+
+
+      <td>Added for use in the Open Jedi Project Basic and
+Enhanced Distributions.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>OJP+</td>
+
+
+
+      <td>Open Jedi Project Enhanced</td>
+
+
+
+      <td>Added for use in the Enhanced version of OJP.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Protected</td>
+
+
+
+      <td>Protected Cvar/Command</td>
+
+
+
+      <td>This cvar/command can't be changed from inside the
+console.&nbsp; The only way to change it is either using the
+command line or the UI menus.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>SP</td>
+
+
+
+      <td>Single Player</td>
+
+
+
+      <td>For use in the singleplayer aspect of JKA.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Server</td>
+
+
+
+      <td>Server Side</td>
+
+
+
+      <td>Relavent to the server side of the game
+engine.&nbsp; You can only use these cvars/commands if you are
+hosting/administrating a MP game OR playing SP.&nbsp; All cvars
+with a "g_" prefix are server side cvars.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Scaler</td>
+
+
+
+      <td>Scaler Value</td>
+
+
+
+      <td>Uses a decimal scaler to control a varible.&nbsp; 1
+is typically the default.&nbsp; .5 would be 50% of normal and etc.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Startup</td>
+
+
+
+      <td>Startup Cvar/Command </td>
+
+
+
+      <td>This cvar/command effects the game on
+startup.&nbsp; This will not take effect until you restart/change
+maps.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>Toggle</td>
+
+
+
+      <td>Toggle Command/Cvar </td>
+
+
+
+      <td>This is a simple off/on control for this
+feature.&nbsp; A cvar value of 1 means on.&nbsp; 0 means off.</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>True View</td>
+
+
+
+      <td>True View Cvar</td>
+
+
+
+      <td>These cvars control True View, a realistic first person
+view for OJP.</td>
+
+
+
+    </tr>
+
+
+
+  
+  
+  </tbody>
+</table>
+
+
+
+<h2><a class="mozTocH2" name="mozTocId578431"></a>Cvars &amp; Commands</h2>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId556992"></a>/addip</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, Command<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Adds a IP
+to the IP ban list.&nbsp; You can use incomplete IPs (IE
+192.246.40) to ban entire subnets.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId35968"></a>bot_attachments 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Server, Bots, Toggle, cvar<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Descriptions:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Toggles
+bot attachments.&nbsp; Bot attachments are positive emotion
+attachments that they associate with other bots (based on model
+name).&nbsp; These are set in the bot files.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId136079"></a>bot_forgimmick 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Server, Bots, cvar,
+Integer, Cheat<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Debug bot
+functions:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 = Stand
+still.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 = Stand
+and attack<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3 = Move
+towards map origin while attacking<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 4 = Move
+towards client 0<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; All modes also follow orders from the
+bot movement debug commands.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId307832"></a>bot_fps 20</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Bots, Cvar, Integer,
+Server, Archived<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the number of frames per second that the bot AI is processed.&nbsp;
+This is mainly designed to cut back on unnessicary resource drainage
+when you have the server fps set up.&nbsp; Note:&nbsp; the bot
+AI fps is clamped by the server fps.&nbsp; The bot AI fps can't go
+faster than the server fps no matter what setting you set it to.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId765668"></a>bot_getinthecarrr 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Bots, Debug, cvar<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Bot
+debugger for vehicle passengers.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 = Get
+in a vehicle with a pilot, then try to move forward<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 = Get
+in a vehicle<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3 = Get
+in a vehicle with a pilot, then try to move forward and press alt fire.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId675983"></a>bot_honorableduelacceptance 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Bots, Cheat, OJP<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Bots will
+accept saber challenges when a player has his saber holstered (or in
+single blade stance for the dual/staffs).<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+OJP:&nbsp; You now have to have your saber fully holstered for the
+bot to accept your duel challenge.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId730521"></a>bot_nogoals 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Bots, Debug, Toggle, cvar<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Disables
+the goal system for the bots.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId126788"></a>bot_pvstype 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Bots, Cheat<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Shares
+control with g_RMG weither or not visual check scans are done for far
+visual point checks (&gt; 5000 game units).&nbsp; Both must be
+enabled for the checks NOT to be done.&nbsp; When they are not
+done, the system automatically assumes that the visual check fails.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId455497"></a>bot_wp_editornumber 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Bots, BotTweaks<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This cvar
+sets which client (by client number) recieves the bot waypoint editing
+information while in the waypoint editor.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId536287"></a>/centersay</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, Command <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+/centersay, which is used just like /say, is used to print large,
+center-of-the-screen messages on all clients connected to the game.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId898825"></a>cg_centertime 3&nbsp; (OJP 7)</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Cheat<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the amount of time (in seconds) that a center printed message stays on
+the screen.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId619062"></a>cg_chatbox 10000</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Client, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This CVar
+sets the amount of time (in milliseconds) that chat text may be
+displayed before disappearing.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId778058"></a>cg_chatboxheight 350</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Client, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This sets
+the position of where the chat text is displayed on-screen. Set this to
+60 for it to be closer to how chat was in JK2.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId575770"></a>cg_dynamicCrosshair 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Client, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Toggles
+weither or not the player's crosshair is based on their gun muzzle
+position.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 = gun
+muzzle<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 =
+static position<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId75752"></a>cg_fov 80</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Single Player, Multiplayer, Client,
+cvar, Float<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+how large your field of view is (in degrees).&nbsp; Larger values
+result in fisheye (or alien) like views while smaller values make your
+view appear to zoom in.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId292894"></a>cg_RenderToTextureFX</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Single Player, Multiplayer, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Toggles
+the texture wrapping effects (force push/pull and
+respawning).&nbsp; Some video cards don't support this effect and
+have extreme frame drops whenever they occur.&nbsp; JKA attempts to
+automatically set this but this often doesn't do it
+correctly.&nbsp; Experiment on your system to determine what works
+for you.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId51386"></a>cg_thirdPersonCameraDamp 0.3</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Single Player?, Client,
+cvar, Float<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the amount how much your camera view "lags" behind movement changes of
+your crosshairs.&nbsp; Set this to 1 to eliminate the lag.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId272577"></a>cl_timenudge 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Client, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets the
+latency adjust of the game (in milliseconds).&nbsp; Setting a
+positive value artifically lags the client while negative values makes
+the client use prediction into the future.<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This cvar
+is useful for lagging players.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; - It can be used to eliminate
+lag.&nbsp; For example, if your ping is 30ms, you can set
+cl_timenudge -30 to give the effect of having a ping of 0.&nbsp;
+However, this only works to a point because there's a limit to the
+abilities of the client to predict movement.&nbsp; Any setting
+below -50 isn't recommended.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; - The cvar can also be used for
+smoothing out lag fluctuations.&nbsp; For example, if your ping is
+varying between 30-60ms, you can set a positive cl_timenudge value to
+smooth it out to an even 50ms.&nbsp; This is useful when using
+accuracy-based weapons like the Disruptor.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId283168"></a>cg_trueeyeposition 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, True View, Multiplayer, Float<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the forward/backward offset for True View camera.&nbsp; This is
+automatically set by trueview.cfg on model load unless it's unlisted. <br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId303104"></a>cg_trueflip 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, True View, Multiplayer, Client,
+Integer<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the realism level of camera flip while in True View. <br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 = none<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 =
+Simplifed - Whenever a flip is performed, the camera does a simple
+flip.&nbsp; This is for people who want flipping but find the real
+setting to be too pukey.&nbsp; Note:&nbsp; Yes, you can see
+thru parts of the model in this mode.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 = Real
+- When your character flips in the game, the camera is locked to his
+POV.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId344738"></a>cg_truefov 80</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, True View, Multiplayer, Float<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets the
+fov (field of view), in degrees, while using True View.&nbsp;
+Setting this to 0 will make the game use the standard fov setting
+(cg_fov) for True View.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId714747"></a>cg_trueinvertsaber 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, True View, Multiplayer, Client,
+Toggle<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+Determines how the weapons handle the current 1st/3rd person setting.<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 = all
+same<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 =
+saber/melee inverted<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 =
+sabers/melee locked to third person (the basejka behavior)<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId869597"></a>cg_trueguns 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, True View, Multiplayer, Toggle,
+Integer<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+if True View is used for the guns.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId35278"></a>cg_trueroll 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, True View, Multiplayer, Client,
+Integer<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Default: 2<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the realism level of camera rolling while in True View.<br>
+
+
+
+&nbsp;<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 = none<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 =
+Simplifed - Whenever a roll is performed, the camera does a simple
+roll.&nbsp; This is for people who want rolling but find the real
+setting to be too pukey.&nbsp; Note:&nbsp; Yes, you can see
+thru parts of the model in this mode.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 = Real
+- When your character spins in the game, the camera is locked to his
+POV.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId518260"></a>cg_truemoveroll 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, True View, Multiplayer, Client,
+Integer<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+how much the roll (leaning) of walking or running effects the True View
+camera.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 = no
+walking/running lean<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 = %50
+damper on walk/run leaning<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 = %100
+realistic leaning <br>
+
+
+
+&nbsp; <br>
+
+
+
+<br>
+
+
+
+<h3><a class="mozTocH3" name="mozTocId988620"></a>cg_truesaberonly 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, True View, Multiplayer, Toggle,
+Integer<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+Determines if the your body is shown while using True View with the
+saber.&nbsp; If this is set to on, only the saber blade will be
+seen.<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+<h3><a class="mozTocH3" name="mozTocId803065"></a>cg_truespin 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, True View, Multiplayer, Client,
+Integer<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the realism level of camera spinning while in True View. <br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 = none<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 =
+Simplifed - Whenever a spin is performed, the camera does a simple
+spin.&nbsp; This is for people who want spining but find the real
+setting to be too pukey.&nbsp; Note:&nbsp; Yes, you can see
+thru parts of the model in this mode.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 = Real
+- When your character spins in the game, the camera is locked to his
+POV.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId234195"></a>cg_turnAnims 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Single Player, Toggle,
+cvar&nbsp;&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+Determines if the turn animation is on.&nbsp; The turn animation
+plays whenever you look around.&nbsp; It doesn't work very well
+since it skips in and out of the animation without smoothing.&nbsp;
+<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId672405"></a>com_maxfps 85</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; client, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets a
+maximum limit on the client's fps.&nbsp; This limit is in addition
+to the monitor refresh restriction by Video Sync (if you have that on).<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId578911"></a>/cvarlist</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Command<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Prints
+out cvars and their cvar flags.&nbsp; See Cvar Attributes for an
+explaination of the different cvar flags.&nbsp; You can also limit
+the range of this function by giving a complete or partial cvar name as
+the cvar arguement.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId54636"></a>d_saberInterpolate 2</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Server, cvar, Cheat<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets the
+interpolation method (a system for improving hit detection of stuff
+that happens between world updates) used for the saber system.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 = no
+interpolation<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 =
+Raven's interpolation<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 = Super
+Duper interpolation (OJP only option)<br>
+
+
+
+<br>
+<br>
+<h3><a class="mozTocH3" name="mozTocId210722"></a>/DebugKnockMeDown</h3>
+&nbsp;&nbsp;&nbsp; Multiplayer, Command, Debug<br>
+<br>
+&nbsp;&nbsp;&nbsp; Description:<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This commands knocks the player down.&nbsp; &nbsp;&nbsp;&nbsp; <br>
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId804948"></a>dmflags 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Server, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Enables
+various features for competative environment.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Add
+values together to achieve multiple results:<br>
+
+
+
+&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+8&nbsp; = Disables Falling Damage<br>
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 16 = lock
+Field of View to default of 80<br>
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 32 =
+silent footsteps<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; (Example: dmflags 56 would be all three
+options enabled)<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId322335"></a>/forceteam &lt;player&gt;
+&lt;team&gt;</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Command, Admin<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Forces
+the given player (by name) onto the given team (by name).<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId831262"></a>fs_game " Default:"</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Startup, Cheat, cvar,
+Protected<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets the
+mod to be used by the game.&nbsp; When you set this to something
+other than the default, the game will load the files in the
+gamedata/namedvalue directory.&nbsp; In the state of a conflict
+with another file in the /base directory, the /namedvalue directory
+file should get presidence.&nbsp; Use this cvar to load up your mod
+or test files into the game.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId485987"></a>fx_freeze 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Singleplayer, Multiplayer, cvar<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Freezes
+all the fx images.&nbsp; This makes bolts invisible and freezes the
+saber trails in their place.&nbsp; There seems to be a maximum fx
+limit so even the saber trails quit drawing after a while.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId892744"></a>g_allowGametypeVote 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, Cvar<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Allow
+Gametype voting<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId254116"></a>g_AllowMapVote 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, Cvar<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+map change voting<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 2 = full map voting<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1 = map restart and next map votes only<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 0 = no map votes<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId396247"></a>g_AllowKickVote
+1&nbsp;&nbsp;&nbsp; </h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Asteroids, Multiplayer, Admin, cvar<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Allow
+kick votes.&nbsp; Note: This does not apply to the Team Kicking
+mentioned above.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId311615"></a>g_allowTeamVote 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Asteroids, Multiplayer, Admin, cvar<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Toggles
+the abilitiy to vote to of kick your own teammates.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId356164"></a>g_autoBanKillSpammers 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Asteroids, Multiplayer, Admin, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Auto ban
+a player after this many suicides (/kill). 0 = no limit.&nbsp; This
+cvar overrides g_autoKickKillSpammers if set.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId942371"></a>g_autoBanTKSpammers 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Asteroids, Multiplayer, Admin, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Auto kick
+a player after this many team kills. 0 = no limit.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId973220"></a>g_autoKickKillSpammers 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Asteroids, Multiplayer, Admin, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Auto kick
+a player after this many suicides (/kill). 0 = no limit.&nbsp; This
+cvar is overriden by g_autoBanKillSpammers (if set).<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId644746"></a>g_autoKickTKSpammers 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Asteroids, Multiplayer, Admin, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Auto IP
+bans TKs after this many team kills. 0 = no limit.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId288686"></a>g_corpseRemovalTime</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Single Player, (Multiplayer OJP)<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the time before dead bodies disappear in SP.&nbsp; Setting this to
+0 will result in dead bodies remaining on the map until you load a
+game, die, or finish the map.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId613176"></a>g_duelWeaponDisable 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Weapons<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+which weapons are useable in duel gametypes.&nbsp; (See
+g_WeaponDisable).&nbsp; To set this you must use the numberical sum
+of the weapons you want disabled (0 = All weapons enabled).<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Numberical Value for Weapons<br>
+
+
+
+&nbsp;&nbsp;&nbsp; ----------------------------------<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Stun Baton&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 2<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Melee Mode&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 4<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Saber&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 8<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Pistol&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 16<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Blaster &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 32<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Disruptor&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 64<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Bowcaster&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 128<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Repeater&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 256<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Demp 2&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 512<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Flechette&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1024<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Rocket
+Launcher&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+2048<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Thermal&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 4096<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Trip Mine&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 8192<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Det Pack&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 16384<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Concussion
+Rifle&nbsp;&nbsp;&nbsp; 32768<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Bryar
+Pistol&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+65536<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Emplaced
+Guns&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 131072<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Turrets&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 262144<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId603064"></a>g_doWarmup 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Server, OJP<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Toggles
+the warm up period before a non-duel gametype match. Use g_warmup to
+set the warm up time period. <br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId855718"></a>g_forcePowerDisable</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Force Powers, Server,
+Latched<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+which Force Powers are useable in the match.&nbsp; To set this you
+must use the numberical sum of the Force Powers you want disabled (0 =
+All powers enabled; 262143 = All powers disabled).<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Numberical Value for Force Powers<br>
+
+
+
+&nbsp;&nbsp;&nbsp; ----------------------------------<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Heal&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Jump&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 2<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Speed&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 4<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Push&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 8<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Pull&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 16<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Mind Trick&nbsp;&nbsp;&nbsp;
+32<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Grip&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 64<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Lightning&nbsp;&nbsp;&nbsp;
+128<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Rage&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 256<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Protect&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 512<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Absorb&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1024<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Team Heal&nbsp;&nbsp;&nbsp;
+2048<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Team
+Energize&nbsp;&nbsp;&nbsp; 4096<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Drain&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 8192<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Seeing&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 16384<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Saber
+Offense&nbsp;&nbsp;&nbsp; 32768<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Saber
+Defense&nbsp;&nbsp;&nbsp; 65536<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Saberthrow&nbsp;&nbsp;&nbsp;
+131072<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId814600"></a>g_maxExpLevel&nbsp;200</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;Now sets the maximum number of skill
+points that a player can earn.<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId521306"></a>g_minExpLevel 3</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, OJP, Enhanced <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets the
+initial number of skill points that players have.<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId220805"></a>g_minForceRank 16</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets the force rank of all players. &nbsp;<br>
+
+
+<br>
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Enhanced: &nbsp;This cvar isn't in OJP+ and is basically replaced by g_minExpLevel.<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId472628"></a>g_mishapRegenTime 3000</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, OJP,
+Enhanced&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This cvar
+controls the speed at which the new the mishap meter regenerates.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId987925"></a>g_saberanimspeed 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Single Player, Scaler, Razor Ace<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the saber animation speeds in single player.&nbsp; This effects all
+saber moves.&nbsp; If you're interested in more
+"movielike"/controllable saber battles, set this to a lower
+value.&nbsp; I recommend .5 (50% normal speed).<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Slows
+down the saber attack animations by 50%. Trust me, this makes the saber
+duels MUCH, MUCH better. I'm surprised Raven didn't do this in the
+first place. There are some downsides however: <br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1. The
+yellow single saber special doesn't really work correctly. The
+animation goes too slow and the camera flips out when you try it.<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2. The
+saberlock kills often doesn't work. The loser regains control before
+you can complete the animation and kill him. On the plus side, it's not
+a big deal and it looks cool when your opponent dives out of the way of
+a fatal strike.<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3. The
+saber staff wielders in the last few levels are tuff to beat.
+Unfortunately, it looks like Raven made the last level dual/staff dark
+jedi have faster saber swings than the earlier levels. That coupled
+with the way the later level AI spams the saber twirls makes them very
+tricky to beat. <br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Anyway,
+if you decide to go thru the game with the saber animation speed turned
+down, I suggest you use the single saber thru the whole game for the
+full experience. It's totally worth it. <br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; FYI, I've
+found that the Blue Stance works best on Red single saberers and dual
+saberers. The Red Stance works best on double saberers and Yellow
+Stance works on everything else.&nbsp; <br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId777561"></a>g_saberAutoAim 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Single Player, Toggle<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This
+disables SP's saber "auto aim". Basically, it tries to pick the right
+attack swing to hit nearby opponents. I don't like it because it ends
+up giving you weird swings instead of the swing you were trying for.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId172219"></a>g_saberBladeFaces 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multplayer, Sabers<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+Determines if you want to do more advanced saber on saber hit
+detections.&nbsp; This only applies to the kind of blade on blade
+detection used with d_saberSPStyleDamage turned off.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId136220"></a>g_saberRestrictForce 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Server, cvar, Cheat<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Toggles
+the use of offensive powers while hands are using two handed/dual
+sabers.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId256798"></a>g_spSkill 2</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Bots, cvar, integer<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+Determines the skill level of bots that are automatically added to the
+game with minimum players system.&nbsp; 1 = lowest level 5 = max
+level.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId109753"></a>g_teamForceBalance 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Enabling
+this will make it so players can only join the team with the least
+number of players.<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP Changes (see Auto Team Balancer):<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 =
+disabled<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 =
+basejka g_teamForceBalance&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 =
+standard Auto Team Balancer scans.&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3 = Auto
+Team Balancer scans with additional team balancing for score.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 4 = Like
+3 plus it balances the human/bot ratio on the teams.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId922988"></a>g_useWhileThrowing 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Toggle, Force Powers<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+weither or not you can use Force Push/Pull while using Saber
+Throw.&nbsp;&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId684485"></a>g_vehAutoAimLead 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Asteroids, Multiplayer, Vehicles,
+Archived<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Toggles
+auto weapon lead when you're pointing directly at another vehicle.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId620775"></a>g_warmup 20</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Server, OJP<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Minimum:&nbsp; 5<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Maximum:&nbsp; 120<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets the
+warm up time (in seconds).&nbsp; See g_Dowarmup to toggle the
+warmup period.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId270020"></a>g_weaponDisable 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Weapons<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+which weapons are useable in non-duel gametypes.&nbsp; (See
+g_duelWeaponDisable).&nbsp; To set this you must use the numberical
+sum of the weapons you want disabled (0 = All weapons enabled).<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Numberical Value for Weapons<br>
+
+
+
+&nbsp;&nbsp;&nbsp; ----------------------------------<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Stun Baton&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 2<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Melee Mode&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 4<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Saber&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 8<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Pistol&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 16<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Blaster &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 32<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Disruptor&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 64<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Bowcaster&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 128<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Repeater&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 256<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Demp 2&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 512<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Flechette&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1024<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Rocket
+Launcher&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+2048<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Thermal&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 4096<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Trip Mine&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 8192<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Det Pack&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 16384<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Concussion
+Rifle&nbsp;&nbsp;&nbsp; 32768<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Bryar
+Pistol&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+65536<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Emplaced
+Guns&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 131072<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Turrets&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 262144<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+<h3><a class="mozTocH3" name="mozTocId244611"></a>mapURL ""</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, cvar<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Setting
+this cvar to a map's download URL will display this URL to players that
+don't have the map.&nbsp; This feature only works for players who
+are running OJP on their machines.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId787182"></a>/listip</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, Command<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Adds a IP
+to the IP ban list.&nbsp; You can use incomplete IPs (IE
+192.246.40) to ban entire subnets.&nbsp; The IP ban list is stored
+in a text file called banip.txt in your mod dir.<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId304823"></a>ojp_allowBodyDodge 1</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+Toggles the use of Body Dodges by players.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId411506"></a>ojp_chatProtectTime 1000</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets how
+often a player can send text messages.&nbsp; Time is in
+milliseconds. 0 = no limit.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId748188"></a>ojp_holsterdebug 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Client, cvar, Holster<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the debugging of the holster system.&nbsp; Value sets which type of
+holstered weapon is being debugged.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 = debug
+off<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 =
+HLR_SINGLESABER_1,&nbsp;&nbsp;&nbsp; //first single saber<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 =
+HLR_SINGLESABER_2,&nbsp;&nbsp;&nbsp; //second single saber<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3 =
+HLR_STAFFSABER,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //staff saber<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 4 =
+HLR_PISTOL_L,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //left hip blaster pistol<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 5 =
+HLR_PISTOL_R,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //right hip blaster pistol<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 6 =
+HLR_BLASTER_L,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //left hip blaster rifle<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 7 =
+HLR_BLASTER_R,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //right hip blaster rifle<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 8 =
+HLR_BRYERPISTOL_L,&nbsp;&nbsp;&nbsp; //left hip bryer pistol<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 9 =
+HLR_BRYERPISTOL_R,&nbsp;&nbsp;&nbsp; //right hip bryer
+pistol<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 10 =
+HLR_BOWCASTER,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //bowcaster<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 11 =
+HLR_ROCKET_LAUNCHER,//rocket launcher<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 12 =
+HLR_DEMP2,&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //demp2<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 13 =
+HLR_CONCUSSION,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //concussion<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 14 =
+HLR_REPEATER,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //repeater<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 15 =
+HLR_FLECHETTE,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //flechette<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 16 =
+HLR_DISRUPTOR,&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; //disruptor<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId676439"></a>ojp_holsterdebug_angoffset "0.0 0.0 0.0"</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Client, cvar, Holster<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the angular offset for the current debug holsterType.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId501300"></a>ojp_holsterdebug_boneindex 0 </h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Client, cvar, Holster<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+which bone that the current debug holsterType is based off of.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId649026"></a>ojp_holsterdebug_posoffset "0.0 0.0 0.0"</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Client, cvar, Holster<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the positional offset for the current debug holsterType.&nbsp; e
+the directions are dictated in terms of the current orientation of the
+body part that the holsterType is currently based off of.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId755378"></a>ojp_holsteredweapons 2</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Client, cvar, Holster<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+how holstered weapons are rendered.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 0 = Off<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1 = Only show on your player<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 2 = Show on all players<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId426838"></a>ojp_clientMOTD</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This cvar
+contains a MOTD that is displayed in the center of the screen on every
+client that IS running the mod (or the correct version of it).<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+<h3><a class="mozTocH3" name="mozTocId490009"></a>ojp_MOTD</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This cvar
+contains a MOTD that is displayed in the center of the screen on every
+client that ISN'T running the mod (or the correct version of it).<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId191215"></a>ojp_teamrgbsabers 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Client, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the saber blade colors during team games.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 0 = All sabers are based on team color<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 1 = Player's saber is custom color,
+everyone else has team colors<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 2 = Everyone has custom colors.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId145216"></a>ojp_sabermelee 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, OJP, Enhanced<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the behavior of pressing the saber weapon button when the saber is
+already selected and turned on.&nbsp; A setting of 1 makes it
+toggle between melee mode and an ignited saber.&nbsp; A setting of
+0 makes it toggle the saber on/off (default baseJKA behavior).<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Please
+note that you can also use /togglesaber to toggle the saber on/off
+reguardless of your ojp_sabermelee setting.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId132319"></a><a class="mozTocH3" name="ojp_skipcutscenes"></a>ojp_skipcutscenes 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, OJP, CoOp<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+how cutscenes in CoOp mode are skipped.<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 = not
+at all<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 =
+automatically use skip scripts if possible.&nbsp; Skip scripts
+exist for most of the major cutscenes.<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 2 =
+automatically use skip scripts and time acceleration<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 3 =
+toggleable use (player's use key) of skip scripts<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 4 =
+toggleable use of skip scripts and time acceleration<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId236458"></a>ojp_lastmanstanding 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Cvar, Latched, OJP+,
+Toggle, Server<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+last man standing mode where player's have what 3(3 by default, see next cvar) lives,when those 3 lives
+are up they are put into Spectator mode untill next round.Does not work
+in duel, power duel, or siege.<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 0 = off<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 1 = on<br>
+
+
+
+<br>
+
+<a name="ojp_lmslives"></a><font size="+1"><span style="font-weight: bold;">ojp_lmslives 3<br>
+
+</span></font><span style="font-weight: bold;"></span><br>
+
+&nbsp; &nbsp;&nbsp; Multiplayer, Cvar, Latched, OJP+, Server<br>
+
+<br>
+
+&nbsp;&nbsp;&nbsp; &nbsp;Description:<br>
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sets the
+amount of lives player have when last man standing (LMS) mode is
+enabled.<br>
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Default is 3.<br>
+<a name="ojp_liveexp"></a><span style="font-weight: bold;"><span style="font-weight: bold;"><font size="+1">ojp_liveexp 5<br>
+&nbsp;&nbsp;&nbsp; </font></span></span>Multiplayer, Cvar, Latched, OJP+, Server<br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;Description:<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Sets the
+amount of kills players need to gain a life. Requires
+ojp_lastmanstanding on, and gametype needs to be Coop.<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Default is 5.<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId885720"></a>r_fastsky 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Singleplayer, Client, cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Enabling
+this option disables certain textures that can speed up the frames per
+second (FPS). This disables mainly skies but does disable other
+textures as well.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId996180"></a>/removeip</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer, Admin, Command<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Removes a
+IP to the IP ban list.&nbsp; You can use incomplete IPs (IE
+192.246.40) to ban entire subnets.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId153325"></a>sabercolor</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Single Player, Command<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Sets the color of the blade on
+lightsaber(s).<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Use: /sabercolor 1 purple , where '1' is
+the saber blade number, and 'purple' is the saber color.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId389735"></a>sfx_sabers 0</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, OJP+, Cvar<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Toggles sfx style sabers.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId754394"></a>sv_fps 20</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Single Player, Multiplayer, server<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Controls
+the frame rate of the server's world updates.&nbsp; This basically
+controls everything in the game world except player movement and client
+side effects.&nbsp; Turning this up will result in better hit
+detection but might result in some communication difficults and minor
+gameplay issues (jiggling gibs and unstoppable AI in
+saberlocks).&nbsp; In theory, the ideal setting for this as the fps
+of the client(s).&nbsp; However, this does result in more system
+useage (and possibly lower frame rates).&nbsp; use with caution.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId554759"></a>/togglesaber</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; OJP, Multiplayer<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Descriptions:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Toggles
+your saber blade.&nbsp; You must have your saber selected for this
+to work.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+<h3><a class="mozTocH3" name="mozTocId611296"></a>/voice_cmd</h3>
+
+
+
+&nbsp;&nbsp;&nbsp; Multiplayer, Command<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Description:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Plays a
+given voice command in all team gametypes.<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; Voice Commands Availible:<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; att_attack<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+att_primary<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; att_second<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; def_guns<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+def_position<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+def_primary<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; def_second<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+reply_coming<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; reply_go<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; reply_no<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; reply_stay<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; reply_yes<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; req_assist<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; req_demo<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; req_hvy<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; req_medic<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; req_sup<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; req_tech<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; spot_air<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+spot_defenses<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+spot_emplaced<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+spot_sniper<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+spot_troops<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; tac_cover<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+tac_fallback<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; tac_follow<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; tac_hold<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; tac_split<br>
+
+
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+tac_together<br>
+
+
+
+<h2><a class="mozTocH2" name="mozTocId453968"></a>Glossary</h2>
+
+
+
+<span style="font-weight: bold;">(fps) Frames Per Second</span>
+- A measurement of how many times something is processed per
+second.&nbsp; This can also be referred to as the "frame rate".
+<h2 style="text-align: center;"><a class="mozTocH2" name="mozTocId112012"></a>Map Names</h2>
+
+
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 476px; height: 169px;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+  <tbody>
+
+
+
+    <tr>
+
+
+
+      <td style="font-weight: bold; text-align: center;">Map
+Name</td>
+
+
+
+      <td style="font-weight: bold; text-align: center;">Description</td>
+
+
+
+      <td style="font-weight: bold; text-align: center;">Gametype</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>t2_trip</td>
+
+
+
+      <td>Meet Contact (Swoop Riding Level)</td>
+
+
+
+      <td>Single Player</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>t3_rift</td>
+
+
+
+      <td>(Jedi Tomb Level)</td>
+
+
+
+      <td>Single Player</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>mp/duel3</td>
+
+
+
+      <td>Imperial Shaft</td>
+
+
+
+      <td>Duel</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>mp/duel8</td>
+
+
+
+      <td>Abandoned City</td>
+
+
+
+      <td>Duel</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>mp/ffa1</td>
+
+
+
+      <td>Vjun Sentinel</td>
+
+
+
+      <td>FFA</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>mp/ffa5</td>
+
+
+
+      <td>Taspir</td>
+
+
+
+      <td>FFA</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>mp/siege_hoth</td>
+
+
+
+      <td>Hoth Siege</td>
+
+
+
+      <td></td>
+
+
+
+    </tr>
+
+
+
+  
+  
+  </tbody>
+</table>
+
+
+
+
+<h2 style="text-align: center;"><a class="mozTocH2" name="mozTocId834433"></a>Bind Key Aliases</h2>
+
+
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 449px; height: 509px;" border="1" cellpadding="2" cellspacing="2">
+
+
+
+  <tbody>
+
+
+
+    <tr>
+
+
+
+      <td style="font-weight: bold; text-align: center;">Bind
+Keyword</td>
+
+
+
+      <td style="font-weight: bold; text-align: center;">Binded
+Key</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_END</td>
+
+
+
+      <td>Numpad 1</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_DOWNARROW</td>
+
+
+
+      <td>Numpad 2</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_PGDN</td>
+
+
+
+      <td>Numpad 3</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_LEFTARROW</td>
+
+
+
+      <td>Numpad 4</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_5</td>
+
+
+
+      <td>Numpad 5</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_RIGHTARROW</td>
+
+
+
+      <td>Numpad 6</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_HOME</td>
+
+
+
+      <td>Numpad 7</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_UPARROW</td>
+
+
+
+      <td>Numpad 8</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_PGUP</td>
+
+
+
+      <td>Numpad 9</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_INS</td>
+
+
+
+      <td>Numpad 0</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_DEL</td>
+
+
+
+      <td>Numpad Delete</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_ENTER</td>
+
+
+
+      <td>Numpad Enter</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_PLUS</td>
+
+
+
+      <td>Numpad Plus</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_MINUS</td>
+
+
+
+      <td>Numpad Minus</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_STAR</td>
+
+
+
+      <td>Numpad Multiply</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_SLASH</td>
+
+
+
+      <td>Numpad Slash</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>KP_NUMLOCK</td>
+
+
+
+      <td>Numpad NumLock</td>
+
+
+
+    </tr>
+
+
+
+  
+  
+  </tbody>
+</table>
+
+
+
+<h2><a class="mozTocH2" name="mozTocId791100"></a>Cvar Attributes</h2>
+
+
+
+The following is a&nbsp;listing of&nbsp;attributes that cvars
+use.&nbsp; The letter in the ()'s is the ingame character used to
+represent that attribute&nbsp;in <span style="font-weight: bold;">/cvarlist</span>.<br>
+
+
+
+<ul>
+
+
+
+  <li><span style="font-weight: bold;">Archive (A)</span>
+- These cvars have their current setting saved to your cfg
+file.&nbsp; This is used for every cvar that saves between game
+seasons.</li>
+
+
+
+  <li><span style="font-weight: bold;">Cheat (C) </span>-
+These cvars are cheat codes and can't be changed without being in cheat
+mode.</li>
+
+
+
+  <li><span style="font-weight: bold;">Latch (L)</span>
+- These cvars don't change values until the map is
+restarted.&nbsp; Sometimes you even have to change maps for this to
+work.</li>
+
+
+
+  <li><span style="font-weight: bold;">Serverinfo (S)</span>
+- These cvars are made availible for access by game browsers.&nbsp;
+Useful for important game changing cvars.</li>
+
+
+
+  <li><span style="font-weight: bold;">Systeminfo</span>
+- These cvars are transmitted to and overright the clients'
+version of the cvar.&nbsp; Used for game information that needs to
+be set
+the same as the server.&nbsp;</li>
+
+
+
+</ul>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+
+
+
+<br>
+
+
+
+&nbsp;&nbsp;&nbsp; <br>
+
+
+
+<br>
+
+
+
+</body></html>

@@ -1,0 +1,204 @@
+<HTML>
+
+<HEAD><TITLE>
+==========================================
+Open Jedi Project Admin System Information
+==========================================
+</TITLE></HEAD>
+
+
+<BODY>
+<h1 style="text-align: center"><B>
+Open Jedi Project Admin System Information</B></h1>
+
+$Revision: 1.12$<br />
+    <br />
+    <strong>
+    
+Table of Contents:</strong>
+    <ul>
+        <li>
+
+    <a href="#Features">Features</a> </li>
+        <li>
+    <a href="#AdminCvars">Admin Cvars and Commands</a>
+
+
+<BR>
+        </li>
+    </ul>
+    <h1 style="text-align: center"><B><a name="Features">Features</a></B></h1>
+    OJP sports a variety of new features designed to help game hosts effectively and fairly admin their servers.  
+    <br />
+
+The Admin System includes:
+<UL>
+    <li><B>Auto Team Balancer:</B>
+	    This admin feature allows the server to automatically scan for team imbalance every 30 seconds.  If an imbalance is found, the newest player on the larger team will be switched to the other team.
+        In addition, you can also have this system balance slightly unbalanced teams (like 6 vs 7) based on score.<br />
+	        g_teamForceBalance controls this feature.
+	    <ol>
+			<LI> = disabled
+			<LI> = basejka g_teamForceBalance	
+			<LI> = standard Auto Team Balancer scans.  
+			<LI> = Auto Team Balancer scans with additional team balancing for score.
+			<LI> = 3 + Human/Bot team balancing.  Keeps the bot/human ratio even on the teams.		
+		</ol>	
+    </li>
+
+
+	<li><B>Auto TK (team killers) kick/ban admin cvars:</B>		
+	    <UL>
+	        <LI>g_autoBanTKSpammers - Auto ban a player after this many team kills. 0 = no limit.
+	        <LI>g_autoKickTKSpammers - Auto kick a player after this many team kills. 0 = no limit.
+        </UL> 
+    </li>
+
+	<li><B>Auto Suicider kick/ban admin cvars</B>:
+	    <UL>	
+            <LI>g_autoBanKillSpammers - Auto ban a player after this many suicides (/kill). 0 = no limit.  This cvar overrides g_autoKickKillSpammers if set.
+            <LI>g_autoKickKillSpammers - Auto kick a player after this many suicides (/kill). 0 = no limit.  This cvar is overriden by g_autoBanKillSpammers (if set).
+        </UL>
+    </li>
+
+
+	<li><B>Center Say</B>:
+        <UL>	
+            <LI>Added /centersay command to enable admins to print messages in the center of player's screens in nice big text.  Just treat this command like /say.
+        </UL>	
+    </li>
+    
+    
+    <li><B>Chat Spam Protection (ChatSpamProtection):</B><br />
+	    The chat channels are now protected against people spamming the channels, use ojp_chatProtectTime to set how often you can send chat messages.  0 = no limit.
+    </li>
+    
+    
+    <li><B>Easier Banning</B>
+	    Client IPs are now recorded to the game log whenever a client connects.  This is so admins can easily ban troublemakers after the fact.
+    </li>
+
+    <li><B>Expanded IP Banlist:</B>  
+        The IP banlist now uses an externally stored file (banip.txt) to ban certain IP addresses from the server.  You can use incomplete IPs (IE 192.246.40) to ban entire subnets.  Use the standard commands addip, removeip, and listip to use this feature.
+    </li>
+
+    <li><B>Expanded MOTD:</B>
+	    This new feature allows server admins to send a message of the day to each client as they join the game.  These MOTDs are displayed in the center of the player's screen when they first join the server.  This MOTD is in addition to the MOTD displayed during map load.  The MOTD that is displayed can be based on weither or not the client is running the correct client.  See the descriptions for ojp_clientMOTD and ojp_MOTD.
+    </li>
+
+    <li><B>Team Kicking:</B>  
+        You can now kick members of your own team using the voting menu while in team gametypes.  Use g_allowTeamVote to toggle.  Team kicking works when normal voting is disabled.  The vote command ("/vote" or more specifically "/teamvote") and the yes/no menu options now apply to both team votes and general votes.  In terms of priority, team votes are voted on before general votes. Team votes are called using the "/callteamvote" or with "/vote if normal voting is disabled.
+    </li>
+
+    <li><B>Vote Control:</B>
+	Admins can now select which vote items they want players to be able to vote on.
+    <ul>
+	    <LI>g_allowGametypeVote - Allow Gametype voting
+	    <LI>g_AllowMapVote - Control map votes
+	    <ol>
+	        <LI>2 = full map voting
+	        <LI>1 = map restart and next map votes only
+	        <LI>0 = no map votes
+	    </ol>
+        <LI>g_AllowKickVote - Allow kick votes.  Note: This does not apply to the Team Kicking mentioned above.
+    </ul>
+</UL>
+
+<h1 style="text-align: center"><B><a name="AdminCvars">Admin Cvars/Commands</a></B></h1>
+    <ol>
+
+<UL>	<BR>This is a complete list of all the cvars related to the new admin features.
+</UL>
+
+<UL>    <BR><U>/centersay</U>
+	<LI><B>OJP, Multiplayer, Admin, Command </B>
+	<BR>Description:
+	/centersay, which is used just like /say, is used to print large, center-of-the-screen messages on all clients connected to the game.
+</UL>
+
+<UL>    <U><BR>g_allowGametypeVote 1</U>
+	<B>OJP, Multiplayer, Admin, Cvar</B>
+	<BR>Description:
+	Allow Gametype voting
+</UL>
+
+<UL>	<U><BR>g_AllowMapVote 1</U>
+	<B>OJP, Multiplayer, Admin, Cvar</B>
+	<BR>Description:
+	Controls map change voting
+	<LI>2 = full map voting
+	<LI>1 = map restart and next map votes only
+	<LI>0 = no map votes
+</UL>	
+
+<UL>	<BR><U>g_AllowKickVote 1</U>	
+	<BR><B>OJP, Asteroids, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	<BR>Allow kick votes.  Note: This does not apply to the Team Kicking mentioned above.
+</UL>
+
+<UL>	<BR><U>g_allowTeamVote 1</U>
+	<BR><B>OJP, Asteroids, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	Toggles the abilitiy to vote to of kick your own teammates.
+</UL>
+
+<UL>	<BR><U>g_autoBanKillSpammers 0</U>
+	<BR><B>OJP, Asteroids, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	Auto ban a player after this many suicides (/kill). 0 = no limit.    This cvar overrides g_autoKickKillSpammers if set.
+</UL>
+
+<UL>	<BR><U>g_autoBanTKSpammers 0</U>
+	<B><BR>OJP, Asteroids, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	Auto kick a player after this many team kills. 0 = no limit.  This cvar is overriden by g_autoBanKillSpammers (if set).
+	
+</UL>
+<UL>	<BR><U>g_autoKickKillSpammers 0</U>
+	<B><BR>OJP, Asteroids, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	Auto kick a player after this many suicides (/kill). 0 = no limit.	
+</UL>
+
+<UL>	<BR><U>g_autoKickTKSpammers 0</U>
+	<B><BR>OJP, Asteroids, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	Auto IP bans TKs after this many team kills. 0 = no limit.
+</UL>
+
+<UL>	<BR><U>ojp_chatProtectTime 1000</U>
+	<B><BR>OJP, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	Sets how often a player can send text messages.  Time is in milliseconds.  0 = no limit.
+</UL>
+
+<UL>	<BR><U>ojp_clientMOTD</U>
+	<B><BR>OJP, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	This cvar contains a MOTD that is displayed in the center of the screen on every client that IS running the mod (or the correct version of it).
+</UL>
+	
+<UL>	<BR><U>ojp_MOTD</U>
+	<B><BR>OJP, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	This cvar contains a MOTD that is displayed in the center of the screen on every client that ISN'T running the mod (or the correct version of it).
+</UL>
+
+<UL>	<BR><U>g_teamForceBalance 0</U>
+	<B><BR>OJP, Multiplayer, Admin, cvar</B>
+	<BR>Description:
+	Enabling this will make it so players can only join the team with the least number of players.
+</UL>
+<UL>	<BR><U>OJP Changes (see Auto Team Balancer):</U>
+	<BR>0 = disabled
+	<BR>1 = basejka g_teamForceBalance	
+	<BR>2 = standard Auto Team Balancer scans.  
+	<BR>3 = Auto Team Balancer scans with additional team balancing for score.
+	<BR>4 = Like 3 plus it balances the human/bot ratio on the teams.
+</UL>
+    </ol>
+
+</BODY>
+</HTML>
+

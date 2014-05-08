@@ -1,0 +1,548 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+  
+  <title>OJP Editing</title></head>
+
+<body>
+
+
+<h1> Getting OJP Source Code</h1>
+
+
+<p>OJP's source is stored under what is called "revision
+control", meaning that the files are stored on a remote server in a way
+that remembers the changes that have been made to files.&nbsp; This
+remote server is called the <strong>repository</strong>.&nbsp;
+There are two ways to access these files:</p>
+
+
+<ul>
+
+
+  <li> HTTP - Using your web browser you can directly
+access the latest version of all of OJP's files by going <a href="https://opensvn.csie.org/ojp/">here</a>.&nbsp;
+However, this method doesn't allow users to download the entire
+repository at once; to examine different revisions of files;
+or&nbsp;to&nbsp;commit changes.&nbsp; This method is not
+recommend except for casual examination of individual files. </li>
+
+
+  <li>TortoiseSVN - This program allows full access to the OJP
+repository
+from the comfort of Windows Explorer.&nbsp; It also lets users to
+automatically "update" their working copies with the latest code from
+the repository with the click of a button.&nbsp; OJP's developers
+use TortoiseSVN.&nbsp; See <a href="#TortoiseAccessTutorial">
+Accessing OJP's Repository with TortoiseSVN</a>. </li>
+
+
+</ul>
+
+
+<h1><a name="TortoiseAccessTutorial">Accessing
+OJP's Repository with TortoiseSVN</a></h1>
+
+
+<ol>
+
+
+  <li> Install TortoiseSVN.&nbsp; You can get the
+latest version @ <a href="http://tortoisesvn.tigris.org">
+tortoisesvn.tigris.org</a> .&nbsp; This tutorial was written
+for TortoiseSVN v1.4.0. </li>
+
+
+  <li> Create a new folder in
+Windows Explorer.&nbsp; This folder will contain your local
+(working) copy of the OJP repository. (<a href="OJP_Editing_AccessSVN/TortoiseSVN_2.JPG">Screenshot 1</a>) </li>
+
+
+  <li> Right
+click on the new folder and click on <strong>SVN Checkout</strong>. &nbsp;(<a href="OJP_Editing_AccessSVN/TortoiseSVN_2.JPG">Screenshot 1</a>)
+  </li>
+
+
+  <li> Paste in <a href="https://OpenSVN.csie.org/ojp/">https://OpenSVN.csie.org/ojp/</a>
+for the <strong>URL of Repository</strong>. &nbsp;(<a href="OJP_Editing_AccessSVN/TortoiseSVN_3.JPG">Screenshot 1</a>) </li>
+
+
+  <li>Click <strong>Ok</strong>. </li>
+
+
+  <li> Click <strong>Yes</strong>
+to accept the security certificate for the repository.&nbsp; The
+resulting initial download of the repository is <em>long,</em>
+so now would be a good time to break for a snack or bathroom break. </li>
+
+
+  <li>Congradulations, you now have a working local copy of the
+OJP
+repository!&nbsp; At this point, you might want to consult the <a href="#CompilingOJP">Compiling and Debugging&nbsp;OJP</a>
+tutorial if you're interested in playing around with OJP's code.</li>
+
+
+</ol>
+
+
+<h1>Using OJP Enhanced's Autobuilder</h1>
+
+
+<h4>Files needed to for this
+process:&nbsp;</h4>
+
+
+<ol>
+
+  <li><a href="http://msdn.microsoft.com/vstudio/express/downloads/">Microsoft
+Visual C++ 2005 Express Edition</a></li>
+
+  <li><a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=A55B6B43-E24F-4EA3-A93E-40C0EC4F68E5&amp;displaylang=en">Windows&reg;
+Server 2003 SP1 Platform SDK Web Install</a></li>
+
+
+  <li><a href="http://tortoisesvn.net/downloads">TortoiseSVN</a></li>
+
+
+</ol>
+
+
+<h4>Before Starting:</h4>
+
+
+<ol>
+
+
+  <li>Install Microsoft Visual C++ 2005 Express Edition</li>
+
+
+  <li>Install Windows&reg; Server 2003 SP1 Platform SDK</li>
+
+
+  <li>Install TortoiseSVN<br>
+
+  </li>
+
+
+</ol>
+
+<h4 style="font-weight: bold;">Steps:</h4>
+
+<ol>
+
+  <li><a href="http://msdn.microsoft.com/vstudio/express/visualc/usingpsdk/">Configure Visual Studios Express to be able to use the&nbsp;Windows&reg; Server 2003 SP1 Platform SDK</a></li>
+
+  
+  <ol>
+
+    <li>Update the Visual C++ directories in the
+Projects and Solutions section in the Options dialog box. (<a href="OJP_Editing_Screenshots/VSC++_1.jpg">Screenshot 1</a>, <a href="OJP_Editing_Screenshots/VSC++_2.jpg">Screenshot 2</a>, <a href="OJP_Editing_Screenshots/VSC++_3.jpg">Screenshot 3</a>, <a href="OJP_Editing_Screenshots/VSC++_4.jpg">Screenshot 4</a>)</li>
+
+    <li>Update the corewin_express.vsprops file.(<a href="OJP_Editing_Screenshots/VSC++_5.jpg">Screenshot 1</a>, <a href="OJP_Editing_Screenshots/VSC++_6.jpg">Screenshot 2</a>)</li>
+
+    <li>In a text editor comment out lines 441 - 444 of
+AppSettings.htm by putting a // in front of them. &nbsp;(<a href="OJP_Editing_Screenshots/VSC++_7.jpg">Screenshot 1</a>, <a href="OJP_Editing_Screenshots/VSC++_8.jpg">Screenshot 2</a>)</li>
+
+  
+  </ol>
+
+  <li><a href="#TortoiseAccessTutorial">Setup TortoiseSVN to access the OJP repository.</a></li>
+
+  <li>Update the repository.</li>
+
+  
+  <ol>
+
+    <li>Right click on the folder containing the
+repository and click on&nbsp;<span style="font-weight: bold;">SVN Update</span>. (<a href="OJP_Editing_Screenshots/TortoiseSVN_5.jpg">Screenshot 1</a>)</li>
+
+  
+  </ol>
+
+  <li>Compiling OJP DLL's, making OJP PK3's, and making an OJP Installer.</li>
+
+  
+  <ol>
+
+    <li>Go to&nbsp;<span style="font-style: italic;">&lt;Hard Drive
+Name&gt;\&lt;OJP Repository Folder&gt;\Enhanced\</span> where you
+will find the following files: <span style="font-weight: bold;">CompileOJP.bat</span>, <span style="font-weight: bold;">MakePK3.bat</span>,
+      <span style="font-weight: bold;">MakeWindowsInstaller.bat</span>, and <span style="font-weight: bold;">ojp_enhanced_installscript.iss</span>. (<a href="OJP_Editing_Screenshots/Repository_1.jpg">Screenshot 1</a>)</li>
+
+    <li>If you do not want to make an installer and
+just want to make the .pk3's (IE, <span style="font-weight: bold;">ojp_enhanceddlls.pk3</span> and&nbsp;<span style="font-weight: bold;">ojp_enhancedstuff.pk3</span>) you need to run the <span style="font-weight: bold;">CompileOJP.bat</span> batch file.
+After the <span style="font-weight: bold;">CompileOJP.bat</span> batch file is complete you need to run the
+      <span style="font-weight: bold;">MakePK3.bat</span> batch file. After the <span style="font-weight: bold;">MakePK3.bat</span> batch file is complete, 2
+pk3's (<span style="font-weight: bold;">ojp_enhanceddlls.pk3</span> and&nbsp;<span style="font-weight: bold;">ojp_enhancedstuff.pk3</span>) should be
+found at&nbsp;<span style="font-style: italic;">&lt;Hard Drive Name&gt;\&lt;OJP Repository
+Folder&gt;\Enhanced\</span>.</li>
+
+    <li>If you do wish to make an installer, just run
+the <span style="font-weight: bold;">MakeWindowsInstaller.bat</span> batch file, after it is complete an
+      <span style="font-weight: bold;">InstallOJPEnhanced.exe</span> will appear at&nbsp;<span style="font-style: italic;">&lt;Hard Drive
+Name&gt;\&lt;OJP Repository Folder&gt;\Enhanced\</span>.</li>
+
+  
+  </ol>
+
+  <li>Setting the correct revision number.</li>
+
+  
+  <ol>
+
+    <li>To know which is the correct revision number
+you must right click the repository folder followed by clicking the&nbsp;<span style="font-weight: bold;">SVN Update</span> option. You will spot <span style="font-style: italic;">"Completed At revision
+&lt;number here&gt;"</span> at the window that is opened after the
+updates are applied if there are any updates to apply. &nbsp;(<a href="OJP_Editing_Screenshots/Revision_2.jpg">Screenshot 1</a>)</li>
+
+    <li>To have the correct revision number on your
+compiled OJP you must first edit <span style="font-weight: bold;">bg_public.h</span> (notepad is recommended)
+which is located at&nbsp;<span style="font-style: italic;">&lt;Hard Drive Name&gt;\&lt;OJP
+Repository Folder&gt;\Enhanced\source\game\</span>. Once inside the file,
+find<span style="font-weight: bold;"> CURRENT_OJPENHANCED_CLIENTVERSION</span> and edit the revision number to
+the correct one. &nbsp;(<a href="OJP_Editing_Screenshots/Revision_1.jpg">Screenshot 1</a>)</li>
+
+    <li>You must then edit the
+      <span style="font-weight: bold;">ojp_enhanced_installscript.iss</span> script file (notepad is recommended)
+which is located at&nbsp;<span style="font-style: italic;">&lt;Hard Drive Name&gt;\&lt;OJP
+Repository Folder&gt;\Enhanced\</span>. Once inside the file, find&nbsp;<span style="font-weight: bold;">AppVerName</span> and edit the revision number to the correct one. &nbsp;(<a href="OJP_Editing_Screenshots/Revision_3.jpg">Screenshot 1</a>)</li>
+
+    <li>To prevent conflict when updating the
+repository, you need to revert the files edited. Right click on the
+repository folder, select TortoiseSVN, and select "Revert...".
+&nbsp;Only use revert if the only change you've made was to update the
+revision number! &nbsp;(<a href="OJP_Editing_Screenshots/Revision_4.jpg">Screenshot 1</a>, <a href="OJP_Editing_Screenshots/Revision_5.jpg">Screenshot 2</a>)</li>
+
+  
+  </ol>
+
+</ol>
+
+
+
+
+
+
+<span style="font-weight: bold;"></span>
+<h1><a name="CompilingOJP">Compiling and
+Debugging&nbsp;OJP</a></h1>
+
+
+<p>This&nbsp;section&nbsp;covers how to&nbsp;compile
+and/or debug&nbsp;OJP&nbsp;in Visual Studios 2005.&nbsp; <strong>This
+Tutorial is Incomplete!</strong></p>
+
+
+<h4>Compiling:</h4>
+
+
+<ol>
+
+
+  <li> Open the solution file (.sln). </li>
+
+
+  <li>Select <strong>Build-&gt;Configuration Manager</strong>
+from the menu bar. </li>
+
+
+  <li> On the <strong>Active
+solution configuration</strong> pulltab, select <strong>Final</strong>.
+  </li>
+
+
+  <li> Click <strong>Close</strong>. </li>
+
+
+  <li>Select <strong>Build-&gt;Build Solution</strong>
+from
+the menu bar. </li>
+
+
+  <li> The resulting dlls will be in the
+/ojpbasic or /ojpenhanced folders (depending on which distribution
+you're compiling).</li>
+
+
+</ol>
+
+
+<p><strong>Debugging:</strong></p>
+
+<p><strong>IMPORTANT:</strong>  The Steam version of JKA is a bit tricker to work with.  If you have the steam version of JKA, refer to the <strong>“STEAM:”</strong> notes.</p>
+<p><strong>STEAM:</strong>  For Steam users, the JKA folders are in <strong><steam install folder>/SteamApps/common/jedi academy/</strong>.  Before you begin, you need to swap the names of <strong>jasp.exe</strong> and <strong>jamp.exe</strong> in <strong><your JKA>/GameData folder</strong>.</p> 
+
+<ol>
+
+
+  <li> Open the solution file (.sln). </li>
+
+
+  <li>Select <strong>Build-&gt;Configuration Manager</strong>
+from the menu bar. </li>
+
+
+  <li> On the <strong>Active
+solution configuration</strong> pulltab, select <strong>Debug</strong>.
+  </li>
+
+
+  <li> Right click on your <strong>JK2game</strong>
+project in the <strong>Solution Explorer</strong>. </li>
+
+
+  <li>Click on<strong>&nbsp;Set as Startup Project</strong>.
+  </li>
+
+
+  <li>Right click on your <strong>JK2game</strong>
+project
+again. </li>
+
+
+  <li> Select <strong>Properties</strong>.
+  </li>
+
+
+  <li> Click on <strong>Debugging</strong>
+under <strong>Configuration Properties</strong>. </li>
+
+
+  <li>Set <strong>Command</strong> to point
+to&nbsp;the <strong>jamp.exe</strong>
+in your GameData folder wherever your copy of JKA is installed. </li>
+
+    <strong>STEAM:</strong>  Set <strong>Command</strong> to point to <strong>steam.exe</strong> in your steam install folder.
+
+  <li>Add the following to the beginning of&nbsp;your Command
+Arguments<strong>
+"+set fs_cdpath "&lt;your JKA /GameData&gt;" +set fs_game
+&lt;ojpbasic/ojpenhanced&gt; +set fs_dirbeforepak 1 +set
+sv_pure 0 +set viewlog 1"</strong>.&nbsp; Where&nbsp;<strong>&lt;your
+JKA /GameData&gt;</strong> is the location of your /GameData
+folder of your JKA install.&nbsp; And<strong>
+&lt;ojpbasic/ojpenhanced&gt; </strong>is either <strong>ojpbasic</strong>
+or <strong>ojpenhanced</strong> based on which
+distribution you're using.&nbsp; <strong>Example:&nbsp;</strong>
++set fs_cdpath "d:\games\Jedi Knight Academy\GameData" +set fs_game
+ojpenhanced +set fs_dirbeforepak 1 +set sv_pure 0 +set viewlog 1 </li>
+
+   <strong>STEAM:</strong>  Your command args are a bit different.  You need to prepend <strong>“-applaunch 6020”</strong>.  In addition, your <strong>fs_cdpath</strong> points to your OJP development folder rather than your JKA install.
+
+  <li>Set Working Directory to "<strong>../..</strong>".
+  </li>
+
+
+  <li> (Skip this step if you last compiled in the<strong>&nbsp;Debug</strong>
+solution configuration) Select <strong>Build-&gt;Rebuild
+Solution</strong> from the menu bar. </li>
+
+
+  <li> From
+the menu bar, select <strong>Debug-&gt;Start Debugging</strong>.</li>
+
+   <strong>STEAM:</strong>  When debugging, you’re also going to have to use <strong>Debug->Attach to Process</strong> after the game has loaded. 
+
+</ol>
+
+
+<div style="text-align: center;"><span style="font-weight: bold;">Troubleshooting Debugger Problems<br>
+
+
+</span>
+<table style="width: 728px; height: 111px; text-align: left; margin-left: auto; margin-right: auto;" border="1" cellpadding="2" cellspacing="2">
+
+
+  <tbody>
+
+
+    <tr>
+
+
+      <td style="font-weight: bold; text-align: center;">Problem</td>
+
+
+      <td style="font-weight: bold; text-align: center;">Solution</td>
+
+
+    </tr>
+
+
+    <tr>
+
+
+      <td style="text-align: left;">Modified dlls don't
+take effect.<br>
+
+
+Modified
+dlls get overwritten.</td>
+
+
+      <td style="text-align: left;">Doublecheck
+Command Arguments setting. &nbsp;The sv_pure 0 settings is
+especially important.</td>
+
+
+    </tr>
+
+
+    <tr>
+
+
+      <td>I'm
+getting a assert error whenever someone presses alt fire while flying
+the Asteroids version of the Y-Wing!</td>
+
+
+      <td>It's a bug in
+the Y-Wing's NPC file.&nbsp; Its weapon should be set to <span style="font-weight: bold;">WP_BLASTER</span> instead
+of <span style="font-weight: bold;">WP_NONE</span>.&nbsp;
+The bug is harmless as it doesn't break anything.&nbsp; It's best
+to
+either fix the file or just not fly the Y-Wing while debugging.</td>
+
+
+    </tr>
+
+
+  
+  </tbody>
+</table>
+
+
+<span style="font-weight: bold;"></span></div>
+
+
+<h1>Compiling OJP for Linux on Windows</h1><ol><li>Download and install
+minGW. &nbsp;I used v5.1.6. &nbsp;When asked, you will need the MinGW
+Make component. &nbsp;MinGW should be installed to a folder path
+without spaces in it.</li><li>Add your &lt;minGWInstall&gt;\bin to your system environment variables.</li><li>Run compile_linux.bat in \source folder.</li><li>Profit!</li></ol><h1>Build Configurations</h1>
+
+
+<p> This is a list of the
+possible build configurations of the OJP source code and what they do:</p>
+
+
+<ul>
+
+
+  <li><strong>Debug </strong>- Configured
+for debugger.&nbsp; Flags set to generate additional debugging
+related code and messages.&nbsp; This mode also supposedly is a bit
+more forgiving about memory issues.</li>
+
+
+  <li><strong>Debug(Final)</strong>
+- This is the Final build configuration simply set up to run with the
+Visual Studios debugger.&nbsp; This is the recommended standard
+work configuration.</li>
+
+
+  <li><strong>Final </strong>-
+Configured for building project for final release.&nbsp; Code is
+optimized for speed and all debugging related stuff is
+removed.&nbsp; Use this mode if you're compiling your code for
+release to the public.</li>
+
+
+  <li><strong>Release</strong>
+- Unknown</li>
+
+
+</ul>
+
+
+<h1> Code Preprocessors</h1>
+
+
+This is a list of known code preprocessor flags used in the OJP source
+code:<br>
+
+
+<br>
+
+
+<strong></strong>
+<ul>
+
+
+  <li><strong>BUILDING_REF_GL</strong>
+- Unknown, doesn't seem to be used.</li>
+
+
+  <li><strong>JK2AWARDS</strong>
+- This enables the awards system originally used in Quake 3.&nbsp;
+Unfortunately, the system does not work if enabled.</li>
+
+
+  <li><strong>MISSIONPACK</strong>
+- Unknown (probably Quake 3 related), doesn't seem to be used.<br>
+
+
+    <strong></strong></li>
+
+
+  <li><strong>QAGAME</strong>
+- This preprocessor indicates that it's the compiler is compiling for
+the game side of the .dll code.<br>
+
+
+    <strong></strong></li>
+
+
+  <li><strong>UI_EXPORTS</strong> - This preprocessor
+indicates that it's the compiler is compiling for the ui side of the
+.dll code.<br>
+
+
+    <strong></strong></li>
+
+
+  <li><strong>_USRDLL</strong>
+- Used to be used by the Visual Studios compiler to properly compile
+the .dlls.&nbsp; It's not used anymore.<br>
+
+
+    <strong></strong></li>
+
+
+  <li><strong>_WINDOWS</strong> - Indicates that the
+program is a Windows application.&nbsp; Used by compiler I think.</li>
+
+
+</ul>
+
+
+<h1>Editing Guidelines</h1>
+
+
+<ul>
+
+
+  <li>Document
+your work as much as possible.&nbsp; Be sure to add mentions of
+your work in the readme and other project documents.</li>
+
+
+  <li>Make
+your work as clean and tight as possible.</li>
+
+
+  <li>Follow
+the coding guidelines.&nbsp; Try to keep your code as separated
+from
+other code as is reasonable.&nbsp; Label EVERY coding change (from
+basejka)
+with appropriate coding tags.&nbsp; If you're creating a new
+feature, you'll
+get to determine what the tag name will be.&nbsp; Try to pick
+something that
+is simple and easy to search for.</li>
+
+
+</ul>
+
+
+</body></html>
+

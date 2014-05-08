@@ -1,0 +1,564 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+  <title>OJP Cooperative Play</title></head>
+<body>
+
+<div style="text-align: center;">
+<h1><a class="mozTocH1" name="mozTocId728053"></a>Open Jedi Project Cooperative Play</h1>
+<div style="text-align: left;">
+<h2><a class="mozTocH2" name="mozTocId839717"></a>Table of Contents<span style="text-decoration: underline;"></span></h2>
+<ul id="mozToc"><!--mozToc h2 1 h3 2 h4 3 h5 4 h5 5 h6 6--><li><a href="#mozTocId839717">Table of Contents</a></li><li><a href="#mozTocId729073">Converting ICARUS scripts to work with MP</a><ul><li><a href="#mozTocId660584">Tools Required</a></li><li><a href="#mozTocId497016">What To Do</a></li></ul></li><li><a href="#mozTocId881882">CoOp Cvars</a></li><li><a href="#mozTocId757610">CoOp Map Compatibility</a><ul><li><a href="#mozTocId141345">Jedi Knight Academy Singleplayer Maps</a></li><li><a href="#mozTocId387118">Jedi Knight Outcast Singleplayer Maps</a></li><li><a href="#mozTocId491856">Map-Specific Issues:</a><ul><li><a href="#mozTocId816608">t1_fatal</a></li><li><a href="#mozTocId759536">t1_rail</a></li><li><a href="#mozTocId703311">t1_sour</a></li><li><a href="#mozTocId327723">t1_surprise</a></li><li><a href="#mozTocId603321">t2_rogue</a></li><li><a href="#mozTocId131991">t2_trip</a></li><li><a href="#mozTocId754967">t2_wedge </a></li><li><a href="#mozTocId966948">vjun1</a></li><li><a href="#mozTocId933942">vjun2</a></li><li><a href="#mozTocId630872">t3_byss</a></li><li><a href="#mozTocId495714">t3_hevil</a></li><li><a href="#mozTocId281061">t3_stamp</a></li><li><a href="#mozTocId813229">kor1</a></li><li><a href="#mozTocId810858">kor2</a></li></ul></li></ul></li><li><a href="#mozTocId810809">AutoSave/Spawnpoint CoOp Editor</a><ul><li><a href="#mozTocId701054">CoOp Editor Commands</a><ul><li><a href="#mozTocId580156">/autosave_add [t] &lt;size&gt;</a></li><li><a href="#mozTocId261996">/autosave_delete</a></li><li><a href="#mozTocId548600">/autosave_save</a></li></ul></li></ul></li></ul>
+<h2><a class="mozTocH2" name="mozTocId729073"></a>Converting ICARUS scripts to work with MP</h2>
+Basically, what we're doing here is changing the format for the camera
+calls so that the MP ICARUS scripting can read it.&nbsp; Unfortunately,
+the ability to fix the issue without doing this would require the full
+engine code, which we are not going to get.<br>
+<h3><a class="mozTocH3" name="mozTocId660584"></a>Tools Required</h3>
+<ul>
+  <li>JKA SDK (specifically the source ICARUS files and the BehaveED)</li>
+  <li>A&nbsp;simple text editor</li>
+</ul>
+<h3><a class="mozTocH3" name="mozTocId497016"></a>What To Do</h3>
+What we're doing is converting the camera function calls from <span style="font-weight: bold;">camera ()</span> to <span style="font-weight: bold;">set ()</span>.&nbsp; This is very easy.&nbsp; All you gotta do is copy the first part of a set () onto the first part of a camera ().<br>
+<br>
+For example, this...<br>
+<span style="font-style: italic; font-weight: bold;">camera ( /*@CAMERA_COMMANDS*/ MOVE, $tag( "endcam1", ORIGIN)$, 0 );</span><br>
+Becomes this...<br>
+<span style="font-style: italic; font-weight: bold;">set ( /*@SET_TYPES*/ "MOVE, $tag( "endcam1", ORIGIN)$, 0 );</span><br>
+<br>
+<span style="font-weight: bold;">NOTE:&nbsp;</span> For you
+non-programmers out there, the stuff inside /**/ (like
+/*@CAMERA_COMMANDS*/ or /*@SET_TYPES*/) are just code comments.&nbsp;
+They don't matter to the scripting.<br>
+<br>
+The second step is to add quotes to the camera action type (PAN/MOVE/FADE/etc).<br>
+<span style="font-weight: bold; font-style: italic;">set ( /*@SET_TYPES*/ "MOVE", $tag( "endcam1", ORIGIN)$, 0 );</span><br>
+<br>
+The third step is to add quotes around all of the camera settings
+data.&nbsp; What this is doing is converting all of it into a single
+data string to be processed by the game.<br>
+<span style="font-weight: bold; font-style: italic;">set ( /*@SET_TYPES*/ "MOVE", "$tag( "endcam1", ORIGIN)$, 0" );</span><br>
+<br>
+The final step is to remove any internal quotes that are inside your
+single data string [i]for the camera sets only[/i].&nbsp; If you don't,
+you'll have the ICARUS compiler erroring about too many
+parameters.&nbsp; In this case, we're removing the quotes about the
+entity name in the tag.<br>
+<span style="font-weight: bold; font-style: italic;">set ( /*@SET_TYPES*/ "MOVE", "$tag( endcam1, ORIGIN)$, 0" );</span><br>
+<br>
+<span style="font-weight: bold;">NOTE:&nbsp;</span> Do not alter the
+tags on sets that aren't camera functions that you converted.&nbsp;
+You'll totally break the tag system for everything other than cameras.<br>
+<br>
+<span style="font-weight: bold;">NOTE:</span>&nbsp; The <span style="font-weight: bold;">ENABLE</span> and <span style="font-weight: bold;">DISABLE</span> camera commands do require a value.&nbsp; I normally just use "1" but it doesn't matter what you use.<br>
+<span style="font-weight: bold; font-style: italic;">set ( /*@SET_TYPES*/ "ENABLE", "1" );</span><br>
+<br>
+That's all you gotta do in terms of editing.&nbsp; From there, you need
+to save the file into .txt format and then use BehavED to compile the
+script.&nbsp; If you get compile errors, you screwed something
+up.&nbsp; Feel free to post questions if you have troubles but please
+be sure to include the exact compiler error.<br><h2><a class="mozTocH2" name="mozTocId881882"></a>CoOp Cvars</h2><a href="OJP_Cvars.html#ojp_skipcutscenes">ojp_skipcutscenes</a><br>
+<h2><a class="mozTocH2" name="mozTocId757610"></a>CoOp Map Compatibility</h2>
+<h3 style="text-align: center;"><a class="mozTocH3" name="mozTocId141345"></a>Jedi Knight Academy Singleplayer Maps</h3>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="text-align: center; font-weight: bold;">Map Name</td>
+      <td style="text-align: center; font-weight: bold;">Completable</td>
+      <td style="text-align: center; font-weight: bold;">Mission Name</td>
+      <td style="text-align: center; font-weight: bold;">World</td>
+    </tr>
+    <tr>
+      <td><span style="font-weight: bold;">Training</span></td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>yavin1b</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Starting Level</td>
+      <td>Yavin</td>
+    </tr>
+    <tr>
+      <td>t1_inter </td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td> Intermission Cutscene - Yavin</td>
+      <td>Yavin</td>
+    </tr>
+    <tr>
+      <td><span style="font-weight: bold;">Tier 1</span></td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>t1_danger</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Merchant Rescue (Sand Creature)</td>
+      <td>Blenjeer</td>
+    </tr>
+    <tr>
+      <td>t1_fatal</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Emergency Assistance (Bomb Disarm)</td>
+      <td>Bakura</td>
+    </tr>
+    <tr>
+      <td>t1_rail</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Cult Investigation (Rail Train)</td>
+      <td>Corellia</td>
+    </tr>
+    <tr>
+      <td>t1_sour</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Mercenary Activity (Chewbacca)</td>
+      <td>Tatooine</td>
+    </tr>
+    <tr>
+      <td>t1_surprise</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Droid Recovery</td>
+      <td>Tatooine</td>
+    </tr>
+    <tr>
+      <td><span style="font-weight: bold;">Hoth Mission</span></td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>hoth2</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Luke Skywalker's vision</td>
+      <td>Hoth</td>
+    </tr>
+    <tr>
+      <td>hoth3</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Luke Skywalker's vision continued</td>
+      <td>Hoth</td>
+    </tr>
+    <tr>
+      <td><span style="font-weight: bold;">Tier 2</span></td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>t2_dpred</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Cult Investigation</td>
+      <td>Dossun</td>
+    </tr>
+    <tr>
+      <td>t2_rancor</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Rescue Mission</td>
+      <td>Nar Kreeta</td>
+    </tr>
+    <tr>
+      <td>t2_rogue</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Capture Crime Lord</td>
+      <td>Coruscant</td>
+    </tr>
+    <tr>
+      <td>t2_trip </td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Meet Contact (Swoop)</td>
+      <td>Zonju V</td>
+    </tr>
+    <tr>
+      <td>t2_wedge</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Covert Operation</td>
+      <td>Kril'dor</td>
+    </tr>
+    <tr>
+      <td><span style="font-weight: bold;">Vjun Mission</span></td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>vjun1</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Enter Darth Vader's Castle - Part 1</td>
+      <td>Vjun</td>
+    </tr>
+    <tr>
+      <td>vjun2</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Enter Darth Vader's Castle - Part 2</td>
+      <td>Vjun</td>
+    </tr>
+    <tr>
+      <td>vjun3</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Enter Darth Vader's Castle - Part 3</td>
+      <td>Vjun</td>
+    </tr>
+    <tr>
+      <td><span style="font-weight: bold;">Tier 3</span></td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>t3_bounty</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Weapon Destruction</td>
+      <td>Ord Mantell</td>
+    </tr>
+    <tr>
+      <td>t3_byss</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Force Theft Investigation</td>
+      <td>Byss</td>
+    </tr>
+    <tr>
+      <td>t3_hevil</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Dismantle Device</td>
+      <td>Yalara</td>
+    </tr>
+    <tr>
+      <td>t3_rift</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Cult Sighting</td>
+      <td>Chandrila</td>
+    </tr>
+    <tr>
+      <td>t3_stamp</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Cult Investigation</td>
+      <td>Tanaab</td>
+    </tr>
+    <tr>
+      <td><span style="font-weight: bold;">Taspir Mission</span></td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>taspir1</td>
+      <td style="text-align: center; font-weight: bold;">X</td>
+      <td>Search for Rosh Penn - Part 1</td>
+      <td>Taspir</td>
+    </tr>
+    <tr>
+      <td>taspir2</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Search for Rosh Penn - Part 2</td>
+      <td>Taspir</td>
+    </tr>
+    <tr>
+      <td>Korriban Mission</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>kor1</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Final Mission - Part 1</td>
+      <td>Korriban</td>
+    </tr>
+    <tr>
+      <td>kor2</td>
+      <td style="text-align: center; font-weight: bold;"></td>
+      <td>Final Mission - Part 2</td>
+      <td>Korriban</td>
+    </tr>
+  </tbody>
+</table>
+&nbsp;&nbsp;<br>
+<h3 style="text-align: center;"><a class="mozTocH3" name="mozTocId387118"></a>Jedi Knight Outcast Singleplayer Maps</h3>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="font-weight: bold; text-align: center;">Map Name</td>
+      <td style="font-weight: bold; text-align: center;">Completable</td>
+      <td style="font-weight: bold; text-align: center;">Mission Name</td>
+      <td style="font-weight: bold; text-align: center;">World</td>
+    </tr>
+    <tr>
+      <td>kejim_post</td>
+      <td></td>
+      <td>Starting Level</td>
+      <td>Kejim</td>
+    </tr>
+    <tr>
+      <td>kejim_base </td>
+      <td></td>
+      <td></td>
+      <td>Kejim</td>
+    </tr>
+    <tr>
+      <td>artus_mine</td>
+      <td></td>
+      <td></td>
+      <td>Artus</td>
+    </tr>
+    <tr>
+      <td>artus_detention</td>
+      <td></td>
+      <td>Rescue the Miners</td>
+      <td>Artus</td>
+    </tr>
+    <tr>
+      <td>artus_topside</td>
+      <td></td>
+      <td>Save the Miners</td>
+      <td>Artus</td>
+    </tr>
+    <tr>
+      <td>valley</td>
+      <td></td>
+      <td>Valley of the Jedi cutscene</td>
+      <td>Unknown</td>
+    </tr>
+    <tr>
+      <td>yavin_temple</td>
+      <td></td>
+      <td>Temple explore</td>
+      <td>Yavin</td>
+    </tr>
+    <tr>
+      <td>yavin_trial</td>
+      <td></td>
+      <td>Jedi Training/Trial</td>
+      <td>Yavin</td>
+    </tr>
+    <tr>
+      <td>ns_streets </td>
+      <td></td>
+      <td>First Jedi level</td>
+      <td>Nar Shadda</td>
+    </tr>
+    <tr>
+      <td>ns_hideout</td>
+      <td></td>
+      <td>Reelo's Hideout</td>
+      <td>Nar Shadda</td>
+    </tr>
+    <tr>
+      <td>ns_starpad</td>
+      <td></td>
+      <td></td>
+      <td>Nar Shadda</td>
+    </tr>
+    <tr>
+      <td>bespin_under-city </td>
+      <td></td>
+      <td></td>
+      <td>Bespin</td>
+    </tr>
+    <tr>
+      <td>bespin_streets</td>
+      <td></td>
+      <td></td>
+      <td>Bespin</td>
+    </tr>
+    <tr>
+      <td>bespin_platform</td>
+      <td></td>
+      <td></td>
+      <td>Bespin</td>
+    </tr>
+    <tr>
+      <td>cairn_bay </td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>cairn_assembly</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>cairn_reactor</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>cairn_dock1</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>doom_comm</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>doom_detention </td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>doom_shields</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>yavin_swamp</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>yavin_canyon</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>yavin_courtyard </td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>yavin_final</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h3><a class="mozTocH3" name="mozTocId491856"></a>Map-Specific Issues:</h3>
+<h4><a class="mozTocH4" name="mozTocId816608"></a>t1_fatal</h4>
+<ul>
+  <li>Door back to ship doesn't always open after all the bombs have been disarmed. (Razor Ace)</li>
+  <li>Dead bodies at start of the map are playing the gun ready stance animation (Razor Ace)</li>
+  <li>Camera view cutscene doesn't play cutscene sounds and you can't see the actors either. (Razor Ace)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId759536"></a>t1_rail</h4>
+<ul>
+  <li>Falling off the map makes the screen go back.</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId703311"></a>t1_sour</h4>
+<ul>
+  <li>Needs more autosave points to prevent players from getting trapped behind.</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId327723"></a>t1_surprise</h4>
+<ul>
+  <li>Stops when deactivating the flamethrower inside the sandcrawler. (Greg Williams)</li>
+  <li>Some tuskens are unarmed (tusken staff missing). (Greg Williams)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId603321"></a>t2_rogue</h4>
+<ul>
+  <li>If you die in Racto's room, you can't go up there again because of the lift. (Greg Williams)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId131991"></a>t2_trip</h4>
+<ul>
+  <li>Enemies don't use swoops.</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId754967"></a>t2_wedge </h4>
+<ul>
+  <li>The map takes long to find the spawn point for you to start, but
+actually does. There are no points to place the Charges. I don't think
+the level can be finished without the bombs. (Greg Williams)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId966948"></a>vjun1</h4>
+<ul>
+  <li>Something is currupting the Spawn Force Powers slightly after the
+first checkpoint.&nbsp; Need more information about what's causing this
+to happen. (Razor Ace)</li>
+  <li>Kyle attacks his friends when playing with multiple players?! (Razor Ace)</li>
+  <li>Kyle falls behind very easily. (Razor Ace)</li>
+  <li>Tie Bombers don't explode with chunks. (Razor Ace)</li>
+  <li>Tie Bombers don't drop bombs. (Razor Ace)</li>
+  <li>Hazard Trooper AI isn't fully implimented. (Razor Ace)</li>
+  <li>Invisible imperial officer in the first control room?! (Razor Ace)</li>
+  <li>Hazard Troopers don't visibly have guns. (Razor Ace)</li>
+  <li>Rain effect plays inside of buildings. (Razor Ace)</li>
+  <li>Respawning caused player's force abilities to be completely disabled (Razor Ace)</li>
+  <li>Acid rain damage doesn't happen. (Razor Ace)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId933942"></a>vjun2</h4>
+<ul>
+  <li>The map works, but crashes to desktop when you reach the first checkpoint. (Greg Williams)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId630872"></a>t3_byss</h4>
+<ul>
+  <li>The sentry kills the Imperials. (Greg Williams)</li>
+  <li>No support for the turrets to take out some TIEs. (Greg Williams)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId495714"></a>t3_hevil</h4>
+<ul>
+  <li>The Noghris are unarmed (their gas weapon is missing). (Greg Williams)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId281061"></a>t3_stamp</h4>
+<ul>
+  <li>No Mutant Rancor in there. (Greg Williams)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId813229"></a>kor1</h4>
+<ul>
+  <li>The very first statue-push puzzle isn't working. The statues
+don't move and there's no way out except with noclip on. (Greg Williams)</li>
+  <li>Map ramdomly crashes to desktop with a Windows message: "AppName:
+jamp.exe"/ "AppVer: 1.0.1.0"/ "ModName: cgamex86.dll" / "ModVer:
+1.0.1.0" / "Offset: 00036850" (Greg Williams)</li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId810858"></a>kor2</h4>
+<ul>
+  <li>Tavion can't be defeated? (Greg Williams)</li>
+  <li>If you die during the fight you can't go inside the room, same as Lannik Racto's. (Greg Williams)</li>
+  <li>"Bad spawnpoint in Use_Autosave()" just before we entered the final tavion fight sequence. (MaxState)</li>
+</ul>
+<h2><a class="mozTocH2" name="mozTocId810809"></a>AutoSave/Spawnpoint CoOp Editor</h2>
+To resolve some issues with preexisting maps and the multiplayer CoOp
+enviroment, we're created a handy ingame editor that allows you to
+create additional spawnpoints and autosave locations.<br>
+<br>
+To activate the editor, simply start up the map with the bot waypoint editor activated (bot_wp_edit 1).<br>
+<br>
+While in the editor, manually created spawnpoints look like small
+vertical tick marks and manually created autosave points look like
+large diangle lines.&nbsp; <br>
+<h3><a class="mozTocH3" name="mozTocId701054"></a>CoOp Editor Commands</h3>
+<h4><a class="mozTocH4" name="mozTocId580156"></a><span style="font-weight: bold;">/autosave_add [t] &lt;size&gt;</span></h4>
+<span style="font-weight: bold;">Description:</span><br>
+Adds an autosave point at the player's current position.&nbsp; The 't'
+flag sets the autosave point to be a teleporting autosave.&nbsp; IE,
+this makes all players to be transported to the autosave, like in
+Halo.&nbsp; &lt;size&gt; overrides the default size of the autosave
+area (the default value is 30).&nbsp; In terms of game scale, 10 game
+units = 1 foot.&nbsp; <br>
+<br>
+Giving a size of -1 will create a spawnpoint at the current location
+instead of an autosave point.&nbsp; Additional spawnpoints are useful
+for maps that don't have enough space for multiple players spawning at
+the beginning of the level.<br>
+<br>
+<span style="font-weight: bold;">Examples:<br>
+</span>
+<ul>
+  <li>/autosave_add t 70 - This command would create a teleporting autosave that is 7 foot across.</li>
+  <li>/autosave_add -1 - This command would create a spawnpoint.&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<br>
+  </li>
+</ul>
+<h4><a class="mozTocH4" name="mozTocId261996"></a>/autosave_delete</h4>
+<span style="font-weight: bold;">Description:</span><br>
+This command will delete all the manually added spawnpoints and autosave positions that the player is currently touching.<br>
+<h4><a class="mozTocH4" name="mozTocId548600"></a>/autosave_save</h4>
+<span style="font-weight: bold;">Description:</span><br>
+This command saves all the current custom autosave/spawnpoint data to
+an .autosp file for this map.&nbsp; This file will be automatically
+loaded the next time this map is run.<br>
+</div>
+</div>
+
+<size><size></size></size>
+</body></html>

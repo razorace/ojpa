@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+
+
+
+
+  
+  
+  
+  
+  
+  <title>OJP Documentation Index</title></head>
+<body>
+
+
+
+
+
+
+<h1 style="text-align: center;">OJP RGB Sabers</h1>
+
+
+
+
+
+
+<p align="left">&nbsp;</p>
+
+
+
+
+
+
+<p align="left"><b><font size="5">jka tchouky's rgb saber b1</font></b><br>
+<br>
+<br>
+Hello everyone, this is a jka version of my RGB sabers.<br>
+you can easily set up your cool new saber colors in the menus.<br>
+however, if you want to do it by hand, here are the cvars.<br>
+<br>
+NOTE : the SCRIPTED sabers are only selectable with CVARS.<br>
+<br>
+<br>
+<br>
+<font size="5"><b>new saber colors:</b><br>
+</font><br>
+<br>
+//for cvars "color1" and "color2"<br>
+<br>
+0 => red<br>
+1 => orange<br>
+2 => yellow<br>
+3 => green<br>
+4 => blue<br>
+5 => purple<br>
+6 => white<br>
+7 => black<br>
+8 => rgb<br>
+9 => pimp<br>
+10 => scripted<br>
+<br>
+</p>
+<p align="left"><b><font size="5">new cvars for definition<br>
+of rgb params of the blades</font></b><br>
+<br>
+rgb_saber1 &amp; rgb_saber2<br>
+<br>
+//usage :&nbsp;<br>
+rgb_saber1 R,G,B<br>
+<br>
+example :&nbsp;<br>
+<br>
+rgb_saber1 255,0,255 //purple<br>
+<br>
+</p>
+<p align="left"><br>
+<b><font size="5">cvars for scripted sabers !!!</font></b><br>
+<br>
+rgb_script1 &amp; rgb_script2<br>
+<br>
+//usage :&nbsp;<br>
+rgb_script1 :R1,G1,B1:T1:R2,G2,B2:t2:<br>
+<br>
+with R1, G1, and B1 being the rgb params of the color number 1.<br>
+you have up to 10 color slots for each scripted sabers.<br>
+T1 is the transition time between color 1 and color 2 in milliseconds.<br>
+<br>
+example:<br>
+rgb_script1 :255,0,0:500:255,0,255:500:0,0,255:500:<br>
+<br>
+this script will make a saber that is red and then changes to purple<br>
+and then to blue with a transition time of half a second (500 millisecs) between each color changes.<br>
+<br>
+<br>
+<br>
+<b><font size="5">jka tchouky's rgb saber b1</font></b></p>
+
+
+
+
+
+
+<p align="left">modmakers.txt<br>
+<br>
+<br>
+<b><font size="5">Custom blades' shapes</font></b><br>
+<br>
+<br>
+if you want to allow your new sabers to be compatible with RGB mods,<br>
+just replace the 3 following files :<br>
+<br>
+<br>
+gfx\effects\sabers\<br>
+<br>
+rgb_line.jpg<br>
+rgb_glow2.jpg<br>
+rgb_core.jpg<br>
+<br>
+to alter the black saber, just change :<br>
+<br>
+black_glow.tga<br>
+black_line.tga<br>
+black_trail_core.tga<br>
+black_trail_glow.tga<br>
+<br>
+don't forget the alpha channel !<br>
+<br>
+<b><font size="5">Bots using custom sabers<br>
+</font></b><br>
+<br>
+in the botfiles/bots.txt<br>
+just add entries for :&nbsp;<br>
+rgb_saber1<br>
+rgb_saber2<br>
+rgb_script1<br>
+rgb_script2<br>
+<br>
+and change the color1 and color2 values to make them match the kind<br>
+of saber you want the bot to use.<br>
+examples provided in the pk3 : /botfiles/bots.txt watch out for alora and cultist<br>
+<br>
+<b><font size="5">Coders<br>
+</font></b><br>
+if you want the source code, just let me know, i ll just give it to you.<br>
+<br>
+<br>
+<br>
+<br>
+Note:  Forgetting to add the colon at the end of a rgb saber script define results in very bad things happening.&nbsp;<br>
+<br>
+<b><font size="5">FAQs:</font></b><br>
+<br>
+Q:  My bot's RGB saber scripts are resulting in nasty saber color flickering and dynamic<br>
+<br>
+A:  Make sure that you included a colon at the end of your saber script in the bot file.  (:255,255,0:500:0,255,0:500:255,0,0:500: = right; :255,255,0:500:0,255,0:500:255,0,0:500 = wrong)<br>
+<br>
+Q:  Why is my bot saber not displaying the correct color?<br>
+<br>
+A:  It's probably because you didn't set the color varible correctly.  See the Color Cvar Legend for which value you want.&nbsp;<br>
+<br>
+<b><font size="4">Color Cvar Legend:</font></b><br>
+	0	Standard Red<br>
+	1	Standard Orange<br>
+	2	Standard Yellow<br>
+	3	Standard Green<br>
+	4	Standard Blue<br>
+	5	Standard Purple<br>
+	6	Standard White<br>
+	7	Standard Black<br>
+	8	RGB Colors<br>
+	9	Pimp Saber<br>
+	10	Scripted RGB Colors</p>
+
+
+
+
+
+
+</body></html>
