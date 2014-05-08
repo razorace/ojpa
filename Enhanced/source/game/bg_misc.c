@@ -201,12 +201,12 @@ int bgForcePowerCost[NUM_TOTAL_SKILLS][NUM_FORCE_POWER_LEVELS] = //0 == neutral
 	{   0,  8, 7,  8	},  //SK_REPEATER,      // repeater/clone rifle skill
 	{   0,  8,  7,  7   },	//SK_DISRUPTOR,      // Disruptor/sniper rifle skill
 	//[StanceSelection]
-	{	0,	8,	8,	0	},	//SK_BLUESTYLE,	//Yellow lightsaber style
-	{	0,	8,	8,	0	},	//SK_REDSTYLE,	//Red lightsaber style
-	{	0,	8,	8,	0	},	//SK_PURPLESTYLE,	//Purple lightsaber style
-	{	0,	8,	8,	0	},	//SK_GREENSTYLE,	//Green lightsaber style
-	{	0,	8,	8,	0	},	//SK_DUALSTYLE,	//Dual lightsaber style
-	{	0,	8,	8,	0	},	//SK_STAFFSTYLE,	//Staff lightsaber style
+	{	0,	1,	0,	0	},	//SK_BLUESTYLE,	//Yellow lightsaber style
+	{	0,	1,	0,	0	},	//SK_REDSTYLE,	//Red lightsaber style
+	{	0,	1,	0,	0	},	//SK_PURPLESTYLE,	//Purple lightsaber style
+	{	0,	1,	0,	0	},	//SK_GREENSTYLE,	//Green lightsaber style
+	{	0,	1,	0,	0	},	//SK_DUALSTYLE,	//Dual lightsaber style
+	{	0,	1,	0,	0	},	//SK_STAFFSTYLE,	//Staff lightsaber style
 	//[/StanceSelection]
 	{	0,	8,	0,	0	},  //SK_REPEATERUPGRADE //Repeater Upgrade
 	{	0,	8,	5,	6	},  //SK_FLECHETTE //Flechette
