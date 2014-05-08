@@ -187,7 +187,7 @@ int BasicDodgeCosts[MOD_MAX] =
 	-1,		//MOD_UNKNOWN,
 	-1,		//MOD_STUN_BATON,
 	-1,		//MOD_MELEE,
-	40,		//MOD_SABER,
+	5,		//MOD_SABER,
 	20,		//MOD_BRYAR_PISTOL,
 	-1,		//MOD_BRYAR_PISTOL_ALT,
 	20,		//MOD_BLASTER,
@@ -12600,7 +12600,7 @@ qboolean G_BlockIsQuickParry( gentity_t *self, gentity_t *attacker, vec3_t hitLo
 	{//player didn't parry in the correct direction, do the minimal parry bonus.
 		//SABERSYSRAFIXME - this is a hack, please try to fix this since it's not really
 		//fair to players.
-		self->client->ps.saberAttackChainCount -= 3;
+		//self->client->ps.saberAttackChainCount -= 3;
 		if(self->r.svFlags & SVF_BOT)
 		{//bots just randomly parry to make up for them not intelligently parrying.
 			if(BOT_PARRYRATE * botstates[self->s.number]->settings.skill > Q_irand(0,999))
