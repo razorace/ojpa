@@ -2967,6 +2967,7 @@ void TAB_BotBehave_AttackBasic(bot_state_t *bs, gentity_t* target)
 	vec3_t enemyOrigin, viewDir, ang, moveDir;
 	float dist;
 	float leadamount;
+	qboolean attackButton = qtrue;
 
 	FindOrigin(target, enemyOrigin);
 
@@ -3039,7 +3040,11 @@ void TAB_BotBehave_AttackBasic(bot_state_t *bs, gentity_t* target)
 	//to just selecting a standard attack swing direction.
 		&& bs->virtualWeapon == WP_SABER && InFieldOfVision(bs->viewangles, 100, ang))
 	{//we're using a lightsaber
-		if(BG_SaberInIdle(bs->cur_ps.saberMove) 
+		if(bs->cur_ps.saberAttackChainCount <= BALANCE_HIGH)
+		{//we're low on MP, stop attacking until
+			attackButton = qfalse;
+		}
+		else if(BG_SaberInIdle(bs->cur_ps.saberMove) 
 		|| PM_SaberInBounce(bs->cur_ps.saberMove)
 		|| PM_SaberInReturn(bs->cur_ps.saberMove))
 		{//we want to attack, and we need to choose a new attack swing, pick randomly.
@@ -3084,7 +3089,10 @@ void TAB_BotBehave_AttackBasic(bot_state_t *bs, gentity_t* target)
 		&& (InFieldOfVision(bs->viewangles, 30, ang) 
 		|| (bs->virtualWeapon == WP_SABER && InFieldOfVision(bs->viewangles, 100, ang))) )
 	{//not switching weapons so attack
-		trap_EA_Attack(bs->client);
+		if(attackButton)
+		{
+			trap_EA_Attack(bs->client);
+		}
 
 		//[SaberSys]
 		if(bs->virtualWeapon == WP_SABER)
