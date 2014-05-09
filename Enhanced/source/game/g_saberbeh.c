@@ -3,6 +3,21 @@
 #include "g_saberbeh.h"
 #include "ai_main.h"
 
+extern vmCvar_t		g_debugsaberbehavior;
+extern stringID_table_t SaberMoveTable[];
+
+stringID_table_t sabBehaveTable[] =
+{
+	ENUM2STRING(SABBEHAVE_NONE),
+	ENUM2STRING(SABBEHAVE_ATTACK),
+	ENUM2STRING(SABBEHAVE_ATTACKPARRIED),
+	ENUM2STRING(SABBEHAVE_ATTACKBLOCKED),
+	ENUM2STRING(SABBEHAVE_BLOCK),
+	ENUM2STRING(SABBEHAVE_BLOCKFAKED),
+	ENUM2STRING(SABBEHAVE_PARRY)
+};
+
+
 static GAME_INLINE void ClearSabMech( sabmech_t *sabmech)
 {
 	sabmech->doStun = qfalse;
@@ -242,11 +257,17 @@ void SabBeh_AttackVsAttack( gentity_t *self, sabmech_t *mechSelf,
 		mechOther->behaveMode = SABBEHAVE_ATTACK;
 #endif
 	}
+
+	if(g_debugsaberbehavior.integer)
+	{
+		G_Printf("Saber Behavior Attack vs Attack: %i (self %s): %s, %i (other %s): %s\n", 
+			self->s.number, GetStringForID(SaberMoveTable, self->playerState->saberMove), GetStringForID(sabBehaveTable, mechSelf->behaveMode), 
+			otherOwner->s.number, GetStringForID(SaberMoveTable, otherOwner->playerState->saberMove), GetStringForID(sabBehaveTable, mechOther->behaveMode));
+	}
 }
 
 extern bot_state_t *botstates[MAX_CLIENTS];
 extern qboolean BG_SuperBreakWinAnim( int anim );
-extern stringID_table_t SaberMoveTable[];
 extern stringID_table_t animTable [MAX_ANIMATIONS+1];
 extern qboolean BG_InSlowBounce(playerState_t *ps);
 extern qboolean G_InAttackParry(gentity_t *self);
@@ -470,6 +491,13 @@ void SabBeh_AttackVsBlock( gentity_t *attacker, sabmech_t *mechAttacker,
 
 	//costs FP as well.
 	BG_AddFatigue(&blocker->client->ps, 1);
+
+	if(g_debugsaberbehavior.integer)
+	{
+		G_Printf("Saber Behavior Attack vs Block: %i (attacker %s): %s, %i (blocker %s): %s\n", 
+			attacker->s.number, GetStringForID(SaberMoveTable, attacker->playerState->saberMove), GetStringForID(sabBehaveTable, mechAttacker->behaveMode), 
+			blocker->s.number, GetStringForID(SaberMoveTable, blocker->playerState->saberMove), GetStringForID(sabBehaveTable, mechBlocker->behaveMode));
+	}
 }
 
 

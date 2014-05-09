@@ -573,9 +573,7 @@ vmCvar_t		d_saberSPStyleDamage;
 vmCvar_t		g_debugSaberLocks;
 
 //[SaberSys]
-#ifndef FINAL_BUILD
-vmCvar_t		g_debugsabercombat;
-#endif
+vmCvar_t		g_debugsaberbehavior;
 //[/SaberSys]
 
 //[DodgeSys]
@@ -944,10 +942,7 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &g_debugSaberLocks, "g_debugSaberLocks", "0", CVAR_CHEAT, 0, qfalse },
 
 	//[SaberSys]
-#ifndef FINAL_BUILD
-	{ &g_debugsabercombat, "g_debugsabercombat", "0", CVAR_CHEAT, 0, qtrue },
-	//1 == the attacker always drops his saber when it collides with something. 
-#endif
+	{ &g_debugsaberbehavior, "g_debugsaberbehavior", "0", 0, 0, qtrue },
 	//[/SaberSys]
 
 	//[DodgeSys]

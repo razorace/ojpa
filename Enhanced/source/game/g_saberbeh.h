@@ -59,7 +59,6 @@ struct sabmech_s {
 
 typedef struct sabmech_s sabmech_t;
 
-#ifdef _DEBUG
 typedef enum
 {//used to debug saber behavior.  
 //Shows (with behaveMode) which mishap probability set was used for saber behavior calculations.
@@ -71,8 +70,7 @@ typedef enum
 	SABBEHAVE_BLOCKFAKED,
 	SABBEHAVE_PARRY,
 } sabBehave_t;
-#endif
-
+extern stringID_table_t sabBehaveTable[SABBEHAVE_PARRY+1];
 
 
 void SabBeh_RunSaberBehavior( gentity_t *self, sabmech_t *mechSelf, 

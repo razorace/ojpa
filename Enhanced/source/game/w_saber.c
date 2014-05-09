@@ -30,9 +30,7 @@ extern vmCvar_t		d_saberSPStyleDamage;
 extern vmCvar_t		g_debugSaberLocks;
 
 //[SaberSys]
-#ifndef FINAL_BUILD
-extern vmCvar_t		g_debugsabercombat;
-#endif
+extern vmCvar_t		g_debugsaberbehavior;
 //[/SaberSys]
 
 //[DodgeSys]
