@@ -7,6 +7,9 @@ This file stores all the information about what has changed from release version
 Version 1.0.0
 	Improvements/Fixes:
 		Saber Combat System:
+			Misc:
+				- Adding g_debugsaberbehavior cvar which, when activated, debug prints information whenever saber behavior is triggered.
+				- Removed g_debugsabercombat cvar because it's not used anymore.
 			Mishaps:
 				- Camera now shakes when the player's mishap meter is low.  The intensity of shaking increases as the meter empties.
 .
