@@ -3918,7 +3918,10 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum )
 	char buf[64];
 	const char	*s;
 	int i = 0;
-	cvar_t *cvar;
+	//[COMPILE]
+	//cvar_t *cvar;
+	//[/COMPILE]
+	
 
 	BG_InitAnimsets(); //clear it out
 
