@@ -5,6 +5,7 @@
 
 extern vmCvar_t		g_debugsaberbehavior;
 extern stringID_table_t SaberMoveTable[];
+extern stringID_table_t SaberBlockedTable[];
 
 stringID_table_t sabBehaveTable[] =
 {
@@ -260,9 +261,9 @@ void SabBeh_AttackVsAttack( gentity_t *self, sabmech_t *mechSelf,
 
 	if(g_debugsaberbehavior.integer)
 	{
-		G_Printf("Saber Behavior Attack vs Attack: %i (self %s): %s, %i (other %s): %s\n", 
-			self->s.number, GetStringForID(SaberMoveTable, self->playerState->saberMove), GetStringForID(sabBehaveTable, mechSelf->behaveMode), 
-			otherOwner->s.number, GetStringForID(SaberMoveTable, otherOwner->playerState->saberMove), GetStringForID(sabBehaveTable, mechOther->behaveMode));
+		G_Printf("%i: SaberBeh Attack vs Attack: %i (self %s:%s): %s, %i (other %s:%s): %s\n", 
+			level.time, self->s.number, GetStringForID(SaberMoveTable, self->playerState->saberMove), GetStringForID(SaberBlockedTable, self->playerState->saberBlocked), GetStringForID(sabBehaveTable, mechSelf->behaveMode), 
+			otherOwner->s.number, GetStringForID(SaberMoveTable, otherOwner->playerState->saberMove), GetStringForID(SaberBlockedTable, otherOwner->playerState->saberBlocked), GetStringForID(sabBehaveTable, mechOther->behaveMode));
 	}
 }
 
@@ -494,9 +495,9 @@ void SabBeh_AttackVsBlock( gentity_t *attacker, sabmech_t *mechAttacker,
 
 	if(g_debugsaberbehavior.integer)
 	{
-		G_Printf("Saber Behavior Attack vs Block: %i (attacker %s): %s, %i (blocker %s): %s\n", 
-			attacker->s.number, GetStringForID(SaberMoveTable, attacker->playerState->saberMove), GetStringForID(sabBehaveTable, mechAttacker->behaveMode), 
-			blocker->s.number, GetStringForID(SaberMoveTable, blocker->playerState->saberMove), GetStringForID(sabBehaveTable, mechBlocker->behaveMode));
+		G_Printf("%i: SaberBeh Attack vs Block: %i (attacker %s:%s): %s, %i (blocker %s:%s): %s\n", 
+			level.time, attacker->s.number, GetStringForID(SaberMoveTable, attacker->playerState->saberMove), GetStringForID(SaberBlockedTable, attacker->playerState->saberBlocked), GetStringForID(sabBehaveTable, mechAttacker->behaveMode), 
+			blocker->s.number, GetStringForID(SaberMoveTable, blocker->playerState->saberMove), GetStringForID(SaberBlockedTable, blocker->playerState->saberBlocked), GetStringForID(sabBehaveTable, mechBlocker->behaveMode));
 	}
 }
 
