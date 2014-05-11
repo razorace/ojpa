@@ -6,6 +6,9 @@ This file stores all the information about what has changed from release version
 
 Version 1.0.0
 	Improvements/Fixes:
+		Compile Fixes (COMPILE):
+			- Fixed a few unreferenced variable compile warnings.
+
 		Saber Combat System:
 			Misc:
 				- Adding g_debugsaberbehavior cvar which, when activated, debug prints information whenever saber behavior is triggered.

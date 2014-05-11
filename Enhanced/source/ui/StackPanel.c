@@ -13,7 +13,6 @@ void StackPanel_Init(StackPanel *panel) {
 
 void StackPanel_Arrange(StackPanel *panel) {
 	int i;
-	const int ChildMargin = 5;
 	int x = panel->rectangle.x;
 	int y = panel->rectangle.y;
 	
