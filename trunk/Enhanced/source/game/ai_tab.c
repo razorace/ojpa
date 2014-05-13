@@ -3040,7 +3040,7 @@ void TAB_BotBehave_AttackBasic(bot_state_t *bs, gentity_t* target)
 	//to just selecting a standard attack swing direction.
 		&& bs->virtualWeapon == WP_SABER && InFieldOfVision(bs->viewangles, 100, ang))
 	{//we're using a lightsaber
-		if(bs->cur_ps.saberAttackChainCount <= BALANCE_HIGH)
+		if(bs->cur_ps.saberAttackChainCount <= BALANCE_LOW)
 		{//we're low on MP, stop attacking until
 			attackButton = qfalse;
 		}
