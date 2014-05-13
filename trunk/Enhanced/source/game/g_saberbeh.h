@@ -14,15 +14,15 @@
 //Mishap Costs (negative values mean the player recovers points)
 #define MPCOST_BLOCKED_SUPERBREAK						2		//superbreak was blocked
 #define MPCOST_BLOCKING_SUPERBREAK					-1	//saber blocking an attack
-#define MPCOST_BLOCKED_ATTACK								-1	//standard attack blocked
-#define MPCOST_BLOCKING_ATTACK							0		//blocking standard attack
+#define MPCOST_BLOCKED_ATTACK								1		//standard attack blocked
+#define MPCOST_BLOCKING_ATTACK							-1	//blocking standard attack
 #define MPCOST_BLOCKING_TAVION_ATTACK				2		//blocking tavion standard attacks causes MP damage
 #define MPCOST_BLOCKED_ATTACK_FAKE					-1	//attack fake was blocked, actually regens mishap because you're keeping your opponent off guard
 #define MPCOST_ATTACK_ATTACK								1		//both sabers attacking
 #define MPCOST_ATTACK_FAKE_ATTACKED					1		//saber was attacked during an attack fake
-#define MPCOST_ATTACKING_ATTACK_FAKE				-1	//attacked an attack fake
+#define MPCOST_ATTACKING_ATTACK_FAKE				0	//attacked an attack fake
 #define MPCOST_PARRIED											3		//getting parried
-#define MPCOST_PARRIED_ATTACKFAKE						6		//attack fake getting parried
+#define MPCOST_PARRIED_ATTACKFAKE						4		//attack fake getting parried
 #define MPCOST_PARRYING											-3	//parrying in general
 #define MPCOST_PARRYING_ATTACKFAKE					-4	//MP you deplete by parrying an attackfake
 #define MPCOST_BLOCKING_ATTACK_FAKE					0		//blocking an attack fake
