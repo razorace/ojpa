@@ -15,6 +15,7 @@ Version 1.0.0
 				- Removed g_debugsabercombat cvar because it's not used anymore.
 			Mishaps:
 				- Camera now shakes when the player's mishap meter is low.  The intensity of shaking increases as the meter empties.
+				- Completely retooled MP costs to encourage players to shift between attacking and defending periodically during saber combat.  In general, MP is lost while attacking and regained while defending.
 				- MP now only regens when the player is meditating.
 		Stance Selection:
 			- Players can no longer use the staff style with a single-bladed lightsaber.
