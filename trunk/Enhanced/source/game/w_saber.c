@@ -12,6 +12,8 @@ extern qboolean InFront( vec3_t spot, vec3_t from, vec3_t fromAngles, float thre
 extern void G_TestLine(vec3_t start, vec3_t end, int color, int time);
 
 //[SaberSys]
+extern stringID_table_t SaberMoveTable[];
+extern stringID_table_t SaberBlockedTable[];
 extern float VectorDistance(vec3_t v1, vec3_t v2);
 qboolean G_FindClosestPointOnLineSegment( const vec3_t start, const vec3_t end, const vec3_t from, vec3_t result );
 //[/SaberSys]
@@ -7168,7 +7170,18 @@ static GAME_INLINE qboolean CheckSaberDamage(gentity_t *self, int rSaberNum, int
 				otherOwner->client->ps.saberBlocked = BLOCKED_ATK_BOUNCE;
 			}
 		}
+
+		if(g_debugsaberbehavior.integer > 2)
+		{//debug print results
+			char tempBuffer[256];
+			G_Printf("%i: %i (self %s:%s): %s\n", 
+				level.time, self->s.number, GetStringForID(SaberMoveTable, self->playerState->saberMove), GetStringForID(SaberBlockedTable, self->playerState->saberBlocked), DebugPrintSabMech(&mechSelf, tempBuffer, 256));
+			G_Printf("%i: %i (other %s:%s): %s\n", 
+				level.time, otherOwner->s.number, GetStringForID(SaberMoveTable, otherOwner->playerState->saberMove), GetStringForID(SaberBlockedTable, otherOwner->playerState->saberBlocked), DebugPrintSabMech(&mechOther, tempBuffer, 256));
+		}
 	}
+
+
 
 	//add saber impact debounce
 	DebounceSaberImpact(self, otherOwner, rSaberNum, rBladeNum, sabimpactentitynum);

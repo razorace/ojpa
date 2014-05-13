@@ -18,6 +18,47 @@ stringID_table_t sabBehaveTable[] =
 	ENUM2STRING(SABBEHAVE_PARRY)
 };
 
+char* DebugPrintSabMech(sabmech_t* sabmech, char* output, int bufferSize)
+{
+	char tempBuffer[64];
+
+	if(!sabmech || !output)
+	{
+		return output;
+	}
+	
+	output[0]= '\0';
+	Com_sprintf(tempBuffer, 64, "BehaveMode: %s", GetStringForID(sabBehaveTable, sabmech->behaveMode));
+	Q_strcat(output, bufferSize, tempBuffer);
+
+	if(sabmech->doStun)
+	{
+		Q_strcat(output, bufferSize, ", Stun");
+	}
+	if(sabmech->doKnockdown)
+	{
+		Q_strcat(output, bufferSize, ", Knockdown");
+	}
+	if(sabmech->doDisarm)
+	{
+		Q_strcat(output, bufferSize, ", Disarm");
+	}
+	if(sabmech->doParry)
+	{
+		Q_strcat(output, bufferSize, ", Parry");
+	}
+	if(sabmech->doSlowBounce)
+	{
+		Q_strcat(output, bufferSize, ", SlowBounce");
+	}
+	if(sabmech->doHeavySlowBounce)
+	{
+		Q_strcat(output, bufferSize, ", HeavySlowBounce");
+	}
+
+	return output;
+}
+
 
 static GAME_INLINE void ClearSabMech( sabmech_t *sabmech)
 {
@@ -103,7 +144,10 @@ void G_AddMishap(gentity_t *self, int amount)
 		}
 	}
 
-	//G_Printf("%i: %i: %i Mishap Points\n", level.time, self->s.number, amount);
+	if(g_debugsaberbehavior.integer > 1)
+	{
+		G_Printf("%i: %i: %i Mishap Points\n", level.time, self->s.number, amount);
+	}
 
 	self->client->ps.saberAttackChainCount -= amount;
 
@@ -667,7 +711,6 @@ void BG_ReduceMishapLevel(playerState_t *ps)
 	{
 		ps->saberAttackChainCount = BALANCE_MAX;
 	}
-
 }
 //[/SaberSys]
 
