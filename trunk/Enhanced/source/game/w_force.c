@@ -2446,7 +2446,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 		&& self->client->ps.saberLockTime < level.time	//not in a saber lock.
 		&& self->client->ps.groundEntityNum != ENTITYNUM_NONE)  //can't regen while in the air.
 	{
-		if(self->client->ps.saberAttackChainCount < BALANCE_MAX) {
+		if(MeditateCheck(self) && self->client->ps.saberAttackChainCount < BALANCE_MAX) {
 			self->client->ps.saberAttackChainCount++;
 		}
 		
