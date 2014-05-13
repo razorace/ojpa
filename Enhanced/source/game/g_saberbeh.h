@@ -58,6 +58,7 @@ struct sabmech_s {
 };
 
 typedef struct sabmech_s sabmech_t;
+char* DebugPrintSabMech(sabmech_t* sabmech, char* output, int bufferSize);
 
 typedef enum
 {//used to debug saber behavior.  
