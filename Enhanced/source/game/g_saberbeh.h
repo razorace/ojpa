@@ -52,9 +52,7 @@ struct sabmech_s {
 
 	qboolean doHeavySlowBounce;
 
-#ifdef _DEBUG
 	int behaveMode;
-#endif
 };
 
 typedef struct sabmech_s sabmech_t;
