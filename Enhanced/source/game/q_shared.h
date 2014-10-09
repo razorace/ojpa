@@ -628,15 +628,14 @@ enum
 typedef int forcePowers_t;
 
 //[ExpSys]
-typedef enum
+enum
 { //Type of Gunnery
 	TG_LIGHT_WEAPON,
 	TG_HEAVY_WEAPON,
 	TG_EXPLOSIVE_WEAPON,
 	TG_GADGET,
 	TG_OTHER
-};
-typedef int typeOfGunnery_t;
+} typeOfGunnery_t;
 
 typedef enum
 {
@@ -3194,7 +3193,7 @@ typedef enum
 	RANK_BOUNTYHUNTER
 } OJPRank;
 
-char* OJPRankString[];
+extern char* OJPRankString[];
 
 #ifndef max
 #define max(a,b) (((a) > (b)) ? (a) : (b))
