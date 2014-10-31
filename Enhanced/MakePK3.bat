@@ -22,7 +22,7 @@ ECHO Y | DEL PK3Stuff
 
 ..\Utilities\zip\7za.exe a -tzip %PK3ASSETS%.pk3 .\%ASSETSFOLDER%\* -xr!.screenshots\ -xr!.svn\ -x!*.dll -x!*.so -x!.\%ASSETSFOLDER%\*.* -xr!*.nav -mx9
 IF ERRORLEVEL 1 GOTO ERROR
- ..\Utilities\zip\7za.exe a -tzip %PK3DLL%.pk3 .\%ASSETSFOLDER%\*.dll -mx9
+ ..\Utilities\zip\7za.exe a -tzip %PK3DLL%.pk3 .\%ASSETSFOLDER%\*.dll .\source\game\*.so -mx9
 
 IF ERRORLEVEL 1 GOTO ERROR
 ECHO.
