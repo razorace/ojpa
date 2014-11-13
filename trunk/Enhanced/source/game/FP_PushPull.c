@@ -15,7 +15,7 @@ qboolean CanCounterThrow(gentity_t *self, gentity_t *thrower, qboolean pull)
 		return qfalse;
 	
 	if(!InFront(thrower->client->ps.origin, self->client->ps.origin, self->client->ps.viewangles, 0.0f) 
-		&& self->client->ps.fd.forcePower < DODGE_CRITICALLEVEL)
+		&& self->client->ps.stats[STAT_DODGE] < DODGE_CRITICALLEVEL)
 		return qfalse;
 
 	return qtrue;
@@ -702,7 +702,7 @@ void ForceThrow( gentity_t *self, qboolean pull )
 							&& (push_list[x]->client->ps.saberAttackChainCount >= BALANCE_LOW)
 						   && !BG_IsUsingHeavyWeap(&push_list[x]->client->ps)
 						   && !PM_SaberInBrokenParry(push_list[x]->client->ps.saberMove)
-						   && push_list[x]->client->ps.fd.forcePower > DODGE_CRITICALLEVEL)
+						   && push_list[x]->client->ps.stats[STAT_DODGE] > DODGE_CRITICALLEVEL)
 							|| BG_InRoll(&push_list[x]->client->ps,push_list[x]->client->ps.legsAnim)
 							&& !pull)
 						{
@@ -714,7 +714,7 @@ void ForceThrow( gentity_t *self, qboolean pull )
 							&& (push_list[x]->client->ps.saberAttackChainCount >= BALANCE_LOW)
 						   && (BG_IsUsingHeavyWeap(&push_list[x]->client->ps) && WalkCheck(push_list[x]))
 						   && !PM_SaberInBrokenParry(push_list[x]->client->ps.saberMove)
-						   && (push_list[x]->client->ps.fd.forcePower > DODGE_CRITICALLEVEL
+						   && (push_list[x]->client->ps.stats[STAT_DODGE] > DODGE_CRITICALLEVEL
 						   && InFront(push_list[x]->client->ps.origin, self->client->ps.origin, self->client->ps.viewangles, -.7f)))
 							&& !pull)
 						{
@@ -747,7 +747,7 @@ void ForceThrow( gentity_t *self, qboolean pull )
 						&& (push_list[x]->client->ps.saberAttackChainCount >= BALANCE_LOW)
 					   && !BG_IsUsingHeavyWeap(&push_list[x]->client->ps)
 					   && !PM_SaberInBrokenParry(push_list[x]->client->ps.saberMove)
-					   && push_list[x]->client->ps.fd.forcePower > DODGE_CRITICALLEVEL)
+					   && push_list[x]->client->ps.stats[STAT_DODGE] > DODGE_CRITICALLEVEL)
 						|| BG_InRoll(&push_list[x]->client->ps,push_list[x]->client->ps.legsAnim))
 					{
 						if(push_list[x]->client->ps.fd.forcePowerLevel[FP_ABSORB] == FORCE_LEVEL_0
@@ -758,7 +758,7 @@ void ForceThrow( gentity_t *self, qboolean pull )
 						|| (!WalkCheck(push_list[x]) && !BG_IsUsingHeavyWeap(&push_list[x]->client->ps))))
 						&& (push_list[x]->client->ps.saberAttackChainCount >= BALANCE_LOW)
 					   && !PM_SaberInBrokenParry(push_list[x]->client->ps.saberMove)
-					   && (push_list[x]->client->ps.fd.forcePower > DODGE_CRITICALLEVEL
+					   && (push_list[x]->client->ps.stats[STAT_DODGE] > DODGE_CRITICALLEVEL
 					   && InFront(push_list[x]->client->ps.origin, self->client->ps.origin, self->client->ps.viewangles, -.7f)))
 					{
 						if(push_list[x]->client->ps.fd.forcePowerLevel[FP_ABSORB] == FORCE_LEVEL_0

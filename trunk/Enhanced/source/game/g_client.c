@@ -410,6 +410,9 @@ void JMSaberThink(gentity_t *ent)
 }
 
 
+//[ExpSys]
+void DetermineDodgeMax(gentity_t *ent);
+//[/ExpSys]
 void JMSaberTouch(gentity_t *self, gentity_t *other, trace_t *trace) {
 	int i;
 	if (!other || 
@@ -457,6 +460,13 @@ void JMSaberTouch(gentity_t *self, gentity_t *other, trace_t *trace) {
 		other->client->ps.fd.forcePowersKnown |= (1 << i);
 		other->client->ps.fd.forcePowerLevel[i] = FORCE_LEVEL_3;
 	}
+
+	//[ExpSys]
+	//recalc DP
+	DetermineDodgeMax(other);
+	//set dp to max.
+	other->client->ps.stats[STAT_DODGE] = other->client->ps.stats[STAT_MAX_DODGE]; 
+	//[/ExpSys]
 
 	self->pos2[0] = 1;
 	self->pos2[1] = level.time + JMSABER_RESPAWN_TIME;
@@ -4016,6 +4026,9 @@ void ClientSpawn(gentity_t *ent) {
 	int saveSaberNum;
 	int savedSiegeIndex;
 	int	savedSkill[NUM_SKILLS];
+	//[DodgeSys]
+	int					savedDodgeMax;
+	//[/DodgeSys]
 	saberInfo_t	saberSaved[MAX_SABERS];
 	void *g2WeaponPtrs[MAX_SABERS];
 
@@ -4111,6 +4124,10 @@ void ClientSpawn(gentity_t *ent) {
 		savedSkill[i] = client->skillLevel[i];
 	}
 
+	//[DodgeSys]
+	savedDodgeMax = client->ps.stats[STAT_MAX_DODGE];
+	//[/DodgeSys]
+
 	for(i = 0; i < MAX_SABERS; i++) {
 		saberSaved[i] = client->saber[i];
 		g2WeaponPtrs[i] = client->weaponGhoul2[i];
@@ -4162,6 +4179,10 @@ void ClientSpawn(gentity_t *ent) {
 	for(i = 0; i < NUM_SKILLS; i++) {
 		client->skillLevel[i] = savedSkill[i];
 	}
+
+	//[DodgeSys]
+	client->ps.stats[STAT_MAX_DODGE] = savedDodgeMax;
+	//[/DodgeSys]
 
 	for(i = 0; i < MAX_SABERS; i++) {
 		client->saber[i] = saberSaved[i];
@@ -4755,6 +4776,11 @@ void ClientSpawn(gentity_t *ent) {
 
 	client->ps.stats[STAT_ARMOR] = Client_CalculateStartArmor(client);
 	//[/ExpSys]
+
+	//[DodgeSys]
+	//Init dodge stat.
+	client->ps.stats[STAT_DODGE] = client->ps.stats[STAT_MAX_DODGE];
+	//[/DodgeSys]
 
 	G_SetOrigin( ent, spawn_origin );
 	VectorCopy( spawn_origin, client->ps.origin );

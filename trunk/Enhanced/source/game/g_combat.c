@@ -5101,7 +5101,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		targ->client->ps.saberAttackChainCount -= mpDamage;
 
 		if ((targ->client->ps.saberAttackChainCount <= BALANCE_LOW
-			|| targ->client->ps.fd.forcePower <= DODGE_CRITICALLEVEL))
+			|| targ->client->ps.stats[STAT_DODGE] <= DODGE_CRITICALLEVEL))
 		{//knockdown
 			vec3_t blowBackDir;
 			VectorSubtract(targ->client->ps.origin,attacker->client->ps.origin, blowBackDir);
@@ -6635,7 +6635,14 @@ void AddFatigueKillBonus( gentity_t *attacker, gentity_t *victim )
 		return;
 	}
 
+	//add bonus
 	WP_ForcePowerRegenerate(attacker->client, FATIGUE_KILLBONUS);
+	attacker->client->ps.stats[STAT_DODGE] += DODGE_KILLBONUS;
+
+	if(attacker->client->ps.stats[STAT_DODGE] > attacker->client->ps.stats[STAT_MAX_DODGE])
+	{
+		attacker->client->ps.stats[STAT_DODGE] = attacker->client->ps.stats[STAT_MAX_DODGE];
+	}
 }
 //[/SaberSys]
 
@@ -6688,7 +6695,7 @@ void G_DodgeDrain(gentity_t *victim, gentity_t *attacker, int amount)
 		}
 	}
 
-	victim->client->ps.fd.forcePower -= amount;
+	victim->client->ps.stats[STAT_DODGE] -= amount;
 
 	if(attacker->client && (attacker->client->ps.torsoAnim == saberMoveData[16].animToUse
 		|| attacker->client->ps.torsoAnim == 1252) )
@@ -6696,9 +6703,9 @@ void G_DodgeDrain(gentity_t *victim, gentity_t *attacker, int amount)
 		victim->client->ps.saberAttackChainCount = 0; //victim->client->ps.saberAttackChainCount += 16;// CHECK
 	}
 
-	if(victim->client->ps.fd.forcePower < 0)
+	if(victim->client->ps.stats[STAT_DODGE] < 0)
 	{
-		victim->client->ps.fd.forcePower = 0;
+		victim->client->ps.stats[STAT_DODGE] = 0;
 	}
 
 	if(attacker && attacker->client)

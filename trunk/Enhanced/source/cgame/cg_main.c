@@ -1072,7 +1072,7 @@ static cvarTable_t cvarTable[] = { // bk001129
 	{ &cg_timescaleFadeSpeed, "cg_timescaleFadeSpeed", "0", 0},
 	{ &cg_timescale, "timescale", "1", 0},
 	{ &cg_scorePlum, "cg_scorePlums", "1",  CVAR_ARCHIVE},
-	{ &cg_hudFiles, "cg_hudFiles", "1", CVAR_ARCHIVE},
+	{ &cg_hudFiles, "cg_hudFiles", "ui/jahud.txt", CVAR_ARCHIVE},
 	{ &cg_smoothClients, "cg_smoothClients", "1",  CVAR_ARCHIVE},
 
 	//[MELEE]

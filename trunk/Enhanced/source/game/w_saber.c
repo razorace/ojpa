@@ -4077,7 +4077,7 @@ int OJP_SaberCanBlock(gentity_t *self, gentity_t *atk, qboolean checkBBoxBlock, 
 			return 0;
 		}
 
-		if(BG_SuperBreakWinAnim(atk->client->ps.torsoAnim) && self->client->ps.fd.forcePower < DODGE_CRITICALLEVEL)
+		if(BG_SuperBreakWinAnim(atk->client->ps.torsoAnim) && self->client->ps.stats[STAT_DODGE] < DODGE_CRITICALLEVEL)
 		{//can't block super breaks when in critical DP.
 			return 0;
 		}
@@ -4101,7 +4101,7 @@ int OJP_SaberCanBlock(gentity_t *self, gentity_t *atk, qboolean checkBBoxBlock, 
 	}
 
 	//check to see if we have the Dodge to do this.
-	if(self->client->ps.fd.forcePower < OJP_SaberBlockCost(self, atk, point))
+	if(self->client->ps.stats[STAT_DODGE] < OJP_SaberBlockCost(self, atk, point))
 	{
 		return 0;
 	}
@@ -5647,7 +5647,7 @@ static GAME_INLINE void G_SetViewLockDebounce( gentity_t *self )
 	}
 	else if( PM_SaberInParry(G_GetParryForBlock(self->client->ps.saberBlocked)) //normal block (not a parry)
 		|| (!PM_SaberInKnockaway(self->client->ps.saberMove) //didn't parry
-		&& self->client->ps.fd.forcePower < (self->client->ps.fd.forcePowerMax * .50)))
+		&& self->client->ps.stats[STAT_DODGE] < self->client->ps.stats[STAT_MAX_DODGE]*.50) )
 	{//normal block or attacked with less than %50 DP
 		self->client->viewLockTime = level.time + 300;
 	}
@@ -6154,7 +6154,7 @@ qboolean G_DoDodge( gentity_t *self, gentity_t *shooter, vec3_t dmgOrigin, int h
 			}
 		}
 
-		if(BG_SuperBreakWinAnim(shooter->client->ps.torsoAnim) && self->client->ps.fd.forcePower < DODGE_CRITICALLEVEL)
+		if(BG_SuperBreakWinAnim(shooter->client->ps.torsoAnim) && self->client->ps.stats[STAT_DODGE] < DODGE_CRITICALLEVEL)
 		{//can't block super breaks if we're low on DP.
 			return qfalse;
 		}
@@ -6199,7 +6199,7 @@ qboolean G_DoDodge( gentity_t *self, gentity_t *shooter, vec3_t dmgOrigin, int h
 		else if(shooter->genericValue6 == 60)
 			damage=100;
 
-		if(self->client->ps.fd.forcePower > damage) {
+		if(self->client->ps.stats[STAT_DODGE] > damage) {
 			dpcost = damage;
 		}
 		else {
@@ -6211,19 +6211,19 @@ qboolean G_DoDodge( gentity_t *self, gentity_t *shooter, vec3_t dmgOrigin, int h
 		dpcost += 3;
 	}
 
-	if(dpcost < self->client->ps.fd.forcePower)
+	if(dpcost < self->client->ps.stats[STAT_DODGE])
 	{
 		//[ExpSys]
 		G_DodgeDrain(self, shooter, dpcost);
 		//self->client->ps.stats[STAT_DODGE] -= dpcost; 
 		//[/ExpSys]
 	}
-	else if( dpcost != 0 && self->client->ps.fd.forcePower)
+	else if( dpcost != 0 && self->client->ps.stats[STAT_DODGE])
 	{//still have enough DP for a partial dodge.
 		//Scale damage as is approprate
-		*dmg =(int)(*dmg * (self->client->ps.fd.forcePower / (float) dpcost));
+		*dmg =(int)(*dmg * (self->client->ps.stats[STAT_DODGE]/ (float) dpcost));
 		//[ExpSys]
-		G_DodgeDrain(self, shooter, self->client->ps.fd.forcePower);
+		G_DodgeDrain(self, shooter, self->client->ps.stats[STAT_DODGE]);
 		//self->client->ps.stats[STAT_DODGE] = 0;
 		//[/ExpSys]
 		partial = qtrue;
@@ -9713,7 +9713,7 @@ qboolean OJP_DodgeKick( gentity_t *self, gentity_t *pusher, const vec3_t pushDir
 	}
 
 	if(self->client->ps.saberAttackChainCount <= BALANCE_HIGH
-		|| self->client->ps.fd.forcePower <= DODGE_CRITICALLEVEL )
+		|| self->client->ps.stats[STAT_DODGE] <= DODGE_CRITICALLEVEL )
 	{//above the light mishap level or at low DP, you don't automatically do dodge kicks.
 		if(self->r.svFlags & SVF_BOT)
 		{//bots cheat and auto counter kicks.
@@ -9728,7 +9728,7 @@ qboolean OJP_DodgeKick( gentity_t *self, gentity_t *pusher, const vec3_t pushDir
 	//	}
 	}
 
-	if ( self->client->ps.fd.forcePower < DODGE_KICKCOST )
+	if ( self->client->ps.stats[STAT_DODGE] < DODGE_KICKCOST )
 	{//not enough DP to avoid this kick
 		return qfalse;
 	}
@@ -9953,7 +9953,7 @@ static gentity_t *G_KickTrace( gentity_t *ent, vec3_t kickDir, float kickDist, v
 					//[SaberSys]
 					//made the knockdown behavior of kicks be based on the player's mishap level or low DP and not hold alt attack.
 					if ((hitEnt->client->ps.saberAttackChainCount <= BALANCE_LOW
-						|| hitEnt->client->ps.fd.forcePower <= DODGE_CRITICALLEVEL)
+						|| hitEnt->client->ps.stats[STAT_DODGE] <= DODGE_CRITICALLEVEL)
 						&& !(hitEnt->client->buttons & BUTTON_ALT_ATTACK))
 					{//knockdown
 						if(hitEnt->client->ps.fd.saberAnimLevel == SS_STAFF)
@@ -9974,7 +9974,7 @@ static gentity_t *G_KickTrace( gentity_t *ent, vec3_t kickDir, float kickDist, v
 					}
 					else if (ent->client->ps.fd.saberAnimLevel == SS_DESANN
 						&& (hitEnt->client->ps.saberAttackChainCount <= BALANCE_HIGH
-						|| hitEnt->client->ps.fd.forcePower <= DODGE_CRITICALLEVEL)
+						|| hitEnt->client->ps.stats[STAT_DODGE] <= DODGE_CRITICALLEVEL)
 						&& !(hitEnt->client->buttons & BUTTON_ALT_ATTACK))
 					{//knockdown
 						if ( kickPush >= 75.0f && !Q_irand( 0, 2 ) )
