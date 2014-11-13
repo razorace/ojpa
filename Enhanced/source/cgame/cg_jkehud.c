@@ -35,10 +35,6 @@ const float APBAR_Y		= 440.0f;
 const float APBAR_H		= 7.0f + 2.1f;
 const float APBAR_W		= 65.0f;
 
-#define DPBAR_H			65.0f
-#define DPBAR_W			13.0f
-#define DPBAR_X			538.0f
-#define DPBAR_Y			367.0f
 
 
 
@@ -179,6 +175,18 @@ void CG_DrawArmorTicMethod(menuDef_t *menuHUD)
 	//CG_DrawPercentageBox(APBAR_X, APBAR_Y, APBAR_W, APBAR_H, percent, colorTable[CT_BLACK], cColor);
 
 	UI_DrawScaledProportionalString( HPBAR_X+FPBAR_W + 3.0f,APBAR_Y-4.0f, va( "%i", armor ), UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_WHITE] , 0.5f);
+}
+
+void CG_DrawTicBar(float x, float y, float height, float width, vec4_t barColor, int curValue, int maxValue)
+{
+	float percent;
+	int displayValue = Com_Clampi(0, maxValue, curValue);
+	percent = ((float)displayValue / (float)maxValue);
+
+	CG_DrawRect(x - 1.0f, y - 1.0f, width + 2.1f, height + 2.1f, 1.0f, colorTable[CT_BLACK]);
+	CG_FillRect(x, y, percent*width, height, barColor);
+	
+	UI_DrawScaledProportionalString(x+width+3.0f,y-4.0f, va( "%i", displayValue ), UI_SMALLFONT|UI_DROPSHADOW, colorTable[CT_WHITE] , 0.5f);
 }
 
 void CG_FillRect2( float x, float y, float width, float height, const float *color );
@@ -591,7 +599,7 @@ void JKEHUD(centity_t *cent)
 	int	scoreBias;
 	char scoreBiasStr[16];
 
-	if (cg_hudFiles.integer == 1)
+	if (cg_hudFiles.integer)
 	{//Tic method
 		// Draw the left HUD 
 		menuHUD = Menus_FindByName("lefthud");
@@ -600,7 +608,7 @@ void JKEHUD(centity_t *cent)
 			if (cg.predictedPlayerState.pm_type != PM_SPECTATOR) {
 				CG_DrawArmorTicMethod(menuHUD);
 				CG_DrawHealthTicMethod(menuHUD);
-
+				CG_DrawTicBar(10.0f, 455.0f, 9.1f, 65.0f, colorTable[CT_YELLOW], cg.predictedPlayerState.stats[STAT_DODGE], cg.predictedPlayerState.stats[STAT_MAX_DODGE]);
 				CG_DrawGadgets();
 			}
 		}
@@ -697,10 +705,6 @@ void JKEHUD(centity_t *cent)
 		else { 
 			//CG_Error("CG_ChatBox_ArrayInsert: unable to locate HUD menu file ");
 		}
-	}
-	if (cg_hudFiles.integer == 2)
-	{//Raz0r's method
-		//RAZFIXME: lol do this nao!
 	}
 }
 //[/JKEHud]
