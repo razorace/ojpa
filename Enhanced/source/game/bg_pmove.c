@@ -64,6 +64,8 @@ float forceSpeedLevels[4] =
 	1.75
 };
 
+//[ForceSys]
+//We're tweaked the heck out of all the force power costs.  Assume all have changed.
 int forcePowerNeeded[NUM_FORCE_POWER_LEVELS][NUM_FORCE_POWERS] = 
 {
 	{ //nothing should be usable at rank 0..
@@ -187,6 +189,7 @@ int forcePowerNeeded[NUM_FORCE_POWER_LEVELS][NUM_FORCE_POWERS] =
 		//NUM_FORCE_POWERS
 	}
 };
+//[/ForceSys]
 
 float forceJumpHeight[NUM_FORCE_POWER_LEVELS] = 
 {
@@ -10194,7 +10197,7 @@ void BG_AdjustClientSpeed(playerState_t *ps, usercmd_t *cmd, int svTime)
 	}
 
 	//[MoveSys]
-	if( ((ps->userInt3 & FLAG_FATIGUED) || (ps->fd.forcePower < DODGE_CRITICALLEVEL)) 
+	if( ((ps->userInt3 & FLAG_FATIGUED) || (ps->stats[STAT_DODGE] < DODGE_CRITICALLEVEL)) 
 		&& !(cmd->buttons & BUTTON_WALKING) && pm->ps->groundEntityNum != ENTITYNUM_NONE)
 	{//run slower when tired
 		ps->speed *= .8;

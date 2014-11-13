@@ -91,7 +91,7 @@ qboolean SabBeh_RollBalance(gentity_t *self, sabmech_t *mechSelf, qboolean force
 		return qfalse;//Riposte change
 	}
 
-	if( self->client->ps.fd.forcePower < DODGE_CRITICALLEVEL )//added by JRHockney to do more heavybounces like old times
+	if( self->client->ps.stats[STAT_DODGE] < DODGE_CRITICALLEVEL )//added by JRHockney to do more heavybounces like old times
 	{//heavy slow bounce
 		randNum = Q_irand(0, 99);
 		if(randNum < 0 || forceMishap)
