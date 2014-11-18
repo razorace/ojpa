@@ -3903,50 +3903,6 @@ void ClientCommand( int clientNum ) {
 		return;
 	}
 
-	if(Q_stricmp(cmd, "healthregen") == 0)
-	{
-		gentity_t *hl = G_Spawn();
-		VectorCopy(ent->client->ps.origin, hl->s.origin);
-		/*
-		hl->model = "models/items/power_converter.md3";
-		//Q_strncpyz(hl->model, , sizeof("models/items/power_converter.md3"));
-		hl->s.modelindex = G_ModelIndex( hl->model );
-		hl->health = 500;
-		SP_misc_model_health_power_converter(hl);*/
-		SP_misc_health_floor_unit(hl);
-		G_SpawnInt("nodrain", "0", &hl->genericValue12);
-		hl->takedamage = qtrue;
-		hl->maxHealth = hl->health = 999;
-		return;
-	}
-
-	if(Q_stricmp(cmd, "ccover") == 0)
-	{
-		gentity_t* cover = G_Spawn();
-		VectorCopy(ent->client->ps.origin, cover->s.origin);
-		SP_misc_health_floor_unit(cover);
-		trap_UnlinkEntity(cover);
-		cover->model = "models/map_objects/imperial/crate_02.md3";
-		cover->s.modelindex = G_ModelIndex( cover->model );
-		cover->takedamage = qfalse;
-		cover->s.shouldtarget = qfalse;
-		cover->r.svFlags &= ~SVF_PLAYER_USABLE;
-		cover->use = 0;
-		cover->think = 0;
-		cover->classname = "ccover";
-		cover->physicsObject = qtrue;
-		cover->s.health = cover->s.maxhealth = 0;
-
-		cover->s.pos.trType = TR_GRAVITY;
-		cover->s.pos.trTime = level.time;
-		VectorCopy( cover->s.origin, cover->s.pos.trBase );
-
-		//VectorCopy( velocity, le->pos.trDelta );
-		//VectorSet(le->angles.trBase, 20, 20, 20);
-
-		trap_LinkEntity(cover);
-	}
-
 	if (Q_stricmp (cmd, "say") == 0) {
 		Cmd_Say_f (ent, SAY_ALL, qfalse);
 		return;
