@@ -2,8 +2,6 @@ repeatDelay				300
 
 Line
 {
-	name				sideflash
-
 	life				30
 
 	origin2				24 0 0 30 0 0
@@ -35,8 +33,6 @@ Line
 
 Particle
 {
-	name				frontflash
-
 	life				30
 
 	origin				5 0 0
@@ -89,42 +85,9 @@ Sound
 	]
 }
 
-//CameraShake
-//{
-//	intensity			0.3 0.4
-//
-//	radius				60
-//}
-
-Line
+CameraShake
 {
-	name				cmuzzle
+	intensity			0.3 0.4
 
-	life				30
-
-	origin2				24 0 0 30 0 0
-
-	rgb
-	{
-		start			0.1725 0.6784 0.9529
-	}
-
-	alpha
-	{
-		start			0.5 0.6
-		end				0.35
-		flags			linear
-	}
-
-	size
-	{
-		start			6.25 8.5
-		end				6
-		flags			linear
-	}
-
-	shaders
-	[
-		gfx/effects/cmuzzle
-	]
+	radius				60
 }
