@@ -187,7 +187,7 @@ int BasicDodgeCosts[MOD_MAX] =
 	-1,		//MOD_UNKNOWN,
 	-1,		//MOD_STUN_BATON,
 	-1,		//MOD_MELEE,
-	5,		//MOD_SABER,
+	40,		//MOD_SABER,
 	20,		//MOD_BRYAR_PISTOL,
 	-1,		//MOD_BRYAR_PISTOL_ALT,
 	20,		//MOD_BLASTER,
