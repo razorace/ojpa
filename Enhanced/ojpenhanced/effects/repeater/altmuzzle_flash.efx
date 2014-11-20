@@ -4,6 +4,8 @@ Line
 {
 	flags				depthHack
 
+	life				10
+
 	origin2				24 0 0 30 0 0
 
 	alpha
@@ -113,6 +115,13 @@ Light
 	}
 }
 
+CameraShake
+{
+	flags				depthHack
+	life				120
+	intensity			0.9 1.1
+	radius				60
+}
 Sound
 {
 	flags				depthHack
@@ -169,17 +178,5 @@ Particle
 	shaders
 	[
 		gfx/effects/whiteFlare
-	]
-}
-
-FxRunner
-{
-	name				smokecircular
-
-	flags				depthHack
-
-	playfx
-	[
-		smoke/muzzle_flashcircular
 	]
 }
