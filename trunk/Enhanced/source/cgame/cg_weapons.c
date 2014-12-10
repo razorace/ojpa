@@ -971,7 +971,7 @@ void CG_DrawIconBackground(void)
 		return;
 	}
 
-	if (cg_hudFiles.integer)
+	if (cg_hudFiles.integer || Q_stricmp(cg_hudFiles.string, CG_HUDFILES_DEFAULT_BASEJKA) == 0)
 	{ //simple hud
 		return;
 	}

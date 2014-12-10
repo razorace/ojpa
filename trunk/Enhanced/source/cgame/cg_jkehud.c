@@ -599,7 +599,7 @@ void JKEHUD(centity_t *cent)
 	int	scoreBias;
 	char scoreBiasStr[16];
 
-	if (cg_hudFiles.integer)
+	if (cg_hudFiles.integer || Q_stricmp(cg_hudFiles.string, CG_HUDFILES_DEFAULT_BASEJKA) == 0)
 	{//Tic method
 		// Draw the left HUD 
 		menuHUD = Menus_FindByName("lefthud");
