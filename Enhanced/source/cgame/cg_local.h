@@ -86,6 +86,12 @@
 
 #define	DEFAULT_MODEL			"kyle"
 
+//[JKEHud]
+//The default basejka value for the cg_hudfiles cvar.  
+//We need to know this so we can reroute the code to the OJP tic based system whenever the user has the basejka default. 
+#define CG_HUDFILES_DEFAULT_BASEJKA "ui/jahud.txt" 
+//[/JKEHud]
+
 //[ExpSys]
 //moved to bg_public.h since we need now need it in other areas as well.
 //#define DEFAULT_FORCEPOWERS		"5-1-000000000000000000"
